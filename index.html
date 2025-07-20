@@ -13,7 +13,8 @@
   <style>
     body {
       font-family: sans-serif;
-      background: #f9f9f9;
+      background: #000;
+      color: #fff;
       text-align: center;
       padding: 30px;
     }
@@ -25,22 +26,31 @@
       width: 100px;
       border-radius: 50%;
       margin-bottom: 15px;
+      border: 2px solid #fff;
     }
     h1 {
       margin: 0 0 10px;
+      font-size: 20px;
+    }
+    p {
+      font-size: 14px;
+      margin-bottom: 25px;
+      color: #ccc;
     }
     .btn {
       display: block;
       margin: 10px 0;
       padding: 14px 20px;
-      background: #111;
+      background: transparent;
       color: #fff;
+      border: 2px solid #fff;
       text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.3s, transform 0.2s;
+      border-radius: 12px;
+      transition: background 0.3s, color 0.3s, transform 0.2s;
     }
     .btn:hover {
-      background: #444;
+      background: #fff;
+      color: #000;
       transform: scale(1.03);
     }
     footer {
@@ -50,14 +60,13 @@
     }
   </style>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-V1JWDFFYK2');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V1JWDFFYK2');
+  </script>
 </head>
 <body>
   <div class="container">
