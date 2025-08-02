@@ -1,5 +1,6 @@
 User-agent: *
-Disallow: /search
-Allow: /
+Disallow:
 
+Sitemap: https://link.laksanacraft.my.id/sitemap-laksanacraft.xml
+Sitemap: https://link.laksanacraft.my.id/sitemap-shop.xml
 Sitemap: https://link.laksanacraft.my.id/sitemap.xml
