@@ -160,10 +160,19 @@
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
+
     function doGTranslate(el) {
       if (el.value === '') return;
       var langPair = el.value.split('|');
       var lang = langPair[1];
+
+      // ✅ Jika pilih Indonesia, redirect ke halaman utama
+      if (lang === 'id') {
+        window.location.href = "https://link.laksanacraft.my.id/";
+        return;
+      }
+
+      // ✅ Jika bahasa lain, jalankan Google Translate
       var select = document.querySelector('.goog-te-combo');
       if (select) {
         select.value = lang;
