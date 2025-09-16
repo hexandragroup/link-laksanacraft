@@ -76,13 +76,19 @@
       margin-bottom: 20px;
     }
 
-    /* ✅ Fix Translate agar background & layout tidak berubah */
-    body {
+    /* ✅ Fix Translate agar background tetap penuh */
+    html, body {
+      height: 100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-      top: 0px !important;
+      background-attachment: fixed !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
     }
     .goog-te-banner-frame.skiptranslate {
       display: none !important;
+    }
+    body {
+      top: 0px !important;
     }
     .goog-te-gadget-icon {
       display: none !important;
@@ -154,7 +160,6 @@
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
-
     function doGTranslate(el) {
       if (el.value === '') return;
       var langPair = el.value.split('|');
