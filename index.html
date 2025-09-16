@@ -75,12 +75,6 @@
     .translate-box {
       margin-bottom: 20px;
     }
-    .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-    }
-    body {
-      top: 0px !important;
-    }
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -100,19 +94,19 @@
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🔽 Custom Dropdown Translate -->
+    <!-- 🔽 Dropdown Translate -->
     <div class="translate-box">
-      <select id="translate-select" class="btn">
+      <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌐 Pilih Bahasa</option>
-        <option value="id">🇮🇩 Indonesia</option>
-        <option value="en">🇬🇧 English</option>
-        <option value="ms">🇲🇾 Melayu</option>
-        <option value="ja">🇯🇵 日本語</option>
-        <option value="zh-CN">🇨🇳 中文</option>
-        <option value="ar">🇸🇦 العربية</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="es">🇪🇸 Español</option>
+        <option value="id|id">🇮🇩 Indonesia</option>
+        <option value="id|en">🇬🇧 English</option>
+        <option value="id|ms">🇲🇾 Melayu</option>
+        <option value="id|ja">🇯🇵 日本語</option>
+        <option value="id|zh-CN">🇨🇳 中文</option>
+        <option value="id|ar">🇸🇦 العربية</option>
+        <option value="id|fr">🇫🇷 Français</option>
+        <option value="id|de">🇩🇪 Deutsch</option>
+        <option value="id|es">🇪🇸 Español</option>
       </select>
     </div>
 
@@ -142,27 +136,23 @@
     </footer>
   </div>
 
-  <!-- ✅ Google Translate -->
+  <!-- ✅ Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
-      var select = document.getElementById("translate-select");
-      select.addEventListener("change", function() {
-        var lang = this.value;
-        if (lang) {
-          var frame = document.querySelector("iframe.goog-te-menu-frame");
-          if (frame) {
-            var innerDoc = frame.contentDocument || frame.contentWindow.document;
-            var langElement = innerDoc.querySelector('a[lang="' + lang + '"]');
-            if (langElement) langElement.click();
-          }
-        }
-      });
-    });
+    function doGTranslate(el) {
+      if (el.value === '') return;
+      var langPair = el.value.split('|');
+      var lang = langPair[1];
+      var select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+      }
+    }
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
