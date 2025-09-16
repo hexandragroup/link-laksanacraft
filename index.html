@@ -60,6 +60,7 @@
       border-radius: 8px;
       border: 1px solid #bbb;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
     .btn:hover {
       background: #e6e6e6;
@@ -69,6 +70,16 @@
       margin-top: 30px;
       font-size: 12px;
       color: #666;
+    }
+    /* Dropdown translate */
+    .translate-box {
+      margin-bottom: 20px;
+    }
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
     }
   </style>
 
@@ -85,9 +96,25 @@
 <body>
   <div class="container">
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
-    
+
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
+
+    <!-- 🔽 Custom Dropdown Translate -->
+    <div class="translate-box">
+      <select id="translate-select" class="btn">
+        <option value="">🌐 Pilih Bahasa</option>
+        <option value="id">🇮🇩 Indonesia</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ms">🇲🇾 Melayu</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="zh-CN">🇨🇳 中文</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
 
     <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
     <a class="btn" href="https://laksanacraft.my.id/link/contoh">🎨 Contoh Produk</a>
@@ -114,5 +141,29 @@
       &copy; 2025 Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
     </footer>
   </div>
+
+  <!-- ✅ Google Translate -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var select = document.getElementById("translate-select");
+      select.addEventListener("change", function() {
+        var lang = this.value;
+        if (lang) {
+          var frame = document.querySelector("iframe.goog-te-menu-frame");
+          if (frame) {
+            var innerDoc = frame.contentDocument || frame.contentWindow.document;
+            var langElement = innerDoc.querySelector('a[lang="' + lang + '"]');
+            if (langElement) langElement.click();
+          }
+        }
+      });
+    });
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
