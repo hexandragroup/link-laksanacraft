@@ -166,8 +166,12 @@
       var langPair = el.value.split('|');
       var lang = langPair[1];
 
-      // ✅ Jika pilih Indonesia, redirect ke halaman utama
+      // ✅ Jika pilih Indonesia, hapus efek Google Translate & reload ke halaman asli
       if (lang === 'id') {
+        // hapus cookie Google Translate
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+        // reload halaman utama
         window.location.href = "https://link.laksanacraft.my.id/";
         return;
       }
