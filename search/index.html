@@ -89,6 +89,17 @@
       font-size: 12px;
       color: #666;
     }
+    /* ✅ Fix Translate agar background tetap penuh */
+    html, body {
+      height: 100% !important;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
+      background-attachment: fixed !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+    }
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+    .goog-te-gadget-icon { display: none !important; }
   </style>
 </head>
 <body>
@@ -97,6 +108,22 @@
 
     <h1>Pencarian Produk Laksana Handicraft</h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
+
+    <!-- 🔽 Dropdown Translate -->
+    <div class="translate-box">
+      <select class="btn" onchange="doGTranslate(this);">
+        <option value="">🌏 Pilih Bahasa</option>
+        <option value="id|id">🇮🇩 Indonesia</option>
+        <option value="id|en">🇬🇧 English</option>
+        <option value="id|ms">🇲🇾 Melayu</option>
+        <option value="id|ja">🇯🇵 日本語</option>
+        <option value="id|zh-CN">🇨🇳 中文</option>
+        <option value="id|ar">🇸🇦 العربية</option>
+        <option value="id|fr">🇫🇷 Français</option>
+        <option value="id|de">🇩🇪 Deutsch</option>
+        <option value="id|es">🇪🇸 Español</option>
+      </select>
+    </div>
 
     <!-- 🔍 Form Pencarian -->
     <form id="searchForm">
@@ -122,12 +149,16 @@
     </footer>
   </div>
 
+  <!-- ✅ Script Tahun -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
     document.getElementById("year").textContent =
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
+  </script>
 
+  <!-- ✅ Data Produk (contoh) -->
+  <script>
     const products = [
       {
         ukuran: "20cm",
@@ -175,5 +206,34 @@
       });
     });
   </script>
+
+  <!-- ✅ Google Translate Hidden -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+    }
+
+    function doGTranslate(el) {
+      if (el.value === '') return;
+      var langPair = el.value.split('|');
+      var lang = langPair[1];
+
+      // ✅ Reset ke Indonesia
+      if (lang === 'id') {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+        window.location.href = "https://link.laksanacraft.my.id/search/";
+        return;
+      }
+
+      var select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+      }
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
