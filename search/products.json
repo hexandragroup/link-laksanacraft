@@ -1,0 +1,16 @@
+[
+  {
+    "ukuran": "20cm",
+    "kualitas": "alusan",
+    "harga": "Rp50.000",
+    "foto": "https://example.com/foto1.jpg",
+    "detail": "https://example.com/detail1"
+  },
+  {
+    "ukuran": "25cm",
+    "kualitas": "murah",
+    "harga": "Rp40.000",
+    "foto": "https://example.com/foto2.jpg",
+    "detail": "https://example.com/detail2"
+  }
+]
