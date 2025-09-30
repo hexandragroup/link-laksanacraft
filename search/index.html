@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pencarian Produk - Laksana Craft</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .produk { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>Pencarian Produk</h1>
+  
+  <label>Ukuran:</label>
+  <select id="ukuran">
+    <option value="">-- Pilih --</option>
+    <option value="20cm">20cm</option>
+    <option value="25cm">25cm</option>
+    <option value="30cm">30cm</option>
+  </select>
+
+  <label>Kualitas:</label>
+  <select id="kualitas">
+    <option value="">-- Pilih --</option>
+    <option value="alusan">Alusan</option>
+    <option value="murah">Murah</option>
+  </select>
+
+  <button onclick="cariProduk()">Cari</button>
+
+  <div id="hasil"></div>
+
+  <script>
+    async function cariProduk() {
+      const ukuran = document.getElementById("ukuran").value;
+      const kualitas = document.getElementById("kualitas").value;
+      const res = await fetch("products.json");
+      const data = await res.json();
+
+      const hasil = data.filter(p => 
+        (!ukuran || p.ukuran === ukuran) && 
+        (!kualitas || p.kualitas === kualitas)
+      );
+
+      const out = hasil.map(p => `
+        <div class="produk">
+          <p><strong>Ukuran:</strong> ${p.ukuran}</p>
+          <p><strong>Kualitas:</strong> ${p.kualitas}</p>
+          <p><strong>Harga:</strong> ${p.harga}</p>
+          <p><a href="${p.foto}" target="_blank">Foto Produk</a></p>
+          <p><a href="${p.detail}" target="_blank">Detail Produk</a></p>
+        </div>
+      `).join("");
+
+      document.getElementById("hasil").innerHTML = out || "<p>Tidak ada produk ditemukan</p>";
+    }
+  </script>
+</body>
+  </html>
