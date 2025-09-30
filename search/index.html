@@ -1,59 +1,179 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Pencarian Produk - Laksana Craft</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Pencarian Produk Laksana Handicraft: temukan wayang kulit, kerajinan, harga, dan detail produk.">
+  <meta property="og:title" content="Cari Produk | Laksana Handicraft" />
+  <meta property="og:image" content="https://laksanacraft.my.id/logo.png" />
+  <meta property="og:description" content="Kerajinan Nusantara, Warisan Dunia – Cari produk Laksana Handicraft." />
+  <meta property="og:url" content="https://link.laksanacraft.my.id/search" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Pencarian Produk | Laksana Handicraft</title>
+
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Favicon_Laksana_Handicraft.webp">
+
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    .produk { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    img.logo {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: block;
+      margin: 10px auto;
+      padding: 14px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #e6e6e6;
+      transform: scale(1.03);
+    }
+    input, select {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      width: 80%;
+      max-width: 400px;
+    }
+    #results {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .product {
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+    }
+    .product a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    .product a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <h1>Pencarian Produk</h1>
-  
-  <label>Ukuran:</label>
-  <select id="ukuran">
-    <option value="">-- Pilih --</option>
-    <option value="20cm">20cm</option>
-    <option value="25cm">25cm</option>
-    <option value="30cm">30cm</option>
-  </select>
+  <div class="container">
+    <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
 
-  <label>Kualitas:</label>
-  <select id="kualitas">
-    <option value="">-- Pilih --</option>
-    <option value="alusan">Alusan</option>
-    <option value="murah">Murah</option>
-  </select>
+    <h1>Pencarian Produk Laksana Handicraft</h1>
+    <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-  <button onclick="cariProduk()">Cari</button>
+    <!-- 🔍 Form Pencarian -->
+    <form id="searchForm">
+      <select id="ukuran">
+        <option value="">Pilih Ukuran</option>
+        <option value="20cm">20cm</option>
+        <option value="25cm">25cm</option>
+        <option value="30cm">30cm</option>
+      </select>
+      <select id="kualitas">
+        <option value="">Pilih Kualitas</option>
+        <option value="alusan">Alusan</option>
+        <option value="murah">Murah</option>
+      </select>
+      <button type="submit" class="btn">Cari</button>
+    </form>
 
-  <div id="hasil"></div>
+    <!-- 🔍 Hasil Pencarian -->
+    <div id="results"></div>
+
+    <footer>
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
+    </footer>
+  </div>
 
   <script>
-    async function cariProduk() {
+    const startYear = 1990;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+
+    const products = [
+      {
+        ukuran: "20cm",
+        kualitas: "alusan",
+        harga: "Rp150.000",
+        foto: "https://via.placeholder.com/150",
+        link: "https://laksanacraft.my.id/link/20cm-alusan"
+      },
+      {
+        ukuran: "25cm",
+        kualitas: "murah",
+        harga: "Rp100.000",
+        foto: "https://via.placeholder.com/150",
+        link: "https://laksanacraft.my.id/link/25cm-murah"
+      }
+    ];
+
+    document.getElementById("searchForm").addEventListener("submit", function(e){
+      e.preventDefault();
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
-      const res = await fetch("products.json");
-      const data = await res.json();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
 
-      const hasil = data.filter(p => 
-        (!ukuran || p.ukuran === ukuran) && 
+      const filtered = products.filter(p =>
+        (!ukuran || p.ukuran === ukuran) &&
         (!kualitas || p.kualitas === kualitas)
       );
 
-      const out = hasil.map(p => `
-        <div class="produk">
-          <p><strong>Ukuran:</strong> ${p.ukuran}</p>
-          <p><strong>Kualitas:</strong> ${p.kualitas}</p>
-          <p><strong>Harga:</strong> ${p.harga}</p>
-          <p><a href="${p.foto}" target="_blank">Foto Produk</a></p>
-          <p><a href="${p.detail}" target="_blank">Detail Produk</a></p>
-        </div>
-      `).join("");
+      if(filtered.length === 0){
+        resultsDiv.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
+        return;
+      }
 
-      document.getElementById("hasil").innerHTML = out || "<p>Tidak ada produk ditemukan</p>";
-    }
+      filtered.forEach(p => {
+        resultsDiv.innerHTML += `
+          <div class="product">
+            <p><strong>Ukuran:</strong> ${p.ukuran}</p>
+            <p><strong>Kualitas:</strong> ${p.kualitas}</p>
+            <p><strong>Harga:</strong> ${p.harga}</p>
+            <p><a href="${p.foto}" target="_blank">📷 Lihat Foto</a></p>
+            <p><a href="${p.link}" target="_blank">🔗 Detail Produk</a></p>
+          </div>
+        `;
+      });
+    });
   </script>
 </body>
-  </html>
+</html>
