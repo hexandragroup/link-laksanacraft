@@ -1,113 +1,89 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Pencarian Produk Laksana Handicraft: temukan wayang kulit, kerajinan, harga, dan detail produk.">
-  <meta property="og:title" content="Cari Produk | Laksana Handicraft" />
-  <meta property="og:image" content="https://laksanacraft.my.id/logo.png" />
-  <meta property="og:description" content="Kerajinan Nusantara, Warisan Dunia – Cari produk Laksana Handicraft." />
-  <meta property="og:url" content="https://link.laksanacraft.my.id/search" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <title>Pencarian Produk | Laksana Handicraft</title>
-
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Favicon_Laksana_Handicraft.webp">
+  <meta charset="UTF-8">
+  <title>Cari Produk - Laksana Handicraft</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       font-family: sans-serif;
       background: linear-gradient(to bottom, #eeeeee, #cccccc);
-      padding: 30px;
+      padding: 20px;
       margin: 0;
     }
     .container {
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
       background: #f2f2f2;
-      padding: 25px;
-      border-radius: 16px;
+      padding: 20px;
+      border-radius: 12px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      text-align: center;
     }
-    img.logo {
-      width: 100px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #444;
-      margin-bottom: 20px;
-    }
-    .btn {
-      display: block;
-      margin: 10px auto;
-      padding: 14px 20px;
-      background: #fff;
-      color: #222;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #e6e6e6;
-      transform: scale(1.03);
-    }
-    input, select {
+    h1 { text-align: center; }
+    label { display:block; margin-top:10px; font-weight:bold; }
+    select, button {
+      width: 100%;
       padding: 10px;
-      margin: 5px;
+      margin-top: 5px;
       border-radius: 8px;
       border: 1px solid #bbb;
-      width: 80%;
-      max-width: 400px;
     }
-    #results {
+    button {
+      background: #333;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover { background: #555; }
+    .result {
       margin-top: 20px;
-      text-align: left;
-    }
-    .product {
-      background: #fff;
-      padding: 12px;
+      padding: 15px;
       border-radius: 8px;
-      margin-bottom: 12px;
+      background: #fff;
       border: 1px solid #ddd;
     }
-    .product a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-    .product a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-    /* ✅ Fix Translate agar background tetap penuh */
-    html, body {
-      height: 100% !important;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-      background-attachment: fixed !important;
-      background-repeat: no-repeat !important;
-      background-size: cover !important;
-    }
-    .goog-te-banner-frame.skiptranslate { display: none !important; }
-    body { top: 0px !important; }
-    .goog-te-gadget-icon { display: none !important; }
+    .result p { margin: 5px 0; }
+    .translate-box { margin-top: 20px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
+    <h1>🔍 Cari Produk</h1>
 
-    <h1>Pencarian Produk Laksana Handicraft</h1>
-    <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
+    <form id="searchForm">
+      <label for="tokoh">Nama Tokoh:</label>
+      <select id="tokoh">
+        <option value="">-- Pilih Tokoh --</option>
+        <option>Arjuna</option>
+        <option>Bima</option>
+        <option>Puntadewa</option>
+        <option>Nakula</option>
+        <option>Sadewa</option>
+        <option>Custom Tokoh</option>
+      </select>
+
+      <label for="ukuran">Ukuran Produk:</label>
+      <select id="ukuran">
+        <option value="">-- Pilih Ukuran --</option>
+        <option>Miniatur</option>
+        <option>20cm</option>
+        <option>25cm</option>
+        <option>30cm</option>
+        <option>Standar Pedalangan</option>
+      </select>
+
+      <label for="kualitas">Kualitas Produk:</label>
+      <select id="kualitas">
+        <option value="">-- Pilih Kualitas --</option>
+        <option>Murah</option>
+        <option>Alusan</option>
+      </select>
+
+      <button type="submit">Cari Produk</button>
+    </form>
+
+    <div id="results"></div>
 
     <!-- 🔽 Dropdown Translate -->
     <div class="translate-box">
@@ -124,68 +100,33 @@
         <option value="id|es">🇪🇸 Español</option>
       </select>
     </div>
-
-    <!-- 🔍 Form Pencarian -->
-    <form id="searchForm">
-      <select id="ukuran">
-        <option value="">Pilih Ukuran</option>
-        <option value="20cm">20cm</option>
-        <option value="25cm">25cm</option>
-        <option value="30cm">30cm</option>
-      </select>
-      <select id="kualitas">
-        <option value="">Pilih Kualitas</option>
-        <option value="alusan">Alusan</option>
-        <option value="murah">Murah</option>
-      </select>
-      <button type="submit" class="btn">Cari</button>
-    </form>
-
-    <!-- 🔍 Hasil Pencarian -->
-    <div id="results"></div>
-
-    <footer>
-      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
-    </footer>
   </div>
 
-  <!-- ✅ Script Tahun -->
   <script>
-    const startYear = 1990;
-    const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent =
-      currentYear > startYear ? startYear + "–" + currentYear : startYear;
-  </script>
+    let products = [];
 
-  <!-- ✅ Data Produk (contoh) -->
-  <script>
-    const products = [
-      {
-        ukuran: "20cm",
-        kualitas: "alusan",
-        harga: "Rp150.000",
-        foto: "https://via.placeholder.com/150",
-        link: "https://laksanacraft.my.id/link/20cm-alusan"
-      },
-      {
-        ukuran: "25cm",
-        kualitas: "murah",
-        harga: "Rp100.000",
-        foto: "https://via.placeholder.com/150",
-        link: "https://laksanacraft.my.id/link/25cm-murah"
-      }
-    ];
+    // Load data dari JSON
+    fetch("products.json")
+      .then(res => res.json())
+      .then(data => products = data);
 
     document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
+      const tokoh = document.getElementById("tokoh").value;
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
 
+      if (!tokoh && !ukuran && !kualitas) {
+        resultsDiv.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+        return;
+      }
+
       const filtered = products.filter(p =>
-        (!ukuran || p.ukuran === ukuran) &&
-        (!kualitas || p.kualitas === kualitas)
+        (tokoh ? p.tokoh === tokoh : true) &&
+        (ukuran ? p.ukuran === ukuran : true) &&
+        (kualitas ? p.kualitas === kualitas : true)
       );
 
       if(filtered.length === 0){
@@ -194,39 +135,45 @@
       }
 
       filtered.forEach(p => {
-        resultsDiv.innerHTML += `
-          <div class="product">
-            <p><strong>Ukuran:</strong> ${p.ukuran}</p>
-            <p><strong>Kualitas:</strong> ${p.kualitas}</p>
-            <p><strong>Harga:</strong> ${p.harga}</p>
-            <p><a href="${p.foto}" target="_blank">📷 Lihat Foto</a></p>
-            <p><a href="${p.link}" target="_blank">🔗 Detail Produk</a></p>
-          </div>
-        `;
+        if (p.varian) {
+          p.varian.forEach(v => {
+            resultsDiv.innerHTML += `
+              <div class="result">
+                <p><strong>Tokoh:</strong> ${p.tokoh}</p>
+                <p><strong>Ukuran:</strong> ${p.ukuran} (${v.size})</p>
+                <p><strong>Kualitas:</strong> ${p.kualitas}</p>
+                <p><strong>Harga:</strong> ${v.harga}</p>
+                <p><a href="${v.link}" target="_blank">🔗 Detail Produk</a></p>
+              </div>
+            `;
+          });
+        } else {
+          resultsDiv.innerHTML += `
+            <div class="result">
+              <p><strong>Tokoh:</strong> ${p.tokoh}</p>
+              <p><strong>Ukuran:</strong> ${p.ukuran}</p>
+              <p><strong>Kualitas:</strong> ${p.kualitas}</p>
+              <p><strong>Harga:</strong> ${p.harga}</p>
+              <p><a href="${p.link}" target="_blank">🔗 Detail Produk</a></p>
+            </div>
+          `;
+        }
       });
     });
-  </script>
 
-  <!-- ✅ Google Translate Hidden -->
-  <div id="google_translate_element" style="display:none;"></div>
-  <script type="text/javascript">
+    // Google Translate
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
-
     function doGTranslate(el) {
       if (el.value === '') return;
       var langPair = el.value.split('|');
       var lang = langPair[1];
-
-      // ✅ Reset ke Indonesia
       if (lang === 'id') {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = "https://link.laksanacraft.my.id/search/";
+        window.location.href = window.location.pathname;
         return;
       }
-
       var select = document.querySelector('.goog-te-combo');
       if (select) {
         select.value = lang;
