@@ -3,51 +3,48 @@
     "tokoh": "arjuna",
     "ukuran": "miniatur",
     "kualitas": "alusan",
+    "link": "https://contoh.com/arjuna-miniatur-alusan",
     "varian": [
-      { "size": "10cm", "harga": "Rp10.000", "link": "https://contoh.com/arjuna-miniatur-10cm-alusan" },
-      { "size": "12cm", "harga": "Rp15.000", "link": "https://contoh.com/arjuna-miniatur-12cm-alusan" }
+      { "size": "10cm", "harga": "Rp10.000" },
+      { "size": "12cm", "harga": "Rp15.000" }
     ]
   },
   {
     "tokoh": "arjuna",
     "ukuran": "20cm",
     "kualitas": "alusan",
-    "harga": "Rp75.000",
-    "link": "https://contoh.com/arjuna-20cm-alusan"
-  },
-  {
-    "tokoh": "arjuna",
-    "ukuran": "25cm",
-    "kualitas": "alusan",
-    "harga": "Rp100.000",
-    "link": "https://contoh.com/arjuna-25cm-alusan"
-  },
-  {
-    "tokoh": "arjuna",
-    "ukuran": "30cm",
-    "kualitas": "alusan",
-    "harga": "Rp150.000",
-    "link": "https://contoh.com/arjuna-30cm-alusan"
+    "link": "https://contoh.com/arjuna-20-25-30cm-alusan",
+    "varian": [
+      { "size": "20cm", "harga": "Rp75.000" },
+      { "size": "25cm", "harga": "Rp100.000" },
+      { "size": "30cm", "harga": "Rp150.000" }
+    ]
   },
   {
     "tokoh": "arjuna",
     "ukuran": "30cm",
     "kualitas": "murah",
-    "harga": "Rp25.000",
-    "link": "https://contoh.com/arjuna-30cm-murah"
+    "link": "https://contoh.com/arjuna-30cm-standar-murah",
+    "varian": [
+      { "size": "30cm", "harga": "Rp25.000" }
+    ]
   },
   {
     "tokoh": "arjuna",
     "ukuran": "standar",
     "kualitas": "murah",
-    "harga": "Rp65.000",
-    "link": "https://contoh.com/arjuna-standar-murah"
+    "link": "https://contoh.com/arjuna-standar-murah",
+    "varian": [
+      { "size": "Standar Pedalangan", "harga": "Rp65.000" }
+    ]
   },
   {
     "tokoh": "arjuna",
     "ukuran": "standar",
     "kualitas": "alusan",
-    "harga": "Rp600.000",
-    "link": "https://contoh.com/arjuna-standar-alusan"
+    "link": "https://contoh.com/arjuna-standar-alusan",
+    "varian": [
+      { "size": "Standar Pedalangan", "harga": "Rp600.000" }
+    ]
   }
 ]
