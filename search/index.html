@@ -26,7 +26,6 @@
     h1 { font-size:20px; margin:6px 0 12px; }
     p.lead { color:#444; margin-bottom:18px; }
 
-    /* tombol / select gaya link.laksanacraft */
     .btn {
       display:block;
       width:100%;
@@ -63,7 +62,6 @@
     .result p { margin:6px 0; }
     .small { font-size:13px; color:#666; }
 
-    /* fix google translate visual side-effects */
     html, body {
       height:100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
@@ -82,7 +80,6 @@
     <h1>Pencarian Produk Laksana Handicraft</h1>
     <p class="lead"><em>Kerajinan Nusantara, Warisan Dunia</em></p>
 
-    <!-- Dropdown Translate (tampilan sama seperti link.laksana) -->
     <div style="max-width:420px;margin:0 auto 8px;">
       <select class="btn" id="translateSelect" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -104,12 +101,12 @@
         <label class="small" for="tokoh">Nama Tokoh</label>
         <select id="tokoh">
           <option value="">-- Pilih Tokoh --</option>
-          <option>Arjuna</option>
-          <option>Bima</option>
-          <option>Puntadewa</option>
-          <option>Nakula</option>
-          <option>Sadewa</option>
-          <option>Custom Tokoh</option>
+          <option value="arjuna">Arjuna</option>
+          <option value="bima">Bima</option>
+          <option value="puntadewa">Puntadewa</option>
+          <option value="nakula">Nakula</option>
+          <option value="sadewa">Sadewa</option>
+          <option value="custom">Custom Tokoh</option>
         </select>
       </div>
 
@@ -117,11 +114,11 @@
         <label class="small" for="ukuran">Ukuran Produk</label>
         <select id="ukuran">
           <option value="">-- Pilih Ukuran --</option>
-          <option>Miniatur</option>
-          <option>20cm</option>
-          <option>25cm</option>
-          <option>30cm</option>
-          <option>Standar Pedalangan</option>
+          <option value="miniatur">Miniatur</option>
+          <option value="20cm">20cm</option>
+          <option value="25cm">25cm</option>
+          <option value="30cm">30cm</option>
+          <option value="standar">Standar Pedalangan</option>
         </select>
       </div>
 
@@ -129,8 +126,8 @@
         <label class="small" for="kualitas">Kualitas Produk</label>
         <select id="kualitas">
           <option value="">-- Pilih Kualitas --</option>
-          <option>Murah</option>
-          <option>Alusan</option>
+          <option value="murah">Murah</option>
+          <option value="alusan">Alusan</option>
         </select>
       </div>
 
@@ -144,11 +141,9 @@
     <p class="small" style="margin-top:18px;">&copy; Laksana Handicraft</p>
   </div>
 
-  <!-- hidden element for Google Translate (required) -->
   <div id="google_translate_element" style="display:none;"></div>
 
   <script>
-    // ----- products.json loading (TIDAK MERUBAH data produk) -----
     let products = [];
     fetch("products.json")
       .then(r => {
@@ -161,7 +156,6 @@
         document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk (products.json).</p>";
       });
 
-    // ----- pencarian (cukup pilih satu) -----
     document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
       const tokoh = document.getElementById("tokoh").value;
@@ -186,7 +180,6 @@
         return;
       }
 
-      // tampilkan hasil
       filtered.forEach(p => {
         if (p.varian && Array.isArray(p.varian)) {
           p.varian.forEach(v => {
@@ -214,11 +207,9 @@
       });
     });
 
-    // small helpers to avoid XSS if someone injects data
     function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); }); }
     function escapeAttr(s){ return escapeHtml(s); }
 
-    // ----- Google Translate integration (robust) -----
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id', autoDisplay: false}, 'google_translate_element');
     }
@@ -239,17 +230,13 @@
       var langPair = el.value.split('|');
       var lang = langPair[1];
 
-      // jika pilih Indonesia -> reset translate
       if (lang === 'id') {
-        // hapus cookie googtrans (best effort)
         setCookie('googtrans', '', -1, window.location.hostname);
         setCookie('googtrans', '', -1);
-        // reload untuk menerapkan
         location.reload();
         return;
       }
 
-      // coba cari select internal google
       var tries = 0;
       function applyToInternal() {
         var combo = document.querySelector('.goog-te-combo');
@@ -261,7 +248,6 @@
           if (tries < 10) {
             setTimeout(applyToInternal, 300);
           } else {
-            // fallback: set cookie dan reload
             setCookie('googtrans', '/id/' + lang, 1, window.location.hostname);
             setCookie('googtrans', '/id/' + lang, 1);
             location.reload();
@@ -272,7 +258,6 @@
     }
   </script>
 
-  <!-- Google Translate API (callback) -->
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
