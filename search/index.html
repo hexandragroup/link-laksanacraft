@@ -62,6 +62,21 @@
     .result p { margin:6px 0; }
     .small { font-size:13px; color:#666; }
 
+    table.variant-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 14px;
+    }
+    table.variant-table th, table.variant-table td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
+    }
+    table.variant-table th {
+      background: #f9f9f9;
+    }
+
     html, body {
       height:100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
@@ -95,7 +110,6 @@
       </select>
     </div>
 
-    <!-- Form Pencarian -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
@@ -146,15 +160,23 @@
   <script>
     let products = [];
     fetch("products.json")
-      .then(r => {
-        if (!r.ok) throw new Error("products.json tidak ditemukan");
-        return r.json();
-      })
+      .then(r => r.json())
       .then(data => products = data)
       .catch(err => {
-        console.error(err);
-        document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk (products.json).</p>";
+        document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk.</p>";
       });
+
+    const labels = {
+      tokoh: {
+        arjuna: "Arjuna", bima: "Bima", puntadewa: "Puntadewa",
+        nakula: "Nakula", sadewa: "Sadewa", custom: "Custom Tokoh"
+      },
+      ukuran: {
+        miniatur: "Miniatur", "20cm": "20cm", "25cm": "25cm",
+        "30cm": "30cm", standar: "Standar Pedalangan"
+      },
+      kualitas: { murah: "Murah", alusan: "Alusan" }
+    };
 
     document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
@@ -181,29 +203,27 @@
       }
 
       filtered.forEach(p => {
+        let varianTable = "";
         if (p.varian && Array.isArray(p.varian)) {
+          varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
           p.varian.forEach(v => {
-            out.innerHTML += `
-              <div class="result">
-                <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh)}</p>
-                <p><strong>Ukuran:</strong> ${escapeHtml(p.ukuran)} (${escapeHtml(v.size)})</p>
-                <p><strong>Kualitas:</strong> ${escapeHtml(p.kualitas)}</p>
-                <p><strong>Harga:</strong> ${escapeHtml(v.harga)}</p>
-                <p><a href="${escapeAttr(v.link)}" target="_blank">🔗 Detail Produk</a></p>
-              </div>
-            `;
+            varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
           });
+          varianTable += "</table>";
         } else {
-          out.innerHTML += `
-            <div class="result">
-              <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh)}</p>
-              <p><strong>Ukuran:</strong> ${escapeHtml(p.ukuran)}</p>
-              <p><strong>Kualitas:</strong> ${escapeHtml(p.kualitas)}</p>
-              <p><strong>Harga:</strong> ${escapeHtml(p.harga || '-')}</p>
-              <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
-            </div>
-          `;
+          varianTable = `<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>
+            <tr><td>${escapeHtml(labels.ukuran[p.ukuran] || p.ukuran)}</td><td>${escapeHtml(p.harga || "-")}</td></tr>
+          </table>`;
         }
+
+        out.innerHTML += `
+          <div class="result">
+            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
+            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+            ${varianTable}
+            <p><a href="${escapeAttr(p.link || (p.varian && p.varian[0].link))}" target="_blank">🔗 Detail Produk</a></p>
+          </div>
+        `;
       });
     });
 
@@ -213,7 +233,6 @@
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id', autoDisplay: false}, 'google_translate_element');
     }
-
     function setCookie(name, value, days, domain){
       var expires = "";
       if (days) {
@@ -224,19 +243,16 @@
       var domainPart = domain ? "; domain=" + domain : "";
       document.cookie = name + "=" + (value || "")  + expires + "; path=/" + domainPart;
     }
-
     function doGTranslate(el) {
       if (!el || !el.value) return;
       var langPair = el.value.split('|');
       var lang = langPair[1];
-
       if (lang === 'id') {
         setCookie('googtrans', '', -1, window.location.hostname);
         setCookie('googtrans', '', -1);
         location.reload();
         return;
       }
-
       var tries = 0;
       function applyToInternal() {
         var combo = document.querySelector('.goog-te-combo');
@@ -257,7 +273,6 @@
       applyToInternal();
     }
   </script>
-
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
