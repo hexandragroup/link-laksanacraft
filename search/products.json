@@ -1,52 +1,52 @@
 [
   {
-    "tokoh": "Arjuna",
-    "ukuran": "Miniatur",
-    "kualitas": "Alusan",
+    "tokoh": "arjuna",
+    "ukuran": "miniatur",
+    "kualitas": "alusan",
     "varian": [
       { "size": "10cm", "harga": "Rp10.000", "link": "https://contoh.com/arjuna-miniatur-10cm-alusan" },
       { "size": "12cm", "harga": "Rp15.000", "link": "https://contoh.com/arjuna-miniatur-12cm-alusan" }
     ]
   },
   {
-    "tokoh": "Arjuna",
+    "tokoh": "arjuna",
     "ukuran": "20cm",
-    "kualitas": "Alusan",
+    "kualitas": "alusan",
     "harga": "Rp75.000",
     "link": "https://contoh.com/arjuna-20cm-alusan"
   },
   {
-    "tokoh": "Arjuna",
+    "tokoh": "arjuna",
     "ukuran": "25cm",
-    "kualitas": "Alusan",
+    "kualitas": "alusan",
     "harga": "Rp100.000",
     "link": "https://contoh.com/arjuna-25cm-alusan"
   },
   {
-    "tokoh": "Arjuna",
+    "tokoh": "arjuna",
     "ukuran": "30cm",
-    "kualitas": "Alusan",
+    "kualitas": "alusan",
     "harga": "Rp150.000",
     "link": "https://contoh.com/arjuna-30cm-alusan"
   },
   {
-    "tokoh": "Arjuna",
+    "tokoh": "arjuna",
     "ukuran": "30cm",
-    "kualitas": "Murah",
+    "kualitas": "murah",
     "harga": "Rp25.000",
     "link": "https://contoh.com/arjuna-30cm-murah"
   },
   {
-    "tokoh": "Arjuna",
-    "ukuran": "Standar Pedalangan",
-    "kualitas": "Murah",
+    "tokoh": "arjuna",
+    "ukuran": "standar",
+    "kualitas": "murah",
     "harga": "Rp65.000",
     "link": "https://contoh.com/arjuna-standar-murah"
   },
   {
-    "tokoh": "Arjuna",
-    "ukuran": "Standar Pedalangan",
-    "kualitas": "Alusan",
+    "tokoh": "arjuna",
+    "ukuran": "standar",
+    "kualitas": "alusan",
     "harga": "Rp600.000",
     "link": "https://contoh.com/arjuna-standar-alusan"
   }
