@@ -5,88 +5,24 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cari Produk - Laksana Handicraft</title>
   <meta name="description" content="Pencarian Produk Laksana Handicraft" />
-
   <style>
-    body {
-      font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc);
-      padding: 30px;
-      margin: 0;
-    }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #f2f2f2;
-      padding: 22px;
-      border-radius: 14px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    img.logo { width: 100px; border-radius:50%; margin-bottom:12px; }
+    body { font-family:sans-serif; background:linear-gradient(to bottom,#eee,#ccc); padding:30px; margin:0; }
+    .container { max-width:700px; margin:auto; background:#f2f2f2; padding:22px; border-radius:14px; box-shadow:0 8px 16px rgba(0,0,0,.1); text-align:center; }
+    img.logo { width:100px; border-radius:50%; margin-bottom:12px; }
     h1 { font-size:20px; margin:6px 0 12px; }
     p.lead { color:#444; margin-bottom:18px; }
-
-    .btn {
-      display:block;
-      width:100%;
-      max-width:420px;
-      margin:10px auto;
-      padding:12px 14px;
-      background:#fff;
-      color:#222;
-      border-radius:8px;
-      border:1px solid #bbb;
-      text-decoration:none;
-      cursor:pointer;
-      transition:all .18s ease;
-      box-sizing:border-box;
-    }
+    .btn { display:block; width:100%; max-width:420px; margin:10px auto; padding:12px 14px; background:#fff; color:#222; border-radius:8px; border:1px solid #bbb; text-decoration:none; cursor:pointer; transition:all .18s ease; box-sizing:border-box; }
     .btn:hover { background:#eaeaea; transform:scale(1.02); }
-
     form .input-row { margin-top:12px; }
-    select, button, input[type=text] {
-      width:100%;
-      max-width:420px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #bbb;
-      box-sizing:border-box;
-      margin:6px auto;
-    }
+    select, button { width:100%; max-width:420px; padding:10px; border-radius:8px; border:1px solid #bbb; box-sizing:border-box; margin:6px auto; }
     button[type="submit"] { background:#333; color:#fff; border:none; cursor:pointer; padding:12px; }
-
     #results { margin-top:18px; text-align:left; }
-    .result {
-      background:#fff; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:12px;
-    }
+    .result { background:#fff; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:12px; }
     .result p { margin:6px 0; }
     .small { font-size:13px; color:#666; }
-
-    table.variant-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 8px 0;
-      font-size: 14px;
-    }
-    table.variant-table th, table.variant-table td {
-      border: 1px solid #ccc;
-      padding: 6px 8px;
-      text-align: left;
-    }
-    table.variant-table th {
-      background: #f9f9f9;
-    }
-
-    html, body {
-      height:100% !important;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-      background-attachment: fixed !important;
-      background-repeat: no-repeat !important;
-      background-size: cover !important;
-    }
-    .goog-te-banner-frame.skiptranslate { display:none !important; }
-    body { top:0 !important; }
-    .goog-te-gadget-icon { display:none !important; }
+    table.variant-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:14px; }
+    table.variant-table th, table.variant-table td { border:1px solid #ccc; padding:6px 8px; text-align:left; }
+    table.variant-table th { background:#f9f9f9; }
   </style>
 </head>
 <body>
@@ -94,21 +30,6 @@
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
     <h1>Pencarian Produk Laksana Handicraft</h1>
     <p class="lead"><em>Kerajinan Nusantara, Warisan Dunia</em></p>
-
-    <div style="max-width:420px;margin:0 auto 8px;">
-      <select class="btn" id="translateSelect" onchange="doGTranslate(this);">
-        <option value="">🌏 Pilih Bahasa</option>
-        <option value="id|id">🇮🇩 Indonesia</option>
-        <option value="id|en">🇬🇧 English</option>
-        <option value="id|ms">🇲🇾 Melayu</option>
-        <option value="id|ja">🇯🇵 日本語</option>
-        <option value="id|zh-CN">🇨🇳 中文</option>
-        <option value="id|ar">🇸🇦 العربية</option>
-        <option value="id|fr">🇫🇷 Français</option>
-        <option value="id|de">🇩🇪 Deutsch</option>
-        <option value="id|es">🇪🇸 Español</option>
-      </select>
-    </div>
 
     <form id="searchForm">
       <div class="input-row">
@@ -129,7 +50,7 @@
         <select id="ukuran">
           <option value="">-- Pilih Ukuran --</option>
           <option value="miniatur">Miniatur</option>
-          <option value="kidangan">20, 25, 30cm</option>
+          <option value="20, 25, 30cm">20, 25, 30cm</option>
           <option value="standar">Standar Pedalangan</option>
         </select>
       </div>
@@ -149,11 +70,8 @@
     </form>
 
     <div id="results"></div>
-
     <p class="small" style="margin-top:18px;">&copy; Laksana Handicraft</p>
   </div>
-
-  <div id="google_translate_element" style="display:none;"></div>
 
   <script>
     let products = [];
@@ -165,14 +83,9 @@
       });
 
     const labels = {
-      tokoh: {
-        arjuna: "Arjuna", bima: "Bima", puntadewa: "Puntadewa",
-        nakula: "Nakula", sadewa: "Sadewa", custom: "Custom Tokoh"
-      },
-      ukuran: {
-        miniatur: "Miniatur", "kidangan": "20, 25, 30cm", standar: "Standar Pedalangan"
-      },
-      kualitas: { murah: "Murah", alusan: "Alusan" }
+      tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
+      ukuran: { miniatur:"Miniatur", "20, 25, 30cm":"20, 25, 30cm", standar:"Standar Pedalangan" },
+      kualitas: { murah:"Murah", alusan:"Alusan" }
     };
 
     document.getElementById("searchForm").addEventListener("submit", function(e){
@@ -207,10 +120,6 @@
             varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
           });
           varianTable += "</table>";
-        } else {
-          varianTable = `<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>
-            <tr><td>${escapeHtml(labels.ukuran[p.ukuran] || p.ukuran)}</td><td>${escapeHtml(p.harga || "-")}</td></tr>
-          </table>`;
         }
 
         out.innerHTML += `
@@ -218,7 +127,7 @@
             <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
             <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
             ${varianTable}
-            <p><a href="${escapeAttr(p.link || (p.varian && p.varian[0].link))}" target="_blank">🔗 Detail Produk</a></p>
+            <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
           </div>
         `;
       });
@@ -226,50 +135,6 @@
 
     function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); }); }
     function escapeAttr(s){ return escapeHtml(s); }
-
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id', autoDisplay: false}, 'google_translate_element');
-    }
-    function setCookie(name, value, days, domain){
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-      }
-      var domainPart = domain ? "; domain=" + domain : "";
-      document.cookie = name + "=" + (value || "")  + expires + "; path=/" + domainPart;
-    }
-    function doGTranslate(el) {
-      if (!el || !el.value) return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
-      if (lang === 'id') {
-        setCookie('googtrans', '', -1, window.location.hostname);
-        setCookie('googtrans', '', -1);
-        location.reload();
-        return;
-      }
-      var tries = 0;
-      function applyToInternal() {
-        var combo = document.querySelector('.goog-te-combo');
-        if (combo) {
-          combo.value = lang;
-          combo.dispatchEvent(new Event('change'));
-        } else {
-          tries++;
-          if (tries < 10) {
-            setTimeout(applyToInternal, 300);
-          } else {
-            setCookie('googtrans', '/id/' + lang, 1, window.location.hostname);
-            setCookie('googtrans', '/id/' + lang, 1);
-            location.reload();
-          }
-        }
-      }
-      applyToInternal();
-    }
   </script>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
