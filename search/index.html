@@ -44,7 +44,7 @@
     .btn:hover { background:#eaeaea; transform:scale(1.02); }
 
     form .input-row { margin-top:12px; }
-    select, button, input[type=text] {
+    select, button {
       width:100%;
       max-width:420px;
       padding:10px;
@@ -144,6 +144,30 @@
   <div id="google_translate_element" style="display:none;"></div>
 
   <script>
+    // mapping label supaya user lihat nama bagus
+    const labels = {
+      tokoh: {
+        arjuna: "Arjuna",
+        bima: "Bima",
+        puntadewa: "Puntadewa",
+        nakula: "Nakula",
+        sadewa: "Sadewa",
+        custom: "Custom Tokoh"
+      },
+      ukuran: {
+        miniatur: "Miniatur",
+        "20cm": "20cm",
+        "25cm": "25cm",
+        "30cm": "30cm",
+        standar: "Standar Pedalangan"
+      },
+      kualitas: {
+        murah: "Murah",
+        alusan: "Alusan"
+      }
+    };
+
+    // load produk
     let products = [];
     fetch("products.json")
       .then(r => {
@@ -151,113 +175,3 @@
         return r.json();
       })
       .then(data => products = data)
-      .catch(err => {
-        console.error(err);
-        document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk (products.json).</p>";
-      });
-
-    document.getElementById("searchForm").addEventListener("submit", function(e){
-      e.preventDefault();
-      const tokoh = document.getElementById("tokoh").value;
-      const ukuran = document.getElementById("ukuran").value;
-      const kualitas = document.getElementById("kualitas").value;
-      const out = document.getElementById("results");
-      out.innerHTML = "";
-
-      if (!tokoh && !ukuran && !kualitas) {
-        out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
-        return;
-      }
-
-      const filtered = products.filter(p =>
-        (tokoh ? p.tokoh === tokoh : true) &&
-        (ukuran ? p.ukuran === ukuran : true) &&
-        (kualitas ? p.kualitas === kualitas : true)
-      );
-
-      if (filtered.length === 0) {
-        out.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
-        return;
-      }
-
-      filtered.forEach(p => {
-        if (p.varian && Array.isArray(p.varian)) {
-          p.varian.forEach(v => {
-            out.innerHTML += `
-              <div class="result">
-                <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh)}</p>
-                <p><strong>Ukuran:</strong> ${escapeHtml(p.ukuran)} (${escapeHtml(v.size)})</p>
-                <p><strong>Kualitas:</strong> ${escapeHtml(p.kualitas)}</p>
-                <p><strong>Harga:</strong> ${escapeHtml(v.harga)}</p>
-                <p><a href="${escapeAttr(v.link)}" target="_blank">🔗 Detail Produk</a></p>
-              </div>
-            `;
-          });
-        } else {
-          out.innerHTML += `
-            <div class="result">
-              <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh)}</p>
-              <p><strong>Ukuran:</strong> ${escapeHtml(p.ukuran)}</p>
-              <p><strong>Kualitas:</strong> ${escapeHtml(p.kualitas)}</p>
-              <p><strong>Harga:</strong> ${escapeHtml(p.harga || '-')}</p>
-              <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
-            </div>
-          `;
-        }
-      });
-    });
-
-    function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); }); }
-    function escapeAttr(s){ return escapeHtml(s); }
-
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id', autoDisplay: false}, 'google_translate_element');
-    }
-
-    function setCookie(name, value, days, domain){
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
-        expires = "; expires=" + date.toUTCString();
-      }
-      var domainPart = domain ? "; domain=" + domain : "";
-      document.cookie = name + "=" + (value || "")  + expires + "; path=/" + domainPart;
-    }
-
-    function doGTranslate(el) {
-      if (!el || !el.value) return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
-
-      if (lang === 'id') {
-        setCookie('googtrans', '', -1, window.location.hostname);
-        setCookie('googtrans', '', -1);
-        location.reload();
-        return;
-      }
-
-      var tries = 0;
-      function applyToInternal() {
-        var combo = document.querySelector('.goog-te-combo');
-        if (combo) {
-          combo.value = lang;
-          combo.dispatchEvent(new Event('change'));
-        } else {
-          tries++;
-          if (tries < 10) {
-            setTimeout(applyToInternal, 300);
-          } else {
-            setCookie('googtrans', '/id/' + lang, 1, window.location.hostname);
-            setCookie('googtrans', '/id/' + lang, 1);
-            location.reload();
-          }
-        }
-      }
-      applyToInternal();
-    }
-  </script>
-
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-</body>
-</html>
