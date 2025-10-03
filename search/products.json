@@ -10,7 +10,7 @@
     ]
   },
   {
-    "tokoh": "semar",
+    "tokoh": ["arjuna", "bima", "nakula", "sadewa", "puntadewa"],
     "ukuran": "20, 25, 30cm",
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-20-25-30cm-alusan",
@@ -21,7 +21,7 @@
     ]
   },
   {
-    "tokoh": "gareng",
+    "tokoh": ["gareng", "semar"],
     "ukuran": "20, 25, 30cm",
     "kualitas": "alusan",
     "link": "https://contoh.com/bima-20-25-30cm-alusan",
