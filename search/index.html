@@ -7,13 +7,37 @@
   <meta name="description" content="Pencarian Produk Laksana Handicraft" />
 
   <style>
-    body { font-family:sans-serif; background:linear-gradient(to bottom,#eee,#ccc); padding:30px; margin:0; }
-    .container { max-width:700px; margin:auto; background:#f2f2f2; padding:22px; border-radius:14px; box-shadow:0 8px 16px rgba(0,0,0,.1); text-align:center; }
-    img.logo { width:100px; border-radius:50%; margin-bottom:12px; }
-    h1 { font-size: 20px; margin-bottom: 10px; }
-    h1 a { text-decoration: none; color: #222; }
+    body {
+      font-family:sans-serif;
+      background:linear-gradient(to bottom,#eee,#ccc);
+      padding:30px;
+      margin:0;
+    }
+    .container {
+      max-width:700px;
+      margin:auto;
+      background:#f2f2f2;
+      padding:22px;
+      border-radius:14px;
+      box-shadow:0 8px 16px rgba(0,0,0,.1);
+      text-align:center;
+    }
+    img.logo {
+      width:100px;
+      border-radius:50%;
+      margin-bottom:12px;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    h1 a {
+      text-decoration: none;
+      color: #222;
+    }
     h1 a:hover { text-decoration: underline; }
-    p { color:#444; margin-bottom:16px; }
+    p { color: #444; margin-bottom: 16px; }
+    p.lead { color:#444; margin:4px 0 6px; }
     p.sublead { font-size:15px; font-weight:bold; margin-bottom:18px; }
 
     /* Translate */
@@ -25,20 +49,40 @@
     form .input-row { margin-top:12px; text-align:left; }
     label.small { font-size:13px; color:#666; display:block; margin-bottom:4px; }
     select, button {
-      width:100%; max-width:420px; padding:10px;
-      border-radius:8px; border:1px solid #bbb;
-      margin:6px auto; display:block; box-sizing:border-box;
+      width:100%;
+      max-width:420px;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid #bbb;
+      margin:6px auto;
+      display:block;
+      box-sizing:border-box;
     }
     button[type="submit"] { background:#333; color:#fff; border:none; padding:12px; cursor:pointer; }
     button[type="submit"]:hover { background:#444; }
 
     #results { margin-top:18px; text-align:left; }
-    .result { background:#fff; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:12px; }
+    .result {
+      background:#fff; border:1px solid #ddd;
+      padding:12px; border-radius:8px;
+      margin-bottom:12px;
+    }
     .result p { margin:6px 0; }
-    table.variant-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:14px; }
-    table.variant-table th, table.variant-table td { border:1px solid #ccc; padding:6px 8px; text-align:left; }
+    .small { font-size:13px; color:#666; }
+
+    table.variant-table {
+      width:100%; border-collapse:collapse;
+      margin:8px 0; font-size:14px;
+    }
+    table.variant-table th, table.variant-table td {
+      border:1px solid #ccc; padding:6px 8px; text-align:left;
+    }
     table.variant-table th { background:#f9f9f9; }
-    footer { margin-top:25px; font-size:12px; color:#666; }
+    footer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -46,9 +90,9 @@
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
-    <p class="sublead">🔎 Pencarian Produk Detail</p>
+    <p class="sublead">🔎 Pencarian Produk</p>
 
-    <!-- 🌏 Translate -->
+    <!-- 🌏 Dropdown Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -64,7 +108,7 @@
       </select>
     </div>
 
-    <!-- 🔍 Filter -->
+    <!-- 🔍 Form Pencarian Detail -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
@@ -98,10 +142,12 @@
         </select>
       </div>
 
-      <button type="submit">Cari Produk</button>
+      <div style="margin-top:12px;">
+        <button type="submit">Filter Produk</button>
+      </div>
     </form>
 
-    <!-- Hasil -->
+    <!-- 🔎 Hasil Pencarian -->
     <div id="results"></div>
 
     <footer>
@@ -109,7 +155,7 @@
     </footer>
   </div>
 
-  <!-- Tahun -->
+  <!-- ✅ Script Tahun Otomatis -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -117,24 +163,47 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- Filter Pencarian -->
+  <!-- ✅ Data Produk -->
   <script>
     let products = [];
-    fetch("products.json").then(r => r.json()).then(data => products = data);
+    fetch("products.json")
+      .then(r => r.json())
+      .then(data => {
+        products = data;
+        checkQueryParam(); // cek apakah ada q dari index.html
+      })
+      .catch(err => {
+        document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk.</p>";
+      });
 
     const labels = {
-      tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
-      ukuran: { miniatur:"Miniatur", "20, 25, 30cm":"20, 25, 30cm", standar:"Standar Pedalangan" },
-      kualitas: { murah:"Murah", alusan:"Alusan" }
+      tokoh: {
+        arjuna: "Arjuna", bima: "Bima", puntadewa: "Puntadewa",
+        nakula: "Nakula", sadewa: "Sadewa", custom: "Custom Tokoh"
+      },
+      ukuran: {
+        miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan"
+      },
+      kualitas: { murah: "Murah", alusan: "Alusan" }
     };
 
-    document.getElementById("searchForm").addEventListener("submit", e => {
+    // Pencarian dengan dropdown filter
+    document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
+      doFilterSearch();
+    });
+
+    function doFilterSearch() {
       const tokoh = document.getElementById("tokoh").value;
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
       const out = document.getElementById("results");
       out.innerHTML = "";
+
+      if (!tokoh && !ukuran && !kualitas) {
+        out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+        return;
+      }
 
       const filtered = products.filter(p =>
         (tokoh ? p.tokoh === tokoh : true) &&
@@ -142,41 +211,89 @@
         (kualitas ? p.kualitas === kualitas : true)
       );
 
-      if (filtered.length === 0) {
-        out.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
+      renderResults(filtered);
+    }
+
+    // Fungsi untuk baca ?q= dari URL
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    // Jika ada pencarian bebas dari index.html
+    function checkQueryParam() {
+      const q = getQueryParam("q");
+      if (!q) return;
+      const out = document.getElementById("results");
+      out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
+
+      const filtered = products.filter(p => {
+        return (
+          (p.tokoh && p.tokoh.toLowerCase().includes(q.toLowerCase())) ||
+          (p.ukuran && p.ukuran.toLowerCase().includes(q.toLowerCase())) ||
+          (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
+        );
+      });
+
+      renderResults(filtered);
+    }
+
+    function renderResults(list) {
+      const out = document.getElementById("results");
+      if (list.length === 0) {
+        out.innerHTML += "<p>Tidak ada produk ditemukan.</p>";
         return;
       }
-
-      filtered.forEach(p => {
-        let table = "";
-        if (p.varian) {
-          table = "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
-          p.varian.forEach(v => { table += `<tr><td>${v.size}</td><td>${v.harga}</td></tr>`; });
-          table += "</table>";
+      list.forEach(p => {
+        let varianTable = "";
+        if (p.varian && Array.isArray(p.varian)) {
+          varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
+          p.varian.forEach(v => {
+            varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
+          });
+          varianTable += "</table>";
         }
+
         out.innerHTML += `
           <div class="result">
-            <p><strong>Tokoh:</strong> ${labels.tokoh[p.tokoh] || p.tokoh}</p>
-            <p><strong>Kualitas:</strong> ${labels.kualitas[p.kualitas] || p.kualitas}</p>
-            ${table}
-            <p><a href="${p.link}" target="_blank">🔗 Detail Produk</a></p>
-          </div>`;
+            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
+            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+            ${varianTable}
+            <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
+          </div>
+        `;
       });
-    });
+    }
+
+    function escapeHtml(s){
+      return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
+      });
+    }
+    function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
-  <!-- Translate -->
+  <!-- ✅ Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script>
+  <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
     function doGTranslate(el) {
       if (el.value === '') return;
-      var lang = el.value.split('|')[1];
-      if (lang === 'id') { window.location.href = window.location.origin + window.location.pathname; return; }
+      var langPair = el.value.split('|');
+      var lang = langPair[1];
+      if (lang === 'id') {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+        window.location.href = window.location.origin + window.location.pathname;
+        return;
+      }
       var select = document.querySelector('.goog-te-combo');
-      if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+      }
     }
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
