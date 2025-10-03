@@ -186,7 +186,11 @@
   <script>
 let products = [];
 const labels = {
-  ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" },
+  ukuran: { 
+    miniatur: "Miniatur", 
+    "20, 25, 30cm": "20, 25, 30cm", 
+    standar: "Standar Pedalangan" 
+  },
   kualitas: { murah: "Murah", alusan: "Alusan" }
 };
 
@@ -214,7 +218,13 @@ function doFilterSearch() {
 
   const filtered = products.filter(p =>
     (tokoh ? p.tokoh.includes(tokoh) : true) &&
-    (ukuran ? (Array.isArray(p.ukuran) ? p.ukuran.includes(ukuran) : p.ukuran === ukuran) : true) &&
+    (ukuran ? (
+        ukuran === "20, 25, 30cm"
+          ? ["20cm","25cm","30cm"].some(u => Array.isArray(p.ukuran) ? p.ukuran.includes(u) : p.ukuran === u)
+          : ukuran === "standar"
+            ? (Array.isArray(p.ukuran) ? p.ukuran.includes("Standar Pedalangan") : p.ukuran === "Standar Pedalangan")
+            : (Array.isArray(p.ukuran) ? p.ukuran.includes(ukuran) : p.ukuran === ukuran)
+      ) : true) &&
     (kualitas ? p.kualitas === kualitas : true)
   );
 
