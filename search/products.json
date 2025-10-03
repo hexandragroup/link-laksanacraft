@@ -1,7 +1,7 @@
 [
   {
     "tokoh": ["custom"],
-    "ukuran": ["miniatur", "20, 25, 30cm", "standar"],
+    "ukuran": ["miniatur", "20cm", "25cm", "30cm", "Standar Pedalangan"],
     "kualitas": "alusan",
     "link": "https://contoh.com/custom-produk",
     "varian": [
@@ -14,7 +14,7 @@
   },
   {
     "tokoh": ["semar", "gareng", "petruk", "bagong"],
-    "ukuran": "20, 25, 30cm",
+    "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
     "link": "https://contoh.com/grup-semar-gareng-petruk-bagong-20-25-30cm-alusan",
     "varian": [
@@ -25,7 +25,7 @@
   },
   {
     "tokoh": ["arjuna", "puntadewa", "nakula", "bima", "sadewa"],
-    "ukuran": "20, 25, 30cm",
+    "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
     "link": "https://contoh.com/grup-arjuna-puntadewa-nakula-bima-sadewa-20-25-30cm-alusan",
     "varian": [
@@ -36,7 +36,7 @@
   },
   {
     "tokoh": ["semar"],
-    "ukuran": "miniatur",
+    "ukuran": ["miniatur"],
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-miniatur-alusan",
     "varian": [
@@ -46,7 +46,7 @@
   },
   {
     "tokoh": ["semar"],
-    "ukuran": "20, 25, 30cm",
+    "ukuran": ["30cm"],
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-30cm-standar-murah",
     "varian": [
@@ -55,7 +55,7 @@
   },
   {
     "tokoh": ["arjuna"],
-    "ukuran": "standar",
+    "ukuran": ["Standar Pedalangan"],
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-standar-murah",
     "varian": [
@@ -64,7 +64,7 @@
   },
   {
     "tokoh": ["arjuna"],
-    "ukuran": "standar",
+    "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-standar-alusan",
     "varian": [
