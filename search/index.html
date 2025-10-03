@@ -9,24 +9,23 @@
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eee, #ccc);
+      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
       padding: 30px;
       margin: 0;
-      line-height: 1.5; /* ✅ konsisten */
     }
     .container {
-      max-width: 700px;
+      max-width: 500px;
       margin: auto;
-      background: #f2f2f2;
-      padding: 22px;
-      border-radius: 14px;
-      box-shadow: 0 8px 16px rgba(0,0,0,.1);
+      background: #f2f2f2; /* abu-abu muda */
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
       text-align: center;
     }
     img.logo {
       width: 100px;
       border-radius: 50%;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
     h1 {
       font-size: 20px;
@@ -37,67 +36,71 @@
       color: #222;
     }
     h1 a:hover { text-decoration: underline; }
-    p { color: #444; margin-bottom: 20px; } /* ✅ samakan */
-    p.lead { color:#444; margin:4px 0 6px; }
+    p { color: #444; margin-bottom: 16px; }
     p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
 
-    /* ✅ Translate */
-    .translate-box { margin-bottom:20px; }
+    /* ✅ Dropdown translate */
+    .translate-box { margin-bottom: 20px; }
     .btn {
       display: block;
       margin: 10px auto;
-      padding: 14px 20px; /* ✅ samakan */
+      padding: 12px 14px;
       background: #fff;
       color: #222;
       border-radius: 8px;
       border: 1px solid #bbb;
       cursor: pointer;
       transition: .2s;
-      font-size: 14px;
+      max-width: 420px;
     }
-    .btn:hover { background:#e6e6e6; }
+    .btn:hover { background: #e6e6e6; }
 
-    /* Form */
-    form .input-row { margin-top:12px; text-align:left; }
-    label.small { font-size:13px; color:#666; display:block; margin-bottom:4px; }
+    /* ✅ Form filter */
+    form .input-row { margin-top: 12px; text-align: left; }
+    label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
     select, button {
-      width:100%;
-      max-width:420px;
-      padding:12px; /* ✅ samakan */
-      border-radius:8px;
-      border:1px solid #bbb;
-      margin:6px auto;
-      display:block;
-      box-sizing:border-box;
-      font-size:14px; /* ✅ samakan */
+      width: 100%;
+      max-width: 420px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      margin: 6px auto;
+      display: block;
+      box-sizing: border-box;
     }
     button[type="submit"] {
-      background:#333;
-      color:#fff;
-      border:none;
-      cursor:pointer;
+      background: #333;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      cursor: pointer;
     }
-    button[type="submit"]:hover { background:#444; }
+    button[type="submit"]:hover { background: #444; }
 
-    #results { margin-top:18px; text-align:left; }
+    /* ✅ Hasil */
+    #results { margin-top: 18px; text-align: left; }
     .result {
-      background:#fff; border:1px solid #ddd;
-      padding:12px; border-radius:8px;
-      margin-bottom:12px;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
     }
-    .result p { margin:6px 0; }
-    .small { font-size:13px; color:#666; }
-
+    .result p { margin: 6px 0; }
+    .small { font-size: 13px; color: #666; }
     table.variant-table {
-      width:100%; border-collapse:collapse;
-      margin:8px 0; font-size:14px;
+      width: 100%; border-collapse: collapse;
+      margin: 8px 0; font-size: 14px;
     }
     table.variant-table th, table.variant-table td {
-      border:1px solid #ccc; padding:6px 8px; text-align:left;
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
     }
-    table.variant-table th { background:#f9f9f9; }
+    table.variant-table th { background: #f9f9f9; }
+
     footer {
-      margin-top: 25px;
+      margin-top: 30px;
       font-size: 12px;
       color: #666;
     }
@@ -105,6 +108,7 @@
     /* ✅ Fix Translate agar background tetap penuh */
     html, body {
       height: 100% !important;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
       background-attachment: fixed !important;
       background-repeat: no-repeat !important;
       background-size: cover !important;
@@ -137,7 +141,7 @@
       </select>
     </div>
 
-    <!-- 🔍 Form Pencarian Detail -->
+    <!-- 🔍 Form Filter -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
@@ -176,7 +180,7 @@
       </div>
     </form>
 
-    <!-- 🔎 Hasil Pencarian -->
+    <!-- 🔎 Hasil -->
     <div id="results"></div>
 
     <footer>
@@ -184,7 +188,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Script Tahun Otomatis -->
+  <!-- ✅ Script Tahun -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -192,13 +196,13 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Data Produk -->
+  <!-- ✅ Data Produk + Pencarian -->
   <script>
     let products = [];
     fetch("products.json")
       .then(r => r.json())
-      .then(data => { products = data; })
-      .catch(err => {
+      .then(data => { products = data; checkQueryParam(); })
+      .catch(() => {
         document.getElementById("results").innerHTML =
           "<p style='color:red;'>Gagal memuat data produk.</p>";
       });
@@ -209,7 +213,7 @@
       kualitas: { murah:"Murah", alusan:"Alusan" }
     };
 
-    document.getElementById("searchForm").addEventListener("submit", function(e){
+    document.getElementById("searchForm").addEventListener("submit", e => {
       e.preventDefault();
       doFilterSearch();
     });
@@ -235,6 +239,26 @@
       renderResults(filtered);
     }
 
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    function checkQueryParam() {
+      const q = getQueryParam("q");
+      if (!q) return;
+      const out = document.getElementById("results");
+      out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
+
+      const filtered = products.filter(p =>
+        (p.tokoh && p.tokoh.toLowerCase().includes(q.toLowerCase())) ||
+        (p.ukuran && p.ukuran.toLowerCase().includes(q.toLowerCase())) ||
+        (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
+      );
+
+      renderResults(filtered);
+    }
+
     function renderResults(list) {
       const out = document.getElementById("results");
       if (list.length === 0) {
@@ -250,7 +274,6 @@
           });
           varianTable += "</table>";
         }
-
         out.innerHTML += `
           <div class="result">
             <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
@@ -262,16 +285,13 @@
       });
     }
 
-    function escapeHtml(s){
-      return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g,
-        m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    }
+    function escapeHtml(s){ return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
     function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
   <!-- ✅ Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script type="text/javascript">
+  <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
