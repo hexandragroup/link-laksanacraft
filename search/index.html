@@ -22,57 +22,33 @@
       box-shadow:0 8px 16px rgba(0,0,0,.1);
       text-align:center;
     }
-    img.logo {
-      width:100px;
-      border-radius:50%;
-      margin-bottom:12px;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    h1 a {
-      text-decoration: none;
-      color: #222;
-    }
-    h1 a:hover { text-decoration: underline; }
-    p { color: #444; margin-bottom: 16px; }
-    .btn {
-      display: block;
-      margin: 10px auto;
-      padding: 14px 20px;
-      background: #fff;
-      color: #222;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      box-sizing: border-box;
-      max-width: 420px;
-    }
-    p.lead { color:#444; margin:4px 0 6px; }
+    img.logo { width:100px; border-radius:50%; margin-bottom:12px; }
+    h1 { font-size:20px; margin-bottom:10px; }
+    h1 a { text-decoration:none; color:#222; }
+    h1 a:hover { text-decoration:underline; }
+    p { color:#444; margin-bottom:16px; }
     p.sublead { font-size:15px; font-weight:bold; margin-bottom:18px; }
 
     /* Translate */
     .translate-box { margin-bottom:20px; }
-    .btn { display:block; margin:10px auto; padding:12px 14px; background:#fff; color:#222; border-radius:8px; border:1px solid #bbb; cursor:pointer; transition:.2s; }
-    .btn:hover { background:#e6e6e6; }
+    select.translate {
+      width:100%; max-width:420px; padding:10px;
+      border-radius:8px; border:1px solid #bbb;
+      font-size:14px;
+    }
 
     /* Form */
     form .input-row { margin-top:12px; text-align:left; }
     label.small { font-size:13px; color:#666; display:block; margin-bottom:4px; }
-    select, button, input[type="text"] {
-      width:100%;
-      max-width:420px;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid #bbb;
-      margin:6px auto;
-      display:block;
-      box-sizing:border-box;
+    input[type="text"], select, button {
+      width:100%; max-width:420px; padding:10px;
+      border-radius:8px; border:1px solid #bbb;
+      margin:6px auto; display:block; box-sizing:border-box;
     }
-    button[type="submit"] { background:#333; color:#fff; border:none; padding:12px; cursor:pointer; }
+    button[type="submit"] {
+      background:#333; color:#fff; border:none; padding:12px;
+      cursor:pointer; font-weight:bold;
+    }
     button[type="submit"]:hover { background:#444; }
 
     #results { margin-top:18px; text-align:left; }
@@ -84,19 +60,13 @@
     .result p { margin:6px 0; }
     .small { font-size:13px; color:#666; }
 
-    table.variant-table {
-      width:100%; border-collapse:collapse;
-      margin:8px 0; font-size:14px;
-    }
+    table.variant-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:14px; }
     table.variant-table th, table.variant-table td {
       border:1px solid #ccc; padding:6px 8px; text-align:left;
     }
     table.variant-table th { background:#f9f9f9; }
-    footer {
-      margin-top: 25px;
-      font-size: 12px;
-      color: #666;
-    }
+
+    footer { margin-top:25px; font-size:12px; color:#666; }
   </style>
 </head>
 <body>
@@ -108,7 +78,7 @@
 
     <!-- 🌏 Dropdown Translate -->
     <div class="translate-box">
-      <select class="btn" onchange="doGTranslate(this);">
+      <select class="translate" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
         <option value="id|id">🇮🇩 Indonesia</option>
         <option value="id|en">🇬🇧 English</option>
@@ -124,10 +94,7 @@
 
     <!-- 🔍 Form Pencarian -->
     <form id="searchForm">
-      <!-- input teks bebas -->
-      <div class="input-row">
-        <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna 30cm alusan)" />
-      </div>
+      <input type="text" id="keyword" placeholder="Ketik kata kunci (contoh: Arjuna 30cm alusan)" />
 
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
@@ -174,7 +141,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Script Tahun Otomatis -->
+  <!-- ✅ Tahun Otomatis -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -188,66 +155,42 @@
     fetch("products.json")
       .then(r => r.json())
       .then(data => products = data)
-      .then(() => autoSearchFromURL())
-      .catch(err => {
+      .catch(() => {
         document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk.</p>";
       });
 
     const labels = {
-      tokoh: {
-        arjuna: "Arjuna", bima: "Bima", puntadewa: "Puntadewa",
-        nakula: "Nakula", sadewa: "Sadewa", custom: "Custom Tokoh"
-      },
-      ukuran: {
-        miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan"
-      },
-      kualitas: { murah: "Murah", alusan: "Alusan" }
+      tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
+      ukuran: { miniatur:"Miniatur", "20, 25, 30cm":"20, 25, 30cm", standar:"Standar Pedalangan" },
+      kualitas: { murah:"Murah", alusan:"Alusan" }
     };
 
     document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
-      const q = document.getElementById("query").value.trim();
-      if(q) {
-        doSearchQuery(q);
-        return;
-      }
+      const keyword = document.getElementById("keyword").value.trim().toLowerCase();
       const tokoh = document.getElementById("tokoh").value;
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
-      doSearchFilter(tokoh, ukuran, kualitas);
-    });
-
-    function doSearchQuery(query) {
       const out = document.getElementById("results");
-      out.innerHTML = "<p>Mencari: <strong>" + escapeHtml(query) + "</strong>...</p>";
-      const lower = query.toLowerCase();
-      const filtered = products.filter(p => {
-        const text = [
-          p.tokoh, p.ukuran, p.kualitas,
-          (p.varian||[]).map(v=>v.size).join(" "),
-          (p.varian||[]).map(v=>v.harga).join(" ")
-        ].join(" ").toLowerCase();
-        return text.includes(lower);
-      });
-      renderResults(filtered, query, out);
-    }
+      out.innerHTML = "";
 
-    function doSearchFilter(tokoh, ukuran, kualitas) {
-      const out = document.getElementById("results");
+      if (!keyword && !tokoh && !ukuran && !kualitas) {
+        out.innerHTML = "<p style='color:red;'>⚠️ Masukkan kata kunci atau pilih kriteria pencarian.</p>";
+        return;
+      }
+
       const filtered = products.filter(p =>
+        (keyword ? JSON.stringify(p).toLowerCase().includes(keyword) : true) &&
         (tokoh ? p.tokoh === tokoh : true) &&
         (ukuran ? p.ukuran === ukuran : true) &&
         (kualitas ? p.kualitas === kualitas : true)
       );
-      renderResults(filtered, null, out);
-    }
 
-    function renderResults(filtered, query, out) {
       if (filtered.length === 0) {
-        out.innerHTML = "<p>Tidak ada produk ditemukan" + (query ? " untuk <strong>"+escapeHtml(query)+"</strong>" : "") + ".</p>";
+        out.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
         return;
       }
-      out.innerHTML = "";
+
       filtered.forEach(p => {
         let varianTable = "";
         if (p.varian && Array.isArray(p.varian)) {
@@ -257,31 +200,19 @@
           });
           varianTable += "</table>";
         }
+
         out.innerHTML += `
           <div class="result">
-            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh]||p.tokoh)}</p>
-            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas]||p.kualitas)}</p>
+            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
+            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
             ${varianTable}
             <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
           </div>
         `;
       });
-    }
+    });
 
-    function autoSearchFromURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const query = urlParams.get("q");
-      if(query) {
-        document.getElementById("query").value = query;
-        doSearchQuery(query);
-      }
-    }
-
-    function escapeHtml(s){
-      return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){
-        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
-      });
-    }
+    function escapeHtml(s){ return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]) ) : ''; }
     function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
@@ -293,8 +224,7 @@
     }
     function doGTranslate(el) {
       if (el.value === '') return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
+      var lang = el.value.split('|')[1];
       if (lang === 'id') {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
@@ -302,10 +232,7 @@
         return;
       }
       var select = document.querySelector('.goog-te-combo');
-      if (select) {
-        select.value = lang;
-        select.dispatchEvent(new Event('change'));
-      }
+      if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
     }
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
