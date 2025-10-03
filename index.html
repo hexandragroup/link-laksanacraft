@@ -3,17 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Temukan semua tautan penting dari Laksana Handicraft: katalog wayang kulit, toko online, Shopee, Tokopedia, dan media sosial resmi.">
-  <meta property="og:title" content="Link Laksana Handicraft" />
-  <meta property="og:image" content="https://laksanacraft.my.id/logo.png" />
-  <meta property="og:description" content="Kerajinan Nusantara, Warisan Dunia – Semua tautan resmi Laksana Handicraft." />
-  <meta property="og:url" content="https://link.laksanacraft.my.id/" />
-  <meta name="twitter:card" content="summary_large_image" />
   <title>Link Laksana Handicraft</title>
-
-  <!-- ✅ Favicon -->
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Favicon_Laksana_Handicraft.webp">
-
   <style>
     body {
       font-family: sans-serif;
@@ -36,15 +26,7 @@
       border-radius: 50%;
       margin-bottom: 15px;
     }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    h1 a {
-      text-decoration: none;
-      color: #222;
-    }
-    h1 a:hover { text-decoration: underline; }
+    h1 { font-size: 20px; margin-bottom: 10px; }
     p { color: #444; margin-bottom: 20px; }
     .btn {
       display: block;
@@ -60,15 +42,10 @@
       font-size: 14px;
     }
     .btn:hover { background: #e6e6e6; transform: scale(1.03); }
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-    /* ✅ Dropdown translate */
+    footer { margin-top: 30px; font-size: 12px; color: #666; }
     .translate-box { margin-bottom: 20px; }
 
-    /* ✅ Fix Translate agar background penuh */
+    /* ✅ Fix Translate agar background tetap penuh */
     html, body {
       height: 100% !important;
       background-attachment: fixed !important;
@@ -79,20 +56,17 @@
     body { top: 0px !important; }
     .goog-te-gadget-icon { display: none !important; }
 
-    /* ✅ Form pencarian bebas */
-    form.search-bar {
-      margin: 15px 0 20px;
-    }
-    form.search-bar input[type="text"] {
+    /* 🔍 Form pencarian bebas */
+    .search-bar { margin: 15px 0 20px; }
+    .search-bar input {
       width: 100%;
-      max-width: 420px;
       padding: 12px;
       border: 1px solid #bbb;
       border-radius: 8px;
       font-size: 14px;
       box-sizing: border-box;
     }
-    form.search-bar button {
+    .search-bar button {
       margin-top: 10px;
       padding: 12px 16px;
       border: none;
@@ -102,26 +76,16 @@
       font-size: 14px;
       cursor: pointer;
     }
-    form.search-bar button:hover { background: #444; }
+    .search-bar button:hover { background: #444; }
   </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-V1JWDFFYK2');
-  </script>
-  <meta name="google-site-verification" content="oJLnR6iLjAKSSTZ_9MwIqFop7H1rp7MPhVSOAV_TVGo" />
 </head>
 <body>
   <div class="container">
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
-    <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
+    <h1>Kerajinan Wayang Kulit Sewon | Laksana Handicraft</h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🌏 Dropdown Translate -->
+    <!-- 🌏 Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -129,57 +93,31 @@
         <option value="id|en">🇬🇧 English</option>
         <option value="id|ms">🇲🇾 Melayu</option>
         <option value="id|ja">🇯🇵 日本語</option>
-        <option value="id|zh-CN">🇨🇳 中文</option>
-        <option value="id|ar">🇸🇦 العربية</option>
-        <option value="id|fr">🇫🇷 Français</option>
-        <option value="id|de">🇩🇪 Deutsch</option>
-        <option value="id|es">🇪🇸 Español</option>
       </select>
     </div>
 
-    <!-- 🔍 Form Pencarian Bebas -->
-    <form class="search-bar" action="search" method="get">
-      <input type="text" name="q" placeholder="🔍 Cari produk...">
+    <!-- 🔍 Pencarian bebas -->
+    <form class="search-bar" action="/search" method="get">
+      <input type="text" name="q" placeholder="🔍 Cari produk... (contoh: Arjuna 30cm)">
       <button type="submit">Cari</button>
     </form>
 
-    <!-- ✅ Daftar Link -->
+    <!-- ✅ Daftar link -->
     <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
-    <a class="btn" href="https://laksanacraft.my.id/link/contoh">🎨 Contoh Produk</a>
-    <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Foto/ Katalog Produk</a>
-    <a class="btn" href="https://msha.ke/wayangkulitsewon#links">🔗 Daftar Link Produk</a>
-    <a class="btn" href="https://shop.laksanacraft.my.id/">🛍️ Belanja di Toko Online Kami</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/wa">📱 Pesan Langsung via WhatsApp</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/wa-channel">📢 Gabung Channel WhatsApp</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/t-channel">📢 Gabung Channel Telegram</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/email">📧 Email Kami</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/form">📝 Form Order & Kerja Sama</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/shopee">🛒 Shopee</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/tokopedia">🛒 Tokopedia</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/tiktok">🛒 TikTok Shop</a>
-    <a class="btn" href="https://toco.id/store/laksanacraft">🛒 Toco</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/facebook">📘 Facebook</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/instagram">📷 Instagram</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/twitter">🐦 Twitter</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/youtube">🎥 YouTube</a>
-    <a class="btn" href="https://blog.laksanacraft.my.id/">📖 Blog & Artikel</a>
-    <a class="btn" href="https://url.laksanacraft.my.id/map">📍 Lokasi Toko Kami</a>
-    <a class="btn" href="https://linktr.ee/hexaleathercraft">🔗 Cabang Kami di Rembang</a>
+    <a class="btn" href="https://shop.laksanacraft.my.id/">🛍️ Belanja di Toko</a>
+    <a class="btn" href="https://url.laksanacraft.my.id/wa">📱 WhatsApp</a>
 
     <footer>
-      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, Yogyakarta
     </footer>
   </div>
 
-  <!-- ✅ Script Tahun Otomatis -->
+  <!-- Tahun otomatis -->
   <script>
-    const startYear = 1990;
-    const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent =
-      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 
-  <!-- ✅ Google Translate -->
+  <!-- Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
@@ -187,14 +125,7 @@
     }
     function doGTranslate(el) {
       if (el.value === '') return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
-      if (lang === 'id') {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = window.location.origin + window.location.pathname;
-        return;
-      }
+      var lang = el.value.split('|')[1];
       var select = document.querySelector('.goog-te-combo');
       if (select) {
         select.value = lang;
