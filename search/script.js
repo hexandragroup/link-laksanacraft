@@ -14,6 +14,7 @@ const hargaVarian = [
 
 // Link per tokoh
 const tokohLinks = {
+  "puntadewa": "https://contoh.com/puntadewa-20-25-30cm-alusan",
   "arjuna": "https://contoh.com/arjuna-20-25-30cm-alusan",
   "bima": "https://contoh.com/bima-20-25-30cm-alusan",
   "nakula": "https://contoh.com/nakula-20-25-30cm-alusan",
