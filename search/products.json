@@ -1,7 +1,7 @@
 [
   {
     "tokoh": ["custom"],
-    "ukuran": "custom",
+    "ukuran": ["miniatur", "20, 25, 30cm", "standar"],
     "kualitas": "alusan",
     "link": "https://contoh.com/custom-produk",
     "varian": [
