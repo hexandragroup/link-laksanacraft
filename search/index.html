@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pencarian Produk - Laksana Handicraft</title>
   <meta name="description" content="Pencarian Produk Laksana Handicraft" />
-
   <style>
     body {
       font-family: sans-serif;
@@ -22,65 +21,36 @@
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
       text-align: center;
     }
-    img.logo {
-      width: 100px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    h1 a {
-      text-decoration: none;
-      color: #222;
-    }
+    img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
+    h1 { font-size: 20px; margin-bottom: 10px; }
+    h1 a { text-decoration: none; color: #222; }
     h1 a:hover { text-decoration: underline; }
     p { color: #444; margin-bottom: 16px; }
     p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
-
     .translate-box { margin-bottom: 20px; }
     .btn {
-      display: block;
-      margin: 10px auto;
-      padding: 12px 14px;
-      background: #fff;
-      color: #222;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      cursor: pointer;
-      transition: .2s;
-      max-width: 420px;
+      display: block; margin: 10px auto; padding: 12px 14px;
+      background: #fff; color: #222;
+      border-radius: 8px; border: 1px solid #bbb;
+      cursor: pointer; transition: .2s; max-width: 420px;
     }
     .btn:hover { background: #e6e6e6; }
-
     form .input-row { margin-top: 12px; text-align: left; }
     label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
     select, button {
-      width: 100%;
-      max-width: 420px;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      margin: 6px auto;
-      display: block;
-      box-sizing: border-box;
+      width: 100%; max-width: 420px; padding: 10px;
+      border-radius: 8px; border: 1px solid #bbb;
+      margin: 6px auto; display: block; box-sizing: border-box;
     }
     button[type="submit"] {
-      background: #333;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      cursor: pointer;
+      background: #333; color: #fff; border: none;
+      padding: 12px; cursor: pointer;
     }
     button[type="submit"]:hover { background: #444; }
-
     #results { margin-top: 18px; text-align: left; }
     .result {
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 12px;
-      border-radius: 8px;
+      background: #fff; border: 1px solid #ddd;
+      padding: 12px; border-radius: 8px;
       margin-bottom: 12px;
     }
     .result p { margin: 6px 0; }
@@ -90,18 +60,10 @@
       margin: 8px 0; font-size: 14px;
     }
     table.variant-table th, table.variant-table td {
-      border: 1px solid #ccc;
-      padding: 6px 8px;
-      text-align: left;
+      border: 1px solid #ccc; padding: 6px 8px; text-align: left;
     }
     table.variant-table th { background: #f9f9f9; }
-
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-
+    footer { margin-top: 30px; font-size: 12px; color: #666; }
     html, body {
       height: 100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
@@ -187,11 +149,7 @@
   <script>
 let products = [];
 const labels = {
-  ukuran: { 
-    miniatur: "Miniatur", 
-    "20, 25, 30cm": "20, 25, 30cm", 
-    standar: "Standar Pedalangan" 
-  },
+  ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" },
   kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
 };
 
@@ -199,6 +157,7 @@ function escapeHtml(s) {
   return s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
 }
 function escapeAttr(s) { return escapeHtml(s); }
+function capitalize(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
 
 document.getElementById("searchForm").addEventListener("submit", e => {
   e.preventDefault();
@@ -252,8 +211,6 @@ function checkQueryParam() {
   renderResults(filtered);
 }
 
-function capitalize(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
-
 function renderResults(list) {
   const out = document.getElementById("results");
   if (list.length === 0) {
@@ -262,6 +219,14 @@ function renderResults(list) {
   }
 
   list.forEach(p => {
+    // tokoh + punakawan check
+    let tokohList = p.tokoh.map(capitalize);
+    if (p.tokoh.some(t => ["semar","gareng","petruk","bagong"].includes(t.toLowerCase()))) {
+      if (!tokohList.includes("Punakawan")) {
+        tokohList.unshift("Punakawan");
+      }
+    }
+
     let varianTable = "";
     if (p.varian && Array.isArray(p.varian)) {
       varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
@@ -275,7 +240,7 @@ function renderResults(list) {
 
     out.innerHTML += `
       <div class="result">
-        <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh.map(capitalize).join(", "))}</p>
+        <p><strong>Tokoh:</strong> ${escapeHtml(tokohList.join(", "))}</p>
         <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
         <p><strong>Ukuran:</strong> ${escapeHtml(ukuranLabel)}</p>
         ${varianTable}
@@ -294,7 +259,6 @@ function getUniqueTokoh(products) {
 function populateTokohDropdown(products) {
   const tokohDropdown = document.getElementById("tokoh");
   const existingOptions = Array.from(tokohDropdown.options).map(o => o.value);
-
   const tokohList = getUniqueTokoh(products);
   tokohList.forEach(t => {
     if (!existingOptions.includes(t)) {
