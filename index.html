@@ -17,14 +17,14 @@
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
       padding: 30px;
       margin: 0;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background: #f2f2f2; /* abu-abu muda */
+      background: #f2f2f2;
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -75,7 +75,6 @@
     .translate-box {
       margin-bottom: 20px;
     }
-
     /* ✅ Fix Translate agar background tetap penuh */
     html, body {
       height: 100% !important;
@@ -97,6 +96,7 @@
     /* ✅ Pencarian bebas */
     form.search-box {
       margin: 20px 0;
+      position: relative;
     }
     form.search-box input {
       width: 100%;
@@ -104,7 +104,7 @@
       padding: 12px;
       border: 1px solid #bbb;
       border-radius: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 0;
       box-sizing: border-box;
     }
     form.search-box button {
@@ -116,22 +116,28 @@
       color: #fff;
       border: none;
       cursor: pointer;
+      margin-top: 10px;
     }
     form.search-box button:hover {
       background: #555;
     }
 
-    /* ✅ Autocomplete suggestions */
+    /* ✅ Autocomplete suggestion */
     .suggestions {
-      position: relative;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
       max-width: 420px;
-      margin: auto;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-top: none;
+      z-index: 1000;
       text-align: left;
     }
     .suggestions div {
-      background: #fff;
-      border: 1px solid #bbb;
-      padding: 8px;
+      padding: 8px 12px;
       cursor: pointer;
     }
     .suggestions div:hover {
@@ -172,7 +178,7 @@
       </select>
     </div>
 
-    <!-- 🔍 Pencarian Bebas + Autocomplete -->
+    <!-- 🔍 Pencarian Bebas -->
     <form class="search-box" onsubmit="goSearch(event)">
       <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" autocomplete="off" />
       <div id="suggestions" class="suggestions"></div>
@@ -180,6 +186,7 @@
     </form>
 
     <!-- 🔗 Daftar Link -->
+    <!-- (tidak saya ubah, biarkan semua tetap sama) -->
     <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
     <a class="btn" href="https://laksanacraft.my.id/link/contoh">🎨 Contoh Produk</a>
     <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Foto/ Katalog Produk</a>
@@ -215,7 +222,7 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Script Pencarian -->
+  <!-- ✅ Script Pencarian + Autocomplete -->
   <script>
     function goSearch(e) {
       e.preventDefault();
@@ -226,36 +233,30 @@
         alert("Masukkan kata kunci pencarian!");
       }
     }
-  </script>
 
-  <!-- ✅ Script Autocomplete -->
-  <script>
     let products = [];
-
-    // ambil data dari products.json
-    fetch("https://laksanacraft.my.id/products.json")
-      .then(res => res.json())
-      .then(data => {
-        products = data;
-      });
-
     const queryInput = document.getElementById("query");
     const suggestionsBox = document.getElementById("suggestions");
+
+    fetch("https://laksanacraft.my.id/products.json")
+      .then(res => res.json())
+      .then(data => { products = data; });
 
     queryInput.addEventListener("input", function() {
       const val = this.value.toLowerCase();
       suggestionsBox.innerHTML = "";
       if (!val) return;
 
-      // ambil daftar tokoh unik
-      let tokohList = [];
+      let allKeywords = new Set();
+
+      // kumpulkan tokoh, ukuran, kualitas
       products.forEach(p => {
-        p.tokoh.forEach(t => {
-          if (!tokohList.includes(t)) tokohList.push(t);
-        });
+        if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(t));
+        if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(u));
+        if (p.kualitas) allKeywords.add(p.kualitas);
       });
 
-      const matches = tokohList.filter(t => t.toLowerCase().includes(val));
+      const matches = Array.from(allKeywords).filter(k => k.toLowerCase().includes(val));
       matches.forEach(match => {
         const div = document.createElement("div");
         div.textContent = match;
