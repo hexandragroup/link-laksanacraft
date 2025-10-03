@@ -17,14 +17,15 @@
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
       padding: 30px;
       margin: 0;
+      line-height: 1.5;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background: #f2f2f2; /* abu-abu muda */
+      background: #f2f2f2;
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -43,13 +44,8 @@
       text-decoration: none;
       color: #222;
     }
-    h1 a:hover {
-      text-decoration: underline;
-    }
-    p {
-      color: #444;
-      margin-bottom: 20px;
-    }
+    h1 a:hover { text-decoration: underline; }
+    p { color: #444; margin-bottom: 20px; }
     .btn {
       display: block;
       margin: 10px auto;
@@ -61,65 +57,52 @@
       border: 1px solid #bbb;
       transition: all 0.3s ease;
       cursor: pointer;
+      font-size: 14px;
     }
-    .btn:hover {
-      background: #e6e6e6;
-      transform: scale(1.03);
-    }
+    .btn:hover { background: #e6e6e6; transform: scale(1.03); }
     footer {
       margin-top: 30px;
       font-size: 12px;
       color: #666;
     }
-    /* Dropdown translate */
-    .translate-box {
-      margin-bottom: 20px;
-    }
+    /* ✅ Dropdown translate */
+    .translate-box { margin-bottom: 20px; }
 
-    /* ✅ Fix Translate agar background tetap penuh */
+    /* ✅ Fix Translate agar background penuh */
     html, body {
       height: 100% !important;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
       background-attachment: fixed !important;
       background-repeat: no-repeat !important;
       background-size: cover !important;
     }
-    .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-    }
-    body {
-      top: 0px !important;
-    }
-    .goog-te-gadget-icon {
-      display: none !important;
-    }
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+    .goog-te-gadget-icon { display: none !important; }
 
-    /* ✅ Pencarian bebas */
-    form.search-box {
-      margin: 20px 0;
+    /* ✅ Form pencarian bebas */
+    form.search-bar {
+      margin: 15px 0 20px;
     }
-    form.search-box input {
+    form.search-bar input[type="text"] {
       width: 100%;
       max-width: 420px;
       padding: 12px;
       border: 1px solid #bbb;
       border-radius: 8px;
-      margin-bottom: 10px;
+      font-size: 14px;
       box-sizing: border-box;
     }
-    form.search-box button {
-      width: 100%;
-      max-width: 420px;
-      padding: 12px;
+    form.search-bar button {
+      margin-top: 10px;
+      padding: 12px 16px;
+      border: none;
       border-radius: 8px;
       background: #333;
       color: #fff;
-      border: none;
+      font-size: 14px;
       cursor: pointer;
     }
-    form.search-box button:hover {
-      background: #555;
-    }
+    form.search-bar button:hover { background: #444; }
   </style>
 
   <!-- Google tag (gtag.js) -->
@@ -135,11 +118,10 @@
 <body>
   <div class="container">
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
-
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🔽 Dropdown Translate -->
+    <!-- 🌏 Dropdown Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -155,13 +137,13 @@
       </select>
     </div>
 
-    <!-- 🔍 Pencarian Bebas -->
-    <form class="search-box" onsubmit="goSearch(event)">
-      <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" />
-      <button type="submit">Cari Produk</button>
+    <!-- 🔍 Form Pencarian Bebas -->
+    <form class="search-bar" action="search.html" method="get">
+      <input type="text" name="q" placeholder="🔍 Cari produk...">
+      <button type="submit">Cari</button>
     </form>
 
-    <!-- 🔗 Daftar Link -->
+    <!-- ✅ Daftar Link -->
     <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
     <a class="btn" href="https://laksanacraft.my.id/link/contoh">🎨 Contoh Produk</a>
     <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Foto/ Katalog Produk</a>
@@ -189,7 +171,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Script untuk tahun otomatis -->
+  <!-- ✅ Script Tahun Otomatis -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -197,20 +179,7 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Script Pencarian -->
-  <script>
-    function goSearch(e) {
-      e.preventDefault();
-      const q = document.getElementById("query").value.trim();
-      if (q) {
-        window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
-      } else {
-        alert("Masukkan kata kunci pencarian!");
-      }
-    }
-  </script>
-
-  <!-- ✅ Google Translate Hidden -->
+  <!-- ✅ Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
@@ -223,7 +192,7 @@
       if (lang === 'id') {
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
         document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = "https://link.laksanacraft.my.id/";
+        window.location.href = window.location.origin + window.location.pathname;
         return;
       }
       var select = document.querySelector('.goog-te-combo');
