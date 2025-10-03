@@ -176,7 +176,6 @@
     </footer>
   </div>
 
-  <!-- Footer Tahun -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -184,7 +183,6 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- JavaScript Pencarian Produk (Versi Baru) -->
   <script>
 let products = [];
 const labels = {
@@ -216,7 +214,7 @@ function doFilterSearch() {
 
   const filtered = products.filter(p =>
     (tokoh ? p.tokoh.includes(tokoh) : true) &&
-    (ukuran ? p.ukuran === ukuran : true) &&
+    (ukuran ? (Array.isArray(p.ukuran) ? p.ukuran.includes(ukuran) : p.ukuran === ukuran) : true) &&
     (kualitas ? p.kualitas === kualitas : true)
   );
 
@@ -236,7 +234,7 @@ function checkQueryParam() {
 
   const filtered = products.filter(p =>
     p.tokoh.some(t => t.toLowerCase().includes(q.toLowerCase())) ||
-    (p.ukuran && p.ukuran.toLowerCase().includes(q.toLowerCase())) ||
+    (p.ukuran && (Array.isArray(p.ukuran) ? p.ukuran.some(u => u.toLowerCase().includes(q.toLowerCase())) : p.ukuran.toLowerCase().includes(q.toLowerCase()))) ||
     (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
   );
 
@@ -262,10 +260,13 @@ function renderResults(list) {
       varianTable += "</table>";
     }
 
+    let ukuranLabel = Array.isArray(p.ukuran) ? p.ukuran.map(u => labels.ukuran[u] || u).join(", ") : labels.ukuran[p.ukuran] || p.ukuran;
+
     out.innerHTML += `
       <div class="result">
         <p><strong>Tokoh:</strong> ${escapeHtml(p.tokoh.map(capitalize).join(", "))}</p>
         <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+        <p><strong>Ukuran:</strong> ${escapeHtml(ukuranLabel)}</p>
         ${varianTable}
         <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
       </div>
@@ -307,7 +308,6 @@ fetch("products.json")
   });
   </script>
 
-  <!-- Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
   <script>
     function googleTranslateElementInit() {
