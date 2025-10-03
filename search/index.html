@@ -7,65 +7,37 @@
   <meta name="description" content="Pencarian Produk Laksana Handicraft" />
 
   <style>
-    body {
-      font-family:sans-serif;
-      background:linear-gradient(to bottom,#eee,#ccc);
-      padding:30px;
-      margin:0;
-    }
-    .container {
-      max-width:700px;
-      margin:auto;
-      background:#f2f2f2;
-      padding:22px;
-      border-radius:14px;
-      box-shadow:0 8px 16px rgba(0,0,0,.1);
-      text-align:center;
-    }
+    body { font-family:sans-serif; background:linear-gradient(to bottom,#eee,#ccc); padding:30px; margin:0; }
+    .container { max-width:700px; margin:auto; background:#f2f2f2; padding:22px; border-radius:14px; box-shadow:0 8px 16px rgba(0,0,0,.1); text-align:center; }
     img.logo { width:100px; border-radius:50%; margin-bottom:12px; }
-    h1 { font-size:20px; margin-bottom:10px; }
-    h1 a { text-decoration:none; color:#222; }
-    h1 a:hover { text-decoration:underline; }
+    h1 { font-size: 20px; margin-bottom: 10px; }
+    h1 a { text-decoration: none; color: #222; }
+    h1 a:hover { text-decoration: underline; }
     p { color:#444; margin-bottom:16px; }
     p.sublead { font-size:15px; font-weight:bold; margin-bottom:18px; }
 
     /* Translate */
     .translate-box { margin-bottom:20px; }
-    select.translate {
-      width:100%; max-width:420px; padding:10px;
-      border-radius:8px; border:1px solid #bbb;
-      font-size:14px;
-    }
+    .btn { display:block; margin:10px auto; padding:12px 14px; background:#fff; color:#222; border-radius:8px; border:1px solid #bbb; cursor:pointer; transition:.2s; }
+    .btn:hover { background:#e6e6e6; }
 
     /* Form */
     form .input-row { margin-top:12px; text-align:left; }
     label.small { font-size:13px; color:#666; display:block; margin-bottom:4px; }
-    input[type="text"], select, button {
+    select, button {
       width:100%; max-width:420px; padding:10px;
       border-radius:8px; border:1px solid #bbb;
       margin:6px auto; display:block; box-sizing:border-box;
     }
-    button[type="submit"] {
-      background:#333; color:#fff; border:none; padding:12px;
-      cursor:pointer; font-weight:bold;
-    }
+    button[type="submit"] { background:#333; color:#fff; border:none; padding:12px; cursor:pointer; }
     button[type="submit"]:hover { background:#444; }
 
     #results { margin-top:18px; text-align:left; }
-    .result {
-      background:#fff; border:1px solid #ddd;
-      padding:12px; border-radius:8px;
-      margin-bottom:12px;
-    }
+    .result { background:#fff; border:1px solid #ddd; padding:12px; border-radius:8px; margin-bottom:12px; }
     .result p { margin:6px 0; }
-    .small { font-size:13px; color:#666; }
-
     table.variant-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:14px; }
-    table.variant-table th, table.variant-table td {
-      border:1px solid #ccc; padding:6px 8px; text-align:left;
-    }
+    table.variant-table th, table.variant-table td { border:1px solid #ccc; padding:6px 8px; text-align:left; }
     table.variant-table th { background:#f9f9f9; }
-
     footer { margin-top:25px; font-size:12px; color:#666; }
   </style>
 </head>
@@ -74,11 +46,11 @@
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
-    <p class="sublead">🔎 Pencarian Produk</p>
+    <p class="sublead">🔎 Pencarian Produk Detail</p>
 
-    <!-- 🌏 Dropdown Translate -->
+    <!-- 🌏 Translate -->
     <div class="translate-box">
-      <select class="translate" onchange="doGTranslate(this);">
+      <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
         <option value="id|id">🇮🇩 Indonesia</option>
         <option value="id|en">🇬🇧 English</option>
@@ -92,10 +64,8 @@
       </select>
     </div>
 
-    <!-- 🔍 Form Pencarian -->
+    <!-- 🔍 Filter -->
     <form id="searchForm">
-      <input type="text" id="keyword" placeholder="Ketik kata kunci (contoh: Arjuna 30cm alusan)" />
-
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
         <select id="tokoh">
@@ -128,12 +98,10 @@
         </select>
       </div>
 
-      <div style="margin-top:12px;">
-        <button type="submit">Cari Produk</button>
-      </div>
+      <button type="submit">Cari Produk</button>
     </form>
 
-    <!-- 🔎 Hasil Pencarian -->
+    <!-- Hasil -->
     <div id="results"></div>
 
     <footer>
@@ -141,7 +109,7 @@
     </footer>
   </div>
 
-  <!-- ✅ Tahun Otomatis -->
+  <!-- Tahun -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -149,15 +117,10 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Pencarian Produk -->
+  <!-- Filter Pencarian -->
   <script>
     let products = [];
-    fetch("products.json")
-      .then(r => r.json())
-      .then(data => products = data)
-      .catch(() => {
-        document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk.</p>";
-      });
+    fetch("products.json").then(r => r.json()).then(data => products = data);
 
     const labels = {
       tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
@@ -165,22 +128,15 @@
       kualitas: { murah:"Murah", alusan:"Alusan" }
     };
 
-    document.getElementById("searchForm").addEventListener("submit", function(e){
+    document.getElementById("searchForm").addEventListener("submit", e => {
       e.preventDefault();
-      const keyword = document.getElementById("keyword").value.trim().toLowerCase();
       const tokoh = document.getElementById("tokoh").value;
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
       const out = document.getElementById("results");
       out.innerHTML = "";
 
-      if (!keyword && !tokoh && !ukuran && !kualitas) {
-        out.innerHTML = "<p style='color:red;'>⚠️ Masukkan kata kunci atau pilih kriteria pencarian.</p>";
-        return;
-      }
-
       const filtered = products.filter(p =>
-        (keyword ? JSON.stringify(p).toLowerCase().includes(keyword) : true) &&
         (tokoh ? p.tokoh === tokoh : true) &&
         (ukuran ? p.ukuran === ukuran : true) &&
         (kualitas ? p.kualitas === kualitas : true)
@@ -192,45 +148,33 @@
       }
 
       filtered.forEach(p => {
-        let varianTable = "";
-        if (p.varian && Array.isArray(p.varian)) {
-          varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
-          p.varian.forEach(v => {
-            varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
-          });
-          varianTable += "</table>";
+        let table = "";
+        if (p.varian) {
+          table = "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
+          p.varian.forEach(v => { table += `<tr><td>${v.size}</td><td>${v.harga}</td></tr>`; });
+          table += "</table>";
         }
-
         out.innerHTML += `
           <div class="result">
-            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
-            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
-            ${varianTable}
-            <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
-          </div>
-        `;
+            <p><strong>Tokoh:</strong> ${labels.tokoh[p.tokoh] || p.tokoh}</p>
+            <p><strong>Kualitas:</strong> ${labels.kualitas[p.kualitas] || p.kualitas}</p>
+            ${table}
+            <p><a href="${p.link}" target="_blank">🔗 Detail Produk</a></p>
+          </div>`;
       });
     });
-
-    function escapeHtml(s){ return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]) ) : ''; }
-    function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
-  <!-- ✅ Google Translate -->
+  <!-- Translate -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script type="text/javascript">
+  <script>
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
     function doGTranslate(el) {
       if (el.value === '') return;
       var lang = el.value.split('|')[1];
-      if (lang === 'id') {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = window.location.origin + window.location.pathname;
-        return;
-      }
+      if (lang === 'id') { window.location.href = window.location.origin + window.location.pathname; return; }
       var select = document.querySelector('.goog-te-combo');
       if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
     }
