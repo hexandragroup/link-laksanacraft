@@ -35,9 +35,9 @@
       cursor: pointer; transition: .2s; max-width: 420px;
     }
     .btn:hover { background: #e6e6e6; }
-    form .input-row { margin-top: 12px; text-align: left; }
+    form .input-row { margin-top: 12px; text-align: left; position: relative; }
     label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
-    select, input, button {
+    input, select, button {
       width: 100%; max-width: 420px; padding: 10px;
       border-radius: 8px; border: 1px solid #bbb;
       margin: 6px auto; display: block; box-sizing: border-box;
@@ -74,6 +74,28 @@
     .goog-te-banner-frame.skiptranslate { display: none !important; }
     body { top: 0px !important; }
     .goog-te-gadget-icon { display: none !important; }
+
+    /* --- Autocomplete Custom --- */
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #ddd;
+      border-top: none;
+      z-index: 99;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .autocomplete-items div:hover {
+      background-color: #f0f0f0;
+    }
   </style>
 </head>
 <body>
@@ -83,7 +105,6 @@
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
     <p class="sublead">🔎 Pencarian Produk</p>
 
-    <!-- TRANSLATE BOX -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -99,12 +120,11 @@
       </select>
     </div>
 
-    <!-- FORM PENCARIAN -->
-    <form id="searchForm">
+    <form id="searchForm" autocomplete="off">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
-        <input list="tokohList" id="tokoh" placeholder="Ketik atau pilih tokoh..." />
-        <datalist id="tokohList"></datalist>
+        <input type="text" id="tokoh" placeholder="Ketik atau pilih tokoh..." />
+        <div id="tokoh-suggestions" class="autocomplete-items"></div>
       </div>
 
       <div class="input-row">
@@ -139,7 +159,6 @@
     </footer>
   </div>
 
-  <!-- YEAR AUTO UPDATE -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -147,14 +166,12 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- SEARCH SCRIPT -->
   <script>
 let products = [];
 const labels = {
   ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" },
   kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
 };
-
 const groupAliases = {
   punakawan: ["semar","gareng","petruk","bagong"],
   pandawa: ["arjuna","nakula","sadewa","bima","puntadewa"]
@@ -176,7 +193,7 @@ function matchesGroup(tokoh, group) {
 }
 
 function doFilterSearch() {
-  const tokoh = document.getElementById("tokoh").value.trim().toLowerCase();
+  const tokoh = document.getElementById("tokoh").value.toLowerCase();
   const ukuran = document.getElementById("ukuran").value;
   const kualitas = document.getElementById("kualitas").value;
   const out = document.getElementById("results");
@@ -238,13 +255,8 @@ function renderResults(list) {
 
   list.forEach(p => {
     let tokohList = p.tokoh.map(capitalize);
-
-    if (matchesGroup(p.tokoh, "punakawan")) {
-      tokohList.unshift("(Punakawan)");
-    }
-    if (matchesGroup(p.tokoh, "pandawa")) {
-      tokohList.unshift("(Pandawa)");
-    }
+    if (matchesGroup(p.tokoh, "punakawan")) { tokohList.unshift("(Punakawan)"); }
+    if (matchesGroup(p.tokoh, "pandawa")) { tokohList.unshift("(Pandawa)"); }
 
     let varianTable = "";
     if (p.varian && Array.isArray(p.varian)) {
@@ -269,33 +281,48 @@ function renderResults(list) {
   });
 }
 
-function populateTokohDropdown(products) {
-  const dataList = document.getElementById("tokohList");
-  dataList.innerHTML = "";
+/* === Custom Autocomplete === */
+function setupAutocomplete(products) {
+  const input = document.getElementById("tokoh");
+  const suggestionBox = document.getElementById("tokoh-suggestions");
 
   const tokohSet = new Set();
   products.forEach(p => {
-    const label = p.tokoh.map(capitalize).join(", ");
-    tokohSet.add(label);
+    tokohSet.add(p.tokoh.map(capitalize).join(", "));
+  });
+  tokohSet.add("Custom Tokoh");
+  const tokohList = Array.from(tokohSet);
+
+  input.addEventListener("input", function() {
+    const val = this.value.toLowerCase();
+    suggestionBox.innerHTML = "";
+
+    if (!val) return;
+
+    tokohList.filter(t => t.toLowerCase().includes(val)).forEach(t => {
+      const div = document.createElement("div");
+      div.textContent = t;
+      div.addEventListener("click", () => {
+        input.value = t;
+        suggestionBox.innerHTML = "";
+      });
+      suggestionBox.appendChild(div);
+    });
   });
 
-  tokohSet.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    dataList.appendChild(opt);
+  // Tutup dropdown jika klik di luar
+  document.addEventListener("click", (e) => {
+    if (e.target !== input) {
+      suggestionBox.innerHTML = "";
+    }
   });
-
-  // Custom Tokoh selalu ada
-  const customOpt = document.createElement("option");
-  customOpt.value = "Custom Tokoh";
-  dataList.appendChild(customOpt);
 }
 
 fetch("products.json")
   .then(r => r.json())
   .then(data => {
     products = data;
-    populateTokohDropdown(products);
+    setupAutocomplete(products);
     checkQueryParam();
   })
   .catch(() => {
@@ -304,7 +331,6 @@ fetch("products.json")
   });
   </script>
 
-  <!-- GOOGLE TRANSLATE -->
   <div id="google_translate_element" style="display:none;"></div>
   <script>
     function googleTranslateElementInit() {
