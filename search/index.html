@@ -219,12 +219,16 @@ function renderResults(list) {
   }
 
   list.forEach(p => {
-    // tokoh + punakawan check
     let tokohList = p.tokoh.map(capitalize);
+
+    // grup Punakawan
     if (p.tokoh.some(t => ["semar","gareng","petruk","bagong"].includes(t.toLowerCase()))) {
-      if (!tokohList.includes("Punakawan")) {
-        tokohList.unshift("Punakawan");
-      }
+      tokohList.unshift("(Punakawan)");
+    }
+
+    // grup Pandawa
+    if (p.tokoh.some(t => ["arjuna","nakula","sadewa","bima","puntadewa"].includes(t.toLowerCase()))) {
+      tokohList.unshift("(Pandawa)");
     }
 
     let varianTable = "";
