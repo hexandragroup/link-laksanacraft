@@ -281,16 +281,22 @@ function renderResults(list) {
   });
 }
 
-/* === Custom Autocomplete === */
+/* === Custom Autocomplete (per tokoh sendiri-sendiri) === */
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
   const suggestionBox = document.getElementById("tokoh-suggestions");
 
   const tokohSet = new Set();
   products.forEach(p => {
-    tokohSet.add(p.tokoh.map(capitalize).join(", "));
+    if (Array.isArray(p.tokoh)) {
+      p.tokoh.forEach(t => tokohSet.add(capitalize(t)));
+    }
   });
-  tokohSet.add("Custom Tokoh");
+
+  // tambah grup khusus
+  tokohSet.add("Punakawan");
+  tokohSet.add("Pandawa");
+
   const tokohList = Array.from(tokohSet);
 
   input.addEventListener("input", function() {
@@ -310,7 +316,6 @@ function setupAutocomplete(products) {
     });
   });
 
-  // Tutup dropdown jika klik di luar
   document.addEventListener("click", (e) => {
     if (e.target !== input) {
       suggestionBox.innerHTML = "";
