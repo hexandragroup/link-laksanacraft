@@ -36,12 +36,13 @@
       color: #222;
     }
     h1 a:hover { text-decoration: underline; }
-    p { color: #444; margin-bottom: 16px; }
     p.lead { color:#444; margin:4px 0 6px; }
     p.sublead { font-size:15px; font-weight:bold; margin-bottom:18px; }
 
-    /* Translate */
+    /* ✅ Fix Translate agar background tetap penuh */
     .translate-box { margin-bottom:20px; }
+
+    /* Tombol / Select */
     .btn { display:block; margin:10px auto; padding:12px 14px; background:#fff; color:#222; border-radius:8px; border:1px solid #bbb; cursor:pointer; transition:.2s; }
     .btn:hover { background:#e6e6e6; }
 
@@ -78,10 +79,12 @@
       border:1px solid #ccc; padding:6px 8px; text-align:left;
     }
     table.variant-table th { background:#f9f9f9; }
+
     footer {
       margin-top: 25px;
       font-size: 12px;
       color: #666;
+      text-align: center;
     }
   </style>
 </head>
@@ -89,7 +92,7 @@
   <div class="container">
     <img src="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Logo_Laksana_Handicraft.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
-    <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
+    <p class="lead"><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
     <p class="sublead">🔎 Pencarian Produk</p>
 
     <!-- 🌏 Dropdown Translate -->
@@ -108,7 +111,7 @@
       </select>
     </div>
 
-    <!-- 🔍 Form Pencarian Detail -->
+    <!-- 🔍 Form Pencarian Filter -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
@@ -168,32 +171,19 @@
     let products = [];
     fetch("products.json")
       .then(r => r.json())
-      .then(data => {
-        products = data;
-        checkQueryParam(); // cek apakah ada q dari index.html
-      })
+      .then(data => { products = data; })
       .catch(err => {
         document.getElementById("results").innerHTML = "<p style='color:red;'>Gagal memuat data produk.</p>";
       });
 
     const labels = {
-      tokoh: {
-        arjuna: "Arjuna", bima: "Bima", puntadewa: "Puntadewa",
-        nakula: "Nakula", sadewa: "Sadewa", custom: "Custom Tokoh"
-      },
-      ukuran: {
-        miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan"
-      },
-      kualitas: { murah: "Murah", alusan: "Alusan" }
+      tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
+      ukuran: { miniatur:"Miniatur", "20, 25, 30cm":"20, 25, 30cm", standar:"Standar Pedalangan" },
+      kualitas: { murah:"Murah", alusan:"Alusan" }
     };
 
-    // Pencarian dengan dropdown filter
     document.getElementById("searchForm").addEventListener("submit", function(e){
       e.preventDefault();
-      doFilterSearch();
-    });
-
-    function doFilterSearch() {
       const tokoh = document.getElementById("tokoh").value;
       const ukuran = document.getElementById("ukuran").value;
       const kualitas = document.getElementById("kualitas").value;
@@ -212,31 +202,7 @@
       );
 
       renderResults(filtered);
-    }
-
-    // Fungsi untuk baca ?q= dari URL
-    function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
-    }
-
-    // Jika ada pencarian bebas dari index.html
-    function checkQueryParam() {
-      const q = getQueryParam("q");
-      if (!q) return;
-      const out = document.getElementById("results");
-      out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
-
-      const filtered = products.filter(p => {
-        return (
-          (p.tokoh && p.tokoh.toLowerCase().includes(q.toLowerCase())) ||
-          (p.ukuran && p.ukuran.toLowerCase().includes(q.toLowerCase())) ||
-          (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
-        );
-      });
-
-      renderResults(filtered);
-    }
+    });
 
     function renderResults(list) {
       const out = document.getElementById("results");
@@ -265,11 +231,7 @@
       });
     }
 
-    function escapeHtml(s){
-      return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, function(m){
-        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
-      });
-    }
+    function escapeHtml(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
     function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
