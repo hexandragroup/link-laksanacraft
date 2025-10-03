@@ -153,6 +153,11 @@ const labels = {
   kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
 };
 
+const groupAliases = {
+  punakawan: ["semar","gareng","petruk","bagong"],
+  pandawa: ["arjuna","nakula","sadewa","bima","puntadewa"]
+};
+
 function escapeHtml(s) {
   return s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
 }
@@ -164,8 +169,12 @@ document.getElementById("searchForm").addEventListener("submit", e => {
   doFilterSearch();
 });
 
+function matchesGroup(tokoh, group) {
+  return groupAliases[group]?.some(t => tokoh.includes(t));
+}
+
 function doFilterSearch() {
-  const tokoh = document.getElementById("tokoh").value;
+  const tokoh = document.getElementById("tokoh").value.toLowerCase();
   const ukuran = document.getElementById("ukuran").value;
   const kualitas = document.getElementById("kualitas").value;
   const out = document.getElementById("results");
@@ -177,7 +186,11 @@ function doFilterSearch() {
   }
 
   const filtered = products.filter(p =>
-    (tokoh ? p.tokoh.includes(tokoh) : true) &&
+    (tokoh ? (
+      p.tokoh.includes(tokoh) ||
+      (tokoh === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
+      (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa"))
+    ) : true) &&
     (ukuran ? (
         ukuran === "20, 25, 30cm"
           ? ["20cm","25cm","30cm"].some(u => Array.isArray(p.ukuran) ? p.ukuran.includes(u) : p.ukuran === u)
@@ -202,10 +215,13 @@ function checkQueryParam() {
   const out = document.getElementById("results");
   out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
 
+  const qLower = q.toLowerCase();
   const filtered = products.filter(p =>
-    p.tokoh.some(t => t.toLowerCase().includes(q.toLowerCase())) ||
-    (p.ukuran && (Array.isArray(p.ukuran) ? p.ukuran.some(u => u.toLowerCase().includes(q.toLowerCase())) : p.ukuran.toLowerCase().includes(q.toLowerCase()))) ||
-    (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
+    p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
+    (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
+    (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
+    (p.ukuran && (Array.isArray(p.ukuran) ? p.ukuran.some(u => u.toLowerCase().includes(qLower)) : p.ukuran.toLowerCase().includes(qLower))) ||
+    (p.kualitas && p.kualitas.toLowerCase().includes(qLower))
   );
 
   renderResults(filtered);
@@ -221,13 +237,10 @@ function renderResults(list) {
   list.forEach(p => {
     let tokohList = p.tokoh.map(capitalize);
 
-    // grup Punakawan
-    if (p.tokoh.some(t => ["semar","gareng","petruk","bagong"].includes(t.toLowerCase()))) {
+    if (matchesGroup(p.tokoh, "punakawan")) {
       tokohList.unshift("(Punakawan)");
     }
-
-    // grup Pandawa
-    if (p.tokoh.some(t => ["arjuna","nakula","sadewa","bima","puntadewa"].includes(t.toLowerCase()))) {
+    if (matchesGroup(p.tokoh, "pandawa")) {
       tokohList.unshift("(Pandawa)");
     }
 
@@ -271,6 +284,14 @@ function populateTokohDropdown(products) {
       opt.textContent = capitalize(t);
       tokohDropdown.appendChild(opt);
     }
+  });
+
+  // Tambahkan alias manual ke dropdown
+  ["punakawan","pandawa"].forEach(alias => {
+    const opt = document.createElement("option");
+    opt.value = alias;
+    opt.textContent = capitalize(alias);
+    tokohDropdown.appendChild(opt);
   });
 }
 
