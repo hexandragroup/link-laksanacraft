@@ -1,34 +1,34 @@
 [
   {
+    "tokoh": ["semar", "gareng", "petruk", "bagong"],
+    "ukuran": "20, 25, 30cm",
+    "kualitas": "alusan",
+    "link": "https://contoh.com/pakem-20-25-30cm-alusan-grup1",
+    "varian": [
+      {"size": "20cm", "harga": "Rp75.000"},
+      {"size": "25cm", "harga": "Rp100.000"},
+      {"size": "30cm", "harga": "Rp150.000"}
+    ]
+  },
+  {
+    "tokoh": ["arjuna", "puntadewa", "nakula", "bima", "sadewa"],
+    "ukuran": "20, 25, 30cm",
+    "kualitas": "alusan",
+    "link": "https://contoh.com/pakem-20-25-30cm-alusan-grup2",
+    "varian": [
+      {"size": "20cm", "harga": "Rp75.000"},
+      {"size": "25cm", "harga": "Rp100.000"},
+      {"size": "30cm", "harga": "Rp150.000"}
+    ]
+  },
+  {
     "tokoh": ["semar"],
     "ukuran": "miniatur",
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-miniatur-alusan",
     "varian": [
-      { "size": "10cm", "harga": "Rp10.000" },
-      { "size": "12cm", "harga": "Rp15.000" }
-    ]
-  },
-  {
-    "tokoh": ["arjuna", "bima", "nakula", "sadewa", "puntadewa"],
-    "ukuran": "20, 25, 30cm",
-    "kualitas": "alusan",
-    "link": "https://contoh.com/arjuna-20-25-30cm-alusan",
-    "varian": [
-      { "size": "20cm", "harga": "Rp75.000" },
-      { "size": "25cm", "harga": "Rp100.000" },
-      { "size": "30cm", "harga": "Rp150.000" }
-    ]
-  },
-  {
-    "tokoh": ["gareng", "semar", "petruk", "bagong"],
-    "ukuran": "20, 25, 30cm",
-    "kualitas": "alusan",
-    "link": "https://contoh.com/pakem-20-25-30cm-alusan",
-    "varian": [
-      { "size": "20cm", "harga": "Rp75.000" },
-      { "size": "25cm", "harga": "Rp100.000" },
-      { "size": "30cm", "harga": "Rp150.000" }
+      {"size": "10cm", "harga": "Rp10.000"},
+      {"size": "12cm", "harga": "Rp15.000"}
     ]
   },
   {
@@ -37,7 +37,7 @@
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-30cm-standar-murah",
     "varian": [
-      { "size": "30cm", "harga": "Rp25.000" }
+      {"size": "30cm", "harga": "Rp25.000"}
     ]
   },
   {
@@ -46,7 +46,7 @@
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-standar-murah",
     "varian": [
-      { "size": "Standar Pedalangan", "harga": "Rp65.000" }
+      {"size": "Standar Pedalangan", "harga": "Rp65.000"}
     ]
   },
   {
@@ -55,7 +55,7 @@
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-standar-alusan",
     "varian": [
-      { "size": "Standar Pedalangan", "harga": "Rp600.000" }
+      {"size": "Standar Pedalangan", "harga": "Rp600.000"}
     ]
   }
 ]
