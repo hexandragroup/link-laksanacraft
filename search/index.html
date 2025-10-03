@@ -6,8 +6,21 @@
   <title>Pencarian Produk - Laksana Handicraft</title>
   <meta name="description" content="Pencarian Produk Laksana Handicraft" />
   <style>
-    body { font-family: sans-serif; background: linear-gradient(to bottom, #eeeeee, #cccccc); padding: 30px; margin: 0; }
-    .container { max-width: 500px; margin: auto; background: #f2f2f2; padding: 25px; border-radius: 16px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); text-align: center; }
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
     img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
     h1 { font-size: 20px; margin-bottom: 10px; }
     h1 a { text-decoration: none; color: #222; }
@@ -15,21 +28,52 @@
     p { color: #444; margin-bottom: 16px; }
     p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
     .translate-box { margin-bottom: 20px; }
-    .btn { display: block; margin: 10px auto; padding: 12px 14px; background: #fff; color: #222; border-radius: 8px; border: 1px solid #bbb; cursor: pointer; transition: .2s; max-width: 420px; }
+    .btn {
+      display: block; margin: 10px auto; padding: 12px 14px;
+      background: #fff; color: #222;
+      border-radius: 8px; border: 1px solid #bbb;
+      cursor: pointer; transition: .2s; max-width: 420px;
+    }
     .btn:hover { background: #e6e6e6; }
     form .input-row { margin-top: 12px; text-align: left; }
     label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
-    select, input, button { width: 100%; max-width: 420px; padding: 10px; border-radius: 8px; border: 1px solid #bbb; margin: 6px auto; display: block; box-sizing: border-box; }
-    button[type="submit"] { background: #333; color: #fff; border: none; padding: 12px; cursor: pointer; }
+    select, button {
+      width: 100%; max-width: 420px; padding: 10px;
+      border-radius: 8px; border: 1px solid #bbb;
+      margin: 6px auto; display: block; box-sizing: border-box;
+    }
+    button[type="submit"] {
+      background: #333; color: #fff; border: none;
+      padding: 12px; cursor: pointer;
+    }
     button[type="submit"]:hover { background: #444; }
     #results { margin-top: 18px; text-align: left; }
-    .result { background: #fff; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+    .result {
+      background: #fff; border: 1px solid #ddd;
+      padding: 12px; border-radius: 8px;
+      margin-bottom: 12px;
+    }
     .result p { margin: 6px 0; }
-    table.variant-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 14px; }
-    table.variant-table th, table.variant-table td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    .small { font-size: 13px; color: #666; }
+    table.variant-table {
+      width: 100%; border-collapse: collapse;
+      margin: 8px 0; font-size: 14px;
+    }
+    table.variant-table th, table.variant-table td {
+      border: 1px solid #ccc; padding: 6px 8px; text-align: left;
+    }
     table.variant-table th { background: #f9f9f9; }
     footer { margin-top: 30px; font-size: 12px; color: #666; }
-    html, body { height: 100% !important; background: linear-gradient(to bottom, #eeeeee, #cccccc) !important; background-attachment: fixed !important; background-repeat: no-repeat !important; background-size: cover !important; }
+    html, body {
+      height: 100% !important;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
+      background-attachment: fixed !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+    }
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+    .goog-te-gadget-icon { display: none !important; }
   </style>
 </head>
 <body>
@@ -39,12 +83,28 @@
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
     <p class="sublead">🔎 Pencarian Produk</p>
 
-    <!-- Input dengan datalist -->
+    <!-- ✅ Translate tetap ada -->
+    <div class="translate-box">
+      <select class="btn" onchange="doGTranslate(this);">
+        <option value="">🌏 Pilih Bahasa</option>
+        <option value="id|id">🇮🇩 Indonesia</option>
+        <option value="id|en">🇬🇧 English</option>
+        <option value="id|ms">🇲🇾 Melayu</option>
+        <option value="id|ja">🇯🇵 日本語</option>
+        <option value="id|zh-CN">🇨🇳 中文</option>
+        <option value="id|ar">🇸🇦 العربية</option>
+        <option value="id|fr">🇫🇷 Français</option>
+        <option value="id|de">🇩🇪 Deutsch</option>
+        <option value="id|es">🇪🇸 Español</option>
+      </select>
+    </div>
+
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
-        <input list="tokoh-list" id="tokoh" placeholder="Ketik nama tokoh...">
-        <datalist id="tokoh-list"></datalist>
+        <select id="tokoh">
+          <option value="">-- Pilih Tokoh --</option>
+        </select>
       </div>
 
       <div class="input-row">
@@ -74,36 +134,206 @@
 
     <div id="results"></div>
 
-    <footer>&copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia</footer>
+    <footer>
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
+    </footer>
   </div>
 
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent = currentYear > startYear ? startYear + "–" + currentYear : startYear;
+    document.getElementById("year").textContent =
+      currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
   <script>
 let products = [];
-const labels = { ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" }, kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" } };
-const groupAliases = { punakawan: ["semar","gareng","petruk","bagong"], pandawa: ["arjuna","nakula","sadewa","bima","puntadewa"] };
+const labels = {
+  ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" },
+  kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
+};
 
-function escapeHtml(s){return s?String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])):'';}
-function escapeAttr(s){return escapeHtml(s);}
-function capitalize(s){return s?s.charAt(0).toUpperCase()+s.slice(1):"";}
-document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();doFilterSearch();});
-function matchesGroup(tokoh,group){return groupAliases[group]?.some(t=>tokoh.includes(t));}
-function doFilterSearch(){const tokoh=document.getElementById("tokoh").value.toLowerCase();const ukuran=document.getElementById("ukuran").value;const kualitas=document.getElementById("kualitas").value;const out=document.getElementById("results");out.innerHTML="";
-if(!tokoh&&!ukuran&&!kualitas){out.innerHTML="<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";return;}
-const filtered=products.filter(p=>(tokoh?(p.tokoh.includes(tokoh)||(tokoh==="punakawan"&&matchesGroup(p.tokoh,"punakawan"))||(tokoh==="pandawa"&&matchesGroup(p.tokoh,"pandawa"))):true)&&(ukuran?(ukuran==="20, 25, 30cm"?["20cm","25cm","30cm"].some(u=>Array.isArray(p.ukuran)?p.ukuran.includes(u):p.ukuran===u):ukuran==="standar"?(Array.isArray(p.ukuran)?p.ukuran.includes("Standar Pedalangan"):p.ukuran==="Standar Pedalangan"):(Array.isArray(p.ukuran)?p.ukuran.includes(ukuran):p.ukuran===ukuran)):true)&&(kualitas?p.kualitas===kualitas:true));
-renderResults(filtered);}
-function renderResults(list){const out=document.getElementById("results");if(list.length===0){out.innerHTML+="<p>Tidak ada produk ditemukan.</p>";return;}
-list.forEach(p=>{let tokohList=p.tokoh.map(capitalize);if(matchesGroup(p.tokoh,"punakawan"))tokohList.unshift("(Punakawan)");if(matchesGroup(p.tokoh,"pandawa"))tokohList.unshift("(Pandawa)");let varianTable="";if(p.varian&&Array.isArray(p.varian)){varianTable+="<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";p.varian.forEach(v=>{varianTable+=`<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`});varianTable+="</table>";}
-let ukuranLabel=Array.isArray(p.ukuran)?p.ukuran.map(u=>labels.ukuran[u]||u).join(", "):labels.ukuran[p.ukuran]||p.ukuran;
-out.innerHTML+=`<div class="result"><p><strong>Tokoh:</strong> ${escapeHtml(tokohList.join(", "))}</p><p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas]||p.kualitas)}</p><p><strong>Ukuran:</strong> ${escapeHtml(ukuranLabel)}</p>${varianTable}<p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p></div>`;});}
-function getUniqueTokoh(products){const set=new Set();products.forEach(p=>p.tokoh.forEach(t=>set.add(t)));return Array.from(set).sort();}
-function populateTokohDropdown(products){const tokohList=getUniqueTokoh(products);const dataList=document.getElementById("tokoh-list");tokohList.forEach(t=>{if(!["punakawan","pandawa"].includes(t.toLowerCase())){const opt=document.createElement("option");opt.value=capitalize(t);dataList.appendChild(opt);}});}
-fetch("products.json").then(r=>r.json()).then(data=>{products=data;populateTokohDropdown(products);}).catch(()=>{document.getElementById("results").innerHTML="<p style='color:red;'>Gagal memuat data produk.</p>";});
+const groupAliases = {
+  punakawan: ["semar","gareng","petruk","bagong"],
+  pandawa: ["arjuna","nakula","sadewa","bima","puntadewa"]
+};
+
+function escapeHtml(s) {
+  return s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
+}
+function escapeAttr(s) { return escapeHtml(s); }
+function capitalize(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
+
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  doFilterSearch();
+});
+
+function matchesGroup(tokoh, group) {
+  return groupAliases[group]?.some(t => tokoh.includes(t));
+}
+
+function doFilterSearch() {
+  const tokoh = document.getElementById("tokoh").value.toLowerCase();
+  const ukuran = document.getElementById("ukuran").value;
+  const kualitas = document.getElementById("kualitas").value;
+  const out = document.getElementById("results");
+  out.innerHTML = "";
+
+  if (!tokoh && !ukuran && !kualitas) {
+    out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+    return;
+  }
+
+  const filtered = products.filter(p =>
+    (tokoh ? (
+      p.tokoh.includes(tokoh) ||
+      (tokoh === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
+      (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa"))
+    ) : true) &&
+    (ukuran ? (
+        ukuran === "20, 25, 30cm"
+          ? ["20cm","25cm","30cm"].some(u => Array.isArray(p.ukuran) ? p.ukuran.includes(u) : p.ukuran === u)
+          : ukuran === "standar"
+            ? (Array.isArray(p.ukuran) ? p.ukuran.includes("Standar Pedalangan") : p.ukuran === "Standar Pedalangan")
+            : (Array.isArray(p.ukuran) ? p.ukuran.includes(ukuran) : p.ukuran === ukuran)
+      ) : true) &&
+    (kualitas ? p.kualitas === kualitas : true)
+  );
+
+  renderResults(filtered);
+}
+
+function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
+function checkQueryParam() {
+  const q = getQueryParam("q");
+  if (!q) return;
+  const out = document.getElementById("results");
+  out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
+
+  const qLower = q.toLowerCase();
+  const filtered = products.filter(p =>
+    p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
+    (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
+    (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
+    (p.ukuran && (Array.isArray(p.ukuran) ? p.ukuran.some(u => u.toLowerCase().includes(qLower)) : p.ukuran.toLowerCase().includes(qLower))) ||
+    (p.kualitas && p.kualitas.toLowerCase().includes(qLower))
+  );
+
+  renderResults(filtered);
+}
+
+function renderResults(list) {
+  const out = document.getElementById("results");
+  if (list.length === 0) {
+    out.innerHTML += "<p>Tidak ada produk ditemukan.</p>";
+    return;
+  }
+
+  list.forEach(p => {
+    let tokohList = p.tokoh.map(capitalize);
+
+    if (matchesGroup(p.tokoh, "punakawan")) {
+      tokohList.unshift("(Punakawan)");
+    }
+    if (matchesGroup(p.tokoh, "pandawa")) {
+      tokohList.unshift("(Pandawa)");
+    }
+
+    let varianTable = "";
+    if (p.varian && Array.isArray(p.varian)) {
+      varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
+      p.varian.forEach(v => {
+        varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
+      });
+      varianTable += "</table>";
+    }
+
+    let ukuranLabel = Array.isArray(p.ukuran) ? p.ukuran.map(u => labels.ukuran[u] || u).join(", ") : labels.ukuran[p.ukuran] || p.ukuran;
+
+    out.innerHTML += `
+      <div class="result">
+        <p><strong>Tokoh:</strong> ${escapeHtml(tokohList.join(", "))}</p>
+        <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+        <p><strong>Ukuran:</strong> ${escapeHtml(ukuranLabel)}</p>
+        ${varianTable}
+        <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
+      </div>
+    `;
+  });
+}
+
+function populateTokohDropdown(products) {
+  const tokohDropdown = document.getElementById("tokoh");
+  tokohDropdown.innerHTML = `<option value="">-- Pilih Tokoh --</option>`;
+
+  const tokohSet = new Set();
+
+  products.forEach(p => {
+    const arr = p.tokoh.map(t => t.toLowerCase());
+
+    if (arr.sort().join(",") === groupAliases.punakawan.sort().join(",")) {
+      tokohSet.add("punakawan");
+    } else if (arr.sort().join(",") === groupAliases.pandawa.sort().join(",")) {
+      tokohSet.add("pandawa");
+    } else if (arr.length === 1 && arr[0] === "custom") {
+      tokohSet.add("custom");
+    } else {
+      arr.forEach(t => tokohSet.add(t));
+    }
+  });
+
+  tokohSet.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    if (t === "custom") opt.textContent = "Custom Tokoh";
+    else if (t === "punakawan") opt.textContent = "Punakawan";
+    else if (t === "pandawa") opt.textContent = "Pandawa";
+    else opt.textContent = capitalize(t);
+    tokohDropdown.appendChild(opt);
+  });
+}
+
+fetch("products.json")
+  .then(r => r.json())
+  .then(data => {
+    products = data;
+    populateTokohDropdown(products);
+    checkQueryParam();
+  })
+  .catch(() => {
+    document.getElementById("results").innerHTML =
+      "<p style='color:red;'>Gagal memuat data produk.</p>";
+  });
   </script>
+
+  <!-- ✅ Google Translate tetap ada -->
+  <div id="google_translate_element" style="display:none;"></div>
+  <script>
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+    }
+    function doGTranslate(el) {
+      if (el.value === '') return;
+      var langPair = el.value.split('|');
+      var lang = langPair[1];
+      if (lang === 'id') {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+        window.location.href = window.location.origin + window.location.pathname;
+        return;
+      }
+      var select = document.querySelector('.goog-te-combo');
+      if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event('change'));
+      }
+    }
+  </script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
