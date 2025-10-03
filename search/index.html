@@ -9,14 +9,14 @@
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
       padding: 30px;
       margin: 0;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background: #f2f2f2; /* abu-abu muda */
+      background: #f2f2f2;
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -39,7 +39,6 @@
     p { color: #444; margin-bottom: 16px; }
     p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
 
-    /* ✅ Dropdown translate */
     .translate-box { margin-bottom: 20px; }
     .btn {
       display: block;
@@ -55,7 +54,6 @@
     }
     .btn:hover { background: #e6e6e6; }
 
-    /* ✅ Form filter */
     form .input-row { margin-top: 12px; text-align: left; }
     label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
     select, button {
@@ -77,7 +75,6 @@
     }
     button[type="submit"]:hover { background: #444; }
 
-    /* ✅ Hasil */
     #results { margin-top: 18px; text-align: left; }
     .result {
       background: #fff;
@@ -105,7 +102,6 @@
       color: #666;
     }
 
-    /* ✅ Fix Translate agar background tetap penuh */
     html, body {
       height: 100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
@@ -125,7 +121,6 @@
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
     <p class="sublead">🔎 Pencarian Produk</p>
 
-    <!-- 🌏 Dropdown Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -141,98 +136,11 @@
       </select>
     </div>
 
-    <!-- 🔍 Form Filter -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
         <select id="tokoh">
           <option value="">-- Pilih Tokoh --</option>
-         <option value="custom">Custom Tokoh</option>
-<option value="abimanyu">Abimanyu</option>
-<option value="anggada">Anggada</option>
-<option value="anoman">Anoman</option>
-<option value="antasena">Antasena</option>
-<option value="antareja">Antareja</option>
-<option value="aswatama">Aswatama</option>
-<option value="baladewa">Baladewa</option>
-<option value="bambang_sumantri">Bambang Sumantri</option>
-<option value="batara_asmara">Batara Asmara</option>
-<option value="batara_baruna">Batara Baruna</option>
-<option value="batara_brahma">Batara Brahma</option>
-<option value="batara_candra">Batara Candra</option>
-<option value="batara_durga">Batara Durga</option>
-<option value="batara_guru">Batara Guru</option>
-<option value="batara_ismaya">Batara Ismaya</option>
-<option value="batara_kala">Batara Kala</option>
-<option value="batara_kartika">Batara Kartika</option>
-<option value="batara_narada">Batara Narada</option>
-<option value="batara_patuk">Batara Patuk</option>
-<option value="batara_penyarikan">Batara Penyarikan</option>
-<option value="batara_rudra">Batara Rudra</option>
-<option value="batara_surya">Batara Surya</option>
-<option value="batara_temboro">Batara Temboro</option>
-<option value="batara_wisnu">Batara Wisnu</option>
-<option value="batara_yamadipati">Batara Yamadipati</option>
-<option value="bawor">Bawor</option>
-<option value="begawan_sempani">Begawan Sempani</option>
-<option value="bilung">Bilung</option>
-<option value="bima">Bima</option>
-<option value="bima_ular">Bima Ular</option>
-<option value="bogadenta">Bogadenta</option>
-<option value="brajadenta">Brajadenta</option>
-<option value="brajamusti">Brajamusti</option>
-<option value="bunda_maria">Bunda Maria</option>
-<option value="burisrawa">Burisrawa</option>
-<option value="buto_patih">Buto Patih</option>
-<option value="cakil">Cakil</option>
-<option value="cangik">Cangik</option>
-<option value="citrayuda">Citrayuda</option>
-<option value="drupadi">Drupadi</option>
-<option value="durna">Durna</option>
-<option value="dursasana">Dursasana</option>
-<option value="duryudana">Duryudana</option>
-<option value="duryudana_mahkota">Duryudana Mahkota</option>
-<option value="ekalaya">Ekalaya</option>
-<option value="gardapati">Gardapati</option>
-<option value="gareng">Gareng</option>
-<option value="gatotkaca">Gatotkaca</option>
-<option value="hamsa">Hamsa</option>
-<option value="jagal_abilawa">Jagal Abilawa</option>
-<option value="jayadrata">Jayadrata</option>
-<option value="jembowati">Jembowati</option>
-<option value="kamajaya">Kamajaya</option>
-<option value="kamaratih">Kamaratih</option>
-<option value="karno">Karno</option>
-<option value="kartamarma">Kartamarma</option>
-<option value="kertipeya">Kertipeya</option>
-<option value="kresna">Kresna</option>
-<option value="lesmana">Lesmana</option>
-<option value="limbuk">Limbuk</option>
-<option value="nakula">Nakula</option>
-<option value="naga_baginda">Naga Baginda</option>
-<option value="pangeran_diponegoro">Pangeran Diponegoro</option>
-<option value="petruk">Petruk</option>
-<option value="puntadewa">Puntadewa</option>
-<option value="rahwana_muda">Rahwana Muda</option>
-<option value="ramaparasu">Ramaparasu</option>
-<option value="rama">Rama</option>
-<option value="sadhawa">Sadewa</option>
-<option value="samba">Samba</option>
-<option value="semar">Semar</option>
-<option value="setyaki">Setyaki</option>
-<option value="shinta">Shinta</option>
-<option value="shinta_gundul">Shinta Gundul</option>
-<option value="sengkuni">Sengkuni</option>
-<option value="slaya">Slaya</option>
-<option value="sugriwa">Sugriwa</option>
-<option value="suratimantra">Suratimantra</option>
-<option value="srikandi">Srikandi</option>
-<option value="srikandi_gundul">Srikandi Gundul</option>
-<option value="togog">Togog</option>
-<option value="wisanggeni">Wisanggeni</option>
-<option value="widandini">Widandini</option>
-<option value="wikarno">Wikarno</option>
-<option value="yamadipati_gagrak_ginoan">Yamadipati Gagrak Ginoan</option>
         </select>
       </div>
 
@@ -260,7 +168,6 @@
       </div>
     </form>
 
-    <!-- 🔎 Hasil -->
     <div id="results"></div>
 
     <footer>
@@ -268,7 +175,6 @@
     </footer>
   </div>
 
-  <!-- ✅ Script Tahun -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -276,22 +182,39 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Data Produk + Pencarian -->
   <script>
     let products = [];
-    fetch("products.json")
-      .then(r => r.json())
-      .then(data => { products = data; checkQueryParam(); })
-      .catch(() => {
-        document.getElementById("results").innerHTML =
-          "<p style='color:red;'>Gagal memuat data produk.</p>";
-      });
-
     const labels = {
-      tokoh: { arjuna:"Arjuna", bima:"Bima", puntadewa:"Puntadewa", nakula:"Nakula", sadewa:"Sadewa", custom:"Custom Tokoh" },
+      tokoh: { custom:"Custom Tokoh" },
       ukuran: { miniatur:"Miniatur", "20, 25, 30cm":"20, 25, 30cm", standar:"Standar Pedalangan" },
       kualitas: { murah:"Murah", alusan:"Alusan" }
     };
+
+    function populateTokohOptions() {
+      const tokohSelect = document.getElementById("tokoh");
+      const tokohSet = new Set();
+
+      products.forEach(p => { if(p.tokoh) tokohSet.add(p.tokoh); });
+
+      // hapus option lama selain default
+      tokohSelect.querySelectorAll("option:not(:first-child)").forEach(o=>o.remove());
+
+      tokohSet.forEach(t=>{
+        const option = document.createElement("option");
+        option.value = t;
+        option.textContent = labels.tokoh[t] || t;
+        tokohSelect.appendChild(option);
+      });
+    }
+
+    fetch("products.json")
+      .then(r => r.json())
+      .then(data => {
+        products = data;
+        populateTokohOptions();
+        checkQueryParam();
+      })
+      .catch(()=>{ document.getElementById("results").innerHTML="<p style='color:red;'>Gagal memuat data produk.</p>"; });
 
     document.getElementById("searchForm").addEventListener("submit", e => {
       e.preventDefault();
@@ -311,26 +234,25 @@
       }
 
       const filtered = products.filter(p =>
-        (tokoh ? p.tokoh === tokoh : true) &&
-        (ukuran ? p.ukuran === ukuran : true) &&
-        (kualitas ? p.kualitas === kualitas : true)
+        (tokoh ? p.tokoh===tokoh : true) &&
+        (ukuran ? p.ukuran===ukuran : true) &&
+        (kualitas ? p.kualitas===kualitas : true)
       );
 
       renderResults(filtered);
     }
 
     function getQueryParam(name) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(name);
+      return new URLSearchParams(window.location.search).get(name);
     }
 
     function checkQueryParam() {
       const q = getQueryParam("q");
-      if (!q) return;
+      if(!q) return;
       const out = document.getElementById("results");
-      out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
+      out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>"+escapeHtml(q)+"</b></p>";
 
-      const filtered = products.filter(p =>
+      const filtered = products.filter(p=>
         (p.tokoh && p.tokoh.toLowerCase().includes(q.toLowerCase())) ||
         (p.ukuran && p.ukuran.toLowerCase().includes(q.toLowerCase())) ||
         (p.kualitas && p.kualitas.toLowerCase().includes(q.toLowerCase()))
@@ -339,25 +261,22 @@
       renderResults(filtered);
     }
 
-    function renderResults(list) {
+    function renderResults(list){
       const out = document.getElementById("results");
-      if (list.length === 0) {
-        out.innerHTML += "<p>Tidak ada produk ditemukan.</p>";
-        return;
-      }
-      list.forEach(p => {
+      if(list.length===0){ out.innerHTML+="<p>Tidak ada produk ditemukan.</p>"; return; }
+      list.forEach(p=>{
         let varianTable = "";
-        if (p.varian && Array.isArray(p.varian)) {
-          varianTable += "<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
-          p.varian.forEach(v => {
-            varianTable += `<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
+        if(p.varian && Array.isArray(p.varian)){
+          varianTable="<table class='variant-table'><tr><th>Ukuran</th><th>Harga</th></tr>";
+          p.varian.forEach(v=>{
+            varianTable+=`<tr><td>${escapeHtml(v.size)}</td><td>${escapeHtml(v.harga)}</td></tr>`;
           });
-          varianTable += "</table>";
+          varianTable+="</table>";
         }
-        out.innerHTML += `
+        out.innerHTML+=`
           <div class="result">
-            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh] || p.tokoh)}</p>
-            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+            <p><strong>Tokoh:</strong> ${escapeHtml(labels.tokoh[p.tokoh]||p.tokoh)}</p>
+            <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas]||p.kualitas)}</p>
             ${varianTable}
             <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
           </div>
@@ -365,31 +284,23 @@
       });
     }
 
-    function escapeHtml(s){ return s ? String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) : ''; }
+    function escapeHtml(s){ return s?String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])):''; }
     function escapeAttr(s){ return escapeHtml(s); }
   </script>
 
-  <!-- ✅ Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
   <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
-    }
-    function doGTranslate(el) {
-      if (el.value === '') return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
-      if (lang === 'id') {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = window.location.origin + window.location.pathname;
-        return;
+    function googleTranslateElementInit(){ new google.translate.TranslateElement({pageLanguage:'id'},'google_translate_element'); }
+    function doGTranslate(el){
+      if(el.value==='')return;
+      var langPair=el.value.split('|'); var lang=langPair[1];
+      if(lang==='id'){
+        document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain='+window.location.hostname+';';
+        window.location.href=window.location.origin+window.location.pathname; return;
       }
-      var select = document.querySelector('.goog-te-combo');
-      if (select) {
-        select.value = lang;
-        select.dispatchEvent(new Event('change'));
-      }
+      var select=document.querySelector('.goog-te-combo');
+      if(select){ select.value=lang; select.dispatchEvent(new Event('change')); }
     }
   </script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
