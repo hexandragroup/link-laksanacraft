@@ -1,22 +1,59 @@
 [
   {
     "tokoh": ["custom"],
-    "ukuran": ["miniatur", "20cm", "25cm", "30cm", "Standar Pedalangan"],
+    "ukuran": ["miniatur"],
     "kualitas": "alusan",
-    "link": "https://contoh.com/custom-produk",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-miniatur/alusan-custom-c",
     "varian": [
       {"size": "10cm", "harga": "Rp11.000"},
-      {"size": "12cm", "harga": "Rp16.000"},
-      {"size": "20cm", "harga": "Rp80.000"},
-      {"size": "25cm", "harga": "Rp110.000"},
+      {"size": "12cm", "harga": "Rp16.000"}
+    ]
+  },
+  {
+    "tokoh": ["custom"],
+    "ukuran": ["20cm"],
+    "kualitas": "alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/20cm",
+    "varian": [
+      {"size": "20cm", "harga": "Rp80.000"}
+    ]
+  },
+  {
+    "tokoh": ["custom"],
+    "ukuran": ["25cm"],
+    "kualitas": "alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/25cm",
+    "varian": [
+      {"size": "25cm", "harga": "Rp110.000"}
+    ]
+  },
+  {
+    "tokoh": ["custom"],
+    "ukuran": ["30cm"],
+    "kualitas": "alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/30cm",
+    "varian": [
       {"size": "30cm", "harga": "Rp170.000"}
+    ]
+  },
+  {
+    "tokoh": ["custom"],
+    "ukuran": ["Standar Pedalangan"],
+    "kualitas": "alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/standar-a",
+    "varian": [
+      {"size": "Bambangan", "harga": "Rp700.000"},
+      {"size": "Katongan", "harga": "Rp800.000"},
+      {"size": "Gagahan", "harga": "Rp900.000"},
+      {"size": "Putren", "harga": "Rp500.000"},
+      {"size": "Buto", "harga": "Rp1.500.000"}
     ]
   },
   {
     "tokoh": ["semar", "gareng", "petruk", "bagong"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
-    "link": "https://contoh.com/grup-semar-gareng-petruk-bagong-20-25-30cm-alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/kidangan-a/punakawan",
     "varian": [
       {"size": "20cm", "harga": "Rp75.000"},
       {"size": "25cm", "harga": "Rp100.000"},
@@ -27,7 +64,7 @@
     "tokoh": ["arjuna", "puntadewa", "nakula", "bima", "sadewa"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
-    "link": "https://contoh.com/grup-arjuna-puntadewa-nakula-bima-sadewa-20-25-30cm-alusan",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/kidangan-a/pandawa-lima",
     "varian": [
       {"size": "20cm", "harga": "Rp75.000"},
       {"size": "25cm", "harga": "Rp100.000"},
