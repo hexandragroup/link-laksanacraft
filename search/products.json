@@ -1,4 +1,17 @@
 [
+{
+  "tokoh": ["custom"],
+  "ukuran": "custom",
+  "kualitas": "alusan",
+  "link": "https://contoh.com/custom-produk",
+  "varian": [
+    {"size": "10cm", "harga": "Rp11.000"},
+    {"size": "12cm", "harga": "Rp16.000"},
+    {"size": "20cm", "harga": "Rp80.000"},
+    {"size": "25cm", "harga": "Rp110.000"},
+    {"size": "30cm", "harga": "Rp170.000"}
+  ]
+}
   {
     "tokoh": ["semar", "gareng", "petruk", "bagong"],
     "ukuran": "20, 25, 30cm",
