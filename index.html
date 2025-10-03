@@ -11,20 +11,19 @@
   <meta name="twitter:card" content="summary_large_image" />
   <title>Link Laksana Handicraft</title>
 
-  <!-- ✅ Favicon -->
   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Favicon_Laksana_Handicraft.webp">
 
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
       padding: 30px;
       margin: 0;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background: #f2f2f2; /* abu-abu muda */
+      background: #f2f2f2;
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -35,48 +34,24 @@
       border-radius: 50%;
       margin-bottom: 15px;
     }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-    h1 a {
-      text-decoration: none;
-      color: #222;
-    }
-    h1 a:hover {
-      text-decoration: underline;
-    }
-    p {
-      color: #444;
-      margin-bottom: 20px;
-    }
+    h1 { font-size: 20px; margin-bottom: 10px; }
+    h1 a { text-decoration: none; color: #222; }
+    h1 a:hover { text-decoration: underline; }
+    p { color: #444; margin-bottom: 20px; }
     .btn {
-      display: block;
-      margin: 10px auto;
+      display: block; margin: 10px auto;
       padding: 14px 20px;
-      background: #fff;
-      color: #222;
+      background: #fff; color: #222;
       text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid #bbb;
+      border-radius: 8px; border: 1px solid #bbb;
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    .btn:hover {
-      background: #e6e6e6;
-      transform: scale(1.03);
-    }
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-    /* Dropdown translate */
-    .translate-box {
-      margin-bottom: 20px;
-    }
+    .btn:hover { background: #e6e6e6; transform: scale(1.03); }
+    footer { margin-top: 30px; font-size: 12px; color: #666; }
 
-    /* ✅ Fix Translate agar background tetap penuh */
+    .translate-box { margin-bottom: 20px; }
+
     html, body {
       height: 100% !important;
       background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
@@ -84,45 +59,53 @@
       background-repeat: no-repeat !important;
       background-size: cover !important;
     }
-    .goog-te-banner-frame.skiptranslate {
-      display: none !important;
-    }
-    body {
-      top: 0px !important;
-    }
-    .goog-te-gadget-icon {
-      display: none !important;
-    }
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+    .goog-te-gadget-icon { display: none !important; }
 
-    /* ✅ Pencarian bebas */
-    form.search-box {
-      margin: 20px 0;
-    }
+    /* 🔍 Search box + autocomplete */
+    form.search-box { margin: 20px 0; position: relative; }
     form.search-box input {
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 420px;
       padding: 12px;
       border: 1px solid #bbb;
       border-radius: 8px;
-      margin-bottom: 10px;
       box-sizing: border-box;
     }
     form.search-box button {
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 420px;
       padding: 12px;
       border-radius: 8px;
-      background: #333;
-      color: #fff;
-      border: none;
+      background: #333; color: #fff;
+      border: none; cursor: pointer;
+      margin-top: 8px;
+    }
+    form.search-box button:hover { background: #555; }
+
+    /* ✅ Autocomplete custom */
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #ddd;
+      border-top: none;
+      z-index: 99;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .autocomplete-items div {
+      padding: 10px;
       cursor: pointer;
     }
-    form.search-box button:hover {
-      background: #555;
+    .autocomplete-items div:hover {
+      background-color: #f0f0f0;
     }
   </style>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -139,7 +122,7 @@
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🔽 Dropdown Translate -->
+    <!-- 🌏 Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -155,9 +138,10 @@
       </select>
     </div>
 
-    <!-- 🔍 Pencarian Bebas -->
-    <form class="search-box" onsubmit="goSearch(event)">
+    <!-- 🔍 Pencarian Produk -->
+    <form class="search-box" onsubmit="goSearch(event)" autocomplete="off">
       <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" />
+      <div id="query-suggestions" class="autocomplete-items"></div>
       <button type="submit">Cari Produk</button>
     </form>
 
@@ -189,7 +173,6 @@
     </footer>
   </div>
 
-  <!-- ✅ Script untuk tahun otomatis -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -197,8 +180,10 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
-  <!-- ✅ Script Pencarian -->
+  <!-- ✅ Script Autocomplete -->
   <script>
+    let products = [];
+
     function goSearch(e) {
       e.preventDefault();
       const q = document.getElementById("query").value.trim();
@@ -208,9 +193,52 @@
         alert("Masukkan kata kunci pencarian!");
       }
     }
+
+    function setupAutocomplete(products) {
+      const input = document.getElementById("query");
+      const suggestionBox = document.getElementById("query-suggestions");
+
+      const tokohSet = new Set();
+      products.forEach(p => {
+        p.tokoh.forEach(t => tokohSet.add(t));
+      });
+      tokohSet.add("Punakawan");
+      tokohSet.add("Pandawa");
+      const tokohList = Array.from(tokohSet);
+
+      input.addEventListener("input", function() {
+        const val = this.value.toLowerCase();
+        suggestionBox.innerHTML = "";
+        if (!val) return;
+
+        tokohList.filter(t => t.toLowerCase().includes(val)).forEach(t => {
+          const div = document.createElement("div");
+          div.textContent = t;
+          div.addEventListener("click", () => {
+            input.value = t;
+            suggestionBox.innerHTML = "";
+          });
+          suggestionBox.appendChild(div);
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (e.target !== input) {
+          suggestionBox.innerHTML = "";
+        }
+      });
+    }
+
+    fetch("products.json")
+      .then(r => r.json())
+      .then(data => {
+        products = data;
+        setupAutocomplete(products);
+      })
+      .catch(err => console.error("Gagal load products.json", err));
   </script>
 
-  <!-- ✅ Google Translate Hidden -->
+  <!-- ✅ Google Translate -->
   <div id="google_translate_element" style="display:none;"></div>
   <script type="text/javascript">
     function googleTranslateElementInit() {
