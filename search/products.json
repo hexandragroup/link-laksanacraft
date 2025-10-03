@@ -21,6 +21,39 @@
     ]
   },
   {
+    "tokoh": "bima",
+    "ukuran": "20, 25, 30cm",
+    "kualitas": "alusan",
+    "link": "https://contoh.com/bima-20-25-30cm-alusan",
+    "varian": [
+      { "size": "20cm", "harga": "Rp75.000" },
+      { "size": "25cm", "harga": "Rp100.000" },
+      { "size": "30cm", "harga": "Rp150.000" }
+    ]
+  },
+  {
+    "tokoh": "nakula",
+    "ukuran": "20, 25, 30cm",
+    "kualitas": "alusan",
+    "link": "https://contoh.com/nakula-20-25-30cm-alusan",
+    "varian": [
+      { "size": "20cm", "harga": "Rp75.000" },
+      { "size": "25cm", "harga": "Rp100.000" },
+      { "size": "30cm", "harga": "Rp150.000" }
+    ]
+  },
+  {
+    "tokoh": "sadewa",
+    "ukuran": "20, 25, 30cm",
+    "kualitas": "alusan",
+    "link": "https://contoh.com/sadewa-20-25-30cm-alusan",
+    "varian": [
+      { "size": "20cm", "harga": "Rp75.000" },
+      { "size": "25cm", "harga": "Rp100.000" },
+      { "size": "30cm", "harga": "Rp150.000" }
+    ]
+  },
+  {
     "tokoh": "arjuna",
     "ukuran": "20, 25, 30cm",
     "kualitas": "murah",
