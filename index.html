@@ -17,14 +17,14 @@
   <style>
     body {
       font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      background: linear-gradient(to bottom, #eeeeee, #cccccc); /* gradasi abu-abu */
       padding: 30px;
       margin: 0;
     }
     .container {
       max-width: 500px;
       margin: auto;
-      background: #f2f2f2;
+      background: #f2f2f2; /* abu-abu muda */
       padding: 25px;
       border-radius: 16px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -43,8 +43,13 @@
       text-decoration: none;
       color: #222;
     }
-    h1 a:hover { text-decoration: underline; }
-    p { color: #444; margin-bottom: 20px; }
+    h1 a:hover {
+      text-decoration: underline;
+    }
+    p {
+      color: #444;
+      margin-bottom: 20px;
+    }
     .btn {
       display: block;
       margin: 10px auto;
@@ -56,7 +61,6 @@
       border: 1px solid #bbb;
       transition: all 0.3s ease;
       cursor: pointer;
-      max-width: 420px;
     }
     .btn:hover {
       background: #e6e6e6;
@@ -67,7 +71,10 @@
       font-size: 12px;
       color: #666;
     }
-    .translate-box { margin-bottom: 20px; }
+    /* Dropdown translate */
+    .translate-box {
+      margin-bottom: 20px;
+    }
 
     /* ✅ Fix Translate agar background tetap penuh */
     html, body {
@@ -77,9 +84,15 @@
       background-repeat: no-repeat !important;
       background-size: cover !important;
     }
-    .goog-te-banner-frame.skiptranslate { display: none !important; }
-    body { top: 0px !important; }
-    .goog-te-gadget-icon { display: none !important; }
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
+    }
+    .goog-te-gadget-icon {
+      display: none !important;
+    }
 
     /* ✅ Pencarian bebas */
     form.search-box {
@@ -87,22 +100,22 @@
     }
     form.search-box input {
       width: 100%;
+      max-width: 420px;
       padding: 12px;
       border: 1px solid #bbb;
       border-radius: 8px;
       margin-bottom: 10px;
       box-sizing: border-box;
-      max-width: 420px;
     }
     form.search-box button {
       width: 100%;
+      max-width: 420px;
       padding: 12px;
       border-radius: 8px;
       background: #333;
       color: #fff;
       border: none;
       cursor: pointer;
-      max-width: 420px;
     }
     form.search-box button:hover {
       background: #555;
@@ -117,6 +130,7 @@
     gtag('js', new Date());
     gtag('config', 'G-V1JWDFFYK2');
   </script>
+  <meta name="google-site-verification" content="oJLnR6iLjAKSSTZ_9MwIqFop7H1rp7MPhVSOAV_TVGo" />
 </head>
 <body>
   <div class="container">
@@ -175,13 +189,16 @@
     </footer>
   </div>
 
-  <!-- ✅ Script Tahun Otomatis -->
+  <!-- ✅ Script untuk tahun otomatis -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
     document.getElementById("year").textContent =
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
+  </script>
 
+  <!-- ✅ Script Pencarian -->
+  <script>
     function goSearch(e) {
       e.preventDefault();
       const q = document.getElementById("query").value.trim();
