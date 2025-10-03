@@ -37,7 +37,7 @@
     .btn:hover { background: #e6e6e6; }
     form .input-row { margin-top: 12px; text-align: left; }
     label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
-    select, button {
+    select, input, button {
       width: 100%; max-width: 420px; padding: 10px;
       border-radius: 8px; border: 1px solid #bbb;
       margin: 6px auto; display: block; box-sizing: border-box;
@@ -83,7 +83,7 @@
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
     <p class="sublead">🔎 Pencarian Produk</p>
 
-    <!-- ✅ Translate tetap ada -->
+    <!-- TRANSLATE BOX -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -99,12 +99,12 @@
       </select>
     </div>
 
+    <!-- FORM PENCARIAN -->
     <form id="searchForm">
       <div class="input-row">
         <label class="small" for="tokoh">Nama Tokoh</label>
-        <select id="tokoh">
-          <option value="">-- Pilih Tokoh --</option>
-        </select>
+        <input list="tokohList" id="tokoh" placeholder="Ketik atau pilih tokoh..." />
+        <datalist id="tokohList"></datalist>
       </div>
 
       <div class="input-row">
@@ -139,6 +139,7 @@
     </footer>
   </div>
 
+  <!-- YEAR AUTO UPDATE -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -146,6 +147,7 @@
       currentYear > startYear ? startYear + "–" + currentYear : startYear;
   </script>
 
+  <!-- SEARCH SCRIPT -->
   <script>
 let products = [];
 const labels = {
@@ -174,7 +176,7 @@ function matchesGroup(tokoh, group) {
 }
 
 function doFilterSearch() {
-  const tokoh = document.getElementById("tokoh").value.toLowerCase();
+  const tokoh = document.getElementById("tokoh").value.trim().toLowerCase();
   const ukuran = document.getElementById("ukuran").value;
   const kualitas = document.getElementById("kualitas").value;
   const out = document.getElementById("results");
@@ -187,7 +189,7 @@ function doFilterSearch() {
 
   const filtered = products.filter(p =>
     (tokoh ? (
-      p.tokoh.includes(tokoh) ||
+      p.tokoh.some(t => t.toLowerCase().includes(tokoh)) ||
       (tokoh === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
       (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa"))
     ) : true) &&
@@ -268,34 +270,25 @@ function renderResults(list) {
 }
 
 function populateTokohDropdown(products) {
-  const tokohDropdown = document.getElementById("tokoh");
-  tokohDropdown.innerHTML = `<option value="">-- Pilih Tokoh --</option>`;
+  const dataList = document.getElementById("tokohList");
+  dataList.innerHTML = "";
 
   const tokohSet = new Set();
-
   products.forEach(p => {
-    const arr = p.tokoh.map(t => t.toLowerCase());
-
-    if (arr.sort().join(",") === groupAliases.punakawan.sort().join(",")) {
-      tokohSet.add("punakawan");
-    } else if (arr.sort().join(",") === groupAliases.pandawa.sort().join(",")) {
-      tokohSet.add("pandawa");
-    } else if (arr.length === 1 && arr[0] === "custom") {
-      tokohSet.add("custom");
-    } else {
-      arr.forEach(t => tokohSet.add(t));
-    }
+    const label = p.tokoh.map(capitalize).join(", ");
+    tokohSet.add(label);
   });
 
   tokohSet.forEach(t => {
     const opt = document.createElement("option");
     opt.value = t;
-    if (t === "custom") opt.textContent = "Custom Tokoh";
-    else if (t === "punakawan") opt.textContent = "Punakawan";
-    else if (t === "pandawa") opt.textContent = "Pandawa";
-    else opt.textContent = capitalize(t);
-    tokohDropdown.appendChild(opt);
+    dataList.appendChild(opt);
   });
+
+  // Custom Tokoh selalu ada
+  const customOpt = document.createElement("option");
+  customOpt.value = "Custom Tokoh";
+  dataList.appendChild(customOpt);
 }
 
 fetch("products.json")
@@ -311,7 +304,7 @@ fetch("products.json")
   });
   </script>
 
-  <!-- ✅ Google Translate tetap ada -->
+  <!-- GOOGLE TRANSLATE -->
   <div id="google_translate_element" style="display:none;"></div>
   <script>
     function googleTranslateElementInit() {
