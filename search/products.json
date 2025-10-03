@@ -1,6 +1,6 @@
 [
   {
-    "tokoh": "semar",
+    "tokoh": ["semar"],
     "ukuran": "miniatur",
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-miniatur-alusan",
@@ -21,10 +21,10 @@
     ]
   },
   {
-    "tokoh": ["gareng", "semar"],
+    "tokoh": ["gareng", "semar", "petruk", "bagong"],
     "ukuran": "20, 25, 30cm",
     "kualitas": "alusan",
-    "link": "https://contoh.com/bima-20-25-30cm-alusan",
+    "link": "https://contoh.com/pakem-20-25-30cm-alusan",
     "varian": [
       { "size": "20cm", "harga": "Rp75.000" },
       { "size": "25cm", "harga": "Rp100.000" },
@@ -32,29 +32,7 @@
     ]
   },
   {
-    "tokoh": "petruk",
-    "ukuran": "20, 25, 30cm",
-    "kualitas": "alusan",
-    "link": "https://contoh.com/nakula-20-25-30cm-alusan",
-    "varian": [
-      { "size": "20cm", "harga": "Rp75.000" },
-      { "size": "25cm", "harga": "Rp100.000" },
-      { "size": "30cm", "harga": "Rp150.000" }
-    ]
-  },
-  {
-    "tokoh": "bagong",
-    "ukuran": "20, 25, 30cm",
-    "kualitas": "alusan",
-    "link": "https://contoh.com/sadewa-20-25-30cm-alusan",
-    "varian": [
-      { "size": "20cm", "harga": "Rp75.000" },
-      { "size": "25cm", "harga": "Rp100.000" },
-      { "size": "30cm", "harga": "Rp150.000" }
-    ]
-  },
-  {
-    "tokoh": "semar",
+    "tokoh": ["semar"],
     "ukuran": "20, 25, 30cm",
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-30cm-standar-murah",
@@ -63,7 +41,7 @@
     ]
   },
   {
-    "tokoh": "arjuna",
+    "tokoh": ["arjuna"],
     "ukuran": "standar",
     "kualitas": "murah",
     "link": "https://contoh.com/arjuna-standar-murah",
@@ -72,7 +50,7 @@
     ]
   },
   {
-    "tokoh": "arjuna",
+    "tokoh": ["arjuna"],
     "ukuran": "standar",
     "kualitas": "alusan",
     "link": "https://contoh.com/arjuna-standar-alusan",
