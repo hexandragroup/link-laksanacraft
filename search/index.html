@@ -278,20 +278,12 @@ function populateTokohDropdown(products) {
   const existingOptions = Array.from(tokohDropdown.options).map(o => o.value);
   const tokohList = getUniqueTokoh(products);
   tokohList.forEach(t => {
-    if (!existingOptions.includes(t)) {
+    if (!existingOptions.includes(t) && !["punakawan","pandawa"].includes(t.toLowerCase())) {
       const opt = document.createElement("option");
       opt.value = t;
       opt.textContent = capitalize(t);
       tokohDropdown.appendChild(opt);
     }
-  });
-
-  // Tambahkan alias manual ke dropdown
-  ["punakawan","pandawa"].forEach(alias => {
-    const opt = document.createElement("option");
-    opt.value = alias;
-    opt.textContent = capitalize(alias);
-    tokohDropdown.appendChild(opt);
   });
 }
 
