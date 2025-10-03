@@ -1,5 +1,5 @@
 // Daftar tokoh
-const tokohList = ["arjuna", "bima", "nakula", "sadewa"];
+const tokohList = ["arjuna", "bima", "puntadewa ", "nakula", "sadewa"];
 
 // Ukuran dan kualitas default
 const ukuran = "20, 25, 30cm";
