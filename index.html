@@ -105,7 +105,7 @@
     .suggestions div { padding: 8px 12px; cursor: pointer; }
     .suggestions div:hover { background: #eee; }
 
-    /* ✅ Tabs tetap sejajar + animasi lembut */
+    /* ✅ Tabs sejajar di semua ukuran layar */
     .tabs { margin-top: 20px; }
     .tab-buttons {
       display: flex;
@@ -115,29 +115,25 @@
       flex-wrap: nowrap;
     }
     .tab-buttons button {
-      flex: 1 1 auto;
-      min-width: 80px;
-      padding: 10px 14px;
+      flex: 1 1 33%;
+      min-width: 0;
+      padding: 10px 8px;
       border: 1px solid #aaa;
       border-radius: 8px;
       background: #fff;
       cursor: pointer;
       transition: all 0.3s;
-      font-size: 14px;
+      font-size: 13px;
+      white-space: nowrap;
     }
     .tab-buttons button.active {
       background: #333;
       color: #fff;
     }
-
-    @media (max-width: 400px) {
-      .tab-buttons {
-        flex-wrap: wrap;
-      }
+    @media (max-width: 360px) {
       .tab-buttons button {
-        flex: 1 1 30%;
-        font-size: 13px;
-        padding: 9px 10px;
+        font-size: 12px;
+        padding: 8px 4px;
       }
     }
 
@@ -153,7 +149,7 @@
       transform: translateY(0);
     }
 
-    /* ✅ Tombol WhatsApp Sticky di HP */
+    /* ✅ Tombol WhatsApp Sticky */
     .wa-sticky {
       position: fixed;
       bottom: 15px;
@@ -172,9 +168,7 @@
       background: #1ebe5b;
       transform: scale(1.05);
     }
-    .wa-sticky::before {
-      content: '💬 ';
-    }
+    .wa-sticky::before { content: '💬 '; }
     @media (min-width: 768px) {
       .wa-sticky { display: none; }
     }
@@ -197,7 +191,6 @@
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🔽 Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -213,14 +206,12 @@
       </select>
     </div>
 
-    <!-- 🔍 Pencarian -->
     <form class="search-box" onsubmit="goSearch(event)">
       <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" autocomplete="off" />
       <div id="suggestions" class="suggestions"></div>
       <button type="submit">Cari Produk</button>
     </form>
 
-    <!-- ✅ Tabs -->
     <div class="tabs">
       <div class="tab-buttons">
         <button class="active" onclick="showTab('utama')">🌐 Utama</button>
@@ -228,7 +219,6 @@
         <button onclick="showTab('sosial')">📱 Sosial</button>
       </div>
 
-      <!-- 🌐 Tab Utama -->
       <div id="utama" class="tab-content active">
         <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
         <a class="btn" href="https://url.laksanacraft.my.id/produk">🎨 Contoh Produk</a>
@@ -240,7 +230,6 @@
         <a class="btn" href="https://linktr.ee/hexaleathercraft">🔗 Cabang Kami di Rembang</a>
       </div>
 
-      <!-- 🛍️ Tab Toko -->
       <div id="toko" class="tab-content">
         <a class="btn" href="https://shop.laksanacraft.my.id/">🛍️ Belanja di Toko Online Kami</a>
         <a class="btn" href="https://url.laksanacraft.my.id/shopee">🛒 Shopee</a>
@@ -251,7 +240,6 @@
         <a class="btn" href="https://url.laksanacraft.my.id/email">📧 Email Kami</a>
       </div>
 
-      <!-- 📱 Tab Sosial -->
       <div id="sosial" class="tab-content">
         <a class="btn" href="https://url.laksanacraft.my.id/facebook">📘 Facebook</a>
         <a class="btn" href="https://url.laksanacraft.my.id/instagram">📷 Instagram</a>
@@ -267,10 +255,9 @@
     </footer>
   </div>
 
-  <!-- ✅ Tombol WhatsApp Sticky -->
+  <!-- Tombol WhatsApp Sticky -->
   <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky">Pesan Sekarang</a>
 
-  <!-- ✅ Script -->
   <script>
     const startYear = 1990;
     const currentYear = new Date().getFullYear();
@@ -310,19 +297,15 @@
         });
     });
 
-    // ✅ Tabs dengan animasi + auto scroll
     function showTab(id) {
       document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelector('.tab-buttons button[onclick="showTab(\'' + id + '\')"]').classList.add('active');
       const tab = document.getElementById(id);
       tab.classList.add('active');
-      if (window.innerWidth < 600) {
-        tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (window.innerWidth < 600) tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // ✅ Google Translate
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
     }
