@@ -105,17 +105,17 @@
     .suggestions div { padding: 8px 12px; cursor: pointer; }
     .suggestions div:hover { background: #eee; }
 
-    /* ✅ Tabs dengan animasi + perbaikan agar sejajar */
+    /* ✅ Tabs tetap sejajar + animasi lembut */
     .tabs { margin-top: 20px; }
     .tab-buttons {
       display: flex;
       justify-content: center;
       gap: 6px;
       margin-bottom: 15px;
-      flex-wrap: nowrap; /* biar tidak turun ke bawah */
+      flex-wrap: nowrap;
     }
     .tab-buttons button {
-      flex: 1 1 auto; /* tombol menyesuaikan lebar */
+      flex: 1 1 auto;
       min-width: 80px;
       padding: 10px 14px;
       border: 1px solid #aaa;
@@ -132,7 +132,7 @@
 
     @media (max-width: 400px) {
       .tab-buttons {
-        flex-wrap: wrap; /* fallback jika layar super kecil */
+        flex-wrap: wrap;
       }
       .tab-buttons button {
         flex: 1 1 30%;
@@ -151,6 +151,32 @@
       display: block;
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ✅ Tombol WhatsApp Sticky di HP */
+    .wa-sticky {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      z-index: 9999;
+      background: #25D366;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .wa-sticky:hover {
+      background: #1ebe5b;
+      transform: scale(1.05);
+    }
+    .wa-sticky::before {
+      content: '💬 ';
+    }
+    @media (min-width: 768px) {
+      .wa-sticky { display: none; }
     }
   </style>
 
@@ -240,6 +266,9 @@
       &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
     </footer>
   </div>
+
+  <!-- ✅ Tombol WhatsApp Sticky -->
+  <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky">Pesan Sekarang</a>
 
   <!-- ✅ Script -->
   <script>
