@@ -105,26 +105,40 @@
     .suggestions div { padding: 8px 12px; cursor: pointer; }
     .suggestions div:hover { background: #eee; }
 
-    /* ✅ Tabs dengan animasi */
+    /* ✅ Tabs dengan animasi + perbaikan agar sejajar */
     .tabs { margin-top: 20px; }
     .tab-buttons {
       display: flex;
       justify-content: center;
       gap: 6px;
-      flex-wrap: wrap;
       margin-bottom: 15px;
+      flex-wrap: nowrap; /* biar tidak turun ke bawah */
     }
     .tab-buttons button {
-      padding: 10px 16px;
+      flex: 1 1 auto; /* tombol menyesuaikan lebar */
+      min-width: 80px;
+      padding: 10px 14px;
       border: 1px solid #aaa;
       border-radius: 8px;
       background: #fff;
       cursor: pointer;
       transition: all 0.3s;
+      font-size: 14px;
     }
     .tab-buttons button.active {
       background: #333;
       color: #fff;
+    }
+
+    @media (max-width: 400px) {
+      .tab-buttons {
+        flex-wrap: wrap; /* fallback jika layar super kecil */
+      }
+      .tab-buttons button {
+        flex: 1 1 30%;
+        font-size: 13px;
+        padding: 9px 10px;
+      }
     }
 
     .tab-content {
@@ -180,7 +194,7 @@
       <button type="submit">Cari Produk</button>
     </form>
 
-    <!-- ✅ Tabs dengan animasi -->
+    <!-- ✅ Tabs -->
     <div class="tabs">
       <div class="tab-buttons">
         <button class="active" onclick="showTab('utama')">🌐 Utama</button>
@@ -274,7 +288,6 @@
       document.querySelector('.tab-buttons button[onclick="showTab(\'' + id + '\')"]').classList.add('active');
       const tab = document.getElementById(id);
       tab.classList.add('active');
-      // Scroll ke atas container saat di-klik di HP
       if (window.innerWidth < 600) {
         tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
