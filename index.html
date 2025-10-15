@@ -149,26 +149,30 @@
       transform: translateY(0);
     }
 
-    /* ✅ Tombol WhatsApp Sticky */
+    /* ✅ Tombol WhatsApp Sticky (versi ikon bulat) */
     .wa-sticky {
       position: fixed;
       bottom: 15px;
       right: 15px;
       z-index: 9999;
       background: #25D366;
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease;
+    }
+    .wa-sticky img {
+      width: 30px;
+      height: 30px;
     }
     .wa-sticky:hover {
       background: #1ebe5b;
       transform: scale(1.05);
     }
-    .wa-sticky::before { content: '💬 '; }
     @media (min-width: 768px) {
       .wa-sticky { display: none; }
     }
@@ -255,8 +259,10 @@
     </footer>
   </div>
 
-  <!-- Tombol WhatsApp Sticky -->
-  <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky">Pesan Sekarang</a>
+  <!-- ✅ Tombol WhatsApp Sticky (Versi Ikon Bulat) -->
+  <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky" aria-label="Hubungi via WhatsApp">
+    <img src="https://url.laksanacraft.my.id/wa-icon.jpg" alt="WhatsApp" />
+  </a>
 
   <script>
     const startYear = 1990;
