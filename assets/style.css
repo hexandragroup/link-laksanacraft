@@ -63,14 +63,14 @@ p { color: #444; margin-bottom: 20px; }
   display: none;  /* default desktop */
   flex-direction: column;
   justify-content: flex-start;
-  width: 25px;
+  width: 35px;
   height: 35px;
   cursor: pointer;
 }
 .menu-icon span {
   display: block;
   height: 4px;
-  width: 25px;
+  width: 30px;
   margin: 2px 0;
   background: #222;
   border-radius: 2px;
@@ -78,13 +78,13 @@ p { color: #444; margin-bottom: 20px; }
 }
 /* Burger aktif → silang */
 .menu-icon.active span:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px);
+  transform: rotate(45deg) translate(6px, 6px);
 }
 .menu-icon.active span:nth-child(2) {
   opacity: 0;
 }
 .menu-icon.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(8px, -8px);
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 /* 📱 Navigasi versi HP — pojok kanan */
