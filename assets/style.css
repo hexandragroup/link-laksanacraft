@@ -24,14 +24,14 @@ h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
 
-/* 🧭 Navigasi atas (baru, dengan sekat rapi di desktop) */
+/* 🧭 Navigasi atas (lebih rapi di desktop & HP) */
 .top-nav {
   position: fixed;
   top: 10px;
   right: 15px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(6px);
   padding: 8px 14px;
@@ -39,6 +39,7 @@ p { color: #444; margin-bottom: 20px; }
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 10000;
   font-size: 14px;
+  flex-wrap: nowrap;
 }
 .top-nav a {
   color: #222;
@@ -46,13 +47,15 @@ p { color: #444; margin-bottom: 20px; }
   font-weight: 500;
   padding: 4px 6px;
   transition: color 0.2s ease;
+  white-space: nowrap; /* ✅ Supaya tidak pecah dua baris */
 }
 .top-nav a:hover {
   color: #000;
   text-decoration: underline;
 }
 .top-nav .divider {
-  color: #aaa;
+  color: #bbb;
+  user-select: none;
 }
 .menu-icon {
   display: none;
@@ -73,19 +76,24 @@ p { color: #444; margin-bottom: 20px; }
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 180px;
   }
   .menu-links.show { display: flex; }
+
   .menu-links a {
     display: block;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
     text-align: right;
+    font-size: 13px;
+    white-space: nowrap; /* ✅ Teks tetap satu baris */
+    overflow: hidden;
+    text-overflow: ellipsis; /* ✅ Potong pakai "..." kalau kepanjangan */
   }
-  .menu-links a:last-child {
-    border-bottom: none;
-  }
+  .menu-links a:last-child { border-bottom: none; }
+
   .menu-links .divider {
-    display: none;
+    display: none; /* ✅ Hilangkan sekat di dropdown */
   }
   .menu-icon { display: block; }
 }
