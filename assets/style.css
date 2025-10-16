@@ -58,73 +58,69 @@ p { color: #444; margin-bottom: 20px; }
   .top-nav .divider { display: none; }
 }
 
-/* Burger Icon */
+/* Burger Icon di tepi layar */
 .menu-icon {
-  display: none;  /* default desktop */
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 10000;
+  display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  width: 25px;
-  height: 30px;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 6px;
+  background: #fff;
+  border-radius: 8px 0 0 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   cursor: pointer;
 }
 .menu-icon span {
   display: block;
   height: 4px;
   width: 30px;
-  margin: 2px 0;
+  margin: 3px 0;
   background: #222;
   border-radius: 2px;
   transition: 0.3s;
 }
-/* Burger aktif → silang */
 .menu-icon.active span:nth-child(1) {
-  transform: rotate(45deg) translate(7px, 7px);
+  transform: rotate(45deg) translate(6px, 6px);
 }
 .menu-icon.active span:nth-child(2) {
   opacity: 0;
 }
 .menu-icon.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* 📱 Navigasi versi HP — pojok kanan */
-@media (max-width: 600px) {
-  .menu-icon { display: flex; }
-  .menu-links {
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background: rgba(255,255,255,0.85);
-    padding: 0;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;          /* fleksibel sesuai isi */
-    min-width: 140px;     /* minimal lebar */
-    max-width: 200px;     /* maksimal lebar */
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .menu-links.show {
-    display: flex;
-    opacity: 1;
-  }
-.menu-links a {
-  display: block;
-  padding: 12px 16px;
-  text-align: center;
-  font-size: 14px;
-  border-bottom: 1px solid rgba(0,0,0,0.1); /* garis tipis lebih soft */
-  border-radius: 10px;
-  width: 100%;
-  box-sizing: border-box;
-  background: rgba(255,255,255,0.5); /* semi-transparan */
-  transition: background 0.2s;
+/* Menu sidebar tersembunyi */
+.menu-links {
+  position: fixed;
+  top: 0;
+  right: -220px; /* sembunyi di luar layar */
+  height: 100%;
+  width: 220px;
+  background: rgba(255,255,255,0.95);
+  box-shadow: -3px 0 12px rgba(0,0,0,0.2);
+  flex-direction: column;
+  padding-top: 60px;
+  transition: right 0.3s ease;
+  z-index: 9999;
 }
-.menu-links a:last-child { border-bottom: none; }
-.menu-links a:hover { background: rgba(255,255,255,0.8); }
+.menu-links.show {
+  right: 0; /* muncul ke layar */
+}
+.menu-links a {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  color: #222;
+  text-decoration: none;
+}
+.menu-links a:hover {
+  background: rgba(0,0,0,0.05);
+}
 
 /* 🔍 Kotak pencarian */
 form.search-box { margin: 20px 0; position: relative; }
