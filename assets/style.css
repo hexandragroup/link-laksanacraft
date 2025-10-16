@@ -62,7 +62,7 @@ p { color: #444; margin-bottom: 20px; }
 .menu-icon {
   display: none;  /* default desktop */
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 25px;
   height: 35px;
   cursor: pointer;
@@ -70,7 +70,7 @@ p { color: #444; margin-bottom: 20px; }
 .menu-icon span {
   display: block;
   height: 4px;
-  margin: 4px 0;
+  margin: 2px 0;
   background: #222;
   border-radius: 2px;
   transition: 0.3s;
