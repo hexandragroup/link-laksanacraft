@@ -1,0 +1,10 @@
+<footer>
+  <p>&copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta</p>
+</footer>
+
+<script>
+  const startYear = 1990;
+  const currentYear = new Date().getFullYear();
+  document.getElementById("year").textContent =
+    currentYear > startYear ? startYear + "–" + currentYear : startYear;
+</script>
