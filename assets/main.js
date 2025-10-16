@@ -107,17 +107,23 @@ function showTab(id) {
 loadLinks('utama');
 
 // Tombol panah & menu sisi
-const sideTab = document.getElementById('sideTab');
-const sideMenu = document.getElementById('sideMenu');
+const cornerTab = document.getElementById('cornerTab');
+const cornerMenu = document.getElementById('cornerMenu');
 
-sideTab.addEventListener('click', (e) => {
-  e.stopPropagation(); // cegah bubbling
-  sideMenu.classList.toggle('show');
+// Klik tombol → tampilkan menu & sembunyikan tombol
+cornerTab.addEventListener('click', (e) => {
+  e.stopPropagation();
+  cornerMenu.classList.add('show');
+  cornerTab.style.opacity = '0';
+  cornerTab.style.pointerEvents = 'none';
 });
 
+// Klik di luar → tutup menu & tampilkan tombol
 document.addEventListener('click', (e) => {
-  if (!sideMenu.contains(e.target) && !sideTab.contains(e.target)) {
-    sideMenu.classList.remove('show');
+  if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
+    cornerMenu.classList.remove('show');
+    cornerTab.style.opacity = '1';
+    cornerTab.style.pointerEvents = 'auto';
   }
 });
 
@@ -126,7 +132,9 @@ let touchStartX = 0;
 document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
 document.addEventListener('touchend', e => {
   const touchEndX = e.changedTouches[0].clientX;
-  if (sideMenu.classList.contains('show') && touchEndX < touchStartX - 50) {
-    sideMenu.classList.remove('show');
+  if (cornerMenu.classList.contains('show') && touchEndX < touchStartX - 50) {
+    cornerMenu.classList.remove('show');
+    cornerTab.style.opacity = '1';
+    cornerTab.style.pointerEvents = 'auto';
   }
 });
