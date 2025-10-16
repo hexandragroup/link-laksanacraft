@@ -110,3 +110,12 @@ loadLinks('utama');
 function toggleMenu() {
   document.querySelector('.menu-links').classList.toggle('show');
 }
+
+// Toggle menu burger → silang
+const burger = document.querySelector('.menu-icon');
+const menu = document.querySelector('.menu-links');
+
+burger.addEventListener('click', () => {
+  burger.classList.toggle('active'); // ikon berubah menjadi silang
+  menu.classList.toggle('show');     // menu HP muncul/tutup
+});
