@@ -106,18 +106,33 @@ function showTab(id) {
 // --- Muat tab pertama otomatis ---
 loadLinks('utama');
 
-// Toggle menu burger → silang
+// --- Toggle menu burger & tutup saat klik di luar ---
 const burger = document.querySelector('.menu-icon');
 const menu = document.querySelector('.menu-links');
 
-burger.addEventListener('click', () => {
-  burger.classList.toggle('active'); // ikon berubah menjadi silang
-  menu.classList.toggle('show');     // menu HP muncul/tutup
+burger.addEventListener('click', (e) => {
+  e.stopPropagation(); // mencegah event klik ke document
+  burger.classList.toggle('active');
+  menu.classList.toggle('show');
 });
+
+// Klik di luar menu → tutup menu
 document.addEventListener('click', (e) => {
-  // cek klik berada di luar burger dan menu
   if (!menu.contains(e.target) && !burger.contains(e.target)) {
-    menu.classList.remove('show');   // tutup menu
-    burger.classList.remove('active'); // ubah ikon kembali
+    menu.classList.remove('show');
+    burger.classList.remove('active');
+  }
+});
+
+// Swipe kiri (mobile) → tutup menu
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+});
+document.addEventListener('touchend', (e) => {
+  const touchEndX = e.changedTouches[0].clientX;
+  if (menu.classList.contains('show') && touchEndX < touchStartX - 50) {
+    menu.classList.remove('show');
+    burger.classList.remove('active');
   }
 });
