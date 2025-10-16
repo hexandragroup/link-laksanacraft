@@ -1,0 +1,254 @@
+/* ============ GLOBAL ============ */
+body {
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  padding: 30px;
+  margin: 0;
+}
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #f2f2f2;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  text-align: center;
+}
+img.logo {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+h1 a {
+  text-decoration: none;
+  color: #222;
+}
+h1 a:hover {
+  text-decoration: underline;
+}
+p {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* ============ BUTTONS ============ */
+.btn {
+  display: block;
+  margin: 10px auto;
+  padding: 14px 20px;
+  background: #fff;
+  color: #222;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn:hover {
+  background: #e6e6e6;
+  transform: scale(1.03);
+}
+
+/* ============ FOOTER ============ */
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* ============ BACKGROUND FIXES ============ */
+html, body {
+  height: 100% !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* ============ SEARCH BOX ============ */
+form.search-box {
+  margin: 20px 0;
+  position: relative;
+}
+form.search-box input {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+form.search-box button {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+form.search-box button:hover {
+  background: #555;
+}
+
+/* ============ SEARCH SUGGESTIONS ============ */
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-top: none;
+  z-index: 1000;
+  text-align: left;
+}
+.suggestions div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.suggestions div:hover {
+  background: #eee;
+}
+
+/* ============ TABS ============ */
+.tabs {
+  margin-top: 20px;
+}
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 15px;
+  flex-wrap: nowrap;
+}
+.tab-buttons button {
+  flex: 1 1 33%;
+  min-width: 0;
+  padding: 10px 8px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.tab-buttons button.active {
+  background: #333;
+  color: #fff;
+}
+@media (max-width: 360px) {
+  .tab-buttons button {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ WHATSAPP STICKY ============ */
+.wa-sticky {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 9999;
+  background: #25D366;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+.wa-sticky img {
+  width: 30px;
+  height: 30px;
+}
+.wa-sticky:hover {
+  background: #1ebe5b;
+  transform: scale(1.05);
+}
+@media (min-width: 768px) {
+  .wa-sticky { display: none; }
+}
+
+/* ============ TOP NAV MENU (☰) ============ */
+.top-nav {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 10000;
+}
+#menuBtn {
+  font-size: 20px;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+#menuList {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+#menuList a {
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+  white-space: nowrap;
+}
+#menuList a:hover {
+  background: #eee;
+}
+.menu-visible {
+  display: block !important;
+}
+
+/* ============ TRANSLATE BOX ============ */
+.translate-box select.btn {
+  background: #fff;
+  border: 1px solid #bbb;
+  color: #222;
+  font-size: 14px;
+  padding: 10px;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  margin: 10px auto;
+  display: block;
+}
+.translate-box select.btn:hover {
+  background: #f5f5f5;
+}
