@@ -9,21 +9,14 @@
   <meta property="og:description" content="Kerajinan Nusantara, Warisan Dunia – Semua tautan resmi Laksana Handicraft." />
   <meta property="og:url" content="https://link.laksanacraft.my.id/" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="google-site-verification" content="oJLnR6iLjAKSSTZ_9MwIqFop7H1rp7MPhVSOAV_TVGo" />
   <title>Link Laksana Handicraft</title>
 
   <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+  <link rel="stylesheet" href="assets/style.css">
 
-<link rel="stylesheet" href="assets/style.css">
-
-  <!-- Google Tag -->
+  <!-- Google Tag (dijalankan lewat analytics.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-V1JWDFFYK2');
-  </script>
-  <meta name="google-site-verification" content="oJLnR6iLjAKSSTZ_9MwIqFop7H1rp7MPhVSOAV_TVGo" />
 </head>
 
 <body>
@@ -36,11 +29,13 @@
       <a href="https://url.laksanacraft.my.id/wa" target="_blank">Hubungi</a>
     </div>
   </nav>
+
   <div class="container">
     <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
+    <!-- 🔹 Kotak Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -56,12 +51,14 @@
       </select>
     </div>
 
+    <!-- 🔹 Kotak Pencarian -->
     <form class="search-box" onsubmit="goSearch(event)">
       <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" autocomplete="off" />
       <div id="suggestions" class="suggestions"></div>
       <button type="submit">Cari Produk</button>
     </form>
 
+    <!-- 🔹 Tab Navigasi -->
     <div class="tabs">
       <div class="tab-buttons">
         <button class="active" onclick="showTab('utama')">🌐 Utama</button>
@@ -69,9 +66,9 @@
         <button onclick="showTab('sosial')">📱 Sosial</button>
       </div>
 
-<div id="utama" class="tab-content active"></div>
-<div id="toko" class="tab-content"></div>
-<div id="sosial" class="tab-content"></div>
+      <div id="utama" class="tab-content active"></div>
+      <div id="toko" class="tab-content"></div>
+      <div id="sosial" class="tab-content"></div>
     </div>
 
     <footer>
@@ -79,141 +76,16 @@
     </footer>
   </div>
 
-  <!-- ✅ Tombol WhatsApp Sticky (Versi Ikon Bulat) -->
+  <!-- ✅ Tombol WhatsApp Sticky -->
   <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky" aria-label="Hubungi via WhatsApp">
     <img src="https://url.laksanacraft.my.id/assets/wa-icon.svg" alt="WhatsApp" />
   </a>
 
-  <script>
-    const startYear = 1990;
-    const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent = currentYear > startYear ? startYear + "–" + currentYear : startYear;
-
-    function goSearch(e) {
-      e.preventDefault();
-      const q = document.getElementById("query").value.trim();
-      if (q) window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
-      else alert("Masukkan kata kunci pencarian!");
-    }
-
-    let products = [];
-    fetch("https://link.laksanacraft.my.id/search/products.json")
-      .then(res => res.json())
-      .then(data => { products = data; });
-
-    const queryInput = document.getElementById("query");
-    const suggestionsBox = document.getElementById("suggestions");
-    queryInput.addEventListener("input", function() {
-      const val = this.value.toLowerCase();
-      suggestionsBox.innerHTML = "";
-      if (!val) return;
-      let allKeywords = new Set();
-      products.forEach(p => {
-        if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(t));
-        if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(u));
-        if (p.kualitas) allKeywords.add(p.kualitas);
-      });
-      Array.from(allKeywords)
-        .filter(k => k.toLowerCase().includes(val))
-        .forEach(match => {
-          const div = document.createElement("div");
-          div.textContent = match;
-          div.onclick = () => { queryInput.value = match; suggestionsBox.innerHTML = ""; };
-          suggestionsBox.appendChild(div);
-        });
-    });
-
-    function showTab(id) {
-      document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      document.querySelector('.tab-buttons button[onclick="showTab(\'' + id + '\')"]').classList.add('active');
-      const tab = document.getElementById(id);
-      tab.classList.add('active');
-      if (window.innerWidth < 600) tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
-    }
-    function doGTranslate(el) {
-      if (el.value === '') return;
-      var lang = el.value.split('|')[1];
-      if (lang === 'id') {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        location.href = "https://link.laksanacraft.my.id/";
-        return;
-      }
-      var select = document.querySelector('.goog-te-combo');
-      if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
-    }
-  </script>
-
+  <!-- ✅ Google Translate Placeholder -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<script>
-const tabFiles = {
-  utama: 'links/utama.json',
-  toko: 'links/toko.json',
-  sosial: 'links/sosial.json'
-};
-
-const linkCache = {}; // 🔹 Cache disimpan di sini
-
-function loadLinks(tab) {
-  const container = document.getElementById(tab);
-
-  // 🔸 Jika sudah pernah dimuat, langsung pakai dari cache
-  if (linkCache[tab]) {
-    container.innerHTML = "";
-    linkCache[tab].forEach(link => {
-      const a = document.createElement("a");
-      a.className = "btn";
-      a.href = link.url;
-      a.textContent = link.text;
-      container.appendChild(a);
-    });
-    return;
-  }
-
-  // 🔹 Kalau belum ada di cache → fetch dari server
-  container.innerHTML = "<p>🔄 Memuat...</p>";
-  fetch(tabFiles[tab])
-    .then(res => res.json())
-    .then(data => {
-      linkCache[tab] = data; // ✅ Simpan ke cache
-      container.innerHTML = "";
-      data.forEach(link => {
-        const a = document.createElement("a");
-        a.className = "btn";
-        a.href = link.url;
-        a.textContent = link.text;
-        container.appendChild(a);
-      });
-    })
-    .catch(() => {
-      container.innerHTML = "<p>⚠️ Gagal memuat link.</p>";
-    });
-}
-
-function showTab(id) {
-  document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add('active');
-  const tab = document.getElementById(id);
-  tab.classList.add('active');
-  loadLinks(id);
-  if (window.innerWidth < 600) tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// 🔹 Muat tab pertama saat halaman dibuka
-loadLinks('utama');
-</script>
-  <script>
-function toggleMenu() {
-  document.querySelector('.menu-links').classList.toggle('show');
-}
-</script>
+  <!-- ✅ Script eksternal -->
+  <script src="assets/analytics.js" defer></script>
+  <script src="assets/main.js" defer></script>
 </body>
 </html>
