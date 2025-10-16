@@ -49,14 +49,50 @@ p { color: #444; margin-bottom: 20px; }
   transition: color 0.2s ease;
 }
 .top-nav a:hover { color: #000; text-decoration: underline; }
-.menu-icon { display: none; cursor: pointer; font-size: 22px; font-weight: bold; }
 
-/* 📱 Navigasi versi HP — pojok kanan, rapi */
+/* 🔹 Hilangkan sekat | di HP */
+.top-nav .divider {
+  margin: 0 4px;
+}
+@media (max-width: 600px) {
+  .top-nav .divider {
+    display: none;
+  }
+}
+
+/* Burger Icon */
+.menu-icon {
+  display: none;  /* default desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+.menu-icon span {
+  display: block;
+  height: 3px;
+  background: #222;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+/* Burger aktif → silang */
+.menu-icon.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.menu-icon.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-icon.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* 📱 Navigasi versi HP — pojok kanan */
 @media (max-width: 600px) {
   .menu-links {
     display: none;
     flex-direction: column;
-    align-items: flex-end; /* tetap rata kanan */
+    align-items: flex-end;
     position: absolute;
     top: 45px;
     right: 0;
@@ -64,9 +100,9 @@ p { color: #444; margin-bottom: 20px; }
     padding: 8px 12px;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;            /* menyesuaikan isi */
-    min-width: 120px;       /* tidak terlalu kecil */
-    max-width: 180px;       /* tidak terlalu lebar */
+    width: auto;
+    min-width: 120px;
+    max-width: 180px;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -81,13 +117,13 @@ p { color: #444; margin-bottom: 20px; }
     text-align: right;
     font-size: 14px;
     border-bottom: none;
-    border-radius: 0;
     width: 100%;
   }
   .menu-links a:last-child { border-bottom: none; }
   .menu-links a:hover { background: #f8f8f8; }
 
-  .menu-icon { display: block; }
+  /* Tampilkan menu-icon di HP */
+  .menu-icon { display: flex; }
 }
 
 /* 🔍 Kotak pencarian */
