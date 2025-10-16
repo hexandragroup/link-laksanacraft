@@ -24,76 +24,55 @@ h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
 
-/* 🧭 Navigasi atas elegan */
+/* 🧭 Navigasi atas versi compact */
 .top-nav {
   position: fixed;
-  top: 10px;
-  right: 15px;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255,255,255,0.85);
+  justify-content: center;
+  gap: 18px;
+  background: rgba(255,255,255,0.9);
   backdrop-filter: blur(8px);
-  padding: 8px 14px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  z-index: 10000;
-  font-size: 14px;
+  padding: 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
 }
+
 .top-nav a {
   color: #222;
   text-decoration: none;
+  font-size: 14px;
   font-weight: 500;
-  padding: 4px 6px;
-  transition: color 0.2s ease;
   white-space: nowrap;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
-.top-nav a:hover { color: #000; text-decoration: underline; }
-.top-nav .divider { color: #aaa; user-select: none; }
-.menu-icon { display: none; cursor: pointer; font-size: 22px; font-weight: bold; }
 
-/* 📱 Versi elegan untuk HP */
+.top-nav a:hover {
+  color: #000;
+  transform: scale(1.05);
+}
+
+/* 🔹 Tombol menu (disembunyikan, karena tidak diperlukan) */
+.menu-icon { display: none; }
+
+/* 📱 Responsif */
 @media (max-width: 600px) {
-  .menu-links {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 55px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.96);
-    padding: 14px 0;
-    border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-    width: auto;
-    min-width: 140px;
-    max-width: 200px;
-    opacity: 0;
-    transition: all 0.3s ease;
+  .top-nav {
+    justify-content: space-around;
+    gap: 10px;
+    padding: 8px 0;
   }
-  .menu-links.show {
-    display: flex;
-    opacity: 1;
-    transform: translate(-50%, 0);
+  .top-nav a {
+    font-size: 13px;
+    padding: 6px;
   }
+}
 
-  .menu-links a {
-    display: block;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    width: 100%;
-    white-space: nowrap;
-    border-bottom: 1px solid #eee;
-  }
-  .menu-links a:last-child { border-bottom: none; }
-  .menu-links a:hover {
-    background: #f9f9f9;
-  }
-  .menu-links .divider { display: none; }
-
-  .menu-icon { display: block; }
+/* Tambah sedikit jarak untuk isi halaman supaya tidak ketutupan nav */
+body {
+  padding-top: 60px;
 }
 
 /* 🔍 Kotak pencarian */
