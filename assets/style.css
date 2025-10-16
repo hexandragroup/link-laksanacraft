@@ -70,7 +70,7 @@ p { color: #444; margin-bottom: 20px; }
 .menu-icon span {
   display: block;
   height: 3px;
-  margin: 2px 0;
+  margin: 5px 0;
   background: #222;
   border-radius: 2px;
   transition: 0.3s;
