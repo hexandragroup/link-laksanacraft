@@ -81,6 +81,7 @@ p { color: #444; margin-bottom: 20px; }
     text-align: right;
     font-size: 14px;
     border-bottom: 1px solid #eee;
+    border-radius: 0;
     width: 100%;
   }
   .menu-links a:last-child { border-bottom: none; }
