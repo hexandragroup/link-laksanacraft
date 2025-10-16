@@ -24,30 +24,42 @@ h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
 
-/* 🧭 Navigasi atas */
+/* 🧭 Navigasi atas (baru, dengan sekat rapi di desktop) */
 .top-nav {
   position: fixed;
   top: 10px;
   right: 15px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: rgba(255,255,255,0.8);
+  gap: 8px;
+  background: rgba(255,255,255,0.85);
   backdrop-filter: blur(6px);
-  padding: 8px 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 8px 14px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 10000;
+  font-size: 14px;
 }
 .top-nav a {
-  color: #333;
+  color: #222;
   text-decoration: none;
-  font-size: 14px;
   font-weight: 500;
-  line-height: 1.8;
+  padding: 4px 6px;
+  transition: color 0.2s ease;
 }
-.top-nav a:hover { color: #000; text-decoration: underline; }
-.menu-icon { display: none; cursor: pointer; font-size: 22px; }
+.top-nav a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+.top-nav .divider {
+  color: #aaa;
+}
+.menu-icon {
+  display: none;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: bold;
+}
 
 /* 📱 Navigasi responsif */
 @media (max-width: 600px) {
@@ -57,18 +69,24 @@ p { color: #444; margin-bottom: 20px; }
     position: absolute;
     right: 15px;
     top: 45px;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255,255,255,0.97);
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
   .menu-links.show { display: flex; }
   .menu-links a {
     display: block;
-    padding: 8px 12px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
     text-align: right;
   }
-  .menu-links a:hover { background: #eee; }
+  .menu-links a:last-child {
+    border-bottom: none;
+  }
+  .menu-links .divider {
+    display: none;
+  }
   .menu-icon { display: block; }
 }
 
