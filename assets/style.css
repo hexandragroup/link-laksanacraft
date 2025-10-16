@@ -51,8 +51,8 @@ p { color: #444; margin-bottom: 20px; }
 .corner-menu {
   position: fixed;
   top: 0;
-  right: -220px; /* tersembunyi di luar layar */
-  width: 220px;
+  right: -180px; /* tersembunyi di luar layar */
+  width: 180px;
   height: 100%;
   background: rgba(255,255,255,0.95);
   box-shadow: -3px 0 12px rgba(0,0,0,0.2);
