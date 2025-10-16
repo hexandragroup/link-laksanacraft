@@ -106,11 +106,6 @@ function showTab(id) {
 // --- Muat tab pertama otomatis ---
 loadLinks('utama');
 
-// --- Menu navigasi (ikon ☰) ---
-function toggleMenu() {
-  document.querySelector('.menu-links').classList.toggle('show');
-}
-
 // Toggle menu burger → silang
 const burger = document.querySelector('.menu-icon');
 const menu = document.querySelector('.menu-links');
