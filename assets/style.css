@@ -24,36 +24,35 @@ h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
 
-/* Tombol setengah lingkaran / panah di tepi kanan */
-.side-tab {
+/* Tombol segitiga di pojok atas kanan */
+.corner-tab {
   position: fixed;
-  top: 50%;
+  top: 10px;
   right: 0;
-  transform: translateY(-50%);
   width: 50px;
-  height: 80px;
+  height: 50px;
   background: #333;
   color: #fff;
   font-size: 24px;
-  border-radius: 50% 0 0 50%;
+  clip-path: polygon(0 0, 100% 0, 0 100%); /* segitiga */
+  border-radius: 0 10px 10px 0; /* ujung tumpul */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   z-index: 10000;
-  box-shadow: -2px 2px 8px rgba(0,0,0,0.2);
-  transition: background 0.3s, transform 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
 }
-.side-tab:hover {
+.corner-tab:hover {
   background: #555;
-  transform: translateY(-50%) scale(1.05);
+  transform: scale(1.05);
 }
 
-/* Menu sisi yang muncul */
-.side-menu {
+/* Menu sisi atas kanan */
+.corner-menu {
   position: fixed;
   top: 0;
-  right: -220px;  /* sembunyi di luar layar */
+  right: -220px; /* tersembunyi di luar layar */
   width: 220px;
   height: 100%;
   background: rgba(255,255,255,0.95);
@@ -64,16 +63,16 @@ p { color: #444; margin-bottom: 20px; }
   transition: right 0.3s ease;
   z-index: 9999;
 }
-.side-menu.show {
+.corner-menu.show {
   right: 0;
 }
-.side-menu a {
+.corner-menu a {
   padding: 12px 20px;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   text-decoration: none;
   color: #222;
 }
-.side-menu a:hover {
+.corner-menu a:hover {
   background: rgba(0,0,0,0.05);
 }
 
