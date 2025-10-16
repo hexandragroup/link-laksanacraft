@@ -313,12 +313,30 @@ const tabFiles = {
   sosial: 'links/sosial.json'
 };
 
+const linkCache = {}; // 🔹 Cache disimpan di sini
+
 function loadLinks(tab) {
   const container = document.getElementById(tab);
+
+  // 🔸 Jika sudah pernah dimuat, langsung pakai dari cache
+  if (linkCache[tab]) {
+    container.innerHTML = "";
+    linkCache[tab].forEach(link => {
+      const a = document.createElement("a");
+      a.className = "btn";
+      a.href = link.url;
+      a.textContent = link.text;
+      container.appendChild(a);
+    });
+    return;
+  }
+
+  // 🔹 Kalau belum ada di cache → fetch dari server
   container.innerHTML = "<p>🔄 Memuat...</p>";
   fetch(tabFiles[tab])
     .then(res => res.json())
     .then(data => {
+      linkCache[tab] = data; // ✅ Simpan ke cache
       container.innerHTML = "";
       data.forEach(link => {
         const a = document.createElement("a");
