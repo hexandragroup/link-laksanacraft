@@ -1,5 +1,5 @@
 <footer>
-  <p>&copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta</p>
+  &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta
 </footer>
 
 <script>
@@ -7,4 +7,13 @@
   const currentYear = new Date().getFullYear();
   document.getElementById("year").textContent =
     currentYear > startYear ? startYear + "–" + currentYear : startYear;
+</script>
+
+<!-- Google Tag -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-V1JWDFFYK2');
 </script>
