@@ -114,3 +114,10 @@ burger.addEventListener('click', () => {
   burger.classList.toggle('active'); // ikon berubah menjadi silang
   menu.classList.toggle('show');     // menu HP muncul/tutup
 });
+document.addEventListener('click', (e) => {
+  // cek klik berada di luar burger dan menu
+  if (!menu.contains(e.target) && !burger.contains(e.target)) {
+    menu.classList.remove('show');   // tutup menu
+    burger.classList.remove('active'); // ubah ikon kembali
+  }
+});
