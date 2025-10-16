@@ -80,7 +80,7 @@ p { color: #444; margin-bottom: 20px; }
     padding: 8px 0;
     text-align: right;
     font-size: 14px;
-    border-bottom: 1px solid #eee;
+    border-bottom: none;
     border-radius: 0;
     width: 100%;
   }
