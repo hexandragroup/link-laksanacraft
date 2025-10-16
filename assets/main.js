@@ -106,33 +106,27 @@ function showTab(id) {
 // --- Muat tab pertama otomatis ---
 loadLinks('utama');
 
-// --- Toggle menu burger & tutup saat klik di luar ---
-const burger = document.querySelector('.menu-icon');
-const menu = document.querySelector('.menu-links');
+// Tombol panah & menu sisi
+const sideTab = document.getElementById('sideTab');
+const sideMenu = document.getElementById('sideMenu');
 
-burger.addEventListener('click', (e) => {
-  e.stopPropagation(); // mencegah event klik ke document
-  burger.classList.toggle('active');
-  menu.classList.toggle('show');
+sideTab.addEventListener('click', (e) => {
+  e.stopPropagation(); // cegah bubbling
+  sideMenu.classList.toggle('show');
 });
 
-// Klik di luar menu → tutup menu
 document.addEventListener('click', (e) => {
-  if (!menu.contains(e.target) && !burger.contains(e.target)) {
-    menu.classList.remove('show');
-    burger.classList.remove('active');
+  if (!sideMenu.contains(e.target) && !sideTab.contains(e.target)) {
+    sideMenu.classList.remove('show');
   }
 });
 
-// Swipe kiri (mobile) → tutup menu
+// Swipe kiri untuk tutup menu (mobile)
 let touchStartX = 0;
-document.addEventListener('touchstart', (e) => {
-  touchStartX = e.touches[0].clientX;
-});
-document.addEventListener('touchend', (e) => {
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
   const touchEndX = e.changedTouches[0].clientX;
-  if (menu.classList.contains('show') && touchEndX < touchStartX - 50) {
-    menu.classList.remove('show');
-    burger.classList.remove('active');
+  if (sideMenu.classList.contains('show') && touchEndX < touchStartX - 50) {
+    sideMenu.classList.remove('show');
   }
 });
