@@ -1,15 +1,200 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <div id="header"></div>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Temukan semua tautan penting dari Laksana Handicraft: katalog wayang kulit, toko online, Shopee, Tokopedia, dan media sosial resmi.">
+  <meta property="og:title" content="Link Laksana Handicraft" />
+  <meta property="og:image" content="https://laksanacraft.my.id/logo.png" />
+  <meta property="og:description" content="Kerajinan Nusantara, Warisan Dunia – Semua tautan resmi Laksana Handicraft." />
+  <meta property="og:url" content="https://link.laksanacraft.my.id/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Link Laksana Handicraft</title>
+
+  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    img.logo {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+    h1 { font-size: 20px; margin-bottom: 10px; }
+    h1 a { text-decoration: none; color: #222; }
+    h1 a:hover { text-decoration: underline; }
+    p { color: #444; margin-bottom: 20px; }
+
+    .btn {
+      display: block;
+      margin: 10px auto;
+      padding: 14px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #e6e6e6;
+      transform: scale(1.03);
+    }
+    footer { margin-top: 30px; font-size: 12px; color: #666; }
+
+    html, body {
+      height: 100% !important;
+      background-attachment: fixed !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+    }
+    .goog-te-banner-frame.skiptranslate { display: none !important; }
+    body { top: 0px !important; }
+    .goog-te-gadget-icon { display: none !important; }
+
+    form.search-box { margin: 20px 0; position: relative; }
+    form.search-box input {
+      width: 100%;
+      max-width: 420px;
+      padding: 12px;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    form.search-box button {
+      width: 100%;
+      max-width: 420px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    form.search-box button:hover { background: #555; }
+
+    .suggestions {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-top: none;
+      z-index: 1000;
+      text-align: left;
+    }
+    .suggestions div { padding: 8px 12px; cursor: pointer; }
+    .suggestions div:hover { background: #eee; }
+
+    /* ✅ Tabs sejajar di semua ukuran layar */
+    .tabs { margin-top: 20px; }
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 15px;
+      flex-wrap: nowrap;
+    }
+    .tab-buttons button {
+      flex: 1 1 33%;
+      min-width: 0;
+      padding: 10px 8px;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .tab-buttons button.active {
+      background: #333;
+      color: #fff;
+    }
+    @media (max-width: 360px) {
+      .tab-buttons button {
+        font-size: 12px;
+        padding: 8px 4px;
+      }
+    }
+
+    .tab-content {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    .tab-content.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ✅ Tombol WhatsApp Sticky (versi ikon bulat) */
+    .wa-sticky {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      z-index: 9999;
+      background: #25D366;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    .wa-sticky img {
+      width: 30px;
+      height: 30px;
+    }
+    .wa-sticky:hover {
+      background: #1ebe5b;
+      transform: scale(1.05);
+    }
+    @media (min-width: 768px) {
+      .wa-sticky { display: none; }
+    }
+  </style>
+
+  <!-- Google Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V1JWDFFYK2');
+  </script>
+  <meta name="google-site-verification" content="oJLnR6iLjAKSSTZ_9MwIqFop7H1rp7MPhVSOAV_TVGo" />
 </head>
+
 <body>
   <div class="container">
     <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
     <p><em>"Kerajinan Nusantara, Warisan Dunia"</em></p>
 
-    <!-- 🌏 Google Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -25,99 +210,72 @@
       </select>
     </div>
 
-    <!-- 🔍 Pencarian -->
     <form class="search-box" onsubmit="goSearch(event)">
       <input type="text" id="query" placeholder="Cari produk (contoh: Arjuna, 30cm, alusan)" autocomplete="off" />
       <div id="suggestions" class="suggestions"></div>
       <button type="submit">Cari Produk</button>
     </form>
 
-    <!-- 🗂️ Tabs -->
     <div class="tabs">
       <div class="tab-buttons">
-        <button class="active" data-tab="utama">🌐 Utama</button>
-        <button data-tab="toko">🛍️ Toko</button>
-        <button data-tab="sosial">📱 Sosial</button>
+        <button class="active" onclick="showTab('utama')">🌐 Utama</button>
+        <button onclick="showTab('toko')">🛍️ Toko</button>
+        <button onclick="showTab('sosial')">📱 Sosial</button>
       </div>
 
       <div id="utama" class="tab-content active">
         <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
         <a class="btn" href="https://url.laksanacraft.my.id/produk">🎨 Contoh Produk</a>
-        <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Katalog Produk</a>
+        <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Foto/ Katalog Produk</a>
         <a class="btn" href="https://msha.ke/wayangkulitsewon#links">🔗 Daftar Link Produk</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/form">📝 Form Order</a>
-        <a class="btn" href="https://blog.laksanacraft.my.id/">📖 Blog</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/map">📍 Lokasi Kami</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/form">📝 Form Order & Kerja Sama</a>
+        <a class="btn" href="https://blog.laksanacraft.my.id/">📖 Blog & Artikel</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/map">📍 Lokasi Toko Kami</a>
+        <a class="btn" href="https://linktr.ee/hexaleathercraft">🔗 Cabang Kami di Rembang</a>
       </div>
 
       <div id="toko" class="tab-content">
-        <a class="btn" href="https://shop.laksanacraft.my.id/">🛒 Toko Online</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/shopee">🛍️ Shopee</a>
+        <a class="btn" href="https://shop.laksanacraft.my.id/">🛍️ Belanja di Toko Online Kami</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/shopee">🛒 Shopee</a>
         <a class="btn" href="https://url.laksanacraft.my.id/tokopedia">🛒 Tokopedia</a>
         <a class="btn" href="https://url.laksanacraft.my.id/tiktok">🛒 TikTok Shop</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/wa">📱 WhatsApp</a>
+        <a class="btn" href="https://toco.id/store/laksanacraft">🛒 Toco</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/wa">📱 Pesan via WhatsApp</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/email">📧 Email Kami</a>
       </div>
 
       <div id="sosial" class="tab-content">
         <a class="btn" href="https://url.laksanacraft.my.id/facebook">📘 Facebook</a>
         <a class="btn" href="https://url.laksanacraft.my.id/instagram">📷 Instagram</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/twitter">🐦 Twitter</a>
         <a class="btn" href="https://url.laksanacraft.my.id/youtube">🎥 YouTube</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/wa/channel">📢 Channel WhatsApp</a>
+        <a class="btn" href="https://url.laksanacraft.my.id/telegram/channel">📢 Channel Telegram</a>
       </div>
     </div>
+
+    <footer>
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
+    </footer>
   </div>
 
-  <!-- ✅ Tombol WhatsApp Sticky -->
+  <!-- ✅ Tombol WhatsApp Sticky (Versi Ikon Bulat) -->
   <a href="https://url.laksanacraft.my.id/wa" class="wa-sticky" aria-label="Hubungi via WhatsApp">
     <img src="https://url.laksanacraft.my.id/assets/wa-icon.svg" alt="WhatsApp" />
   </a>
 
-  <!-- Footer -->
-  <div id="footer"></div>
-
   <script>
-    // === Muat partials ===
-    fetch("partials/header.html").then(r => r.text()).then(html => {
-      document.querySelector("head").insertAdjacentHTML("afterbegin", html);
-      initMenu();
-    });
-    fetch("partials/footer.html").then(r => r.text()).then(html => {
-      document.getElementById("footer").innerHTML = html;
-    });
+    const startYear = 1990;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent = currentYear > startYear ? startYear + "–" + currentYear : startYear;
 
-    // === Tabs ===
-    document.addEventListener("click", e => {
-      if (e.target.matches(".tab-buttons button")) {
-        document.querySelectorAll(".tab-buttons button").forEach(btn => btn.classList.remove("active"));
-        e.target.classList.add("active");
-        document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
-        document.getElementById(e.target.dataset.tab).classList.add("active");
-      }
-    });
-
-    // === Menu Navigasi ===
-    function initMenu() {
-      const btn = document.getElementById("menuBtn");
-      const list = document.getElementById("menuList");
-      if (btn && list) {
-        btn.onclick = () => list.classList.toggle("menu-visible");
-        document.addEventListener("click", e => {
-          if (!btn.contains(e.target) && !list.contains(e.target)) list.classList.remove("menu-visible");
-        });
-      }
+    function goSearch(e) {
+      e.preventDefault();
+      const q = document.getElementById("query").value.trim();
+      if (q) window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
+      else alert("Masukkan kata kunci pencarian!");
     }
 
-    // === Google Translate ===
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
-    }
-    function doGTranslate(el) {
-      if (el.value === '') return;
-      var lang = el.value.split('|')[1];
-      var select = document.querySelector('.goog-te-combo');
-      if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
-    }
-
-    // === Pencarian produk (pakai JSON) ===
     let products = [];
     fetch("https://link.laksanacraft.my.id/search/products.json")
       .then(res => res.json())
@@ -145,11 +303,29 @@
         });
     });
 
-    function goSearch(e) {
-      e.preventDefault();
-      const q = document.getElementById("query").value.trim();
-      if (q) window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
-      else alert("Masukkan kata kunci pencarian!");
+    function showTab(id) {
+      document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelector('.tab-buttons button[onclick="showTab(\'' + id + '\')"]').classList.add('active');
+      const tab = document.getElementById(id);
+      tab.classList.add('active');
+      if (window.innerWidth < 600) tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+    }
+    function doGTranslate(el) {
+      if (el.value === '') return;
+      var lang = el.value.split('|')[1];
+      if (lang === 'id') {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+        location.href = "https://link.laksanacraft.my.id/";
+        return;
+      }
+      var select = document.querySelector('.goog-te-combo');
+      if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
     }
   </script>
 
