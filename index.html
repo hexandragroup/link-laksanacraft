@@ -176,6 +176,75 @@
     @media (min-width: 768px) {
       .wa-sticky { display: none; }
     }
+   /* ✅ Navigasi atas (pojok kanan) */
+    .top-nav {
+      position: fixed;
+      top: 10px;
+      right: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(6px);
+      padding: 8px 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 10000;
+    }
+
+    .top-nav a {
+      color: #333;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .top-nav a:hover {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    /* 🔹 Tombol menu (untuk HP) */
+    .menu-icon {
+      display: none;
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    /* 🔹 Responsif untuk layar kecil */
+    @media (max-width: 600px) {
+      .menu-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        right: 15px;
+        top: 45px;
+        background: rgba(255,255,255,0.95);
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+      }
+      .menu-links.show {
+        display: flex;
+      }
+      .menu-links a {
+        display: block;
+        padding: 8px 12px;
+        line-height: 1.6;
+        border-radius: 6px;
+        text-align: right;
+        transition: background 0.2s ease;
+      }
+      .menu-links a:hover {
+        background: #eee;
+      }
+      .menu-icon {
+        display: block;
+      }
+    }
   </style>
 
   <!-- Google Tag -->
@@ -190,6 +259,15 @@
 </head>
 
 <body>
+  <!-- 🔹 Navigasi di pojok atas -->
+  <nav class="top-nav">
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <div class="menu-links">
+      <a href="https://link.laksanacraft.my.id/">Beranda</a>
+      <a href="#tentang">Tentang</a>
+      <a href="https://url.laksanacraft.my.id/wa" target="_blank">Hubungi</a>
+    </div>
+  </nav>
   <div class="container">
     <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Kerajinan Wayang Kulit Sewon | Laksana Handicraft</a></h1>
@@ -363,6 +441,11 @@ function showTab(id) {
 
 // 🔹 Muat tab pertama saat halaman dibuka
 loadLinks('utama');
+</script>
+  <script>
+function toggleMenu() {
+  document.querySelector('.menu-links').classList.toggle('show');
+}
 </script>
 </body>
 </html>
