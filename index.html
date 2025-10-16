@@ -223,35 +223,9 @@
         <button onclick="showTab('sosial')">📱 Sosial</button>
       </div>
 
-      <div id="utama" class="tab-content active">
-        <a class="btn" href="https://laksanacraft.my.id/">🌐 Website Resmi</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/produk">🎨 Contoh Produk</a>
-        <a class="btn" href="https://instabio.cc/wayangkulitsewon">🖼️ Foto/ Katalog Produk</a>
-        <a class="btn" href="https://msha.ke/wayangkulitsewon#links">🔗 Daftar Link Produk</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/form">📝 Form Order & Kerja Sama</a>
-        <a class="btn" href="https://blog.laksanacraft.my.id/">📖 Blog & Artikel</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/map">📍 Lokasi Toko Kami</a>
-        <a class="btn" href="https://linktr.ee/hexaleathercraft">🔗 Cabang Kami di Rembang</a>
-      </div>
-
-      <div id="toko" class="tab-content">
-        <a class="btn" href="https://shop.laksanacraft.my.id/">🛍️ Belanja di Toko Online Kami</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/shopee">🛒 Shopee</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/tokopedia">🛒 Tokopedia</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/tiktok">🛒 TikTok Shop</a>
-        <a class="btn" href="https://toco.id/store/laksanacraft">🛒 Toco</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/wa">📱 Pesan via WhatsApp</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/email">📧 Email Kami</a>
-      </div>
-
-      <div id="sosial" class="tab-content">
-        <a class="btn" href="https://url.laksanacraft.my.id/facebook">📘 Facebook</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/instagram">📷 Instagram</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/twitter">🐦 Twitter</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/youtube">🎥 YouTube</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/wa/channel">📢 Channel WhatsApp</a>
-        <a class="btn" href="https://url.laksanacraft.my.id/telegram/channel">📢 Channel Telegram</a>
-      </div>
+<div id="utama" class="tab-content active"></div>
+<div id="toko" class="tab-content"></div>
+<div id="sosial" class="tab-content"></div>
     </div>
 
     <footer>
@@ -331,5 +305,46 @@
 
   <div id="google_translate_element" style="display:none;"></div>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+const tabFiles = {
+  utama: 'links/utama.json',
+  toko: 'links/toko.json',
+  sosial: 'links/sosial.json'
+};
+
+function loadLinks(tab) {
+  const container = document.getElementById(tab);
+  container.innerHTML = "<p>🔄 Memuat...</p>";
+  fetch(tabFiles[tab])
+    .then(res => res.json())
+    .then(data => {
+      container.innerHTML = "";
+      data.forEach(link => {
+        const a = document.createElement("a");
+        a.className = "btn";
+        a.href = link.url;
+        a.textContent = link.text;
+        container.appendChild(a);
+      });
+    })
+    .catch(() => {
+      container.innerHTML = "<p>⚠️ Gagal memuat link.</p>";
+    });
+}
+
+function showTab(id) {
+  document.querySelectorAll('.tab-buttons button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add('active');
+  const tab = document.getElementById(id);
+  tab.classList.add('active');
+  loadLinks(id);
+  if (window.innerWidth < 600) tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 🔹 Muat tab pertama saat halaman dibuka
+loadLinks('utama');
+</script>
 </body>
 </html>
