@@ -58,14 +58,18 @@ p { color: #444; margin-bottom: 20px; }
   .top-nav .divider { display: none; }
 }
 
-/* Burger Icon */
+/* Burger Icon (persegi + sudut membulat) */
 .menu-icon {
   display: none;  /* default desktop */
   flex-direction: column;
-  justify-content: space-between;
-  width: 25px;
-  height: 20px;
+  justify-content: space-around;
+  width: 40px;      /* persegi */
+  height: 40px;     /* persegi */
+  border-radius: 8px; /* sudut membulat */
+  padding: 6px;
   cursor: pointer;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .menu-icon span {
   display: block;
@@ -93,15 +97,15 @@ p { color: #444; margin-bottom: 20px; }
     flex-direction: column;
     align-items: stretch;
     position: absolute;
-    top: 45px;
+    top: 50px;
     right: 0;
     background: rgba(255,255,255,0.95);
-    padding: 0;
-    border-radius: 10px;
+    padding: 8px 0;
+    border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;          /* fleksibel sesuai isi */
-    min-width: 140px;     /* minimal lebar */
-    max-width: 200px;     /* maksimal lebar */
+    width: auto;
+    min-width: 140px;
+    max-width: 200px;
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -111,12 +115,13 @@ p { color: #444; margin-bottom: 20px; }
   }
   .menu-links a {
     display: block;
-    padding: 12px 16px;
+    padding: 14px 0;
     text-align: center;
     font-size: 14px;
     border-bottom: 1px solid #ddd; /* garis tipis antar link */
     width: 100%;
     box-sizing: border-box;
+    border-radius: 8px; /* sudut bulat area link */
     background: #fff;
     transition: background 0.2s;
   }
@@ -158,15 +163,18 @@ form.search-box button:hover { background: #555; }
 .suggestions div { padding: 8px 12px; cursor: pointer; }
 .suggestions div:hover { background: #eee; }
 
-/* 🔘 Tombol utama */
+/* 🔘 Tombol utama (persegi + sudut bulat) */
 .btn {
   display: block;
   margin: 10px auto;
-  padding: 14px 20px;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
   background: #fff;
   color: #222;
   border: 1px solid #bbb;
-  border-radius: 8px;
+  border-radius: 12px; /* sudut bulat */
   text-decoration: none;
   transition: 0.3s;
 }
