@@ -55,9 +55,7 @@ p { color: #444; margin-bottom: 20px; }
   margin: 0 4px;
 }
 @media (max-width: 600px) {
-  .top-nav .divider {
-    display: none;
-  }
+  .top-nav .divider { display: none; }
 }
 
 /* Burger Icon */
@@ -89,10 +87,11 @@ p { color: #444; margin-bottom: 20px; }
 
 /* 📱 Navigasi versi HP — pojok kanan */
 @media (max-width: 600px) {
+  .menu-icon { display: flex; }
   .menu-links {
     display: none;
     flex-direction: column;
-    align-items: stretch; /* Lebar link menyesuaikan konten */
+    align-items: stretch;
     position: absolute;
     top: 45px;
     right: 0;
@@ -100,18 +99,16 @@ p { color: #444; margin-bottom: 20px; }
     padding: 0;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;          /* menyesuaikan isi */
-    min-width: 120px;     /* minimal lebar */
-    max-width: 180px;     /* maksimal lebar */
+    width: auto;          /* fleksibel sesuai isi */
+    min-width: 140px;     /* minimal lebar */
+    max-width: 200px;     /* maksimal lebar */
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-
   .menu-links.show {
     display: flex;
     opacity: 1;
   }
-
   .menu-links a {
     display: block;
     padding: 12px 16px;
@@ -123,14 +120,8 @@ p { color: #444; margin-bottom: 20px; }
     background: #fff;
     transition: background 0.2s;
   }
-
-  .menu-links a:last-child {
-    border-bottom: none; /* hilangkan garis di link terakhir */
-  }
-
-  .menu-links a:hover {
-    background: #f0f0f0;
-  }
+  .menu-links a:last-child { border-bottom: none; }
+  .menu-links a:hover { background: #f0f0f0; }
 }
 
 /* 🔍 Kotak pencarian */
