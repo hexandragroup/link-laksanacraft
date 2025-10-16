@@ -58,18 +58,14 @@ p { color: #444; margin-bottom: 20px; }
   .top-nav .divider { display: none; }
 }
 
-/* Burger Icon (persegi kecil + sudut membulat) */
+/* Burger Icon */
 .menu-icon {
   display: none;  /* default desktop */
   flex-direction: column;
-  justify-content: space-around;
-  width: 25px;      /* ukuran kecil seperti sebelumnya */
-  height: 25px;     /* sama tinggi & lebar → persegi */
-  border-radius: 6px; /* sudut membulat */
-  padding: 4px;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
   cursor: pointer;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
 }
 .menu-icon span {
   display: block;
@@ -97,15 +93,15 @@ p { color: #444; margin-bottom: 20px; }
     flex-direction: column;
     align-items: stretch;
     position: absolute;
-    top: 40px;
+    top: 45px;
     right: 0;
     background: rgba(255,255,255,0.95);
-    padding: 8px 0;
+    padding: 0;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;
-    min-width: 140px;
-    max-width: 200px;
+    width: auto;          /* fleksibel sesuai isi */
+    min-width: 140px;     /* minimal lebar */
+    max-width: 200px;     /* maksimal lebar */
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -121,7 +117,6 @@ p { color: #444; margin-bottom: 20px; }
     border-bottom: 1px solid #ddd; /* garis tipis antar link */
     width: 100%;
     box-sizing: border-box;
-    border-radius: 8px; /* sudut bulat area link */
     background: #fff;
     transition: background 0.2s;
   }
@@ -167,20 +162,17 @@ form.search-box button:hover { background: #555; }
 .btn {
   display: block;
   margin: 10px auto;
-  width: 150px;
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
+  padding: 14px 20px;
   background: #fff;
   color: #222;
   border: 1px solid #bbb;
-  border-radius: 12px; /* sudut bulat */
+  border-radius: 8px;
   text-decoration: none;
   transition: 0.3s;
 }
 .btn:hover { background: #e6e6e6; transform: scale(1.03); }
 
-/* 🧩 Tabs (Tombol Utama/Toko/Sosial tetap tidak berubah) */
+/* 🧩 Tabs */
 .tabs { margin-top: 20px; }
 .tab-buttons {
   display: flex;
