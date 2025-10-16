@@ -92,20 +92,21 @@ p { color: #444; margin-bottom: 20px; }
   .menu-links {
     display: none;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: stretch; /* Lebar link menyesuaikan konten */
     position: absolute;
     top: 45px;
     right: 0;
     background: rgba(255,255,255,0.95);
-    padding: 8px 12px;
+    padding: 0;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    width: auto;
-    min-width: 120px;
-    max-width: 180px;
+    width: auto;          /* menyesuaikan isi */
+    min-width: 120px;     /* minimal lebar */
+    max-width: 180px;     /* maksimal lebar */
     opacity: 0;
     transition: opacity 0.3s ease;
   }
+
   .menu-links.show {
     display: flex;
     opacity: 1;
@@ -113,17 +114,23 @@ p { color: #444; margin-bottom: 20px; }
 
   .menu-links a {
     display: block;
-    padding: 8px 0;
-    text-align: right;
+    padding: 12px 16px;
+    text-align: center;
     font-size: 14px;
-    border-bottom: none;
+    border-bottom: 1px solid #ddd; /* garis tipis antar link */
     width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    transition: background 0.2s;
   }
-  .menu-links a:last-child { border-bottom: none; }
-  .menu-links a:hover { background: #f8f8f8; }
 
-  /* Tampilkan menu-icon di HP */
-  .menu-icon { display: flex; }
+  .menu-links a:last-child {
+    border-bottom: none; /* hilangkan garis di link terakhir */
+  }
+
+  .menu-links a:hover {
+    background: #f0f0f0;
+  }
 }
 
 /* 🔍 Kotak pencarian */
