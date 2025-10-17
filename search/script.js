@@ -1,33 +1,50 @@
+// --- Tahun Dinamis ---
 const startYear = 1990;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
   currentYear > startYear ? startYear + "–" + currentYear : startYear;
 
+// --- Data & Label ---
 let products = [];
 const labels = {
-  ukuran: { miniatur: "Miniatur", "20, 25, 30cm": "20, 25, 30cm", standar: "Standar Pedalangan" },
+  ukuran: {
+    miniatur: "Miniatur",
+    "20, 25, 30cm": "20, 25, 30cm",
+    standar: "Standar Pedalangan"
+  },
   kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
 };
 const groupAliases = {
-  punakawan: ["semar","gareng","petruk","bagong"],
-  pandawa: ["arjuna","nakula","sadewa","bima","puntadewa"]
+  punakawan: ["semar", "gareng", "petruk", "bagong"],
+  pandawa: ["arjuna", "nakula", "sadewa", "bima", "puntadewa"]
 };
 
+// --- Helper Functions ---
 function escapeHtml(s) {
-  return s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
+  return s
+    ? String(s).replace(/[&<>"']/g, m => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[m]))
+    : "";
 }
 function escapeAttr(s) { return escapeHtml(s); }
-function capitalize(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
-
-document.getElementById("searchForm").addEventListener("submit", e => {
-  e.preventDefault();
-  doFilterSearch();
-});
+function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
 
 function matchesGroup(tokoh, group) {
   return groupAliases[group]?.some(t => tokoh.includes(t));
 }
 
+// --- Form Submit ---
+document.getElementById("searchForm").addEventListener("submit", e => {
+  e.preventDefault();
+  doFilterSearch();
+});
+
+// --- Filter Search ---
 function doFilterSearch() {
   const tokoh = document.getElementById("tokoh").value.toLowerCase();
   const ukuran = document.getElementById("ukuran").value;
@@ -36,7 +53,8 @@ function doFilterSearch() {
   out.innerHTML = "";
 
   if (!tokoh && !ukuran && !kualitas) {
-    out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+    out.innerHTML =
+      "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
     return;
   }
 
@@ -46,19 +64,26 @@ function doFilterSearch() {
       (tokoh === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
       (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa"))
     ) : true) &&
-    (ukuran ? (
-        ukuran === "20, 25, 30cm"
-          ? ["20cm","25cm","30cm"].some(u => Array.isArray(p.ukuran) ? p.ukuran.includes(u) : p.ukuran === u)
-          : ukuran === "standar"
-            ? (Array.isArray(p.ukuran) ? p.ukuran.includes("Standar Pedalangan") : p.ukuran === "Standar Pedalangan")
-            : (Array.isArray(p.ukuran) ? p.ukuran.includes(ukuran) : p.ukuran === ukuran)
-      ) : true) &&
+    (ukuran
+      ? ukuran === "20, 25, 30cm"
+        ? ["20cm", "25cm", "30cm"].some(u =>
+            Array.isArray(p.ukuran) ? p.ukuran.includes(u) : p.ukuran === u
+          )
+        : ukuran === "standar"
+        ? Array.isArray(p.ukuran)
+          ? p.ukuran.includes("Standar Pedalangan")
+          : p.ukuran === "Standar Pedalangan"
+        : Array.isArray(p.ukuran)
+        ? p.ukuran.includes(ukuran)
+        : p.ukuran === ukuran
+      : true) &&
     (kualitas ? p.kualitas === kualitas : true)
   );
 
   renderResults(filtered);
 }
 
+// --- Query Param (/?q=...) ---
 function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
@@ -75,13 +100,17 @@ function checkQueryParam() {
     p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
     (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
     (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
-    (p.ukuran && (Array.isArray(p.ukuran) ? p.ukuran.some(u => u.toLowerCase().includes(qLower)) : p.ukuran.toLowerCase().includes(qLower))) ||
+    (p.ukuran &&
+      (Array.isArray(p.ukuran)
+        ? p.ukuran.some(u => u.toLowerCase().includes(qLower))
+        : p.ukuran.toLowerCase().includes(qLower))) ||
     (p.kualitas && p.kualitas.toLowerCase().includes(qLower))
   );
 
   renderResults(filtered);
 }
 
+// --- Render Hasil ---
 function renderResults(list) {
   const out = document.getElementById("results");
   if (list.length === 0) {
@@ -91,8 +120,8 @@ function renderResults(list) {
 
   list.forEach(p => {
     let tokohList = p.tokoh.map(capitalize);
-    if (matchesGroup(p.tokoh, "punakawan")) { tokohList.unshift("(Punakawan)"); }
-    if (matchesGroup(p.tokoh, "pandawa")) { tokohList.unshift("(Pandawa)"); }
+    if (matchesGroup(p.tokoh, "punakawan")) tokohList.unshift("(Punakawan)");
+    if (matchesGroup(p.tokoh, "pandawa")) tokohList.unshift("(Pandawa)");
 
     let varianTable = "";
     if (p.varian && Array.isArray(p.varian)) {
@@ -103,7 +132,9 @@ function renderResults(list) {
       varianTable += "</table>";
     }
 
-    let ukuranLabel = Array.isArray(p.ukuran) ? p.ukuran.map(u => labels.ukuran[u] || u).join(", ") : labels.ukuran[p.ukuran] || p.ukuran;
+    let ukuranLabel = Array.isArray(p.ukuran)
+      ? p.ukuran.map(u => labels.ukuran[u] || u).join(", ")
+      : labels.ukuran[p.ukuran] || p.ukuran;
 
     out.innerHTML += `
       <div class="result">
@@ -117,16 +148,17 @@ function renderResults(list) {
   });
 }
 
-/* === Custom Autocomplete (per tokoh sendiri-sendiri) === */
+/* === Autocomplete Tokoh (Hybrid + Scroll) === */
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
   const suggestionBox = document.getElementById("tokoh-suggestions");
 
+  suggestionBox.style.maxHeight = "250px";
+  suggestionBox.style.overflowY = "auto";
+
   const tokohSet = new Set();
   products.forEach(p => {
-    if (Array.isArray(p.tokoh)) {
-      p.tokoh.forEach(t => tokohSet.add(capitalize(t)));
-    }
+    if (Array.isArray(p.tokoh)) p.tokoh.forEach(t => tokohSet.add(capitalize(t)));
   });
 
   tokohSet.add("Punakawan");
@@ -139,9 +171,17 @@ function setupAutocomplete(products) {
     suggestionBox.innerHTML = "";
     if (!val) return;
 
-    tokohList.filter(t => t.toLowerCase().includes(val)).forEach(t => {
+    // Hybrid search: startsWith dulu, lalu includes
+    let matches = tokohList.filter(t => t.toLowerCase().startsWith(val));
+    if (matches.length === 0) matches = tokohList.filter(t => t.toLowerCase().includes(val));
+
+    matches.forEach(t => {
       const div = document.createElement("div");
       div.textContent = t;
+      div.style.padding = "6px 10px";
+      div.style.cursor = "pointer";
+      div.addEventListener("mouseenter", () => div.style.background = "#eee");
+      div.addEventListener("mouseleave", () => div.style.background = "");
       div.addEventListener("click", () => {
         input.value = t;
         suggestionBox.innerHTML = "";
@@ -150,11 +190,12 @@ function setupAutocomplete(products) {
     });
   });
 
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", e => {
     if (e.target !== input) suggestionBox.innerHTML = "";
   });
 }
 
+// --- Load Semua Produk ---
 async function loadAllProducts() {
   const files = [];
   let i = 1;
@@ -184,23 +225,24 @@ loadAllProducts()
       "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
 
+// --- Google Translate Support ---
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
+  new google.translate.TranslateElement({ pageLanguage: "id" }, "google_translate_element");
 }
 
 function doGTranslate(el) {
-  if (el.value === '') return;
-  var langPair = el.value.split('|');
+  if (el.value === "") return;
+  var langPair = el.value.split("|");
   var lang = langPair[1];
-  if (lang === 'id') {
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
+  if (lang === "id") {
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname + ";";
     window.location.href = window.location.origin + window.location.pathname;
     return;
   }
-  var select = document.querySelector('.goog-te-combo');
+  var select = document.querySelector(".goog-te-combo");
   if (select) {
     select.value = lang;
-    select.dispatchEvent(new Event('change'));
+    select.dispatchEvent(new Event("change"));
   }
 }
