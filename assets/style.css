@@ -95,38 +95,36 @@ form.search-box button {
 }
 form.search-box button:hover { background: #555; }
 
-/* 🔍 Saran pencarian */
+/* 🔍 Kotak saran hasil pencarian */
 .suggestions {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: 420px;
   background: #fff;
   border: 1px solid #bbb;
   border-top: none;
   z-index: 1000;
-  text-align: left;
+
+  /* Tambahan agar bisa scroll */
+  max-height: 250px;       /* batas tinggi maksimal */
+  overflow-y: auto;         /* scroll vertikal otomatis */
+  text-align: left;         /* agar teks sejajar kiri */
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
 .suggestions div {
-  padding: 10px 12px;
+  padding: 10px 14px;
   cursor: pointer;
   font-size: 14px;
-  line-height: 1.4;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
   border-bottom: 1px solid #eee;
-  transition: background 0.2s;
 }
-.suggestions div:last-child {
-  border-bottom: none;
-}
+
 .suggestions div:hover {
-  background: #f5f5f5;
+  background: #f2f2f2;
 }
 
 /* 🔘 Tombol utama */
