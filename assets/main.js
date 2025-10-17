@@ -9,9 +9,9 @@ function goSearch(e) {
   e.preventDefault();
   const q = document.getElementById("query").value.trim();
   if (q)
-    window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
-  else
-    alert("Masukkan kata kunci pencarian!");
+    window.location.href =
+      "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
+  else alert("Masukkan kata kunci pencarian!");
 }
 
 // --- Auto-saran pencarian ---
@@ -43,15 +43,17 @@ loadAllProducts();
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
+// Tambahkan gaya scroll
+suggestionsBox.style.maxHeight = "300px";
+suggestionsBox.style.overflowY = "auto";
+
 queryInput.addEventListener("input", function () {
-  // cek apakah nilai berasal dari klik saran
   const isSelected = this.dataset.selected === "true";
   const val = isSelected ? this.value : this.value.toLowerCase();
   this.dataset.selected = "false"; // reset flag klik
 
   suggestionsBox.innerHTML = "";
 
-  // Jika masih memuat data
   if (loading) {
     suggestionsBox.innerHTML = "<div>⏳ Memuat data produk...</div>";
     return;
@@ -67,35 +69,44 @@ queryInput.addEventListener("input", function () {
     if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
-  // 💬 Filter & tampilkan hasil dengan label kategori
-  Array.from(allKeywords)
-    .filter(k => k.toLowerCase().includes(val))
-    .forEach(match => {
-      const [type, value] = match.split(":");
-      const div = document.createElement("div");
+  // 💡 Hybrid search: startsWith dulu, jika kosong baru includes
+  let matches = Array.from(allKeywords).filter(k =>
+    k.toLowerCase().startsWith(val)
+  );
+  if (matches.length === 0) {
+    matches = Array.from(allKeywords).filter(k =>
+      k.toLowerCase().includes(val)
+    );
+  }
 
-      // Label kategori
-      let label = "";
-      if (type === "tokoh") label = "👤 Tokoh: ";
-      else if (type === "ukuran") label = "📏 Ukuran: ";
-      else if (type === "kualitas") label = "⭐ Kualitas: ";
+  // 💬 Tampilkan hasil
+  matches.forEach(match => {
+    const [type, value] = match.split(":");
+    const div = document.createElement("div");
 
-      // Huruf depan kapital untuk tokoh & ukuran
-      const displayValue =
-        type === "tokoh" || type === "ukuran" || type === "kualitas"
-          ? value.charAt(0).toUpperCase() + value.slice(1)
-          : value;
+    // Label kategori
+    let label = "";
+    if (type === "tokoh") label = "👤 Tokoh: ";
+    else if (type === "ukuran") label = "📏 Ukuran: ";
+    else if (type === "kualitas") label = "⭐ Kualitas: ";
 
-      div.textContent = label + displayValue;
+    // Huruf depan kapital untuk tokoh & ukuran
+    const displayValue =
+      type === "tokoh" || type === "ukuran" || type === "kualitas"
+        ? value.charAt(0).toUpperCase() + value.slice(1)
+        : value;
 
-      div.onclick = () => {
-        queryInput.value = displayValue; // tetap kapital saat diklik
-        queryInput.dataset.selected = "true"; // tandai hasil klik
-        suggestionsBox.innerHTML = "";
-      };
+    div.textContent = label + displayValue;
 
-      suggestionsBox.appendChild(div);
-    });
+    // Klik saran
+    div.onclick = () => {
+      queryInput.value = displayValue;
+      queryInput.dataset.selected = "true";
+      suggestionsBox.innerHTML = "";
+    };
+
+    suggestionsBox.appendChild(div);
+  });
 });
 
 // --- Tab Navigasi (Utama / Toko / Sosial) ---
@@ -142,9 +153,15 @@ function loadLinks(tab) {
 }
 
 function showTab(id) {
-  document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add("active");
+  document
+    .querySelectorAll(".tab-buttons button")
+    .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach(t => t.classList.remove("active"));
+  document
+    .querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`)
+    .classList.add("active");
   const tab = document.getElementById(id);
   tab.classList.add("active");
   loadLinks(id);
@@ -182,7 +199,10 @@ document.addEventListener("touchstart", e => {
 });
 document.addEventListener("touchend", e => {
   const touchEndX = e.changedTouches[0].clientX;
-  if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
+  if (
+    cornerMenu.classList.contains("show") &&
+    touchEndX < touchStartX - 50
+  ) {
     cornerMenu.classList.remove("show");
     cornerTab.style.opacity = "1";
     cornerTab.style.pointerEvents = "auto";
