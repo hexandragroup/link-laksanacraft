@@ -155,8 +155,25 @@ function setupAutocomplete(products) {
   });
 }
 
-fetch("products.json")
-  .then(r => r.json())
+async function loadAllProducts() {
+  const files = [];
+  let i = 1;
+  while (true) {
+    const file = `data/products${i}.json`;
+    try {
+      const res = await fetch(file);
+      if (!res.ok) break;
+      const json = await res.json();
+      files.push(json);
+      i++;
+    } catch {
+      break;
+    }
+  }
+  return files.flat();
+}
+
+loadAllProducts()
   .then(data => {
     products = data;
     setupAutocomplete(products);
@@ -164,7 +181,7 @@ fetch("products.json")
   })
   .catch(() => {
     document.getElementById("results").innerHTML =
-      "<p style='color:red;'>Gagal memuat data produk.</p>";
+      "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
 
 function googleTranslateElementInit() {
