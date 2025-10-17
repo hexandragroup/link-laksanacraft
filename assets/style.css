@@ -1,14 +1,16 @@
 /* 🌈 Tampilan dasar */
 body {
-  font-family: sans-serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
   background: linear-gradient(to bottom, #eee, #ccc);
   padding: 30px;
   margin: 0;
+  color: #222;
+  transition: background 0.4s, color 0.4s;
 }
 .container {
   max-width: 500px;
   margin: auto;
-  background: #f2f2f2;
+  background: #f8f8f8;
   padding: 25px;
   border-radius: 16px;
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
@@ -24,126 +26,7 @@ h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
 
-/* Tombol segitiga di pojok kanan atas */
-.corner-tab {
-  position: fixed;
-  top: 30px;
-  right: -10px;
-  width: 55px;
-  height: 55px;
-  background: #333;
-  color: #fff;
-  font-size: 28px;
-  border-radius: 30px 0 0 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 10000;
-  transition: transform 0.3s, opacity 0.3s;
-}
-.corner-tab:hover {
-  background: #555;
-  transform: scale(1.05);
-}
-
-/* Menu sisi kanan */
-.corner-menu {
-  position: fixed;
-  top: 0;
-  right: -180px;
-  width: 180px;
-  height: 100%;
-  background: rgba(255,255,255,0.95);
-  box-shadow: -3px 0 12px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  padding-top: 60px;
-  transition: right 0.3s ease;
-  z-index: 9999;
-}
-.corner-menu.show {
-  right: 0;
-}
-.corner-menu a {
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  text-decoration: none;
-  color: #222;
-}
-.corner-menu a:hover {
-  background: rgba(0,0,0,0.05);
-}
-
-/* 🔍 Kotak pencarian */
-form.search-box { margin: 20px 0; position: relative; }
-form.search-box input,
-form.search-box button {
-  width: 100%;
-  max-width: 420px;
-  padding: 12px;
-  border-radius: 8px;
-  box-sizing: border-box;
-}
-form.search-box input { border: 1px solid #bbb; }
-form.search-box button {
-  border: none;
-  background: #333;
-  color: #fff;
-  margin-top: 10px;
-  cursor: pointer;
-}
-form.search-box button:hover { background: #555; }
-
-/* 🔍 Kotak saran hasil pencarian */
-.suggestions {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  border: 1px solid #bbb;
-  border-top: none;
-  z-index: 1000;
-
-  /* Tambahan agar bisa scroll */
-  max-height: 250px;       /* batas tinggi maksimal */
-  overflow-y: auto;         /* scroll vertikal otomatis */
-  text-align: left;         /* agar teks sejajar kiri */
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.suggestions div {
-  padding: 10px 14px;
-  cursor: pointer;
-  font-size: 14px;
-  border-bottom: 1px solid #eee;
-}
-
-.suggestions div:hover {
-  background: #f2f2f2;
-}
-#suggestions {
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: white;
-}
-
-#suggestions div {
-  padding: 8px 10px;
-  cursor: pointer;
-}
-
-#suggestions div:hover {
-  background: #f0f0f0;
-}
-
-/* 🔘 Tombol utama */
+/* 🟢 Tombol utama */
 .btn {
   display: block;
   margin: 10px auto;
@@ -191,6 +74,130 @@ form.search-box button:hover { background: #555; }
   transform: translateY(0);
 }
 
+/* 🧭 Tombol segitiga pojok kanan atas */
+.corner-tab {
+  position: fixed;
+  top: 30px;
+  right: -10px;
+  width: 55px;
+  height: 55px;
+  background: #333;
+  color: #fff;
+  font-size: 28px;
+  border-radius: 30px 0 0 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10000;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.corner-tab:hover {
+  background: #555;
+  transform: scale(1.05);
+}
+
+/* Menu sisi kanan */
+.corner-menu {
+  position: fixed;
+  top: 0;
+  right: -180px;
+  width: 180px;
+  height: 100%;
+  background: rgba(255,255,255,0.95);
+  box-shadow: -3px 0 12px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  padding-top: 60px;
+  transition: right 0.3s ease;
+  z-index: 9999;
+}
+.corner-menu.show { right: 0; }
+.corner-menu a {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #222;
+}
+.corner-menu a:hover { background: rgba(0,0,0,0.05); }
+
+/* 🔍 Kotak pencarian */
+form.search-box {
+  margin: 20px 0;
+  position: relative;
+}
+form.search-box input,
+form.search-box button {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+form.search-box input {
+  border: 1px solid #bbb;
+  font-size: 16px;
+}
+form.search-box input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+  outline: none;
+}
+form.search-box button {
+  border: none;
+  background: #333;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+}
+form.search-box button:hover {
+  background: #555;
+}
+
+/* 🔍 Kotak saran hasil pencarian (autocomplete) */
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Item saran */
+#suggestions div {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+#suggestions div:hover {
+  background: #f1f5f9;
+  color: #000;
+}
+#suggestions b {
+  color: #d00;
+  font-weight: 600;
+}
+#suggestions div {
+  animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* 💬 Tombol WhatsApp */
 .wa-sticky {
   position: fixed;
@@ -207,12 +214,24 @@ form.search-box button:hover { background: #555; }
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   transition: 0.3s;
 }
-.wa-sticky img { width: 30px; height: 30px; }
-.wa-sticky:hover { background: #1ebe5b; transform: scale(1.05); }
-@media (min-width: 768px) { .wa-sticky { display: none; } }
+.wa-sticky img {
+  width: 30px;
+  height: 30px;
+}
+.wa-sticky:hover {
+  background: #1ebe5b;
+  transform: scale(1.05);
+}
+@media (min-width: 768px) {
+  .wa-sticky { display: none; }
+}
 
 /* ⚙️ Lain-lain */
-footer { margin-top: 30px; font-size: 12px; color: #666; }
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #666;
+}
 html, body {
   height: 100%;
   background-attachment: fixed;
@@ -222,3 +241,24 @@ html, body {
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 .goog-te-gadget-icon { display: none !important; }
 body { top: 0 !important; }
+
+/* 🌙 Mode Gelap Otomatis */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(to bottom, #222, #333);
+    color: #ddd;
+  }
+  .container { background: #2d2d2d; }
+  .btn { background: #444; color: #fff; border-color: #666; }
+  .btn:hover { background: #555; }
+  form.search-box input {
+    background: #333;
+    color: #eee;
+    border-color: #555;
+  }
+  #suggestions { background: #333; color: #eee; border-color: #444; }
+  #suggestions div:hover { background: #444; }
+  .corner-menu { background: rgba(40,40,40,0.95); }
+  .corner-menu a { color: #eee; }
+  .corner-menu a:hover { background: rgba(255,255,255,0.05); }
+}
