@@ -1,0 +1,90 @@
+body {
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  padding: 30px;
+  margin: 0;
+}
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #f2f2f2;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  text-align: center;
+}
+img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
+h1 { font-size: 20px; margin-bottom: 10px; }
+h1 a { text-decoration: none; color: #222; }
+h1 a:hover { text-decoration: underline; }
+p { color: #444; margin-bottom: 16px; }
+p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
+.translate-box { margin-bottom: 20px; }
+.btn {
+  display: block; margin: 10px auto; padding: 12px 14px;
+  background: #fff; color: #222;
+  border-radius: 8px; border: 1px solid #bbb;
+  cursor: pointer; transition: .2s; max-width: 420px;
+}
+.btn:hover { background: #e6e6e6; }
+form .input-row { margin-top: 12px; text-align: left; position: relative; }
+label.small { font-size: 13px; color: #666; display: block; margin-bottom: 4px; }
+input, select, button {
+  width: 100%; max-width: 420px; padding: 10px;
+  border-radius: 8px; border: 1px solid #bbb;
+  margin: 6px auto; display: block; box-sizing: border-box;
+}
+button[type="submit"] {
+  background: #333; color: #fff; border: none;
+  padding: 12px; cursor: pointer;
+}
+button[type="submit"]:hover { background: #444; }
+#results { margin-top: 18px; text-align: left; }
+.result {
+  background: #fff; border: 1px solid #ddd;
+  padding: 12px; border-radius: 8px;
+  margin-bottom: 12px;
+}
+.result p { margin: 6px 0; }
+.small { font-size: 13px; color: #666; }
+table.variant-table {
+  width: 100%; border-collapse: collapse;
+  margin: 8px 0; font-size: 14px;
+}
+table.variant-table th, table.variant-table td {
+  border: 1px solid #ccc; padding: 6px 8px; text-align: left;
+}
+table.variant-table th { background: #f9f9f9; }
+footer { margin-top: 30px; font-size: 12px; color: #666; }
+html, body {
+  height: 100% !important;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+body { top: 0px !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* --- Autocomplete Custom --- */
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #ddd;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+}
+.autocomplete-items div:hover {
+  background-color: #f0f0f0;
+}
