@@ -82,7 +82,7 @@ queryInput.addEventListener("input", function () {
 
       // Huruf depan kapital untuk tokoh & ukuran
       const displayValue =
-        type === "tokoh" || type === "ukuran"
+        type === "tokoh" || type === "ukuran" || type === "kualitas"
           ? value.charAt(0).toUpperCase() + value.slice(1)
           : value;
 
