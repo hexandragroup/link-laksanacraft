@@ -47,11 +47,13 @@ const suggestionsBox = document.getElementById("suggestions");
 suggestionsBox.style.maxHeight = "300px";
 suggestionsBox.style.overflowY = "auto";
 
-queryInput.addEventListener("input", function () {
-  const isSelected = this.dataset.selected === "true";
-  const val = isSelected ? this.value : this.value.toLowerCase();
-  this.dataset.selected = "false"; // reset flag klik
+// --- MODE PENCARIAN ---
+// ubah ke true jika ingin hasil harus cocok SEMUA kata kunci
+// ubah ke false jika ingin hasil cukup cocok salah satu kata kunci
+const STRICT_SEARCH = true;
 
+queryInput.addEventListener("input", function () {
+  const val = this.value.trim().toLowerCase();
   suggestionsBox.innerHTML = "";
 
   if (loading) {
@@ -61,29 +63,34 @@ queryInput.addEventListener("input", function () {
 
   if (!val) return;
 
-  // 🔍 Kumpulkan semua keyword unik dari produk + jenisnya
+  // --- Pisahkan input menjadi beberapa kata kunci ---
+  const keywords = val.split(/\s+/).filter(Boolean);
+
+  // --- Kumpulkan semua keyword unik dari produk ---
   let allKeywords = new Set();
   products.forEach(p => {
     if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
     if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(`ukuran:${u}`));
-    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
+    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`));
   });
 
   const allList = Array.from(allKeywords);
 
-  // 💡 Hybrid search: startsWith dulu, jika kosong baru includes
+  // --- Filter hasil ---
   let matches = allList.filter(k => {
     const value = k.split(":")[1].toLowerCase();
-    return value.startsWith(val);
+    const checker = STRICT_SEARCH
+      ? keywords.every(word => value.includes(word))
+      : keywords.some(word => value.includes(word));
+    return checker;
   });
+
   if (matches.length === 0) {
-    matches = allList.filter(k => {
-      const value = k.split(":")[1].toLowerCase();
-      return value.includes(val);
-    });
+    suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
+    return;
   }
 
-  // 💬 Tampilkan hasil dengan highlight kata cocok
+  // --- Tampilkan hasil dengan highlight lembut ---
   matches.forEach(match => {
     const [type, value] = match.split(":");
     const div = document.createElement("div");
@@ -94,18 +101,20 @@ queryInput.addEventListener("input", function () {
     else if (type === "ukuran") label = "📏 Ukuran: ";
     else if (type === "kualitas") label = "⭐ Kualitas: ";
 
-    // Huruf depan kapital untuk tokoh & ukuran
     const displayValue =
       type === "tokoh" || type === "ukuran" || type === "kualitas"
         ? value.charAt(0).toUpperCase() + value.slice(1)
         : value;
 
-    // Highlight bagian yang cocok
-    const regex = new RegExp(`(${val})`, "ig");
-    const highlightedValue = displayValue.replace(
-      regex,
-      "<b style='color:#d00;'>$1</b>"
-    );
+    // Highlight lembut
+    let highlightedValue = displayValue;
+    keywords.forEach(k => {
+      const regex = new RegExp(`(${k})`, "ig");
+      highlightedValue = highlightedValue.replace(
+        regex,
+        `<b style="background-color: #ffebc2; color: #b33;">$1</b>`
+      );
+    });
 
     div.innerHTML = label + highlightedValue;
 
@@ -164,15 +173,9 @@ function loadLinks(tab) {
 }
 
 function showTab(id) {
-  document
-    .querySelectorAll(".tab-buttons button")
-    .forEach(b => b.classList.remove("active"));
-  document
-    .querySelectorAll(".tab-content")
-    .forEach(t => t.classList.remove("active"));
-  document
-    .querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`)
-    .classList.add("active");
+  document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add("active");
   const tab = document.getElementById(id);
   tab.classList.add("active");
   loadLinks(id);
@@ -181,10 +184,9 @@ function showTab(id) {
     tab.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-// Muat tab pertama otomatis
 loadLinks("utama");
 
-// Tombol menu pojok
+// --- Tombol menu pojok ---
 const cornerTab = document.getElementById("cornerTab");
 const cornerMenu = document.getElementById("cornerMenu");
 
@@ -203,17 +205,14 @@ document.addEventListener("click", e => {
   }
 });
 
-// Swipe kiri untuk tutup menu (mobile)
+// --- Swipe kiri untuk tutup menu (mobile) ---
 let touchStartX = 0;
 document.addEventListener("touchstart", e => {
   touchStartX = e.touches[0].clientX;
 });
 document.addEventListener("touchend", e => {
   const touchEndX = e.changedTouches[0].clientX;
-  if (
-    cornerMenu.classList.contains("show") &&
-    touchEndX < touchStartX - 50
-  ) {
+  if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
     cornerMenu.classList.remove("show");
     cornerTab.style.opacity = "1";
     cornerTab.style.pointerEvents = "auto";
