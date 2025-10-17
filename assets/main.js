@@ -37,20 +37,6 @@ async function loadAllProducts() {
 
 loadAllProducts();
 
-let loading = true;
-
-loadAllProducts().then(() => {
-  loading = false;
-});
-
-queryInput.addEventListener("input", function() {
-  if (loading) {
-    suggestionsBox.innerHTML = "<div>⏳ Memuat data...</div>";
-    return;
-  }
-  // lanjutkan saran seperti biasa...
-});
-
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
