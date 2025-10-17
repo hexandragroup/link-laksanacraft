@@ -1,64 +1,27 @@
-// --- Tahun dinamis ---
-const startYear = 1990;
-const currentYear = new Date().getFullYear();
-document.getElementById("year").textContent =
-  currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
+/* ======================================================
+   MAIN JS – Sering diubah / pencarian & auto-saran
+   ====================================================== */
 
-// --- Fungsi Pencarian Produk ---
-function goSearch(e) {
-  e.preventDefault();
-  const q = document.getElementById("query").value.trim();
-  if (q)
-    window.location.href =
-      "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
-  else alert("Masukkan kata kunci pencarian!");
-}
-
-// --- Auto-saran pencarian ---
-let products = [];
-let loading = true;
-
-// Ambil semua file produk (products1.json, products2.json, dst.)
-async function loadAllProducts() {
-  const files = [];
-  let i = 1;
-  while (true) {
-    const file = `https://link.laksanacraft.my.id/search/data/products${i}.json`;
-    try {
-      const res = await fetch(file);
-      if (!res.ok) break;
-      const json = await res.json();
-      files.push(json);
-      i++;
-    } catch {
-      break;
-    }
-  }
-  products = files.flat();
-  loading = false;
-}
-loadAllProducts();
-
-// Elemen input dan saran
+/* --- Variabel global untuk pencarian --- */
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
+
+// Scroll untuk kotak saran
 suggestionsBox.style.maxHeight = "300px";
 suggestionsBox.style.overflowY = "auto";
 
-// --- MODE PENCARIAN ---
-// true → harus cocok semua kata kunci
-// false → cukup salah satu kata cocok
+// Mode pencarian: true = semua kata kunci harus cocok, false = salah satu cukup
 const STRICT_SEARCH = true;
 
+/* --- Event Input: Auto-saran + Highlight --- */
 queryInput.addEventListener("input", function () {
   const val = this.value.trim().toLowerCase();
   suggestionsBox.innerHTML = "";
 
-  if (loading) {
+  if (!products.length) {
     suggestionsBox.innerHTML = "<div>⏳ Memuat data produk...</div>";
     return;
   }
-
   if (!val) return;
 
   // Pisahkan input menjadi beberapa kata kunci
@@ -74,18 +37,16 @@ queryInput.addEventListener("input", function () {
 
   const allList = Array.from(allKeywords);
 
-  // Filter hasil sesuai kata kunci
+  // Filter hasil sesuai mode STRICT_SEARCH
   let matches = allList.filter(k => {
     const value = k.split(":")[1].toLowerCase();
-    const checker = STRICT_SEARCH
+    return STRICT_SEARCH
       ? keywords.every(word => value.includes(word))
       : keywords.some(word => value.includes(word));
-    return checker;
   });
 
-  if (matches.length === 0) {
-    suggestionsBox.innerHTML =
-      "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
+  if (!matches.length) {
+    suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
     return;
   }
 
@@ -94,7 +55,6 @@ queryInput.addEventListener("input", function () {
     const [type, value] = match.split(":");
     const div = document.createElement("div");
 
-    // Label kategori
     let label = "";
     if (type === "tokoh") label = "👤 Tokoh: ";
     else if (type === "ukuran") label = "📏 Ukuran: ";
@@ -105,7 +65,7 @@ queryInput.addEventListener("input", function () {
         ? value.charAt(0).toUpperCase() + value.slice(1)
         : value;
 
-    // Highlight lembut
+    // Highlight lembut sesuai kata kunci
     let highlightedValue = displayValue;
     keywords.forEach(k => {
       const regex = new RegExp(`(${k})`, "ig");
@@ -128,91 +88,41 @@ queryInput.addEventListener("input", function () {
   });
 });
 
-// --- Tab Navigasi (Utama / Toko / Sosial) ---
-const tabFiles = {
-  utama: "links/utama.json",
-  toko: "links/toko.json",
-  sosial: "links/sosial.json"
-};
-const linkCache = {};
+/* ======================================================
+   CUSTOM AUTOCOMPLETE PER TOKOH (optional)
+   ====================================================== */
+function setupAutocomplete(products) {
+  const input = document.getElementById("tokoh");
+  const suggestionBox = document.getElementById("tokoh-suggestions");
 
-function loadLinks(tab) {
-  const container = document.getElementById(tab);
+  const tokohSet = new Set();
+  products.forEach(p => {
+    if (Array.isArray(p.tokoh)) p.tokoh.forEach(t => tokohSet.add(t.charAt(0).toUpperCase() + t.slice(1)));
+  });
+  tokohSet.add("Punakawan");
+  tokohSet.add("Pandawa");
+  const tokohList = Array.from(tokohSet);
 
-  if (linkCache[tab]) {
-    container.innerHTML = "";
-    linkCache[tab].forEach(link => {
-      const a = document.createElement("a");
-      a.className = "btn";
-      a.href = link.url;
-      a.textContent = link.text;
-      container.appendChild(a);
-    });
-    return;
-  }
+  input.addEventListener("input", function() {
+    const val = this.value.toLowerCase();
+    suggestionBox.innerHTML = "";
+    if (!val) return;
 
-  container.innerHTML = "<p>🔄 Memuat...</p>";
-  fetch(tabFiles[tab])
-    .then(res => res.json())
-    .then(data => {
-      linkCache[tab] = data;
-      container.innerHTML = "";
-      data.forEach(link => {
-        const a = document.createElement("a");
-        a.className = "btn";
-        a.href = link.url;
-        a.textContent = link.text;
-        container.appendChild(a);
+    tokohList.filter(t => t.toLowerCase().includes(val)).forEach(t => {
+      const div = document.createElement("div");
+      div.textContent = t;
+      div.addEventListener("click", () => {
+        input.value = t;
+        suggestionBox.innerHTML = "";
       });
-    })
-    .catch(() => {
-      container.innerHTML = "<p>⚠️ Gagal memuat link.</p>";
+      suggestionBox.appendChild(div);
     });
+  });
+
+  document.addEventListener("click", (e) => {
+    if (e.target !== input) suggestionBox.innerHTML = "";
+  });
 }
 
-function showTab(id) {
-  document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add("active");
-  const tab = document.getElementById(id);
-  tab.classList.add("active");
-  loadLinks(id);
-
-  if (window.innerWidth < 600)
-    tab.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-loadLinks("utama");
-
-// --- Tombol menu pojok ---
-const cornerTab = document.getElementById("cornerTab");
-const cornerMenu = document.getElementById("cornerMenu");
-
-cornerTab.addEventListener("click", e => {
-  e.stopPropagation();
-  cornerMenu.classList.add("show");
-  cornerTab.style.opacity = "0";
-  cornerTab.style.pointerEvents = "none";
-});
-
-document.addEventListener("click", e => {
-  if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
-    cornerMenu.classList.remove("show");
-    cornerTab.style.opacity = "1";
-    cornerTab.style.pointerEvents = "auto";
-  }
-});
-
-// --- Swipe kiri untuk tutup menu (mobile) ---
-let touchStartX = 0;
-document.addEventListener("touchstart", e => {
-  touchStartX = e.touches[0].clientX;
-});
-document.addEventListener("touchend", e => {
-  const touchEndX = e.changedTouches[0].clientX;
-  if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
-    cornerMenu.classList.remove("show");
-    cornerTab.style.opacity = "1";
-    cornerTab.style.pointerEvents = "auto";
-  }
-});
+// Jalankan autocomplete tokoh jika ada input #tokoh
+if(document.getElementById("tokoh")) setupAutocomplete(products);
