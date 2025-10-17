@@ -16,9 +16,40 @@ function goSearch(e) {
 
 // --- Auto-saran pencarian ---
 let products = [];
-fetch("https://link.laksanacraft.my.id/search/products.json")
-  .then(res => res.json())
-  .then(data => { products = data; });
+
+async function loadAllProducts() {
+  const files = [];
+  let i = 1;
+  while (true) {
+    const file = `https://link.laksanacraft.my.id/search/data/products${i}.json`;
+    try {
+      const res = await fetch(file);
+      if (!res.ok) break;
+      const json = await res.json();
+      files.push(json);
+      i++;
+    } catch {
+      break;
+    }
+  }
+  products = files.flat();
+}
+
+loadAllProducts();
+
+let loading = true;
+
+loadAllProducts().then(() => {
+  loading = false;
+});
+
+queryInput.addEventListener("input", function() {
+  if (loading) {
+    suggestionsBox.innerHTML = "<div>⏳ Memuat data...</div>";
+    return;
+  }
+  // lanjutkan saran seperti biasa...
+});
 
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
