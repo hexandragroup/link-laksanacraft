@@ -42,14 +42,12 @@ loadAllProducts();
 // Elemen input dan saran
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
-
-// Tambahkan gaya scroll untuk kotak saran
 suggestionsBox.style.maxHeight = "300px";
 suggestionsBox.style.overflowY = "auto";
 
 // --- MODE PENCARIAN ---
-// ubah ke true jika ingin hasil harus cocok SEMUA kata kunci
-// ubah ke false jika ingin hasil cukup cocok salah satu kata kunci
+// true → harus cocok semua kata kunci
+// false → cukup salah satu kata cocok
 const STRICT_SEARCH = true;
 
 queryInput.addEventListener("input", function () {
@@ -63,20 +61,20 @@ queryInput.addEventListener("input", function () {
 
   if (!val) return;
 
-  // --- Pisahkan input menjadi beberapa kata kunci ---
+  // Pisahkan input menjadi beberapa kata kunci
   const keywords = val.split(/\s+/).filter(Boolean);
 
-  // --- Kumpulkan semua keyword unik dari produk ---
+  // Kumpulkan semua keyword unik dari produk
   let allKeywords = new Set();
   products.forEach(p => {
     if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
     if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(`ukuran:${u}`));
-    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`));
+    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
   const allList = Array.from(allKeywords);
 
-  // --- Filter hasil ---
+  // Filter hasil sesuai kata kunci
   let matches = allList.filter(k => {
     const value = k.split(":")[1].toLowerCase();
     const checker = STRICT_SEARCH
@@ -86,11 +84,12 @@ queryInput.addEventListener("input", function () {
   });
 
   if (matches.length === 0) {
-    suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
+    suggestionsBox.innerHTML =
+      "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
     return;
   }
 
-  // --- Tampilkan hasil dengan highlight lembut ---
+  // Tampilkan hasil dengan highlight lembut
   matches.forEach(match => {
     const [type, value] = match.split(":");
     const div = document.createElement("div");
@@ -135,7 +134,6 @@ const tabFiles = {
   toko: "links/toko.json",
   sosial: "links/sosial.json"
 };
-
 const linkCache = {};
 
 function loadLinks(tab) {
