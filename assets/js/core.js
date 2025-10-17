@@ -97,7 +97,7 @@ async function loadAllProducts() {
   const files = [];
   let i = 1;
   while(true){
-    const file = `https://link.laksanacraft.my.id/search/data/products${i}.json`;
+    const file = `https://link.laksanacraft.my.id/page/search/data/products${i}.json`;
     try {
       const res = await fetch(file);
       if(!res.ok) break;
