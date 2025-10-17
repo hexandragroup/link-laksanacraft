@@ -2,7 +2,7 @@
    MAIN JS – Sering diubah / pencarian & auto-saran
    ====================================================== */
 
-/* --- Variabel global untuk pencarian --- */
+/* --- Variabel global --- */
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
@@ -12,6 +12,19 @@ suggestionsBox.style.overflowY = "auto";
 
 // Mode pencarian: true = semua kata kunci harus cocok, false = salah satu cukup
 const STRICT_SEARCH = true;
+
+/* --- Fungsi Highlight Lembut --- */
+function highlightText(text, keywords) {
+  let highlighted = text;
+  keywords.forEach(k => {
+    const regex = new RegExp(`(${k})`, "ig");
+    highlighted = highlighted.replace(
+      regex,
+      `<b style="background-color: #ffebc2; color: #b33;">$1</b>`
+    );
+  });
+  return highlighted;
+}
 
 /* --- Event Input: Auto-saran + Highlight --- */
 queryInput.addEventListener("input", function () {
@@ -24,35 +37,37 @@ queryInput.addEventListener("input", function () {
   }
   if (!val) return;
 
-  // Pisahkan input menjadi beberapa kata kunci
+  // Pisahkan input menjadi kata kunci
   const keywords = val.split(/\s+/).filter(Boolean);
 
-  // Kumpulkan semua keyword unik dari produk
-  let allKeywords = new Set();
-  products.forEach(p => {
-    if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
-    if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(`ukuran:${u}`));
-    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
-  });
+  // Filter produk berdasarkan multi kata kunci di semua field
+  let matchedProducts = products.filter(p => {
+    const combined = [
+      ...(p.tokoh || []),
+      ...(Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran || ""]),
+      p.kualitas || ""
+    ].join(" ").toLowerCase();
 
-  const allList = Array.from(allKeywords);
-
-  // Filter hasil sesuai mode STRICT_SEARCH
-  let matches = allList.filter(k => {
-    const value = k.split(":")[1].toLowerCase();
     return STRICT_SEARCH
-      ? keywords.every(word => value.includes(word))
-      : keywords.some(word => value.includes(word));
+      ? keywords.every(word => combined.includes(word))
+      : keywords.some(word => combined.includes(word));
   });
 
-  if (!matches.length) {
+  if (!matchedProducts.length) {
     suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
     return;
   }
 
-  // Tampilkan hasil dengan highlight lembut
-  matches.forEach(match => {
-    const [type, value] = match.split(":");
+  // Ambil semua kata unik dari hasil yang cocok untuk saran
+  let allSuggestions = new Set();
+  matchedProducts.forEach(p => {
+    if (p.tokoh) p.tokoh.forEach(t => allSuggestions.add(`tokoh:${t}`));
+    if (p.ukuran) (Array.isArray(p.ukuran)? p.ukuran : [p.ukuran]).forEach(u => allSuggestions.add(`ukuran:${u}`));
+    if (p.kualitas) allSuggestions.add(`kualitas:${p.kualitas}`);
+  });
+
+  Array.from(allSuggestions).forEach(item => {
+    const [type, value] = item.split(":");
     const div = document.createElement("div");
 
     let label = "";
@@ -65,17 +80,7 @@ queryInput.addEventListener("input", function () {
         ? value.charAt(0).toUpperCase() + value.slice(1)
         : value;
 
-    // Highlight lembut sesuai kata kunci
-    let highlightedValue = displayValue;
-    keywords.forEach(k => {
-      const regex = new RegExp(`(${k})`, "ig");
-      highlightedValue = highlightedValue.replace(
-        regex,
-        `<b style="background-color: #ffebc2; color: #b33;">$1</b>`
-      );
-    });
-
-    div.innerHTML = label + highlightedValue;
+    div.innerHTML = label + highlightText(displayValue, keywords);
 
     // Klik saran → isi input
     div.onclick = () => {
@@ -93,6 +98,7 @@ queryInput.addEventListener("input", function () {
    ====================================================== */
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
+  if (!input) return;
   const suggestionBox = document.getElementById("tokoh-suggestions");
 
   const tokohSet = new Set();
