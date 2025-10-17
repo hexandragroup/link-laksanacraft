@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Kalkulator Investasi dari Laksana Link — hitung potensi hasil investasi kamu secara mudah dan cepat.">
+  <meta property="og:title" content="Kalkulator Investasi | Laksana Link" />
+  <meta property="og:image" content="https://laksanacraft.my.id/logo.png" />
+  <meta property="og:description" content="Gunakan kalkulator investasi untuk menghitung hasil, bunga, dan pertumbuhan dana kamu." />
+  <meta property="og:url" content="https://url.laksanacraft.my.id/link/investasi" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Kalkulator Investasi | Laksana Link</title>
+
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hexandragroup/laksanacraft-assets/main/Favicon_Laksana_Handicraft.webp">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #333;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #555;
+    }
+    p.result {
+      font-weight: bold;
+      color: #222;
+      margin-top: 15px;
+    }
+    a.back {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kalkulator Investasi</h1>
+    <p><em>Hitung hasil investasi kamu dengan mudah</em></p>
+
+    <label>Modal Awal (Rp):</label>
+    <input type="number" id="modal" placeholder="contoh: 1000000" />
+
+    <label>Bunga per Tahun (%):</label>
+    <input type="number" id="bunga" placeholder="contoh: 5" />
+
+    <label>Lama Investasi (tahun):</label>
+    <input type="number" id="tahun" placeholder="contoh: 3" />
+
+    <button onclick="hitungInvestasi()">Hitung</button>
+
+    <p class="result" id="hasil"></p>
+
+    <a href="/link/" class="back">⬅️ Kembali ke Laksana Link</a>
+  </div>
+
+  <script>
+    function hitungInvestasi() {
+      const modal = parseFloat(document.getElementById('modal').value);
+      const bunga = parseFloat(document.getElementById('bunga').value);
+      const tahun = parseFloat(document.getElementById('tahun').value);
+
+      if (isNaN(modal) || isNaN(bunga) || isNaN(tahun)) {
+        document.getElementById('hasil').textContent = 'Harap isi semua kolom.';
+        return;
+      }
+
+      const total = modal * Math.pow(1 + bunga / 100, tahun);
+      document.getElementById('hasil').textContent = 
+        `Hasil akhir setelah ${tahun} tahun: Rp ${total.toLocaleString('id-ID')}`;
+    }
+  </script>
+</body>
+</html>
