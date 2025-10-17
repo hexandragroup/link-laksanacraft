@@ -1,0 +1,22 @@
+/* 🌈 Tampilan dasar */
+body {
+  font-family: sans-serif;
+  background: linear-gradient(to bottom, #eee, #ccc);
+  padding: 30px;
+  margin: 0;
+  color: #222;
+}
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: #f2f2f2;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  text-align: center;
+}
+img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
+h1 { font-size: 20px; margin-bottom: 10px; }
+h1 a { color: #222; text-decoration: none; }
+h1 a:hover { text-decoration: underline; }
+p { color: #444; margin-bottom: 20px; }
