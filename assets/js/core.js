@@ -12,7 +12,7 @@ document.getElementById("year").textContent =
 function goSearch(e) {
   e.preventDefault();
   const q = document.getElementById("query").value.trim();
-  if (q) window.location.href = "https://link.laksanacraft.my.id/search?q=" + encodeURIComponent(q);
+  if (q) window.location.href = "https://link.laksanacraft.my.id/page/search?q=" + encodeURIComponent(q);
   else alert("Masukkan kata kunci pencarian!");
 }
 
