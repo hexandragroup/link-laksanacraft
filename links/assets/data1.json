@@ -1,0 +1,134 @@
+[
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Kompas – Berita Nasional",
+    "url": "https://www.kompas.com",
+    "icon": "📰"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Cek Gempa Terkini (BMKG)",
+    "url": "https://www.bmkg.go.id/gempabumi/gempabumi-terkini.bmkg",
+    "icon": "🌋"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Portal Resmi Pemerintah RI",
+    "url": "https://www.indonesia.go.id",
+    "icon": "🏛️"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Kalkulator Investasi",
+    "url": "https://url.laksanacraft.my.id/link/investasi",
+    "icon": "💰"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Kalkulator Hitung Mimpi",
+    "url": "https://feliciaputritjiasaka.com",
+    "icon": "🧮"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "IHSG Live (Yahoo Finance)",
+    "url": "https://finance.yahoo.com/quote/^JKSE",
+    "icon": "📈"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Bank Indonesia",
+    "url": "https://www.bi.go.id",
+    "icon": "🏦"
+  },
+  {
+    "category": "🧠 Edukasi & Pengetahuan",
+    "title": "Wikipedia Bahasa Indonesia",
+    "url": "https://id.wikipedia.org",
+    "icon": "📘"
+  },
+  {
+    "category": "🧠 Edukasi & Pengetahuan",
+    "title": "KBBI Daring",
+    "url": "https://kbbi.kemdikbud.go.id",
+    "icon": "📖"
+  },
+  {
+    "category": "🧠 Edukasi & Pengetahuan",
+    "title": "Kampus Merdeka",
+    "url": "https://kampusmerdeka.kemdikbud.go.id",
+    "icon": "🎓"
+  },
+  {
+    "category": "🎨 Kreativitas & Inspirasi",
+    "title": "Canva – Desain Gratis",
+    "url": "https://www.canva.com",
+    "icon": "🎨"
+  },
+  {
+    "category": "🎨 Kreativitas & Inspirasi",
+    "title": "Pixabay – Gambar Bebas",
+    "url": "https://pixabay.com/id/",
+    "icon": "📸"
+  },
+  {
+    "category": "🎨 Kreativitas & Inspirasi",
+    "title": "Google Arts & Culture",
+    "url": "https://artsandculture.google.com/",
+    "icon": "🖼️"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Pembuat QR Code",
+    "url": "https://www.qr-code-generator.com",
+    "icon": "🔳"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Pemendek Link (Bitly)",
+    "url": "https://bitly.com",
+    "icon": "🔗"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Password Generator",
+    "url": "https://passwordsgenerator.net",
+    "icon": "🔐"
+  },
+  {
+    "category": "❤️ Kesehatan & Gaya Hidup",
+    "title": "Alodokter",
+    "url": "https://www.alodokter.com",
+    "icon": "🏥"
+  },
+  {
+    "category": "❤️ Kesehatan & Gaya Hidup",
+    "title": "Halodoc",
+    "url": "https://www.halodoc.com",
+    "icon": "💊"
+  },
+  {
+    "category": "❤️ Kesehatan & Gaya Hidup",
+    "title": "Cek Waktu Dunia",
+    "url": "https://time.is",
+    "icon": "⏰"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Lapor.go.id",
+    "url": "https://www.lapor.go.id",
+    "icon": "📬"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Cek Resi Pengiriman",
+    "url": "https://cekresi.com",
+    "icon": "📦"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Cek Pajak Kendaraan",
+    "url": "https://cekpajak.co.id",
+    "icon": "🚗"
+  }
+]
