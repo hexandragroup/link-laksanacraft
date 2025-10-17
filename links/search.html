@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hasil – Laksana Link</title>
+  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+
+    .btn {
+      display: block;
+      margin: 8px auto;
+      padding: 12px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      max-width: 420px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.4s ease forwards;
+    }
+    .btn:hover { background: #e6e6e6; transform: scale(1.03); }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-out { opacity: 0; transition: opacity 0.5s ease; }
+
+    h1 { font-size: 20px; margin-bottom: 5px; }
+
+    .result-count {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .filter-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 15px;
+    }
+
+    .filter-btn {
+      background: #ddd;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+    .filter-btn:hover { background: #ccc; }
+    .filter-btn.active {
+      background: #bbb;
+      font-weight: bold;
+    }
+
+    /* 🔢 Pagination */
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .page-btn {
+      background: #ddd;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+    .page-btn:hover { background: #ccc; }
+    .page-btn.active {
+      background: #bbb;
+      font-weight: bold;
+    }
+
+    a.back-link {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #0077cc;
+      transition: color 0.3s ease;
+    }
+    a.back-link:hover { color: #004c99; text-decoration: underline; }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Spinner loading */
+    .spinner {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border: 3px solid #bbb;
+      border-top-color: #0077cc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 13px;
+      color: #777;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="categoryTitle">Kategori</h1>
+    <div class="result-count" id="resultCount"></div>
+
+    <input type="text" id="searchBox" placeholder="Cari tautan di semua kategori..." />
+    <div class="filter-container" id="filterContainer"></div>
+
+    <!-- Spinner -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Memuat data...</div>
+    </div>
+
+    <div id="results" style="display:none;"></div>
+    <div class="pagination" id="pagination"></div>
+
+    <a href="index.html" class="back-link">← Kembali ke Kategori</a>
+
+    <footer>
+      &copy; <span id="year"></span> Laksana Link · Yogyakarta, Indonesia
+    </footer>
+  </div>
+
+  <script>
+    const startYear = 2020;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+
+    const params = new URLSearchParams(window.location.search);
+    const selectedCategory = params.get("cat");
+    const titleEl = document.getElementById("categoryTitle");
+    const countEl = document.getElementById("resultCount");
+    const resultsEl = document.getElementById("results");
+    const paginationEl = document.getElementById("pagination");
+    const searchBox = document.getElementById("searchBox");
+    const filterContainer = document.getElementById("filterContainer");
+    const loadingEl = document.getElementById("loading");
+
+    let allLinks = [];
+    let currentFilter = selectedCategory || "Semua";
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
+    // Animasi masuk
+    window.addEventListener("load", () => { document.body.classList.add("loaded"); });
+
+    // Fade out saat kembali
+    const backLink = document.querySelector(".back-link");
+    backLink.addEventListener("click", e => {
+      e.preventDefault();
+      document.body.classList.add("fade-out");
+      setTimeout(() => { window.location.href = backLink.href; }, 500);
+    });
+
+    // Ambil data
+    fetch("data.json")
+      .then(res => res.json())
+      .then(data => {
+        allLinks = data;
+        setupFilters(data);
+        renderPage();
+        loadingEl.style.display = "none";
+        resultsEl.style.display = "block";
+      })
+      .catch(() => {
+        loadingEl.innerHTML = "<p>Gagal memuat data. Coba lagi nanti.</p>";
+      });
+
+    function setupFilters(data) {
+      const categories = ["Semua", ...new Set(data.map(l => l.category))];
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.textContent = cat;
+        btn.className = "filter-btn";
+        if (cat === currentFilter) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          currentFilter = cat;
+          currentPage = 1;
+          document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderPage();
+        });
+        filterContainer.appendChild(btn);
+      });
+
+      titleEl.textContent = selectedCategory ? selectedCategory : "Semua Kategori";
+    }
+
+    // Ambil data terfilter + pencarian
+    function getFilteredList() {
+      let list = allLinks;
+      if (currentFilter !== "Semua") {
+        list = list.filter(l => l.category === currentFilter);
+      }
+      const keyword = searchBox.value.toLowerCase();
+      if (keyword) {
+        list = list.filter(link =>
+          link.title.toLowerCase().includes(keyword) ||
+          link.category.toLowerCase().includes(keyword)
+        );
+      }
+      return list;
+    }
+
+    // Render halaman sesuai pagination
+    function renderPage() {
+      const filtered = getFilteredList();
+      const totalItems = filtered.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const currentItems = filtered.slice(start, end);
+
+      renderList(currentItems);
+      renderPagination(totalPages);
+      countEl.textContent = `${currentFilter === "Semua" ? "Semua kategori" : "Kategori: " + currentFilter} — ${totalItems} tautan ditemukan`;
+    }
+
+    // Tampilkan daftar link
+    function renderList(data) {
+      resultsEl.innerHTML = "";
+      if (data.length === 0) {
+        resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
+        paginationEl.innerHTML = "";
+        return;
+      }
+
+      data.forEach((link, index) => {
+        const a = document.createElement("a");
+        a.href = link.url;
+        a.className = "btn";
+        a.textContent = `${link.icon} ${link.title}`;
+        a.target = "_blank";
+        a.style.animationDelay = `${index * 0.05}s`;
+        resultsEl.appendChild(a);
+      });
+    }
+
+    // Tampilkan pagination
+    function renderPagination(totalPages) {
+      paginationEl.innerHTML = "";
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = "page-btn";
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          renderPage();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        paginationEl.appendChild(btn);
+      }
+    }
+
+    // Pencarian real-time
+    searchBox.addEventListener("input", () => {
+      currentPage = 1;
+      renderPage();
+    });
+  </script>
+</body>
+  </html>
