@@ -18,7 +18,7 @@ function goSearch(e) {
 let products = [];
 let loading = true;
 
-// Ambil semua file produk dari /search/data/products1.json dst.
+// Ambil semua file produk (products1.json, products2.json, dst.)
 async function loadAllProducts() {
   const files = [];
   let i = 1;
@@ -26,7 +26,7 @@ async function loadAllProducts() {
     const file = `https://link.laksanacraft.my.id/search/data/products${i}.json`;
     try {
       const res = await fetch(file);
-      if (!res.ok) break; // berhenti kalau file tidak ada
+      if (!res.ok) break;
       const json = await res.json();
       files.push(json);
       i++;
@@ -37,18 +37,17 @@ async function loadAllProducts() {
   products = files.flat();
   loading = false;
 }
+loadAllProducts();
 
-loadAllProducts(); // Jalankan saat halaman dimuat
-
-// Pastikan elemen sudah ada sebelum dipakai
+// Elemen input dan saran
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
-queryInput.addEventListener("input", function() {
+queryInput.addEventListener("input", function () {
   const val = this.value.toLowerCase();
   suggestionsBox.innerHTML = "";
 
-  // Kalau data produk masih loading
+  // Jika masih memuat data
   if (loading) {
     suggestionsBox.innerHTML = "<div>⏳ Memuat data produk...</div>";
     return;
@@ -56,22 +55,30 @@ queryInput.addEventListener("input", function() {
 
   if (!val) return;
 
-  // Kumpulkan semua keyword unik dari produk
+  // Kumpulkan semua kata kunci unik dari produk
   let allKeywords = new Set();
   products.forEach(p => {
-    if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(t));
-    if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(u));
-    if (p.kualitas) allKeywords.add(p.kualitas);
+    if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
+    if (p.ukuran) p.ukuran.forEach(u => allKeywords.add(`ukuran:${u}`));
+    if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
-  // Filter hasil saran
+  // Filter dan tampilkan hasil saran
   Array.from(allKeywords)
     .filter(k => k.toLowerCase().includes(val))
     .forEach(match => {
+      const [type, value] = match.split(":");
       const div = document.createElement("div");
-      div.textContent = match;
+
+      // Kapitalisasi khusus untuk nama tokoh
+      if (type === "tokoh") {
+        div.textContent = value.charAt(0).toUpperCase() + value.slice(1);
+      } else {
+        div.textContent = value;
+      }
+
       div.onclick = () => {
-        queryInput.value = match;
+        queryInput.value = value;
         suggestionsBox.innerHTML = "";
       };
       suggestionsBox.appendChild(div);
@@ -133,14 +140,13 @@ function showTab(id) {
     tab.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// --- Muat tab pertama otomatis ---
+// Muat tab pertama otomatis
 loadLinks('utama');
 
-// Tombol panah & menu sisi
+// Tombol menu pojok
 const cornerTab = document.getElementById('cornerTab');
 const cornerMenu = document.getElementById('cornerMenu');
 
-// Klik tombol → tampilkan menu & sembunyikan tombol
 cornerTab.addEventListener('click', (e) => {
   e.stopPropagation();
   cornerMenu.classList.add('show');
@@ -148,7 +154,6 @@ cornerTab.addEventListener('click', (e) => {
   cornerTab.style.pointerEvents = 'none';
 });
 
-// Klik di luar → tutup menu & tampilkan tombol
 document.addEventListener('click', (e) => {
   if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
     cornerMenu.classList.remove('show');
