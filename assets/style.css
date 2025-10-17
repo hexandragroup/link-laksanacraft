@@ -94,20 +94,42 @@ form.search-box button {
   cursor: pointer;
 }
 form.search-box button:hover { background: #555; }
+
 .suggestions {
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0; /* Rata kiri, sejajar input */
   width: 100%;
   max-width: 420px;
   background: #fff;
   border: 1px solid #bbb;
   border-top: none;
   z-index: 1000;
+  text-align: left; /* teks hasil saran rata kiri */
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
 }
-.suggestions div { padding: 8px 12px; cursor: pointer; }
-.suggestions div:hover { background: #eee; }
+
+.suggestions div {
+  padding: 10px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s;
+}
+
+.suggestions div:last-child {
+  border-bottom: none;
+}
+
+.suggestions div:hover {
+  background: #f5f5f5;
+}
 
 /* 🔘 Tombol utama */
 .btn {
