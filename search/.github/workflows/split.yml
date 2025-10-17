@@ -1,0 +1,33 @@
+name: Split Products JSON
+
+on:
+  push:
+    paths:
+      - "products.json"   # Akan jalan otomatis setiap kali file ini berubah
+  workflow_dispatch:      # Bisa juga dijalankan manual
+
+jobs:
+  split:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run split script
+        run: |
+          npm install
+          node split-products.js
+
+      - name: Commit & push results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "Auto split products.json" || echo "No changes"
+          git push
