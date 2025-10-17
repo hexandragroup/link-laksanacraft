@@ -55,7 +55,7 @@ queryInput.addEventListener("input", function () {
 
   if (!val) return;
 
-  // Kumpulkan semua kata kunci unik dari produk
+  // 🔍 Kumpulkan semua keyword unik dari produk + jenisnya
   let allKeywords = new Set();
   products.forEach(p => {
     if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
@@ -63,19 +63,26 @@ queryInput.addEventListener("input", function () {
     if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
-  // Filter dan tampilkan hasil saran
+  // 💬 Filter & tampilkan hasil dengan label kategori
   Array.from(allKeywords)
     .filter(k => k.toLowerCase().includes(val))
     .forEach(match => {
       const [type, value] = match.split(":");
       const div = document.createElement("div");
 
-      // Kapitalisasi khusus untuk nama tokoh
-      if (type === "tokoh") {
-        div.textContent = value.charAt(0).toUpperCase() + value.slice(1);
-      } else {
-        div.textContent = value;
-      }
+      // Label & gaya tampilan
+      let label = "";
+      if (type === "tokoh") label = "👤 Tokoh: ";
+      else if (type === "ukuran") label = "📏 Ukuran: ";
+      else if (type === "kualitas") label = "⭐ Kualitas: ";
+
+      // Huruf depan kapital hanya untuk tokoh
+      const displayValue =
+        type === "tokoh"
+          ? value.charAt(0).toUpperCase() + value.slice(1)
+          : value;
+
+      div.textContent = label + displayValue;
 
       div.onclick = () => {
         queryInput.value = value;
