@@ -43,7 +43,7 @@ loadAllProducts();
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
-// Tambahkan gaya scroll
+// Tambahkan gaya scroll untuk kotak saran
 suggestionsBox.style.maxHeight = "300px";
 suggestionsBox.style.overflowY = "auto";
 
@@ -69,17 +69,21 @@ queryInput.addEventListener("input", function () {
     if (p.kualitas) allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
+  const allList = Array.from(allKeywords);
+
   // 💡 Hybrid search: startsWith dulu, jika kosong baru includes
-  let matches = Array.from(allKeywords).filter(k =>
-    k.toLowerCase().startsWith(val)
-  );
+  let matches = allList.filter(k => {
+    const value = k.split(":")[1].toLowerCase();
+    return value.startsWith(val);
+  });
   if (matches.length === 0) {
-    matches = Array.from(allKeywords).filter(k =>
-      k.toLowerCase().includes(val)
-    );
+    matches = allList.filter(k => {
+      const value = k.split(":")[1].toLowerCase();
+      return value.includes(val);
+    });
   }
 
-  // 💬 Tampilkan hasil
+  // 💬 Tampilkan hasil dengan highlight kata cocok
   matches.forEach(match => {
     const [type, value] = match.split(":");
     const div = document.createElement("div");
@@ -96,9 +100,16 @@ queryInput.addEventListener("input", function () {
         ? value.charAt(0).toUpperCase() + value.slice(1)
         : value;
 
-    div.textContent = label + displayValue;
+    // Highlight bagian yang cocok
+    const regex = new RegExp(`(${val})`, "ig");
+    const highlightedValue = displayValue.replace(
+      regex,
+      "<b style='color:#d00;'>$1</b>"
+    );
 
-    // Klik saran
+    div.innerHTML = label + highlightedValue;
+
+    // Klik saran → isi input
     div.onclick = () => {
       queryInput.value = displayValue;
       queryInput.dataset.selected = "true";
