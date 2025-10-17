@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Profil Hendras Laksono — kontak dan tautan resmi.">
+  <title>Profil Hendras</title>
+  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    img.logo {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #444;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    /* Tombol umum + dropdown disatukan */
+    .btn, .dropdown-btn {
+      display: block;
+      margin: 8px auto;
+      padding: 12px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      max-width: 420px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 16px;
+    }
+    .btn:hover, .dropdown-btn:hover { background: #e6e6e6; transform: scale(1.03); }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Dropdown */
+    .dropdown-wrapper {
+      max-width: 420px;
+      margin: 8px auto;
+      position: relative;
+      text-align: center;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      background: #fff;
+      border: 1px solid #bbb;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .dropdown-content a {
+      padding: 12px 20px;
+      display: block;
+      color: #222;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .dropdown-content a:hover { background: #e6e6e6; }
+    .dropdown-content a.disabled {
+      color: #aaa;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Tampilkan dropdown saat tombol aktif */
+    .dropdown-wrapper.show .dropdown-content { display: flex; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
+    <h1>Hendras Laksono</h1>
+    <p>“Dengan Seni untuk hidup lebih Indah, dengan Ilmu untuk hidup lebih Mudah, dengan Agama untuk hidup lebih terarah.”</p>
+
+    <!-- Tombol Profil -->
+    <a href="https://url.laksanacraft.my.id/wa" class="btn" target="_blank">💬 WhatsApp</a>
+    <a href="mailto:hendraslaksono@gmail.com" class="btn" target="_blank">✉️ Email Pribadi</a>
+    <a href="https://url.laksanacraft.my.id/linkedin" class="btn" target="_blank">🔗 LinkedIn</a>
+    <a href="https://www.facebook.com/hendras.laksono.113" class="btn" target="_blank">📘 Facebook</a>
+    <a href="https://www.instagram.com/leeliez_hendras" class="btn" target="_blank">📸 Instagram</a>
+
+    <!-- Dropdown Tentang Kami -->
+    <div class="dropdown-wrapper">
+      <div class="dropdown-btn">👥 Tentang Kami ▾</div>
+      <div class="dropdown-content">
+        <a href="https://blog.laksanacraft.my.id/2015/01/sejarah-ikm-wayang-kulit-bima-sakti.html?m=1" target="_blank">Kerajinan Wayang Kulit</a>
+        <a href="#" class="disabled" title="Segera Hadir">Persewaan Alat Camping</a>
+      </div>
+    </div>
+
+    <!-- Dropdown Bisnis Kami -->
+    <div class="dropdown-wrapper">
+      <div class="dropdown-btn">🏢 Bisnis Kami ▾</div>
+      <div class="dropdown-content">
+        <a href="https://link.laksanacraft.my.id/">Wayang Kulit Bantul - Laksana Handicraft</a>
+        <a href="https://linktr.ee/hexaleathercraft/">Wayang Kulit Rembang - Kalimasada Handicraft</a>
+        <a href="https://linktr.ee/horizoncamp/">Persewaan Alat Camping Bantul - Horizon Camp</a>
+      </div>
+    </div>
+
+    <footer>
+      &copy; <span id="year"></span> Hendras Laksono · Yogyakarta, Indonesia
+    </footer>
+  </div>
+
+  <script>
+    // Tahun dinamis
+    const startYear = 1994;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+
+    window.addEventListener("load", () => { document.body.classList.add("loaded"); });
+
+    // Toggle dropdown klik
+    document.querySelectorAll('.dropdown-wrapper').forEach(wrapper => {
+      const btn = wrapper.querySelector('.dropdown-btn');
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        // tutup dropdown lain
+        document.querySelectorAll('.dropdown-wrapper').forEach(w => {
+          if(w !== wrapper) w.classList.remove('show');
+        });
+        wrapper.classList.toggle('show');
+      });
+    });
+
+    // Klik di luar dropdown untuk menutup semua
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown-wrapper').forEach(wrapper => wrapper.classList.remove('show'));
+    });
+  </script>
+</body>
+        </html>
