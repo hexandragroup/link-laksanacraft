@@ -16,7 +16,9 @@ function goSearch(e) {
 
 // --- Auto-saran pencarian ---
 let products = [];
+let loading = true;
 
+// Ambil semua file produk dari /search/data/products1.json dst.
 async function loadAllProducts() {
   const files = [];
   let i = 1;
@@ -24,7 +26,7 @@ async function loadAllProducts() {
     const file = `https://link.laksanacraft.my.id/search/data/products${i}.json`;
     try {
       const res = await fetch(file);
-      if (!res.ok) break;
+      if (!res.ok) break; // berhenti kalau file tidak ada
       const json = await res.json();
       files.push(json);
       i++;
@@ -33,18 +35,28 @@ async function loadAllProducts() {
     }
   }
   products = files.flat();
+  loading = false;
 }
 
-loadAllProducts();
+loadAllProducts(); // Jalankan saat halaman dimuat
 
+// Pastikan elemen sudah ada sebelum dipakai
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
 queryInput.addEventListener("input", function() {
   const val = this.value.toLowerCase();
   suggestionsBox.innerHTML = "";
+
+  // Kalau data produk masih loading
+  if (loading) {
+    suggestionsBox.innerHTML = "<div>⏳ Memuat data produk...</div>";
+    return;
+  }
+
   if (!val) return;
 
+  // Kumpulkan semua keyword unik dari produk
   let allKeywords = new Set();
   products.forEach(p => {
     if (p.tokoh) p.tokoh.forEach(t => allKeywords.add(t));
@@ -52,6 +64,7 @@ queryInput.addEventListener("input", function() {
     if (p.kualitas) allKeywords.add(p.kualitas);
   });
 
+  // Filter hasil saran
   Array.from(allKeywords)
     .filter(k => k.toLowerCase().includes(val))
     .forEach(match => {
