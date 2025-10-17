@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pesanan Terkirim | Laksana Handicraft</title>
+  <meta http-equiv="refresh" content="5;url=https://link.laksanacraft.my.id/">
+  <meta name="description" content="Terima kasih! Pesanan Anda telah berhasil dikirim ke Laksana Handicraft. Anda akan diarahkan kembali ke halaman utama.">
+  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      margin: 0;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      max-width: 500px;
+      width: 90%;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    img.logo {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #e6e6e6;
+      transform: scale(1.03);
+    }
+    footer {
+      margin-top: 25px;
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo Laksana Handicraft" class="logo" />
+    <h1>✅ Terima kasih!</h1>
+    <p>Pesanan atau pesan Anda telah berhasil dikirim ke Laksana Handicraft.</p>
+    <p>Anda akan dialihkan kembali ke halaman utama dalam beberapa detik.</p>
+    <a class="btn" href="https://link.laksanacraft.my.id/">Kembali ke Laksana Handicraft</a>
+    <footer>
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta, Indonesia
+    </footer>
+  </div>
+
+  <script>
+    // Tahun otomatis
+    const startYear = 1990;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+  </script>
+</body>
+</html>
