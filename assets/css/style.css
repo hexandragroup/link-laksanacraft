@@ -20,3 +20,15 @@ h1 { font-size: 20px; margin-bottom: 10px; }
 h1 a { color: #222; text-decoration: none; }
 h1 a:hover { text-decoration: underline; }
 p { color: #444; margin-bottom: 20px; }
+
+/* ⚙️ Lain-lain */
+footer { margin-top: 30px; font-size: 12px; color: #666; }
+html, body {
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+body { top: 0 !important; }
