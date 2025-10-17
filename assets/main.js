@@ -76,16 +76,16 @@ queryInput.addEventListener("input", function () {
       else if (type === "ukuran") label = "📏 Ukuran: ";
       else if (type === "kualitas") label = "⭐ Kualitas: ";
 
-      // Huruf depan kapital hanya untuk tokoh
+      // Huruf depan kapital untuk tokoh & ukuran
       const displayValue =
-        type === "tokoh"
+        type === "tokoh" || type === "ukuran"
           ? value.charAt(0).toUpperCase() + value.slice(1)
           : value;
 
       div.textContent = label + displayValue;
 
       div.onclick = () => {
-        queryInput.value = value;
+        queryInput.value = displayValue;
         suggestionsBox.innerHTML = "";
       };
       suggestionsBox.appendChild(div);
