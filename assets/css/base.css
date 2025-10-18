@@ -100,3 +100,4 @@ html, body {
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 .goog-te-gadget-icon { display: none !important; }
 body { top: 0 !important; }
+    .translate-box { margin-bottom: 20px; text-align: center; }
