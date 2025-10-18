@@ -59,35 +59,5 @@
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script src="script.js"></script>
 
-  <!-- Script untuk mengganti alias (url/...) -->
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      try {
-        const res = await fetch("/assets/config/base.json");
-        const BASES = await res.json();
-
-        // Tag yang bisa berisi URL
-        const tags = ["a", "link", "img", "script"];
-
-        tags.forEach(tag => {
-          document.querySelectorAll(tag).forEach(el => {
-            ["href", "src"].forEach(attr => {
-              const val = el.getAttribute(attr);
-              if (!val) return;
-
-              const prefix = val.split("/")[0];
-              if (BASES[prefix]) {
-                const base = BASES[prefix].replace(/\/$/, "");
-                const newUrl = val.replace(prefix, base);
-                el.setAttribute(attr, newUrl);
-              }
-            });
-          });
-        });
-      } catch (err) {
-        console.error("Gagal memuat base.json:", err);
-      }
-    });
-  </script>
 </body>
 </html>
