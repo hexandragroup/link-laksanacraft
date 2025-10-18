@@ -1,5 +1,5 @@
 /* ======================================================
-   Google Analytics / Tag Manager (stabil)
+   Google Analytics / Tag Manager
    ====================================================== */
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
@@ -7,17 +7,14 @@ gtag('js', new Date());
 gtag('config', 'G-V1JWDFFYK2');
 
 /* ======================================================
-   Google Translate (stabil)
+   Google Translate
    ====================================================== */
-// translate.js
-
-function googleTranslateElementInit() {
+window.googleTranslateElementInit = function() {
   new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
-}
+};
 
 function doGTranslate(el) {
   if (el.value === '') return;
-
   var langPair = el.value.split('|');
   var lang = langPair[1];
 
