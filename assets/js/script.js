@@ -9,19 +9,25 @@ gtag('config', 'G-V1JWDFFYK2');
 /* ======================================================
    Google Translate (stabil)
    ====================================================== */
+// translate.js
+
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({ pageLanguage: 'id' }, 'google_translate_element');
+  new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
 }
 
 function doGTranslate(el) {
   if (el.value === '') return;
-  var lang = el.value.split('|')[1];
+
+  var langPair = el.value.split('|');
+  var lang = langPair[1];
+
   if (lang === 'id') {
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-    location.href = "https://link.laksanacraft.my.id/";
+    window.location.href = window.location.origin + window.location.pathname;
     return;
   }
+
   var select = document.querySelector('.goog-te-combo');
   if (select) {
     select.value = lang;
@@ -29,7 +35,7 @@ function doGTranslate(el) {
   }
 }
 
-/* Muat script translate Google secara dinamis */
-const gtScript = document.createElement('script');
+// Load Google Translate
+var gtScript = document.createElement('script');
 gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
 document.head.appendChild(gtScript);
