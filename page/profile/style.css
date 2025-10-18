@@ -111,11 +111,11 @@ html, body {
 }
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 .goog-te-gadget-icon { display: none !important; }
-body { top: 0 !important; bottom: 40px !important; }
+body { top: 0 !important; }
 
 /* Tambah ruang ekstra di bawah halaman */
 body::after {
   content: "";
   display: block;
-  height: 60px; /* ubah angka ini kalau mau lebih besar atau kecil */
+  height: 40px; /* ubah angka ini kalau mau lebih besar atau kecil */
 }
