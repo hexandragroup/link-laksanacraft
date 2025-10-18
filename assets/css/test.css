@@ -1,0 +1,155 @@
+/* 🌈 Umum */
+html, body {
+  height: 100%;
+  min-height: 100vh; /* Pastikan background menutupi layar penuh */
+  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+/* 🌟 Efek fade-in */
+body {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  padding: 20px 30px; /* jarak dari tepi layar (atas–bawah 20px, kiri–kanan 30px) */
+}
+body.loaded {
+  opacity: 1;
+}
+
+/* 🧱 Container utama */
+.container {
+  max-width: 500px;
+  background: #f2f2f2 !important;
+  margin: 60px auto 40px auto; /* atas 60px, bawah 40px — beda jarak */
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* 🖼️ Logo */
+img.logo {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+/* 🧾 Teks */
+h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #444;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* 🔘 Tombol umum + dropdown tombol */
+.btn,
+.dropdown-btn {
+  display: block;
+  margin: 8px auto;
+  padding: 12px 20px;
+  background: #fff;
+  color: #222;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 16px;
+}
+
+.btn:hover,
+.dropdown-btn:hover {
+  background: #e6e6e6;
+  transform: scale(1.03);
+}
+
+/* 🧭 Dropdown wrapper */
+.dropdown-wrapper {
+  max-width: 420px;
+  margin: 8px auto;
+  position: relative;
+  text-align: center;
+}
+
+/* 💡 Isi dropdown */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  z-index: 100;
+}
+
+.dropdown-content a {
+  padding: 12px 20px;
+  display: block;
+  color: #222;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #e6e6e6;
+}
+
+.dropdown-content a.disabled {
+  color: #aaa;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Saat aktif */
+.dropdown-wrapper.show .dropdown-content {
+  display: flex;
+}
+
+/* ⚙️ Footer */
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* 🌍 Google Translate Cleanup */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+body { top: 0 !important; }
+
+/* 📱 Responsif */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+  .container {
+    margin: 40px auto 25px auto; /* atas 40px, bawah 25px di HP */
+    padding: 20px;
+  }
+  h1 {
+    font-size: 18px;
+  }
+  .btn, .dropdown-btn {
+    font-size: 15px;
+  }
+}
