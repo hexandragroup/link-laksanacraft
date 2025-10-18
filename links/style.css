@@ -1,0 +1,137 @@
+    body {
+      font-family: sans-serif;
+      background: linear-gradient(to bottom, #eeeeee, #cccccc);
+      padding: 30px;
+      margin: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    body.loaded { opacity: 1; }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #f2f2f2;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    img.logo {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    h1 a {
+      text-decoration: none;
+      color: #222;
+    }
+
+    p {
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+    }
+
+    /* Tombol umum */
+    .btn {
+      display: block;
+      margin: 8px auto;
+      padding: 12px 20px;
+      background: #fff;
+      color: #222;
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #bbb;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      max-width: 420px;
+    }
+    .btn:hover { background: #e6e6e6; transform: scale(1.03); }
+
+    /* Kategori dan pagination senada */
+    #categories,
+    .pagination {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+
+    .category-btn {
+      background: #ddd;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: #222;
+    }
+    .page-btn {
+      background: #ddd;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .category-btn:hover,
+    .page-btn:hover {
+      background: #ccc;
+    }
+    .category-btn.active,
+    .page-btn.active {
+      background: #bbb;
+      font-weight: bold;
+    }
+
+    /* Tombol hasil pencarian */
+    .result-btn {
+      background: #fff;
+      border: 1px solid #ddd;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeInUp 0.4s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #555;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .fade-out { opacity: 0; transition: opacity 0.5s ease; }
