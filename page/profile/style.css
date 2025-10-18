@@ -101,3 +101,15 @@
 
     /* Tampilkan dropdown saat tombol aktif */
     .dropdown-wrapper.show .dropdown-content { display: flex; }
+
+/* ⚙️ Lain-lain */
+footer { margin-top: 30px; font-size: 12px; color: #666; }
+html, body {
+  height: 100%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+body { top: 0 !important; }
