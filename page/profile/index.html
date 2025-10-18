@@ -150,38 +150,11 @@
   </div>
 
 <!-- Google Translate Hidden -->
-<div id="google_translate_element" style="display:none;"></div>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag() { dataLayer.push(arguments); }
-gtag('js', new Date());
-gtag('config', 'G-V1JWDFFYK2');
-</script>
-<script>
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({ pageLanguage: 'id' }, 'google_translate_element');
-}
-</script><script>
-function doGTranslate(el) {
-  if (el.value === '') return;
-  var lang = el.value.split('|')[1];
-  if (lang === 'id') {
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-    location.href = "https://link.laksanacraft.my.id/";
-    return;
-  }
-  var select = document.querySelector('.goog-te-combo');
-  if (select) {
-    select.value = lang;
-    select.dispatchEvent(new Event('change'));
-  }
-}
+  <div id="google_translate_element" style="display:none;"></div>
 
-</script><script>
-const gtScript = document.createElement('script');
-gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-document.head.appendChild(gtScript);</script>
+  <script src="assets/js/script.js"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 <script src="script.js"></script>
 
 </body>
