@@ -155,19 +155,10 @@
 /* 🌈 Background dan translasi */
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  background-attachment: fixed;
   background-repeat: no-repeat;
-  background-position: top center;
-  background-attachment: scroll; /* ganti fixed menjadi scroll */
+  background-size: cover;
 }
-.goog-te-banner-frame.skiptranslate {
-  display: none !important;
-}
-body {
-  top: 0px !important;
-}
-.goog-te-gadget-icon {
-  display: none !important;
-}
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+body { top: 0 !important; }
