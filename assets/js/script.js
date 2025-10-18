@@ -7,6 +7,37 @@ gtag('js', new Date());
 gtag('config', 'G-V1JWDFFYK2');
 
 /* ======================================================
+   Script untuk mengganti alias (stabil)
+   ====================================================== */
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const res = await fetch("/assets/config/base.json");
+        const BASES = await res.json();
+
+        // Tag yang bisa berisi URL
+        const tags = ["a", "link", "img", "script"];
+
+        tags.forEach(tag => {
+          document.querySelectorAll(tag).forEach(el => {
+            ["href", "src"].forEach(attr => {
+              const val = el.getAttribute(attr);
+              if (!val) return;
+
+              const prefix = val.split("/")[0];
+              if (BASES[prefix]) {
+                const base = BASES[prefix].replace(/\/$/, "");
+                const newUrl = val.replace(prefix, base);
+                el.setAttribute(attr, newUrl);
+              }
+            });
+          });
+        });
+      } catch (err) {
+        console.error("Gagal memuat base.json:", err);
+      }
+    });
+
+/* ======================================================
    Google Translate (stabil)
    ====================================================== */
 function googleTranslateElementInit() {
