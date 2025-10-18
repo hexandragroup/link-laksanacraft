@@ -5,21 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Profil Hendras Laksono — kontak dan tautan resmi.">
   <title>Profil Hendras</title>
-  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
 
+  <!-- favicon pakai alias -->
+  <link rel="icon" type="image/png" href="url/assets/favicon.webp">
+
+  <!-- CSS lokal -->
   <link rel="stylesheet" href="../../assets/css/test.css" />
-
 </head>
+
 <body>
   <div class="container">
-    <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
+    <!-- Logo pakai alias -->
+    <img src="url/assets/logo.png" alt="Logo" class="logo" />
+
     <h1>Hendras Laksono</h1>
     <p>“Dengan Seni untuk hidup lebih Indah, dengan Ilmu untuk hidup lebih Mudah, dengan Agama untuk hidup lebih terarah.”</p>
 
-    <!-- Tombol Profil -->
-    <a href="https://url.laksanacraft.my.id/wa" class="btn" target="_blank">💬 WhatsApp</a>
+    <!-- Tombol Profil pakai alias url -->
+    <a href="url/wa" class="btn" target="_blank">💬 WhatsApp</a>
     <a href="mailto:hendraslaksono@gmail.com" class="btn" target="_blank">✉️ Email Pribadi</a>
-    <a href="https://url.laksanacraft.my.id/linkedin" class="btn" target="_blank">🔗 LinkedIn</a>
+    <a href="url/linkedin" class="btn" target="_blank">🔗 LinkedIn</a>
     <a href="https://www.facebook.com/hendras.laksono.113" class="btn" target="_blank">📘 Facebook</a>
     <a href="https://www.instagram.com/leeliez_hendras" class="btn" target="_blank">📸 Instagram</a>
 
@@ -47,10 +52,41 @@
     </footer>
   </div>
 
-<!-- Google Translate Hidden -->
+  <!-- Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
 
   <script src="script.js"></script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Script untuk mengganti alias (url/...) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const res = await fetch("/assets/config/base.json");
+        const BASES = await res.json();
+
+        // Tag yang bisa berisi URL
+        const tags = ["a", "link", "img", "script"];
+
+        tags.forEach(tag => {
+          document.querySelectorAll(tag).forEach(el => {
+            ["href", "src"].forEach(attr => {
+              const val = el.getAttribute(attr);
+              if (!val) return;
+
+              const prefix = val.split("/")[0];
+              if (BASES[prefix]) {
+                const base = BASES[prefix].replace(/\/$/, "");
+                const newUrl = val.replace(prefix, base);
+                el.setAttribute(attr, newUrl);
+              }
+            });
+          });
+        });
+      } catch (err) {
+        console.error("Gagal memuat base.json:", err);
+      }
+    });
+  </script>
 </body>
-        </html>
+</html>
