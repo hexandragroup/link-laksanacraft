@@ -48,7 +48,7 @@
     }
 
     /* Tombol umum */
-    .btn, .translate-box select {
+    .btn {
       display: block;
       margin: 8px auto;
       padding: 12px 20px;
@@ -63,6 +63,21 @@
     }
     .btn:hover { background: #e6e6e6; transform: scale(1.03); }
 
+/* Styling dropdown Google Translate */
+.translate-box select,
+.goog-te-combo {
+  width: 100% !important;
+  max-width: 420px !important; /* sama dengan tombol .btn */
+  padding: 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid #bbb !important;
+  font-size: 14px !important;
+  color: #222 !important;
+  background: #fff !important;
+  cursor: pointer !important;
+  display: block !important;
+  margin: 8px auto !important;
+}
 
     /* Kategori dan pagination senada */
     #categories,
@@ -138,13 +153,14 @@
     .fade-out { opacity: 0; transition: opacity 0.5s ease; }
 
 /* 🌈 Background dan translasi */
-html,
-body {
-  height: 100% !important;
-  background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-attachment: scroll; /* ganti fixed menjadi scroll */
 }
 .goog-te-banner-frame.skiptranslate {
   display: none !important;
