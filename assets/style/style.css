@@ -4,6 +4,7 @@
 
 /* 🌤️ Tampilan dasar */
 html, body {
+  font-size: 1rem;
   height: 100% !important;
   background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
   background-attachment: fixed !important;
@@ -16,10 +17,14 @@ body {
   padding: 30px;
   margin: 0;
   color: #222;
+  line-height: 1.6;
   top: 0 !important;
 }
 
 body.loaded { opacity: 1; }
+body, button, input, textarea, select, label {
+  font-size: inherit;
+}
 
 /* Tambah ruang ekstra di bawah halaman */
 body::after {
