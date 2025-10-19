@@ -16,6 +16,7 @@ button {
   transition: all 0.3s ease;
   cursor: pointer;
 }
+
 select:hover,
 button:hover {
   background: #e6e6e6;
@@ -27,6 +28,7 @@ form {
   margin-top: 20px;
   display: none;
 }
+
 form.active {
   display: block;
 }
@@ -47,6 +49,7 @@ textarea {
   box-sizing: border-box;
 }
 
+/* Tombol submit utama */
 button {
   background: #333;
   color: #fff;
@@ -57,16 +60,18 @@ button {
   transition: all 0.3s ease;
   width: 100%;
 }
+
 button:hover {
   background: #555;
 }
 
-/* 🗂️ Tabs */
+/* 🗂️ Tabs (Order & Kerjasama) */
 .tabs {
   display: flex;
   margin-bottom: 20px;
   gap: 5px;
 }
+
 .tab-btn {
   flex: 1;
   padding: 10px 0;
@@ -75,25 +80,37 @@ button:hover {
   cursor: pointer;
   transition: 0.3s;
   border-radius: 8px;
+  font-size: 0.875rem; /* 🔹 lebih proporsional */
+  font-weight: 600;
 }
+
 .tab-btn.active {
   background: #333;
   color: #fff;
 }
 
-/* 🟣 Tombol Google Form */
-.google-form-btn {
+/* 🎯 Tombol besar seragam (Google Form, WA, Email) */
+.google-form-btn,
+.alt-btn {
   display: block;
-  margin-top: 15px;
+  width: 100%;
   padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;   /* 🔹 seragam ukuran font */
+  font-weight: 600;    /* 🔹 tebal proporsional */
+  text-align: center;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* 🟣 Google Form */
+.google-form-btn {
+  margin-top: 15px;
   background: #673ab7;
   color: #fff;
-  text-decoration: none;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  transition: all 0.3s ease;
 }
+
 .google-form-btn:hover {
   background: #5a2ca0;
   transform: scale(1.03);
@@ -104,6 +121,7 @@ button:hover {
   margin-top: 15px;
   text-align: center;
 }
+
 .alt-section p {
   font-style: italic;
   color: #444;
@@ -116,19 +134,11 @@ button:hover {
   gap: 10px;
 }
 
-.alt-btn {
-  display: block;
-  border-radius: 8px;
-  padding: 12px 20px;
-  text-decoration: none;
-  color: #fff;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-
+/* 🟢 WA & 🟡 Email */
 .alt-btn.wa {
   background: #25d366;
 }
+
 .alt-btn.wa:hover {
   background: #1ebe5d;
   transform: scale(1.03);
@@ -138,6 +148,7 @@ button:hover {
   background: #fbbc05;
   color: #222;
 }
+
 .alt-btn.email:hover {
   background: #e0a904;
   transform: scale(1.03);
