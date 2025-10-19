@@ -13,7 +13,6 @@ p.sublead {
 /* 🧾 Form */
 form .input-row {
   margin-top: 12px;
-  text-align: center;
   position: relative;
 }
 label.small {
@@ -36,6 +35,7 @@ button {
   margin: 6px auto;
   display: block;
   box-sizing: border-box;
+  text-align: center;
 }
 button[type="submit"] {
   background: #333;
