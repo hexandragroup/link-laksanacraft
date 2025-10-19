@@ -48,7 +48,7 @@ h1 a { text-decoration: none; color: #222; }
 h1 a:hover { text-decoration: underline; }
 
 /* Paragraf */
-p { color: #444; margin-bottom: 16px; }
+p { color: #444; margin-bottom: 16px; font-style: italic; }
 p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
 
 /* Footer */
