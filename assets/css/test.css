@@ -13,20 +13,19 @@ p.sublead {
   margin-bottom: 20px;
 }
 
-/* 🧾 Form & Input */
+
+/* 🧾 Form */
 form .input-row {
   margin-top: 12px;
   text-align: left;
   position: relative;
 }
-
 label.small {
   font-size: 13px;
   color: #666;
   display: block;
   margin-bottom: 4px;
 }
-
 input,
 select,
 button {
@@ -39,7 +38,6 @@ button {
   display: block;
   box-sizing: border-box;
 }
-
 button[type="submit"] {
   background: #333;
   color: #fff;
@@ -47,17 +45,15 @@ button[type="submit"] {
   padding: 12px;
   cursor: pointer;
 }
-
 button[type="submit"]:hover {
   background: #444;
 }
 
-/* 🧩 Hasil Pencarian */
+/* 🧩 Hasil pencarian */
 #results {
   margin-top: 18px;
   text-align: left;
 }
-
 .result {
   background: #fff;
   border: 1px solid #ddd;
@@ -65,90 +61,27 @@ button[type="submit"]:hover {
   border-radius: 8px;
   margin-bottom: 12px;
 }
-
 .result p {
   margin: 6px 0;
 }
-
 .small {
   font-size: 13px;
   color: #666;
 }
 
-/* 📋 Tabel Variasi */
+/* 📋 Tabel variasi */
 table.variant-table {
   width: 100%;
   border-collapse: collapse;
   margin: 8px 0;
   font-size: 14px;
 }
-
 table.variant-table th,
 table.variant-table td {
   border: 1px solid #ccc;
   padding: 6px 8px;
   text-align: left;
 }
-
 table.variant-table th {
   background: #f9f9f9;
-}
-
-/* --- Autocomplete Custom --- */
-.autocomplete-items {
-  position: absolute;
-  border: 1px solid #ddd;
-  border-top: none;
-  z-index: 99;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border-radius: 0 0 8px 8px;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-}
-
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.autocomplete-items div:hover {
-  background-color: #f5f5f5;
-}
-
-/* ✨ Highlight lembut pada teks yang cocok */
-.autocomplete-items b,
-#tokoh-suggestions b {
-  color: #333;
-  background-color: #e8e8e8;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 0 3px;
-}
-
-/* --- Kotak saran tokoh --- */
-#tokoh-suggestions {
-  position: absolute;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  z-index: 100;
-  width: 100%;
-  max-height: 250px;
-  overflow-y: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-#tokoh-suggestions div {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#tokoh-suggestions div:hover {
-  background-color: #f2f2f2;
 }
