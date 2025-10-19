@@ -1,121 +1,97 @@
-    body {
-      font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc);
-      padding: 30px;
-      margin: 0;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    body.loaded { opacity: 1; }
-
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: #f2f2f2;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    img.logo {
-      width: 100px;
-      border-radius: 50%;
-      margin-bottom: 15px;
-    }
-
-    h1 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #444;
-      margin-bottom: 20px;
-      font-style: italic;
-    }
-
-    /* Tombol umum + dropdown disatukan */
-    .btn, .dropdown-btn {
-      display: block;
-      margin: 8px auto;
-      padding: 12px 20px;
-      background: #fff;
-      color: #222;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 1px solid #bbb;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      max-width: 420px;
-      width: 100%;
-      box-sizing: border-box;
-      text-align: center;
-      font-size: 16px;
-    }
-    .btn:hover, .dropdown-btn:hover { background: #e6e6e6; transform: scale(1.03); }
-
-    footer {
-      margin-top: 30px;
-      font-size: 12px;
-      color: #666;
-    }
-
-    /* Dropdown */
-    .dropdown-wrapper {
-      max-width: 420px;
-      margin: 8px auto;
-      position: relative;
-      text-align: center;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      background: #fff;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      flex-direction: column;
-      z-index: 100;
-    }
-
-    .dropdown-content a {
-      padding: 12px 20px;
-      display: block;
-      color: #222;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .dropdown-content a:hover { background: #e6e6e6; }
-    .dropdown-content a.disabled {
-      color: #aaa;
-      cursor: default;
-      pointer-events: none;
-    }
-
-    /* Tampilkan dropdown saat tombol aktif */
-    .dropdown-wrapper.show .dropdown-content { display: flex; }
-
-/* ⚙️ Lain-lain */
-footer { margin-top: 30px; font-size: 12px; color: #666; }
-html, body {
-  height: 100%;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
+/* 🔹 Dropdown khusus */
+.dropdown-wrapper {
+  position: relative;
+  max-width: 420px;
+  margin: 8px auto;
+  text-align: center;
 }
-.goog-te-banner-frame.skiptranslate { display: none !important; }
-.goog-te-gadget-icon { display: none !important; }
-body { top: 0 !important; }
 
-/* Tambah ruang ekstra di bawah halaman */
-body::after {
-  content: "";
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  z-index: 100;
+}
+
+.dropdown-wrapper.show .dropdown-content { display: flex; }
+
+.dropdown-content a {
+  padding: 12px 20px;
   display: block;
-  height: 30px; /* ubah angka ini kalau mau lebih besar atau kecil */
+  color: #222;
+  text-decoration: none;
+  transition: background 0.2s;
 }
+
+.dropdown-content a:hover { background: #e6e6e6; }
+.dropdown-content a.disabled { color: #aaa; pointer-events: none; cursor: default; }
+
+/* 🔹 Form & input autocomplete */
+form .input-row { position: relative; margin-top: 12px; }
+label.small { font-size: 13px; color: #666; margin-bottom: 4px; display: block; }
+
+input, select, button {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin: 6px auto;
+  display: block;
+  box-sizing: border-box;
+}
+
+.autocomplete-items, #tokoh-suggestions {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  z-index: 100;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.autocomplete-items div, #tokoh-suggestions div {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.autocomplete-items div:hover, #tokoh-suggestions div:hover {
+  background-color: #f2f2f2;
+}
+
+/* ✨ Highlight teks yang cocok */
+.autocomplete-items b, #tokoh-suggestions b {
+  color: #333;
+  background-color: #e8e8e8;
+  font-weight: 600;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+/* 🔹 Tabel variasi */
+table.variant-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+table.variant-table th, table.variant-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+table.variant-table th { background: #f9f9f9; }
