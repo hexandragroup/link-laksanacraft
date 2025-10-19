@@ -1,19 +1,32 @@
-<footer>
-  &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I.Yogyakarta
-</footer>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil Hendras</title>
 
-<script>
-  const startYear = 1990;
-  const currentYear = new Date().getFullYear();
-  document.getElementById("year").textContent =
-    currentYear > startYear ? startYear + "–" + currentYear : startYear;
-</script>
+  <!-- Hubungkan CSS kamu di sini -->
+  <link rel="stylesheet" href="/assets/style/style.css" />
+</head>
+<body>
 
-<!-- Google Tag -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V1JWDFFYK2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-V1JWDFFYK2');
-</script>
+  <div class="container">
+    <!-- Judul -->
+    <h1>Hendras Laksono</h1>
+
+    <!-- Slogan -->
+    <p><em>“Dengan Seni untuk hidup lebih Indah, dengan Ilmu untuk hidup lebih Mudah, dengan Agama untuk hidup lebih terarah.”</em></p>
+
+    <!-- Footer -->
+    <footer>
+      &copy; <span id="year"></span> Hendras Laksono · Yogyakarta, Indonesia
+    </footer>
+  </div>
+
+  <!-- Script untuk tahun otomatis -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
