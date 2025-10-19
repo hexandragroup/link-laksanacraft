@@ -1,13 +1,14 @@
 /* ======================================================
-   CSS PROFILE
+   PROFILE.CSS 
    ====================================================== */
 
-/* Container lebih lebar jika perlu */
-.container {
-  max-width: 500px; /* tetap seperti desain awal halaman 1 */
+.dropdown-wrapper {
+  max-width: 420px;
+  margin: 8px auto;
+  position: relative;
+  text-align: center;
 }
 
-/* Dropdown button khusus */
 .dropdown-btn {
   display: block;
   margin: 8px auto;
@@ -19,10 +20,49 @@
   border: 1px solid #bbb;
   transition: all 0.3s ease;
   cursor: pointer;
-  max-width: 420px;
   width: 100%;
   box-sizing: border-box;
   text-align: center;
   font-size: 16px;
 }
-.dropdown-btn:hover { background: #e6e6e6; transform: scale(1.03); }
+
+.dropdown-btn:hover {
+  background: #e6e6e6;
+  scale: 1.03; /* aman, tidak ganggu konteks teks */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: #fff;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  flex-direction: column;
+  z-index: 100;
+}
+
+.dropdown-content a {
+  padding: 12px 20px;
+  display: block;
+  color: #222;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #e6e6e6;
+}
+
+.dropdown-content a.disabled {
+  color: #aaa;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Tampilkan dropdown saat wrapper aktif */
+.dropdown-wrapper.show .dropdown-content { display: flex; }
