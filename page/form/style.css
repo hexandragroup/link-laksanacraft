@@ -1,30 +1,3 @@
-    html, body {
-      height: 100% !important;
-      margin: 0;
-      font-family: sans-serif;
-      background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-      background-attachment: fixed !important;
-      background-repeat: no-repeat !important;
-      background-size: cover !important;
-    }
-
-    body { padding: 30px; }
-
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #f2f2f2;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
-    h1 { font-size: 20px; margin-bottom: 10px; }
-    h1 a { text-decoration: none; color: #222; }
-    p { color: #444; margin-bottom: 20px; }
-    footer { margin-top: 30px; font-size: 12px; color: #666; }
 
     .btn, select, button {
       display: inline-block; margin: 10px auto; padding: 14px 20px;
@@ -88,9 +61,3 @@
 
     .alt-btn.email { background: #fbbc05; color: #222; }
     .alt-btn.email:hover { background: #e0a904; transform: scale(1.03); }
-
-    /* Google Translate fix */
-    .goog-te-banner-frame.skiptranslate { display: none !important; }
-    .goog-te-gadget-icon { display: none !important; }
-    body { top: 0px !important; }
-    .translate-box { margin-bottom: 20px; text-align: center; }
