@@ -62,7 +62,7 @@ button[type="submit"]:hover {
   margin: 6px 0;
 }
 .small {
-  font-size: 13px;
+  font-size: 0.8rem;
   color: #666;
 }
 
