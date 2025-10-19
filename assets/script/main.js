@@ -17,7 +17,7 @@ function goSearch(e) {
 }
 
 /* --- Tab Navigasi (Utama / Toko / Sosial) --- */
-const tabFiles = { utama: "links/utama.json", toko: "links/toko.json", sosial: "links/sosial.json" };
+const tabFiles = { utama: "assets/config/utama.json", toko: "assets/config/toko.json", sosial: "assets/config/sosial.json" };
 const linkCache = {};
 
 function loadLinks(tab) {
