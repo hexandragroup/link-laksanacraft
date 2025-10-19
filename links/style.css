@@ -82,3 +82,14 @@
     }
 
     .fade-out { opacity: 0; transition: opacity 0.5s ease; }
+
+input {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin: 6px auto;
+  display: block;
+  box-sizing: border-box;
+}
