@@ -54,6 +54,8 @@ img.logo {
 h1 {
   font-size: 20px;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 420px;
   text-align: center;
 }
@@ -68,6 +70,8 @@ h1 a:hover { text-decoration: underline; }
 p {
   color: #444;
   margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 420px;
   text-align: center;
 }
