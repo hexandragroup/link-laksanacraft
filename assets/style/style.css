@@ -1,24 +1,28 @@
 /* ======================================================
-   BASE CSS – Struktur utama & tombol
+   BASE.CSS – Struktur utama & tombol (gabungan semua halaman)
    ====================================================== */
 
 /* 🌤️ Tampilan dasar */
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 30px;
-  font-family: sans-serif;
   background: linear-gradient(to bottom, #eeeeee, #cccccc);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 30px;
+  margin: 0;
   color: #222;
   top: 0 !important;
   box-sizing: border-box;
-  position: relative;
   opacity: 0;
   transition: opacity 0.6s ease;
+  position: relative;
 }
+
 body.loaded { opacity: 1; }
 
 /* Tambah ruang ekstra di bawah halaman */
@@ -30,7 +34,7 @@ body::after {
 
 /* Container utama */
 .container {
-  max-width: 500px;
+  max-width: 500px; /* default, bisa override di halaman tertentu */
   margin: auto;
   background: #f2f2f2;
   padding: 25px;
@@ -39,21 +43,26 @@ body::after {
   text-align: center;
 }
 
-/* Logo & Header */
+/* Logo & header */
 img.logo {
   width: 100px;
   border-radius: 50%;
   margin-bottom: 15px;
 }
+
 h1 {
   font-size: 20px;
   margin-bottom: 10px;
 }
+
 h1 a {
-  text-decoration: none;
   color: #222;
+  text-decoration: none;
 }
-h1 a:hover { text-decoration: underline; }
+
+h1 a:hover {
+  text-decoration: underline;
+}
 
 /* Paragraf */
 p {
@@ -80,6 +89,7 @@ p {
   text-align: center;
   font-size: 16px;
 }
+
 .btn:hover, .dropdown-btn:hover {
   background: #e6e6e6;
   transform: scale(1.03);
@@ -92,6 +102,7 @@ p {
   position: relative;
   text-align: center;
 }
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -106,6 +117,7 @@ p {
   flex-direction: column;
   z-index: 100;
 }
+
 .dropdown-content a {
   padding: 12px 20px;
   display: block;
@@ -113,13 +125,18 @@ p {
   text-decoration: none;
   transition: background 0.2s;
 }
-.dropdown-content a:hover { background: #e6e6e6; }
+
+.dropdown-content a:hover {
+  background: #e6e6e6;
+}
+
 .dropdown-content a.disabled {
   color: #aaa;
   cursor: default;
   pointer-events: none;
 }
-/* Tampilkan dropdown saat tombol aktif */
+
+/* Tampilkan dropdown saat wrapper aktif */
 .dropdown-wrapper.show .dropdown-content { display: flex; }
 
 /* Footer */
