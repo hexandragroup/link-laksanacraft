@@ -1,8 +1,8 @@
 /* ======================================================
-   BASE CSS UTAMA – Template untuk semua halaman
+   BASE.CSS – Shared Styles for All Pages
    ====================================================== */
 
-/* 🌤️ Tampilan dasar dan Body */
+/* 🌤️ Body & HTML */
 html, body {
   height: 100% !important;
   margin: 0;
@@ -16,23 +16,21 @@ html, body {
   top: 0 !important;
   box-sizing: border-box;
   position: relative;
-}
-body {
   opacity: 0;
   transition: opacity 0.6s ease;
 }
 body.loaded { opacity: 1; }
 
-/* Tambah ruang ekstra di bawah halaman */
+/* Extra space at bottom */
 body::after {
   content: "";
   display: block;
   height: 30px;
 }
 
-/* Container utama */
+/* 📦 Container utama */
 .container {
-  max-width: 500px;
+  max-width: 500px; /* halaman 3 bisa override ke 600px */
   margin: auto;
   background: #f2f2f2;
   padding: 25px;
@@ -41,45 +39,36 @@ body::after {
   text-align: center;
 }
 
-/* Logo & Header */
-img.logo { width: 100px; border-radius: 50%; margin-bottom: 15px; }
-h1 { font-size: 20px; margin-bottom: 10px; }
-h1 a { text-decoration: none; color: #222; }
+/* 🖼️ Logo & Header */
+img.logo {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+h1 a {
+  color: #222;
+  text-decoration: none;
+}
 h1 a:hover { text-decoration: underline; }
 
-/* Paragraf */
-p { color: #444; margin-bottom: 16px; font-style: italic; }
-p.sublead { font-size: 15px; font-weight: bold; margin-bottom: 18px; }
-
-/* Footer */
-footer {
-  margin-top: 30px;
-  font-size: 12px;
-  color: #666;
+/* 📄 Paragraph */
+p {
+  color: #444;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+p.sublead {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 18px;
 }
 
-/* 🌈 Google Translate / Dropdown */
-.translate-box { margin-bottom: 20px; text-align: center; }
-.translate-box select,
-.goog-te-combo {
-  width: 100% !important;
-  max-width: 420px !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  border-radius: 8px !important;
-  border: 1px solid #bbb !important;
-  background: #fff !important;
-  color: #222 !important;
-  cursor: pointer !important;
-  display: block !important;
-  margin: 8px auto !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
-/* 🔘 Tombol umum */
-.btn, button {
+/* 🔘 Tombol umum & dropdown */
+.btn, .dropdown-btn, button {
   display: block;
   margin: 8px auto;
   padding: 12px 20px;
@@ -96,9 +85,12 @@ footer {
   text-align: center;
   font-size: 16px;
 }
-.btn:hover, button:hover { background: #e6e6e6; transform: scale(1.03); }
+.btn:hover, .dropdown-btn:hover, button:hover {
+  background: #e6e6e6;
+  transform: scale(1.03);
+}
 
-/* Input / Form / Select */
+/* 📝 Input / Form / Select / Textarea */
 input, select, textarea {
   width: 100%;
   max-width: 420px;
@@ -118,31 +110,11 @@ button[type="submit"] {
   padding: 12px;
   cursor: pointer;
 }
-button[type="submit"]:hover { background: #444; }
-
-/* 🔹 Hasil pencarian */
-#results { margin-top: 18px; text-align: left; }
-.result {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-.result p { margin: 6px 0; }
-.result-btn {
-  background: #fff;
-  border: 1px solid #ddd;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeInUp 0.4s ease forwards;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+button[type="submit"]:hover {
+  background: #444;
 }
 
-/* 🔹 Kategori dan pagination */
+/* 🔹 Kategori / Pagination */
 #categories, .pagination {
   display: flex;
   flex-wrap: wrap;
@@ -164,6 +136,24 @@ button[type="submit"]:hover { background: #444; }
 }
 .category-btn:hover, .page-btn:hover { background: #ccc; }
 .category-btn.active, .page-btn.active { background: #bbb; font-weight: bold; }
+
+/* 🔹 Hasil pencarian */
+.result, .result-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.result-btn {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s ease forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* 📋 Tabel variasi */
 table.variant-table {
@@ -206,8 +196,13 @@ table.variant-table th { background: #f9f9f9; }
   padding: 0 3px;
 }
 
-/* ⚙️ Dropdown wrapper untuk halaman dengan menu dropdown */
-.dropdown-wrapper { max-width: 420px; margin: 8px auto; position: relative; text-align: center; }
+/* ⚙️ Dropdown wrapper */
+.dropdown-wrapper {
+  max-width: 420px;
+  margin: 8px auto;
+  position: relative;
+  text-align: center;
+}
 .dropdown-content {
   display: none;
   position: absolute;
@@ -237,9 +232,13 @@ table.variant-table th { background: #f9f9f9; }
   pointer-events: none;
 }
 
+/* Footer */
+footer { margin-top: 30px; font-size: 12px; color: #666; }
+
 /* Lain-lain */
 .fade-out { opacity: 0; transition: opacity 0.5s ease; }
 
 /* Google Translate fix */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 .goog-te-gadget-icon { display: none !important; }
+.translate-box { margin-bottom: 20px; text-align: center; }
