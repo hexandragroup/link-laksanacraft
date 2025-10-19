@@ -68,25 +68,18 @@
 .goog-te-combo {
   width: 100% !important;
   max-width: 420px !important;
-  padding: 12px 20px !important;
+  padding: 14px 24px !important; /* agar proporsional dengan .btn */
+  font-size: 15px !important;
+  line-height: 1.5 !important;
   border-radius: 8px !important;
   border: 1px solid #bbb !important;
-  font-size: 14px !important;
-  color: #222 !important;
   background: #fff !important;
+  color: #222 !important;
   cursor: pointer !important;
   display: block !important;
   margin: 8px auto !important;
   text-align: center !important;
-}
-
-/* Untuk desktop (lebar >= 768px), perbesar sedikit */
-@media (min-width: 768px) {
-  .translate-box select,
-  .goog-te-combo {
-    padding: 14px 24px !important;
-    font-size: 15px !important;
-  }
+  box-sizing: border-box !important;
 }
     /* Kategori dan pagination senada */
     #categories,
