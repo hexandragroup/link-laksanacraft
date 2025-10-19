@@ -1,17 +1,17 @@
 /* ======================================================
-   BASE.CSS – Shared Styles for All Pages
+   BASE CSS – Struktur utama & tombol
    ====================================================== */
 
-/* 🌤️ Body & HTML */
+/* 🌤️ Tampilan dasar */
 html, body {
-  height: 100% !important;
+  height: 100%;
   margin: 0;
   padding: 30px;
   font-family: sans-serif;
-  background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
-  background-attachment: fixed !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: #222;
   top: 0 !important;
   box-sizing: border-box;
@@ -21,16 +21,16 @@ html, body {
 }
 body.loaded { opacity: 1; }
 
-/* Extra space at bottom */
+/* Tambah ruang ekstra di bawah halaman */
 body::after {
   content: "";
   display: block;
   height: 30px;
 }
 
-/* 📦 Container utama */
+/* Container utama */
 .container {
-  max-width: 600px; /* halaman 3 bisa override ke 600px */
+  max-width: 500px;
   margin: auto;
   background: #f2f2f2;
   padding: 25px;
@@ -39,7 +39,7 @@ body::after {
   text-align: center;
 }
 
-/* 🖼️ Logo & Header */
+/* Logo & Header */
 img.logo {
   width: 100px;
   border-radius: 50%;
@@ -50,25 +50,20 @@ h1 {
   margin-bottom: 10px;
 }
 h1 a {
-  color: #222;
   text-decoration: none;
+  color: #222;
 }
 h1 a:hover { text-decoration: underline; }
 
-/* 📄 Paragraph */
+/* Paragraf */
 p {
   color: #444;
-  margin-bottom: 16px;
-  font-style: italic;
-}
-p.sublead {
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  font-style: italic; /* tetap italic untuk semua halaman */
 }
 
-/* 🔘 Tombol umum & dropdown */
-.btn, .dropdown-btn, button {
+/* 🔘 Tombol umum + dropdown */
+.btn, .dropdown-btn {
   display: block;
   margin: 8px auto;
   padding: 12px 20px;
@@ -85,118 +80,12 @@ p.sublead {
   text-align: center;
   font-size: 16px;
 }
-.btn:hover, .dropdown-btn:hover, button:hover {
+.btn:hover, .dropdown-btn:hover {
   background: #e6e6e6;
   transform: scale(1.03);
 }
 
-/* 📝 Input / Form / Select / Textarea */
-input, select, textarea {
-  width: 100%;
-  max-width: 420px;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #bbb;
-  margin: 6px auto;
-  display: block;
-  box-sizing: border-box;
-}
-
-/* Tombol submit khusus */
-button[type="submit"] {
-  background: #333;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  cursor: pointer;
-}
-button[type="submit"]:hover {
-  background: #444;
-}
-
-/* 🔹 Kategori / Pagination */
-#categories, .pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-  margin-bottom: 20px;
-}
-.category-btn, .page-btn {
-  background: #ddd;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  color: #222;
-}
-.category-btn:hover, .page-btn:hover { background: #ccc; }
-.category-btn.active, .page-btn.active { background: #bbb; font-weight: bold; }
-
-/* 🔹 Hasil pencarian */
-.result, .result-btn {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-.result-btn {
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeInUp 0.4s ease forwards;
-}
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 📋 Tabel variasi */
-table.variant-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0;
-  font-size: 14px;
-}
-table.variant-table th, table.variant-table td {
-  border: 1px solid #ccc;
-  padding: 6px 8px;
-  text-align: left;
-}
-table.variant-table th { background: #f9f9f9; }
-
-/* --- Autocomplete & saran tokoh */
-.autocomplete-items, #tokoh-suggestions {
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  max-height: 250px;
-  overflow-y: auto;
-  z-index: 100;
-  width: 100%;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.autocomplete-items { border-top: none; border-radius: 0 0 8px 8px; }
-.autocomplete-items div, #tokoh-suggestions div {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.autocomplete-items div:hover, #tokoh-suggestions div:hover { background-color: #f5f5f5; }
-.autocomplete-items b, #tokoh-suggestions b {
-  color: #333;
-  background-color: #e8e8e8;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 0 3px;
-}
-
-/* ⚙️ Dropdown wrapper */
+/* Dropdown wrapper */
 .dropdown-wrapper {
   max-width: 420px;
   margin: 8px auto;
@@ -217,7 +106,6 @@ table.variant-table th { background: #f9f9f9; }
   flex-direction: column;
   z-index: 100;
 }
-.dropdown-wrapper.show .dropdown-content { display: flex; }
 .dropdown-content a {
   padding: 12px 20px;
   display: block;
@@ -231,14 +119,16 @@ table.variant-table th { background: #f9f9f9; }
   cursor: default;
   pointer-events: none;
 }
+/* Tampilkan dropdown saat tombol aktif */
+.dropdown-wrapper.show .dropdown-content { display: flex; }
 
 /* Footer */
-footer { margin-top: 30px; font-size: 12px; color: #666; }
-
-/* Lain-lain */
-.fade-out { opacity: 0; transition: opacity 0.5s ease; }
+footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: #666;
+}
 
 /* Google Translate fix */
 .goog-te-banner-frame.skiptranslate { display: none !important; }
 .goog-te-gadget-icon { display: none !important; }
-.translate-box { margin-bottom: 20px; text-align: center; }
