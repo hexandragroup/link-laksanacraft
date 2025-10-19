@@ -13,7 +13,7 @@ p.sublead {
 /* 🧾 Form */
 form .input-row {
   margin-top: 12px;
-  text-align: left;
+  text-align: center;
   position: relative;
 }
 label.small {
@@ -46,11 +46,14 @@ button[type="submit"] {
 }
 button[type="submit"]:hover {
   background: #444;
+  transform: scale(1.03);
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
 /* 🧩 Hasil pencarian */
 #results {
   margin-top: 18px;
+  max-width: 420px;
   text-align: left;
 }
 .result {
@@ -63,6 +66,7 @@ button[type="submit"]:hover {
   margin-left: auto;
   margin-right: auto;
   max-width: 420px;
+  text-align: left;
 }
 .result p {
   margin: 6px 0;
@@ -116,8 +120,8 @@ table.variant-table th {
 /* ✨ Highlight lembut pada teks yang cocok */
 .autocomplete-items b,
 #tokoh-suggestions b {
-  color: #333;
-  background-color: #e8e8e8;
+  background-color: #ffefef;
+  color: #cc0000;
   font-weight: 600;
   border-radius: 3px;
   padding: 0 3px;
