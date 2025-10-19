@@ -137,6 +137,7 @@ button:hover {
 /* 🟢 WA & 🟡 Email */
 .alt-btn.wa {
   background: #25d366;
+  color: #fff;
 }
 
 .alt-btn.wa:hover {
