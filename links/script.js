@@ -98,3 +98,19 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
       renderPage();
     }
+
+function resizeGTranslate() {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.style.width = "100%";
+    select.style.maxWidth = "420px";
+    select.style.padding = "14px 24px";
+    select.style.fontSize = "15px";
+    select.style.boxSizing = "border-box";
+  }
+}
+
+// Jalankan beberapa kali karena Google Translate kadang delay
+setTimeout(resizeGTranslate, 1000);
+setTimeout(resizeGTranslate, 1500);
+setTimeout(resizeGTranslate, 2000);
