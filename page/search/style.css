@@ -21,6 +21,9 @@ label.small {
   color: #666;
   display: block;
   margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
 }
 input,
 select,
@@ -57,6 +60,9 @@ button[type="submit"]:hover {
   border-radius: 8px;
   margin-bottom: 12px;
   font-size: 0.9rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
 }
 .result p {
   margin: 6px 0;
