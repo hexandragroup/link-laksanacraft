@@ -1,4 +1,8 @@
-/* Styling umum dropdown (mobile + desktop) */
+/* ======================================================
+   LINK.CSS
+   ====================================================== */
+
+/* 🌐 Dropdown Translate (Mobile + Desktop) */
 .translate-box select,
 .goog-te-combo {
   width: 100% !important;
@@ -16,73 +20,8 @@
   text-align: center !important;
   box-sizing: border-box !important;
 }
-    /* Kategori dan pagination senada */
-    #categories,
-    .pagination {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 8px;
-      margin-bottom: 20px;
-    }
 
-    .category-btn {
-      background: #ddd;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-      color: #222;
-    }
-    .page-btn {
-      background: #ddd;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-      cursor: pointer;
-      font-size: 13px;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .category-btn:hover,
-    .page-btn:hover {
-      background: #ccc;
-    }
-    .category-btn.active,
-    .page-btn.active {
-      background: #bbb;
-      font-weight: bold;
-    }
-
-    /* Tombol hasil pencarian */
-    .result-btn {
-      background: #fff;
-      border: 1px solid #ddd;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.4s ease forwards;
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-title {
-      margin-top: 25px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .fade-out { opacity: 0; transition: opacity 0.5s ease; }
-
+/* 🏷️ Input Pencarian */
 input {
   width: 100%;
   max-width: 420px;
@@ -92,4 +31,74 @@ input {
   margin: 6px auto;
   display: block;
   box-sizing: border-box;
+}
+
+/* 🗂️ Kategori & Pagination */
+#categories,
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+}
+
+.category-btn,
+.page-btn {
+  background: #ddd;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: #222;
+}
+
+.page-btn {
+  padding: 6px 10px; /* sedikit lebih kecil */
+}
+
+/* Hover & Active States */
+.category-btn:hover,
+.page-btn:hover {
+  background: #ccc;
+}
+
+.category-btn.active,
+.page-btn.active {
+  background: #bbb;
+  font-weight: bold;
+}
+
+/* 🔍 Tombol Hasil Pencarian */
+.result-btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ✨ Animasi */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 📘 Judul Section */
+.section-title {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 🔄 Efek Fade Out */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
