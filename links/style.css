@@ -63,11 +63,11 @@
     }
     .btn:hover { background: #e6e6e6; transform: scale(1.03); }
 
-/* Styling dropdown Google Translate */
+/* Styling umum dropdown (mobile + desktop) */
 .translate-box select,
 .goog-te-combo {
   width: 100% !important;
-  max-width: 420px !important; /* sama dengan tombol .btn */
+  max-width: 420px !important;
   padding: 12px 20px !important;
   border-radius: 8px !important;
   border: 1px solid #bbb !important;
@@ -80,6 +80,14 @@
   text-align: center !important;
 }
 
+/* Untuk desktop (lebar >= 768px), perbesar sedikit */
+@media (min-width: 768px) {
+  .translate-box select,
+  .goog-te-combo {
+    padding: 14px 24px !important;
+    font-size: 15px !important;
+  }
+}
     /* Kategori dan pagination senada */
     #categories,
     .pagination {
