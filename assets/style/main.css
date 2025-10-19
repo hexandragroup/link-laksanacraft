@@ -11,7 +11,7 @@
   text-align: center; }
 .tab-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 6px;
   margin-bottom: 15px;
 }
