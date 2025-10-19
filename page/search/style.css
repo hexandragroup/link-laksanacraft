@@ -35,7 +35,6 @@ button {
   margin: 6px auto;
   display: block;
   box-sizing: border-box;
-  text-align: center;
 }
 button[type="submit"] {
   background: #333;
