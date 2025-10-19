@@ -70,6 +70,10 @@ p {
   color: #444;
   margin-bottom: 20px;
 }
+p em {
+  font-size: 0.9rem;
+  color: #555;
+}
 
 /* 🔘 Tombol umum + dropdown */
 .btn, .dropdown-btn {
