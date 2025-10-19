@@ -110,62 +110,10 @@
 
   <!-- Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script type="text/javascript">
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'id'}, 'google_translate_element');
-    }
-    function doGTranslate(el) {
-      if (el.value === '') return;
-      var langPair = el.value.split('|');
-      var lang = langPair[1];
-      if (lang === 'id') {
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname + ';';
-        window.location.href = window.location.origin + window.location.pathname;
-        return;
-      }
-      var select = document.querySelector('.goog-te-combo');
-      if (select) {
-        select.value = lang;
-        select.dispatchEvent(new Event('change'));
-      }
-    }
-  </script>
+
+  <script src="/assets/script/script.js"></script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="script.js"></script>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  // Tab switching
-  const tabs = document.querySelectorAll('.tab-btn');
-  const forms = document.querySelectorAll('form');
-
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      forms.forEach(f => f.classList.remove('active'));
-      const target = tab.getAttribute('data-target');
-      document.getElementById(target).classList.add('active');
-    });
-  });
-
-  // Tahun otomatis
-  const startYear = 1990;
-  const currentYear = new Date().getFullYear();
-  document.getElementById("year").textContent = currentYear > startYear ? startYear + "–" + currentYear : startYear;
-});
-
-// WhatsApp
-function sendToWhatsApp(event) {
-  event.preventDefault();
-  const nama = document.getElementById('nama').value.trim();
-  const produk = document.getElementById('produk').value.trim();
-  const pesan = document.getElementById('pesan').value.trim();
-  const noTujuan = "6285608564084"; 
-  const text = `Halo, saya ${nama} ingin memesan:\n\n🛍️ Produk: ${produk}\n📝 Keterangan: ${pesan || "-"}`;
-  window.open(`https://wa.me/${noTujuan}?text=${encodeURIComponent(text)}`, "_blank");
-  event.target.submit();
-}
-</script>
 </body>
 </html>
