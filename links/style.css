@@ -86,6 +86,14 @@ input {
 
 .category-btn {
   flex: 0 0 auto; /* agar tidak mengecil */
+
+#categories::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+#categories {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 }
 
 /* 🔍 Tombol Hasil Pencarian */
