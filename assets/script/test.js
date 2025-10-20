@@ -2,7 +2,7 @@
 // Daftar alias
 // ======================================================
 const BASES = {
-  "xxx": "https://www.laksanacraft.my.id",
+  "www": "https://www.laksanacraft.my.id",
   "url": "https://url.laksanacraft.my.id",
   "link": "https://link.laksanacraft.my.id",
   "blog": "https://blog.laksanacraft.my.id",
@@ -23,24 +23,47 @@ let currentPage = 1;
 const perPage = 10;
 
 // ======================================================
-// Fungsi mengganti alias
+// Ganti alias untuk data manual (utama, sosial, toko)
 // ======================================================
-function replaceAlias(item) {
+function replaceAliasManual(item) {
   for (let key in BASES) {
     const baseUrl = BASES[key];
-
-    // Ganti link & url hanya jika belum dimulai dengan https
     ["link", "url"].forEach(prop => {
-      if (item[prop] && !item[prop].startsWith("http") && item[prop].startsWith(key + "/")) {
+      if (item[prop] && !item[prop].startsWith("http") && item[prop].startsWith(key)) {
         item[prop] = baseUrl + item[prop].substring(key.length);
       }
     });
-
-    // Ganti varian link
     if (item.varian) {
       item.varian.forEach(v => {
-        if (v.link && !v.link.startsWith("http") && v.link.startsWith(key + "/")) {
+        if (v.link && !v.link.startsWith("http") && v.link.startsWith(key)) {
           v.link = baseUrl + v.link.substring(key.length);
+        }
+      });
+    }
+  }
+}
+
+// ======================================================
+// Ganti alias untuk produk (products*.json) otomatis
+// ======================================================
+function replaceAliasProducts(item) {
+  for (let key in BASES) {
+    const baseUrl = BASES[key];
+    ["link", "url"].forEach(prop => {
+      if (item[prop] && !item[prop].startsWith("http") && item[prop].includes("/")) {
+        const parts = item[prop].split("/");
+        if (parts[0] === key) {
+          item[prop] = baseUrl + "/" + parts.slice(1).join("/");
+        }
+      }
+    });
+    if (item.varian) {
+      item.varian.forEach(v => {
+        if (v.link && !v.link.startsWith("http") && v.link.includes("/")) {
+          const parts = v.link.split("/");
+          if (parts[0] === key) {
+            v.link = baseUrl + "/" + parts.slice(1).join("/");
+          }
         }
       });
     }
@@ -59,7 +82,7 @@ async function loadProducts() {
       const res = await fetch(file);
       if (!res.ok) break;
       const data = await res.json();
-      data.forEach(item => replaceAlias(item));
+      data.forEach(item => replaceAliasProducts(item));
       dataArray.push(...data);
       i++;
     } catch {
@@ -70,7 +93,7 @@ async function loadProducts() {
 }
 
 // ======================================================
-// Load file manual (utama.json, sosial.json, dll.)
+// Load file manual (utama, sosial, toko, dll.)
 // ======================================================
 async function loadManualFiles(files = []) {
   let dataArray = [];
@@ -79,7 +102,7 @@ async function loadManualFiles(files = []) {
       const res = await fetch(file);
       if (!res.ok) continue;
       const data = await res.json();
-      data.forEach(item => replaceAlias(item));
+      data.forEach(item => replaceAliasManual(item));
       dataArray.push(...data);
     } catch (err) {
       console.error("Gagal load", file, err);
@@ -102,7 +125,6 @@ async function loadAll() {
 
   allLinks = [...manualData, ...productsData];
 
-  // Setup kategori unik
   const categories = [...new Set(allLinks.map(item => item.category).filter(Boolean))];
   categoriesEl.innerHTML = "";
   categories.forEach(cat => {
