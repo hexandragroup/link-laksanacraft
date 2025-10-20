@@ -183,30 +183,52 @@ queryInput.addEventListener("input", function () {
   });
 });
 
-const BASES = { "#": "https://www.laksanacraft.my.id" };
+// ======================================================
+// Daftar alias (ganti sesuai kebutuhan)
+// ======================================================
+const BASES = {
+  "#": "https://www.laksanacraft.my.id",
+  "url": "https://url.laksanacraft.my.id",
+  "link": "https://link.laksanacraft.my.id",
+  "blog": "https://blog.laksanacraft.my.id",
+  "shop": "https://shop.laksanacraft.my.id"
+};
 
+// ======================================================
+// Fungsi load semua data dari beberapa JSON
+// ======================================================
 async function loadAllData(files = []) {
   let dataArray = [];
+
   for (let file of files) {
     try {
       const res = await fetch(file);
       if (!res.ok) continue;
       const data = await res.json();
 
-      // Ganti alias # menjadi URL penuh
+      // Loop semua item dan ganti alias sesuai BASES
       data.forEach(item => {
-        if (item.url && item.url.startsWith("#")) {
-          item.url = item.url.replace(/^#/, BASES["#"]);
-        }
-        if (item.link && item.link.startsWith("#")) {
-          item.link = item.link.replace(/^#/, BASES["#"]);
-        }
-        if (item.varian) {
-          item.varian.forEach(v => {
-            if (v.link && v.link.startsWith("#")) {
-              v.link = v.link.replace(/^#/, BASES["#"]);
-            }
-          });
+        for (let key in BASES) {
+          const baseUrl = BASES[key];
+
+          // item.url
+          if (item.url && item.url.startsWith(key)) {
+            item.url = item.url.replace(new RegExp("^" + key), baseUrl);
+          }
+
+          // item.link
+          if (item.link && item.link.startsWith(key)) {
+            item.link = item.link.replace(new RegExp("^" + key), baseUrl);
+          }
+
+          // item.varian.link
+          if (item.varian) {
+            item.varian.forEach(v => {
+              if (v.link && v.link.startsWith(key)) {
+                v.link = v.link.replace(new RegExp("^" + key), baseUrl);
+              }
+            });
+          }
         }
       });
 
@@ -215,10 +237,17 @@ async function loadAllData(files = []) {
       console.error("Gagal load", file, err);
     }
   }
+
   return dataArray;
 }
 
+// ======================================================
 // Contoh penggunaan
-loadAllData(["/assets/config/utama.json", "/assets/config/toko.json", "/assets/config/sosial.json"]).then(allLinks => {
+// ======================================================
+loadAllData([
+  "/assets/config/utama.json",
+  "/assets/config/toko.json",
+  "/assets/config/sosial.json"
+]).then(allLinks => {
   console.log(allLinks);
 });
