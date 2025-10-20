@@ -148,7 +148,7 @@ function renderResults(list) {
   });
 }
 
-/* === Autocomplete Tokoh (Hybrid + Scroll) === */
+/* === Autocomplete Tokoh dengan Highlight === */
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
   const suggestionBox = document.getElementById("tokoh-suggestions");
@@ -160,10 +160,8 @@ function setupAutocomplete(products) {
   products.forEach(p => {
     if (Array.isArray(p.tokoh)) p.tokoh.forEach(t => tokohSet.add(capitalize(t)));
   });
-
   tokohSet.add("Punakawan");
   tokohSet.add("Pandawa");
-
   const tokohList = Array.from(tokohSet);
 
   input.addEventListener("input", function() {
@@ -171,13 +169,15 @@ function setupAutocomplete(products) {
     suggestionBox.innerHTML = "";
     if (!val) return;
 
-    // Hybrid search: startsWith dulu, lalu includes
+    // Filter matches
     let matches = tokohList.filter(t => t.toLowerCase().startsWith(val));
     if (matches.length === 0) matches = tokohList.filter(t => t.toLowerCase().includes(val));
 
     matches.forEach(t => {
       const div = document.createElement("div");
-      div.textContent = t;
+      // Highlight matching substring
+      const regex = new RegExp(`(${val})`, 'gi');
+      div.innerHTML = t.replace(regex, '<b>$1</b>');
       div.style.padding = "6px 10px";
       div.style.cursor = "pointer";
       div.addEventListener("mouseenter", () => div.style.background = "#eee");
@@ -214,6 +214,7 @@ async function loadAllProducts() {
   return files.flat();
 }
 
+// --- Inisialisasi ---
 loadAllProducts()
   .then(data => {
     products = data;
