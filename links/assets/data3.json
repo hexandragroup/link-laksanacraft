@@ -1,0 +1,146 @@
+[
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Niagahoster – Hosting & Domain",
+    "url": "https://niagahoster.com",
+    "icon": "💻"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Cloudflare – Keamanan & CDN",
+    "url": "https://cloudflare.com",
+    "icon": "☁️"
+  },
+  {
+    "category": "📧 Email & Komunikasi",
+    "title": "Brevo – Email Marketing",
+    "url": "https://brevo.com",
+    "icon": "📧"
+  },
+  {
+    "category": "📧 Email & Komunikasi",
+    "title": "ImprovMX – Email Forwarding",
+    "url": "https://improvmx.com",
+    "icon": "✉️"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "MultCloud – Manajemen Cloud",
+    "url": "https://multcloud.com",
+    "icon": "☁️"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "GitHub – Platform Kode",
+    "url": "https://www.github.com",
+    "icon": "🐱"
+  },
+  {
+    "category": "📧 Email & Komunikasi",
+    "title": "Zoho – Suite Bisnis",
+    "url": "https://zoho.com",
+    "icon": "📊"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Rebrandly – Pemendek Link",
+    "url": "https://www.rebrandly.com/",
+    "icon": "🔗"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Google Search Console",
+    "url": "https://search.google.com/search-console?",
+    "icon": "🔍"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Google PageSpeed Insights",
+    "url": "https://pagespeed.web.dev/",
+    "icon": "⚡"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "WhatsMyDNS – Cek DNS",
+    "url": "https://www.whatsmydns.net/",
+    "icon": "🌐"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Whois Domain Tools",
+    "url": "https://whois.domaintools.com/",
+    "icon": "📝"
+  },
+  {
+    "category": "📱 Nomor Sementara",
+    "title": "Temporary Phone Number",
+    "url": "https://temporary-phone-number.com",
+    "icon": "📲"
+  },
+  {
+    "category": "📱 Nomor Sementara",
+    "title": "MyTempSMS ID",
+    "url": "https://id.mytempsms.com/",
+    "icon": "📲"
+  },
+  {
+    "category": "📚 Hiburan & Manga",
+    "title": "Mangaku Team",
+    "url": "https://mangaku.team/",
+    "icon": "📖"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "IBanking Bank Jateng",
+    "url": "https://ibanking.bankjateng.co.id/",
+    "icon": "🏦"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Ikut Vaksin Bantul",
+    "url": "https://ikutvaksin.bantulkab.go.id",
+    "icon": "💉"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Dashboard Prakerja",
+    "url": "https://dashboard.prakerja.go.id/",
+    "icon": "🖥️"
+  },
+  {
+    "category": "💻 Teknologi & Gadget",
+    "title": "Mi Store Global",
+    "url": "https://us.i.mi.com/#/",
+    "icon": "📱"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Sibakul Jogja",
+    "url": "https://sibakuljogja.jogjaprov.go.id/",
+    "icon": "🏛️"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "SSCASN BKN",
+    "url": "https://sscasn.bkn.go.id/",
+    "icon": "📝"
+  },
+  {
+    "category": "☁️ Cloud & Penyimpanan",
+    "title": "TeraBox – Penyimpanan Cloud",
+    "url": "https://www.terabox.com",
+    "icon": "☁️"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Linktree – Link Manager",
+    "url": "https://linktr.ee",
+    "icon": "🔗"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Desty – Pemendek Link",
+    "url": "https://desty.page",
+    "icon": "🔗"
+  }
+]
