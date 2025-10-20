@@ -182,3 +182,64 @@ queryInput.addEventListener("input", function () {
     suggestionsBox.appendChild(div);
   });
 });
+
+// ======================================================
+// Alias manual
+// ======================================================
+const BASES_MANUAL = {
+  "www": "https://www.laksanacraft.my.id",
+  "url": "https://url.laksanacraft.my.id",
+  "link": "https://link.laksanacraft.my.id",
+  "blog": "https://blog.laksanacraft.my.id",
+  "shop": "https://shop.laksanacraft.my.id"
+};
+
+function replaceAliasManual(item) {
+  for (let key in BASES_MANUAL) {
+    const baseUrl = BASES_MANUAL[key];
+    ["link", "url"].forEach(prop => {
+      if (item[prop] && !item[prop].startsWith("http") && item[prop].startsWith(key)) {
+        item[prop] = baseUrl + item[prop].substring(key.length);
+      }
+    });
+    if (item.varian) {
+      item.varian.forEach(v => {
+        if (v.link && !v.link.startsWith("http") && v.link.startsWith(key)) {
+          v.link = baseUrl + v.link.substring(key.length);
+        }
+      });
+    }
+  }
+}
+
+// ======================================================
+// Load manual files
+// ======================================================
+async function loadManualFiles(files = []) {
+  let dataArray = [];
+  for (let file of files) {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) continue;
+      const data = await res.json();
+      data.forEach(item => replaceAliasManual(item));
+      dataArray.push(...data);
+    } catch (err) {
+      console.error("Gagal load", file, err);
+    }
+  }
+  return dataArray;
+}
+
+// ======================================================
+// Jalankan load manual di halaman khusus
+// ======================================================
+document.addEventListener("DOMContentLoaded", async () => {
+  const manualData = await loadManualFiles([
+    "/assets/config/utama.json",
+    "/assets/config/toko.json",
+    "/assets/config/sosial.json"
+  ]);
+
+  console.log("Data manual:", manualData);
+});
