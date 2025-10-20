@@ -205,19 +205,53 @@
       setTimeout(() => { window.location.href = backLink.href; }, 500);
     });
 
-    // Ambil data
-    fetch("assets/data1.json")
-      .then(res => res.json())
-      .then(data => {
-        allLinks = data;
-        setupFilters(data);
-        renderPage();
-        loadingEl.style.display = "none";
-        resultsEl.style.display = "block";
-      })
-      .catch(() => {
-        loadingEl.innerHTML = "<p>Gagal memuat data. Coba lagi nanti.</p>";
-      });
+// ======================================================
+// Load semua data*.json secara otomatis
+// ======================================================
+async function loadAllData() {
+  let allData = [];
+  let i = 1;
+
+  while (true) {
+    const file = `assets/data${i}.json`;
+    try {
+      const res = await fetch(file);
+      if (!res.ok) break; // berhenti jika file tidak ditemukan
+      const json = await res.json();
+      allData.push(...json);
+      i++;
+    } catch (err) {
+      console.warn(`Gagal memuat ${file}:`, err);
+      break;
+    }
+  }
+
+  return allData;
+}
+
+// ======================================================
+// Jalankan load saat halaman siap
+// ======================================================
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const data = await loadAllData();
+
+    if (!data.length) {
+      loadingEl.innerHTML = "<p>⚠️ Tidak ada data ditemukan.</p>";
+      return;
+    }
+
+    allLinks = data;
+    setupFilters(data);
+    renderPage();
+    loadingEl.style.display = "none";
+    resultsEl.style.display = "block";
+
+  } catch (err) {
+    console.error("Gagal memuat data:", err);
+    loadingEl.innerHTML = "<p>⚠️ Gagal memuat data. Coba lagi nanti.</p>";
+  }
+});
 
     function setupFilters(data) {
       const categories = ["Semua", ...new Set(data.map(l => l.category))];
