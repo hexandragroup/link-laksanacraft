@@ -1,8 +1,8 @@
 [
-  { "text": "📘 Facebook", "url": "https://url.laksanacraft.my.id/facebook" },
-  { "text": "📷 Instagram", "url": "https://url.laksanacraft.my.id/instagram" },
-  { "text": "🐦 Twitter", "url": "https://url.laksanacraft.my.id/twitter" },
-  { "text": "🎥 YouTube", "url": "https://url.laksanacraft.my.id/youtube" },
-  { "text": "📢 Channel WhatsApp", "url": "https://url.laksanacraft.my.id/wa/channel" },
-  { "text": "📢 Channel Telegram", "url": "https://url.laksanacraft.my.id/telegram/channel" }
+  { "text": "📘 Facebook", "url": "url/facebook" },
+  { "text": "📷 Instagram", "url": "url/instagram" },
+  { "text": "🐦 Twitter", "url": "url/twitter" },
+  { "text": "🎥 YouTube", "url": "url/youtube" },
+  { "text": "📢 Channel WhatsApp", "url": "url/wa/channel" },
+  { "text": "📢 Channel Telegram", "url": "url/telegram/channel" }
 ]
