@@ -19,7 +19,7 @@ label.small {
   color: #666;
   display: block;
   margin-bottom: 4px;
-  text-align: left;      /* teks kiri */
+  text-align: left;
 }
 
 /* Input, select, button */
@@ -31,11 +31,11 @@ button {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #bbb;
-  margin: 6px 0;         /* hilangkan auto untuk center */
+  margin: 6px 0;
   display: block;
   box-sizing: border-box;
-  font-size: 1rem;       /* ukuran proporsional */
-  text-align: left;       /* teks kiri */
+  font-size: 1rem;
+  text-align: left;
 }
 
 /* Submit button */
@@ -79,6 +79,15 @@ button[type="submit"]:hover {
   text-align: left;
 }
 
+/* Highlight teks yang diketik user */
+.highlight {
+  background-color: #ffefef;
+  color: #cc0000;
+  font-weight: 600;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
 /* 📋 Tabel variasi */
 table.variant-table {
   width: 100%;
@@ -112,24 +121,14 @@ table.variant-table th {
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
 }
 .autocomplete-items div {
-  padding: 6px 10px;         /* lebih compact */
+  padding: 6px 10px;
   cursor: pointer;
   transition: background 0.2s;
   font-size: 0.9rem;
-  text-align: left;           /* teks kiri */
+  text-align: left;
 }
 .autocomplete-items div:hover {
   background-color: #f5f5f5;
-}
-
-/* ✨ Highlight lembut pada teks yang cocok */
-.autocomplete-items b,
-#tokoh-suggestions b {
-  background-color: #ffefef;
-  color: #cc0000;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 0 3px;
 }
 
 /* --- Kotak saran tokoh --- */
@@ -139,13 +138,13 @@ table.variant-table th {
   border: 1px solid #ddd;
   border-radius: 6px;
   z-index: 100;
-  width: 100%;               /* penuh sesuai input */
-  max-width: 420px;          /* optional */
-  margin: 0;                 /* hilangkan auto */
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
   max-height: 250px;
   overflow-y: auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: left;           /* teks kiri */
+  text-align: left;
 }
 #tokoh-suggestions div {
   padding: 6px 10px;
