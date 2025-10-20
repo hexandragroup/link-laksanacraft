@@ -69,6 +69,7 @@ input {
 .category-btn:hover,
 .page-btn:hover {
   background: #ccc;
+  color: #000;
 }
 
 .category-btn.active,
