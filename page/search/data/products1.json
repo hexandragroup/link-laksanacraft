@@ -1,6 +1,6 @@
 [
   {
-    "tokoh": ["custom"],
+    "tokoh": ["Custom"],
     "ukuran": ["miniatur"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-miniatur/alusan-custom-c",
@@ -10,7 +10,7 @@
     ]
   },
   {
-    "tokoh": ["custom"],
+    "tokoh": ["Custom"],
     "ukuran": ["20cm"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/20cm",
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "tokoh": ["custom"],
+    "tokoh": ["Custom"],
     "ukuran": ["25cm"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/25cm",
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "tokoh": ["custom"],
+    "tokoh": ["Custom"],
     "ukuran": ["30cm"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-custom/30cm",
@@ -37,7 +37,7 @@
     ]
   },
   {
-    "tokoh": ["custom"],
+    "tokoh": ["Custom"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/standar-a",
@@ -50,7 +50,7 @@
     ]
   },
   {
-    "tokoh": ["semar", "gareng", "petruk", "bagong"],
+    "tokoh": ["Semar", "Gareng", "Petruk", "Bagong"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/kidangan-a/punakawan",
@@ -61,7 +61,7 @@
     ]
   },
   {
-    "tokoh": ["arjuna", "puntadewa", "nakula", "bima", "sadewa"],
+    "tokoh": ["Arjuna", "Puntadewa", "Nakula", "Bima", "Sadewa"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
     "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/kidangan-a/pandawa-lima",
@@ -72,38 +72,38 @@
     ]
   },
   {
-    "tokoh": ["semar"],
+    "tokoh": ["Semar"],
     "ukuran": ["miniatur"],
     "kualitas": "alusan",
-    "link": "www/product/wayang-kulit-miniatur/alusan-custom-c",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-miniatur/alusan-custom-c",
     "varian": [
       {"size": "10cm", "harga": "Rp10.000"},
       {"size": "12cm", "harga": "Rp15.000"}
     ]
   },
   {
-    "tokoh": ["semar"],
+    "tokoh": ["Custom"],
     "ukuran": ["30cm"],
     "kualitas": "murah",
-    "link": "www/product/wayang-kulit-murah/kidangan-b",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-murah/kidangan-b",
     "varian": [
       {"size": "30cm", "harga": "Rp25.000"}
     ]
   },
   {
-    "tokoh": ["arjuna"],
+    "tokoh": ["Arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "murah",
-    "link": "www/product/wayang-kulit-murah/standar-b",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-murah/standar-b",
     "varian": [
       {"size": "Standar Pedalangan", "harga": "Rp65.000"}
     ]
   },
   {
-    "tokoh": ["arjuna"],
+    "tokoh": ["Arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
-    "link": "www/product/wayang-kulit-alusan/standar-a",
+    "link": "https://www.laksanacraft.my.id/product/wayang-kulit-alusan/standar-a",
     "varian": [
       {"size": "Standar Pedalangan", "harga": "Rp600.000"}
     ]
