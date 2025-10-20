@@ -29,15 +29,17 @@ function replaceAlias(item) {
   for (let key in BASES) {
     const baseUrl = BASES[key];
 
+    // Ganti link & url hanya jika belum dimulai dengan https
     ["link", "url"].forEach(prop => {
-      if (item[prop] && item[prop].startsWith(key + "/")) {
+      if (item[prop] && !item[prop].startsWith("http") && item[prop].startsWith(key + "/")) {
         item[prop] = baseUrl + item[prop].substring(key.length);
       }
     });
 
+    // Ganti varian link
     if (item.varian) {
       item.varian.forEach(v => {
-        if (v.link && v.link.startsWith(key + "/")) {
+        if (v.link && !v.link.startsWith("http") && v.link.startsWith(key + "/")) {
           v.link = baseUrl + v.link.substring(key.length);
         }
       });
@@ -87,7 +89,7 @@ async function loadManualFiles(files = []) {
 }
 
 // ======================================================
-// Load semua data dan setup kategori
+// Load semua data & setup kategori
 // ======================================================
 async function loadAll() {
   const manualData = await loadManualFiles([
