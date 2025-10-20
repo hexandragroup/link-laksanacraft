@@ -1,0 +1,30 @@
+{
+  "name": "Profil Hendras & Lilis – Laksana Handicraft",
+  "short_name": "Hendras & Lilis",
+  "description": "Profil resmi Hendras Laksono & Tri Lestyaningsih – Pengrajin Wayang Kulit dari Bantul, D.I. Yogyakarta. Temukan tautan kontak, bisnis, dan media sosial kami.",
+  "start_url": "/page/profile",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#333333",
+  "background_color": "#ffffff",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "/assets/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}
