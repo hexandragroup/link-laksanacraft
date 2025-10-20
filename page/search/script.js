@@ -119,6 +119,7 @@ function checkQueryParam() {
     p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
     (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
     (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
+    (qLower === "hewan" && matchesGroup(p.tokoh, "hewan")) ||
     (p.ukuran &&
       (Array.isArray(p.ukuran)
         ? p.ukuran.some(u => u.toLowerCase().includes(qLower))
