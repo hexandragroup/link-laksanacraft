@@ -144,6 +144,7 @@ function renderResults(list) {
     let tokohList = p.tokoh.map(capitalize);
     if (matchesGroup(p.tokoh, "punakawan")) tokohList.unshift("(Punakawan)");
     if (matchesGroup(p.tokoh, "pandawa")) tokohList.unshift("(Pandawa)");
+    if (matchesGroup(p.tokoh, "hewan")) tokohList.unshift("(Hewan)");
 
     let varianTable = "";
     if (p.varian && Array.isArray(p.varian)) {
@@ -186,6 +187,7 @@ function setupAutocomplete(products) {
   });
   tokohSet.add("Punakawan");
   tokohSet.add("Pandawa");
+  tokohSet.add("Hewan");
 
   const tokohList = Array.from(tokohSet);
 
