@@ -230,7 +230,7 @@ loadAllProducts()
 // Daftar alias (ganti sesuai kebutuhan)
 // ======================================================
 const BASES = {
-  "#": "https://www.laksanacraft.my.id",
+  "www": "https://www.laksanacraft.my.id",
   "url": "https://url.laksanacraft.my.id",
   "link": "https://link.laksanacraft.my.id",
   "blog": "https://blog.laksanacraft.my.id",
