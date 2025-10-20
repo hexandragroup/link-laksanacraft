@@ -1,8 +1,10 @@
 /* ======================================================
-   🔸 MAIN JS – Laksana Link
+   🔸 MAIN JS – Laksana Link (Versi Lengkap)
    ====================================================== */
 
-/* --- Tahun dinamis --- */
+/* ======================================================
+   🔹 Tahun Dinamis
+   ====================================================== */
 const startYear = 1990;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
@@ -16,9 +18,9 @@ function goSearch(e) {
   e.preventDefault();
   const q = document.getElementById("query").value.trim();
   if (q)
-    window.location.href = "https://link.laksanacraft.my.id/page/search?q=" + encodeURIComponent(q);
-  else
-    alert("Masukkan kata kunci pencarian!");
+    window.location.href =
+      "https://link.laksanacraft.my.id/page/search?q=" + encodeURIComponent(q);
+  else alert("Masukkan kata kunci pencarian!");
 }
 
 
@@ -30,7 +32,6 @@ const tabFiles = {
   toko: "assets/config/toko.json",
   sosial: "assets/config/sosial.json"
 };
-
 const linkCache = {};
 
 async function loadLinks(tab) {
@@ -179,36 +180,67 @@ queryInput.addEventListener("input", function () {
   }
   if (!val) return;
 
-  // Kumpulkan semua keyword unik
-  const allKeywords = new Set();
+  // 🔹 Kumpulkan keyword unik
+  const tokohMap = new Map(); // key = tokoh kecil, value = tampilan dengan grup
+  const ukuranSet = new Set();
+  const kualitasSet = new Set();
+
   products.forEach(p => {
-    if (p.tokoh)
-      p.tokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
+    if (Array.isArray(p.tokoh)) {
+      p.tokoh.forEach(t => {
+        const lower = t.toLowerCase();
+        if (!tokohMap.has(lower)) {
+          const group = getGroupName(lower);
+          const label = group
+            ? `${t.charAt(0).toUpperCase() + t.slice(1)} (${group.charAt(0).toUpperCase() + group.slice(1)})`
+            : t.charAt(0).toUpperCase() + t.slice(1);
+          tokohMap.set(lower, label);
+        }
+      });
+    }
+
     if (p.ukuran)
       (Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran])
-        .forEach(u => allKeywords.add(`ukuran:${u}`));
+        .forEach(u => ukuranSet.add(u));
+
     if (p.kualitas)
-      allKeywords.add(`kualitas:${p.kualitas}`);
+      kualitasSet.add(p.kualitas);
   });
 
-  const allList = Array.from(allKeywords);
+  // Tambahkan nama grup utama
+  if (!tokohMap.has("punakawan")) tokohMap.set("punakawan", "Punakawan");
+  if (!tokohMap.has("pandawa")) tokohMap.set("pandawa", "Pandawa");
 
-  // Filter prioritas
-  const startsWithMatches = allList.filter(k => k.split(":")[1].toLowerCase().startsWith(val));
+  // Gabung semua
+  const allList = [
+    ...Array.from(tokohMap.entries()).map(([k, v]) => `tokoh:${v}:${k}`),
+    ...Array.from(ukuranSet).map(u => `ukuran:${u}`),
+    ...Array.from(kualitasSet).map(k => `kualitas:${k}`)
+  ];
+
+  // 🔹 Filter prioritas
+  const startsWithMatches = allList.filter(k => {
+    const valPart = k.split(":")[1].toLowerCase();
+    return valPart.startsWith(val);
+  });
   const includesMatches = allList.filter(k => {
-    const v = k.split(":")[1].toLowerCase();
-    return !v.startsWith(val) && v.includes(val);
+    const valPart = k.split(":")[1].toLowerCase();
+    return !valPart.startsWith(val) && valPart.includes(val);
   });
   const matches = [...startsWithMatches, ...includesMatches];
 
   if (!matches.length) {
-    suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
+    suggestionsBox.innerHTML =
+      "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
     return;
   }
 
-  // Render hasil saran
+  // 🔹 Render hasil saran unik
   matches.forEach(match => {
-    const [type, value] = match.split(":");
+    const parts = match.split(":");
+    const type = parts[0];
+    const display = parts[1];
+    const value = parts[2] || parts[1]; // jika tokoh, value = nama asli (tanpa grup)
     const div = document.createElement("div");
     div.style.padding = "8px 10px";
     div.style.borderBottom = "1px solid #eee";
@@ -219,20 +251,10 @@ queryInput.addEventListener("input", function () {
     else if (type === "ukuran") label = "📏 ";
     else if (type === "kualitas") label = "⭐ ";
 
-    const displayValue = value.charAt(0).toUpperCase() + value.slice(1);
-
-    // Tambahkan label grup (contoh: Arjuna (Pandawa))
-    let groupLabel = "";
-    if (type === "tokoh") {
-      const group = getGroupName(value);
-      if (group)
-        groupLabel = ` (${group.charAt(0).toUpperCase() + group.slice(1)})`;
-    }
-
-    div.innerHTML = label + highlightText(displayValue + groupLabel, val);
+    div.innerHTML = label + highlightText(display, val);
 
     div.onclick = () => {
-      queryInput.value = displayValue;
+      queryInput.value = display;
       suggestionsBox.innerHTML = "";
       window.location.href =
         `https://link.laksanacraft.my.id/page/search?q=${encodeURIComponent(value)}`;
