@@ -1,19 +1,14 @@
 /* ======================================================
-   🔸 MAIN JS – Laksana Link (Versi Lengkap)
+   MAIN JS (Versi Stabil + Fix Duplikat Tokoh)
    ====================================================== */
 
-/* ======================================================
-   🔹 Tahun Dinamis
-   ====================================================== */
+/* --- Tahun dinamis --- */
 const startYear = 1990;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
   currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
-
-/* ======================================================
-   🔹 Fungsi Pencarian Utama
-   ====================================================== */
+/* --- Fungsi pencarian utama --- */
 function goSearch(e) {
   e.preventDefault();
   const q = document.getElementById("query").value.trim();
@@ -23,10 +18,7 @@ function goSearch(e) {
   else alert("Masukkan kata kunci pencarian!");
 }
 
-
-/* ======================================================
-   🔹 Tab Navigasi (Utama / Toko / Sosial)
-   ====================================================== */
+/* --- Tab Navigasi (Utama / Toko / Sosial) --- */
 const tabFiles = {
   utama: "assets/config/utama.json",
   toko: "assets/config/toko.json",
@@ -34,54 +26,57 @@ const tabFiles = {
 };
 const linkCache = {};
 
-async function loadLinks(tab) {
+function loadLinks(tab) {
   const container = document.getElementById(tab);
   if (linkCache[tab]) {
-    renderLinks(container, linkCache[tab]);
+    container.innerHTML = "";
+    linkCache[tab].forEach(link => {
+      const a = document.createElement("a");
+      a.className = "btn";
+      a.href = link.url;
+      a.textContent = link.text;
+      container.appendChild(a);
+    });
     return;
   }
 
   container.innerHTML = "<p>🔄 Memuat...</p>";
-  try {
-    const res = await fetch(tabFiles[tab]);
-    const data = await res.json();
-    linkCache[tab] = data;
-    renderLinks(container, data);
-  } catch {
-    container.innerHTML = "<p>⚠️ Gagal memuat link.</p>";
-  }
-}
-
-function renderLinks(container, data) {
-  container.innerHTML = "";
-  data.forEach(link => {
-    const a = document.createElement("a");
-    a.className = "btn";
-    a.href = link.url;
-    a.textContent = link.text;
-    container.appendChild(a);
-  });
+  fetch(tabFiles[tab])
+    .then(res => res.json())
+    .then(data => {
+      linkCache[tab] = data;
+      container.innerHTML = "";
+      data.forEach(link => {
+        const a = document.createElement("a");
+        a.className = "btn";
+        a.href = link.url;
+        a.textContent = link.text;
+        container.appendChild(a);
+      });
+    })
+    .catch(() => (container.innerHTML = "<p>⚠️ Gagal memuat link.</p>"));
 }
 
 function showTab(id) {
-  document.querySelectorAll(".tab-buttons button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-  document.querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`).classList.add("active");
-
+  document
+    .querySelectorAll(".tab-buttons button")
+    .forEach(b => b.classList.remove("active"));
+  document
+    .querySelectorAll(".tab-content")
+    .forEach(t => t.classList.remove("active"));
+  document
+    .querySelector(`.tab-buttons button[onclick="showTab('${id}')"]`)
+    .classList.add("active");
   const tab = document.getElementById(id);
   tab.classList.add("active");
   loadLinks(id);
-
   if (window.innerWidth < 600)
     tab.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 loadLinks("utama");
 
-
-/* ======================================================
-   🔹 Tombol Pojok & Swipe Menu (Mobile)
-   ====================================================== */
+/* --- Tombol pojok & menu swipe (mobile) --- */
 const cornerTab = document.getElementById("cornerTab");
 const cornerMenu = document.getElementById("cornerMenu");
 
@@ -111,15 +106,11 @@ document.addEventListener("touchend", e => {
   }
 });
 
-
-/* ======================================================
-   🔹 Load Semua Produk (Auto products1.json dst)
-   ====================================================== */
+/* --- Load Produk (stabil) --- */
 let products = [];
 let loading = true;
-
 async function loadAllProducts() {
-  const all = [];
+  const files = [];
   let i = 1;
   while (true) {
     const file = `https://link.laksanacraft.my.id/page/search/data/products${i}.json`;
@@ -127,61 +118,47 @@ async function loadAllProducts() {
       const res = await fetch(file);
       if (!res.ok) break;
       const json = await res.json();
-      all.push(...json);
+      files.push(json);
       i++;
     } catch {
       break;
     }
   }
-  products = all;
+  products = files.flat();
   loading = false;
 }
 loadAllProducts();
 
-
-/* ======================================================
-   🔹 Auto-saran Pencarian (Tokoh, Ukuran, Kualitas)
-   ====================================================== */
+/* --- Variabel global --- */
 const queryInput = document.getElementById("query");
 const suggestionsBox = document.getElementById("suggestions");
 
+// Scroll untuk kotak saran
 suggestionsBox.style.maxHeight = "300px";
 suggestionsBox.style.overflowY = "auto";
 
-/* --- Grup Tokoh --- */
-const GROUP_ALIASES = {
-  punakawan: ["semar", "gareng", "petruk", "bagong"],
-  pandawa: ["arjuna", "bima", "nakula", "sadewa", "puntadewa"]
-};
-
-function getGroupName(tokohName) {
-  for (let group in GROUP_ALIASES) {
-    if (GROUP_ALIASES[group].includes(tokohName.toLowerCase())) {
-      return group;
-    }
-  }
-  return null;
-}
-
-/* --- Highlight Lembut --- */
+/* --- Fungsi Highlight Lembut --- */
 function highlightText(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "ig");
-  return text.replace(regex, `<b style="background-color:#ffebc2;color:#b33;">$1</b>`);
+  return text.replace(
+    regex,
+    `<b style="background-color:#ffebc2;color:#b33;">$1</b>`
+  );
 }
 
-/* --- Event Input: Auto-saran --- */
+/* --- Event Input: Auto-saran (tanpa duplikat) --- */
 queryInput.addEventListener("input", function () {
   const val = this.value.trim().toLowerCase();
   suggestionsBox.innerHTML = "";
 
-  if (loading) {
+  if (!products.length) {
     suggestionsBox.innerHTML = "<div>⏳ Memuat data produk...</div>";
     return;
   }
   if (!val) return;
 
-  // 🔹 Kumpulkan keyword unik
-  const tokohMap = new Map(); // key = tokoh kecil, value = tampilan dengan grup
+  // 🔹 Gunakan Map untuk mencegah duplikat tokoh
+  const tokohMap = new Map();
   const ukuranSet = new Set();
   const kualitasSet = new Set();
 
@@ -189,44 +166,32 @@ queryInput.addEventListener("input", function () {
     if (Array.isArray(p.tokoh)) {
       p.tokoh.forEach(t => {
         const lower = t.toLowerCase();
-        if (!tokohMap.has(lower)) {
-          const group = getGroupName(lower);
-          const label = group
-            ? `${t.charAt(0).toUpperCase() + t.slice(1)} (${group.charAt(0).toUpperCase() + group.slice(1)})`
-            : t.charAt(0).toUpperCase() + t.slice(1);
-          tokohMap.set(lower, label);
-        }
+        if (!tokohMap.has(lower)) tokohMap.set(lower, t);
       });
     }
 
     if (p.ukuran)
-      (Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran])
-        .forEach(u => ukuranSet.add(u));
+      (Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran]).forEach(u => ukuranSet.add(u));
 
-    if (p.kualitas)
-      kualitasSet.add(p.kualitas);
+    if (p.kualitas) kualitasSet.add(p.kualitas);
   });
 
-  // Tambahkan nama grup utama
-  if (!tokohMap.has("punakawan")) tokohMap.set("punakawan", "Punakawan");
-  if (!tokohMap.has("pandawa")) tokohMap.set("pandawa", "Pandawa");
-
-  // Gabung semua
+  // Gabungkan semua kategori menjadi satu list
   const allList = [
-    ...Array.from(tokohMap.entries()).map(([k, v]) => `tokoh:${v}:${k}`),
+    ...Array.from(tokohMap.values()).map(t => `tokoh:${t}`),
     ...Array.from(ukuranSet).map(u => `ukuran:${u}`),
     ...Array.from(kualitasSet).map(k => `kualitas:${k}`)
   ];
 
-  // 🔹 Filter prioritas
-  const startsWithMatches = allList.filter(k => {
-    const valPart = k.split(":")[1].toLowerCase();
-    return valPart.startsWith(val);
-  });
+  // --- Prioritas: startsWith dulu, baru includes ---
+  const startsWithMatches = allList.filter(k =>
+    k.split(":")[1].toLowerCase().startsWith(val)
+  );
   const includesMatches = allList.filter(k => {
-    const valPart = k.split(":")[1].toLowerCase();
-    return !valPart.startsWith(val) && valPart.includes(val);
+    const value = k.split(":")[1].toLowerCase();
+    return !value.startsWith(val) && value.includes(val);
   });
+
   const matches = [...startsWithMatches, ...includesMatches];
 
   if (!matches.length) {
@@ -235,38 +200,34 @@ queryInput.addEventListener("input", function () {
     return;
   }
 
-  // 🔹 Render hasil saran unik
+  // --- Tampilkan hasil ---
   matches.forEach(match => {
-    const parts = match.split(":");
-    const type = parts[0];
-    const display = parts[1];
-    const value = parts[2] || parts[1]; // jika tokoh, value = nama asli (tanpa grup)
+    const [type, value] = match.split(":");
     const div = document.createElement("div");
     div.style.padding = "8px 10px";
     div.style.borderBottom = "1px solid #eee";
     div.style.cursor = "pointer";
 
     let label = "";
-    if (type === "tokoh") label = "👤 ";
-    else if (type === "ukuran") label = "📏 ";
-    else if (type === "kualitas") label = "⭐ ";
+    if (type === "tokoh") label = "👤 Tokoh: ";
+    else if (type === "ukuran") label = "📏 Ukuran: ";
+    else if (type === "kualitas") label = "⭐ Kualitas: ";
 
-    div.innerHTML = label + highlightText(display, val);
+    const displayValue = value.charAt(0).toUpperCase() + value.slice(1);
+    div.innerHTML = label + highlightText(displayValue, val);
 
     div.onclick = () => {
-      queryInput.value = display;
+      // Tidak langsung redirect, hanya isi input
+      queryInput.value = displayValue;
       suggestionsBox.innerHTML = "";
-      window.location.href =
-        `https://link.laksanacraft.my.id/page/search?q=${encodeURIComponent(value)}`;
     };
 
     suggestionsBox.appendChild(div);
   });
 });
 
-
 /* ======================================================
-   🔹 Alias URL (untuk config JSON)
+   Alias manual
    ====================================================== */
 const BASES_MANUAL = {
   www: "https://www.laksanacraft.my.id",
@@ -280,13 +241,21 @@ function replaceAliasManual(item) {
   for (let key in BASES_MANUAL) {
     const baseUrl = BASES_MANUAL[key];
     ["link", "url"].forEach(prop => {
-      if (item[prop] && !item[prop].startsWith("http") && item[prop].startsWith(key)) {
+      if (
+        item[prop] &&
+        !item[prop].startsWith("http") &&
+        item[prop].startsWith(key)
+      ) {
         item[prop] = baseUrl + item[prop].substring(key.length);
       }
     });
     if (item.varian) {
       item.varian.forEach(v => {
-        if (v.link && !v.link.startsWith("http") && v.link.startsWith(key)) {
+        if (
+          v.link &&
+          !v.link.startsWith("http") &&
+          v.link.startsWith(key)
+        ) {
           v.link = baseUrl + v.link.substring(key.length);
         }
       });
@@ -295,7 +264,7 @@ function replaceAliasManual(item) {
 }
 
 async function loadManualFiles(files = []) {
-  const dataArray = [];
+  let dataArray = [];
   for (let file of files) {
     try {
       const res = await fetch(file);
