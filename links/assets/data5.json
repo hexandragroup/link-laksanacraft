@@ -1,0 +1,110 @@
+[
+  {
+    "category": "🔒 Keamanan & Password",
+    "title": "Bitwarden – Password Manager",
+    "url": "https://bitwarden.com",
+    "icon": "🔑"
+  },
+  {
+    "category": "🍳 Resep & Kuliner",
+    "title": "Cookpad – Resep Masakan",
+    "url": "https://cookpad.com",
+    "icon": "🍲"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "SPMB Provinsi Yogyakarta",
+    "url": "https://yogyaprov.spmb.id/",
+    "icon": "🏛️"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Kementerian Perhubungan RI",
+    "url": "https://www.dephub.go.id/",
+    "icon": "🚢"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "SP2KP Kemendag",
+    "url": "https://sp2kp.kemendag.go.id/",
+    "icon": "🏛️"
+  },
+  {
+    "category": "🌐 Cloud & Penyimpanan",
+    "title": "Google Photos",
+    "url": "https://photos.google.com",
+    "icon": "📸"
+  },
+  {
+    "category": "📧 Email & Komunikasi",
+    "title": "Gmail – Email Google",
+    "url": "https://mail.google.com",
+    "icon": "📧"
+  },
+  {
+    "category": "🌐 Cloud & Penyimpanan",
+    "title": "Google Drive",
+    "url": "https://drive.google.com",
+    "icon": "☁️"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "Google Forms",
+    "url": "https://form.google.com",
+    "icon": "📝"
+  },
+  {
+    "category": "📱 Media Sosial",
+    "title": "Facebook",
+    "url": "https://facebook.com",
+    "icon": "📘"
+  },
+  {
+    "category": "📱 Media Sosial",
+    "title": "Instagram",
+    "url": "https://instagram.com",
+    "icon": "📸"
+  },
+  {
+    "category": "📱 Media Sosial",
+    "title": "Twitter",
+    "url": "https://twitter.com",
+    "icon": "🐦"
+  },
+  {
+    "category": "📱 Media Sosial",
+    "title": "LinkedIn",
+    "url": "https://linkedin.com",
+    "icon": "💼"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Shopee – Marketplace",
+    "url": "https://shopee.co.id",
+    "icon": "🛒"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Tokopedia – Marketplace",
+    "url": "https://tokopedia.com",
+    "icon": "🛒"
+  },
+  {
+    "category": "🎬 Hiburan & Video",
+    "title": "YouTube – Video Streaming",
+    "url": "https://youtube.com",
+    "icon": "▶️"
+  },
+  {
+    "category": "🎬 Hiburan & Video",
+    "title": "TikTok – Video Pendek",
+    "url": "https://tiktok.com",
+    "icon": "🎵"
+  },
+  {
+    "category": "📧 Email & Komunikasi",
+    "title": "WhatsApp Web",
+    "url": "https://web.whatsapp.com/",
+    "icon": "💬"
+  }
+]
