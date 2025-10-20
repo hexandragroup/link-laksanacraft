@@ -75,7 +75,7 @@
     "tokoh": ["semar"],
     "ukuran": ["miniatur"],
     "kualitas": "alusan",
-    "link": "#/product/wayang-kulit-miniatur/alusan-custom-c",
+    "link": "www/product/wayang-kulit-miniatur/alusan-custom-c",
     "varian": [
       {"size": "10cm", "harga": "Rp10.000"},
       {"size": "12cm", "harga": "Rp15.000"}
@@ -85,7 +85,7 @@
     "tokoh": ["semar"],
     "ukuran": ["30cm"],
     "kualitas": "murah",
-    "link": "#/product/wayang-kulit-murah/kidangan-b",
+    "link": "www/product/wayang-kulit-murah/kidangan-b",
     "varian": [
       {"size": "30cm", "harga": "Rp25.000"}
     ]
@@ -94,7 +94,7 @@
     "tokoh": ["arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "murah",
-    "link": "#/product/wayang-kulit-murah/standar-b",
+    "link": "www/product/wayang-kulit-murah/standar-b",
     "varian": [
       {"size": "Standar Pedalangan", "harga": "Rp65.000"}
     ]
@@ -103,7 +103,7 @@
     "tokoh": ["arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
-    "link": "#/product/wayang-kulit-alusan/standar-a",
+    "link": "www/product/wayang-kulit-alusan/standar-a",
     "varian": [
       {"size": "Standar Pedalangan", "harga": "Rp600.000"}
     ]
