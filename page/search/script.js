@@ -225,3 +225,71 @@ loadAllProducts()
     document.getElementById("results").innerHTML =
       "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
+
+const BASES = { "#": "https://www.laksanacraft.my.id" };
+
+let allLinks = [];
+let filteredLinks = [];
+let currentPage = 1;
+const perPage = 10;
+
+const categoriesEl = document.getElementById("categories");
+const resultsEl = document.getElementById("results");
+const paginationEl = document.getElementById("pagination");
+const searchBox = document.getElementById("searchBox");
+
+// Fungsi load semua produk (products1.json, products2.json, dst.)
+async function loadAllProducts() {
+  let dataArray = [];
+  let i = 1;
+  while (true) {
+    const file = `/assets/products${i}.json`;
+    try {
+      const res = await fetch(file);
+      if (!res.ok) break;
+      const data = await res.json();
+
+      // Ganti alias # menjadi URL penuh
+      data.forEach(item => {
+        if (item.link && item.link.startsWith("#")) {
+          item.link = item.link.replace(/^#/, BASES["#"]);
+        }
+        if (item.varian) {
+          item.varian.forEach(v => {
+            if (v.link && v.link.startsWith("#")) {
+              v.link = v.link.replace(/^#/, BASES["#"]);
+            }
+          });
+        }
+      });
+
+      dataArray.push(...data);
+      i++;
+    } catch {
+      break;
+    }
+  }
+  return dataArray;
+}
+
+// Memuat data & setup kategori
+loadAllProducts().then(data => {
+  allLinks = data;
+
+  // Setup kategori unik
+  const categories = [...new Set(allLinks.map(item => item.category))];
+  categories.forEach(cat => {
+    const btn = document.createElement("a");
+    btn.className = "category-btn";
+    btn.textContent = cat;
+    btn.href = `search.html?cat=${encodeURIComponent(cat)}`;
+
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      document.body.classList.add("fade-out");
+      setTimeout(() => { window.location.href = btn.href; }, 500);
+    });
+
+    categoriesEl.appendChild(btn);
+  });
+});
