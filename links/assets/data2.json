@@ -1,0 +1,92 @@
+[
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Detik.com – Berita Terkini",
+    "url": "https://www.detik.com",
+    "icon": "📰"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Liputan6.com – Berita Nasional",
+    "url": "https://www.liputan6.com",
+    "icon": "📰"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Investing.com – Pasar & Keuangan",
+    "url": "https://www.investing.com",
+    "icon": "📈"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Saham Online Indonesia",
+    "url": "https://www.sahamok.com",
+    "icon": "💹"
+  },
+  {
+    "category": "🧠 Edukasi & Pengetahuan",
+    "title": "Coursera – Kursus Online",
+    "url": "https://www.coursera.org",
+    "icon": "🎓"
+  },
+  {
+    "category": "🧠 Edukasi & Pengetahuan",
+    "title": "Khan Academy",
+    "url": "https://www.khanacademy.org",
+    "icon": "📘"
+  },
+  {
+    "category": "🎨 Kreativitas & Inspirasi",
+    "title": "Figma – Desain Kolaboratif",
+    "url": "https://www.figma.com",
+    "icon": "🎨"
+  },
+  {
+    "category": "🎨 Kreativitas & Inspirasi",
+    "title": "Unsplash – Foto Gratis",
+    "url": "https://unsplash.com",
+    "icon": "📸"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Canva AI Tools",
+    "url": "https://www.canva.com/tools",
+    "icon": "🤖"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "TinyURL – Pemendek URL",
+    "url": "https://tinyurl.com",
+    "icon": "🔗"
+  },
+  {
+    "category": "❤️ Kesehatan & Gaya Hidup",
+    "title": "SehatQ",
+    "url": "https://www.sehatq.com",
+    "icon": "🏥"
+  },
+  {
+    "category": "❤️ Kesehatan & Gaya Hidup",
+    "title": "Klikdokter",
+    "url": "https://www.klikdokter.com",
+    "icon": "💊"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "BPJS Kesehatan",
+    "url": "https://www.bpjs-kesehatan.go.id",
+    "icon": "🏥"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Pajak Online",
+    "url": "https://www.pajak.go.id",
+    "icon": "🧾"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "JNE Tracking",
+    "url": "https://www.jne.co.id/id/tracking/trace",
+    "icon": "📦"
+  }
+]
