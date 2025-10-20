@@ -1,0 +1,116 @@
+[
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Tokopedia Seller",
+    "url": "https://seller-id.tokopedia.com",
+    "icon": "🛒"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Shopee Seller",
+    "url": "https://seller.shopee.co.id/",
+    "icon": "🛒"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "Hugging Face – AI & ML",
+    "url": "https://huggingface.co",
+    "icon": "🤗"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "MobaPay – Pembayaran Digital",
+    "url": "https://mobapay.com",
+    "icon": "💳"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "MultCloud – Manajemen Cloud",
+    "url": "https://www.multcloud.com/",
+    "icon": "☁️"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "Lazada Seller Center",
+    "url": "https://sellercenter.lazada.co.id/",
+    "icon": "🛒"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "SuperHybrid Online",
+    "url": "https://superhybrid.online",
+    "icon": "⚡"
+  },
+  {
+    "category": "🌍 Peta & Satelit",
+    "title": "Zoom Earth – Peta Satelit",
+    "url": "https://zoom.earth/maps/satellite/",
+    "icon": "🗺️"
+  },
+  {
+    "category": "📊 Statistik & Analitik",
+    "title": "Google Analytics",
+    "url": "https://analytics.google.com",
+    "icon": "📈"
+  },
+  {
+    "category": "📡 Otomatisasi & Tools",
+    "title": "Zapier – Otomatisasi Workflow",
+    "url": "https://zapier.com/",
+    "icon": "⚙️"
+  },
+  {
+    "category": "💼 Keuangan & Bisnis",
+    "title": "KlikBCA Mobile",
+    "url": "https://m.klikbca.com/",
+    "icon": "🏦"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "AppSheet – Buat Aplikasi",
+    "url": "https://appsheet.com",
+    "icon": "📱"
+  },
+  {
+    "category": "🧾 Layanan Publik",
+    "title": "Periksa Data – Pemerintah",
+    "url": "https://periksadata.com/",
+    "icon": "📝"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "Google Sites – Buat Situs",
+    "url": "https://sites.google.com",
+    "icon": "🌐"
+  },
+  {
+    "category": "💻 Pengembangan & Kode",
+    "title": "Blogspot – Platform Blog",
+    "url": "https://blogspot.com",
+    "icon": "📝"
+  },
+  {
+    "category": "🎮 Hiburan & Gaming",
+    "title": "Liquipedia – Esports Wiki",
+    "url": "https://liquipedia.net",
+    "icon": "🎮"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Msha.ke – Link Manager",
+    "url": "https://msha.ke",
+    "icon": "🔗"
+  },
+  {
+    "category": "📡 Teknologi & Alat Digital",
+    "title": "Instabio – Link Manager",
+    "url": "https://instabio.cc",
+    "icon": "🔗"
+  },
+  {
+    "category": "🌍 Peta & Satelit",
+    "title": "Bhumi ATRBPN – Peta Tanah",
+    "url": "https://bhumi.atrbpn.go.id/peta",
+    "icon": "🗺️"
+  }
+]
