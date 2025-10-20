@@ -33,16 +33,9 @@ function escapeHtml(s) {
 }
 function escapeAttr(s) { return escapeHtml(s); }
 function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : ""; }
+
 function matchesGroup(tokoh, group) {
   return groupAliases[group]?.some(t => tokoh.includes(t));
-}
-
-// --- Highlight kata yang dicari ---
-function highlightMatch(text, query) {
-  if (!query) return text;
-  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regex = new RegExp(`(${escapedQuery})`, 'gi');
-  return text.replace(regex, '<span class="highlight">$1</span>');
 }
 
 // --- Form Submit ---
@@ -60,7 +53,8 @@ function doFilterSearch() {
   out.innerHTML = "";
 
   if (!tokoh && !ukuran && !kualitas) {
-    out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+    out.innerHTML =
+      "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
     return;
   }
 
@@ -86,11 +80,38 @@ function doFilterSearch() {
     (kualitas ? p.kualitas === kualitas : true)
   );
 
-  renderResults(filtered, tokoh);
+  renderResults(filtered);
+}
+
+// --- Query Param (/?q=...) ---
+function getQueryParam(name) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(name);
+}
+
+function checkQueryParam() {
+  const q = getQueryParam("q");
+  if (!q) return;
+  const out = document.getElementById("results");
+  out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
+
+  const qLower = q.toLowerCase();
+  const filtered = products.filter(p =>
+    p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
+    (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
+    (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
+    (p.ukuran &&
+      (Array.isArray(p.ukuran)
+        ? p.ukuran.some(u => u.toLowerCase().includes(qLower))
+        : p.ukuran.toLowerCase().includes(qLower))) ||
+    (p.kualitas && p.kualitas.toLowerCase().includes(qLower))
+  );
+
+  renderResults(filtered);
 }
 
 // --- Render Hasil ---
-function renderResults(list, query = '') {
+function renderResults(list) {
   const out = document.getElementById("results");
   if (list.length === 0) {
     out.innerHTML += "<p>Tidak ada produk ditemukan.</p>";
@@ -117,9 +138,9 @@ function renderResults(list, query = '') {
 
     out.innerHTML += `
       <div class="result">
-        <p><strong>Tokoh:</strong> ${highlightMatch(tokohList.join(", "), query)}</p>
-        <p><strong>Kualitas:</strong> ${highlightMatch(labels.kualitas[p.kualitas] || p.kualitas, query)}</p>
-        <p><strong>Ukuran:</strong> ${highlightMatch(ukuranLabel, query)}</p>
+        <p><strong>Tokoh:</strong> ${escapeHtml(tokohList.join(", "))}</p>
+        <p><strong>Kualitas:</strong> ${escapeHtml(labels.kualitas[p.kualitas] || p.kualitas)}</p>
+        <p><strong>Ukuran:</strong> ${escapeHtml(ukuranLabel)}</p>
         ${varianTable}
         <p><a href="${escapeAttr(p.link)}" target="_blank">🔗 Detail Produk</a></p>
       </div>
@@ -127,7 +148,7 @@ function renderResults(list, query = '') {
   });
 }
 
-// --- Autocomplete Tokoh ---
+/* === Autocomplete Tokoh dengan Highlight === */
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
   const suggestionBox = document.getElementById("tokoh-suggestions");
@@ -148,12 +169,15 @@ function setupAutocomplete(products) {
     suggestionBox.innerHTML = "";
     if (!val) return;
 
+    // Filter matches
     let matches = tokohList.filter(t => t.toLowerCase().startsWith(val));
     if (matches.length === 0) matches = tokohList.filter(t => t.toLowerCase().includes(val));
 
     matches.forEach(t => {
       const div = document.createElement("div");
-      div.textContent = t;
+      // Highlight matching substring
+      const regex = new RegExp(`(${val})`, 'gi');
+      div.innerHTML = t.replace(regex, '<b>$1</b>');
       div.style.padding = "6px 10px";
       div.style.cursor = "pointer";
       div.addEventListener("mouseenter", () => div.style.background = "#eee");
@@ -190,6 +214,7 @@ async function loadAllProducts() {
   return files.flat();
 }
 
+// --- Inisialisasi ---
 loadAllProducts()
   .then(data => {
     products = data;
@@ -200,30 +225,3 @@ loadAllProducts()
     document.getElementById("results").innerHTML =
       "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
-
-// --- Query Param (/?q=...) ---
-function getQueryParam(name) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(name);
-}
-
-function checkQueryParam() {
-  const q = getQueryParam("q");
-  if (!q) return;
-  const out = document.getElementById("results");
-  out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
-
-  const qLower = q.toLowerCase();
-  const filtered = products.filter(p =>
-    p.tokoh.some(t => t.toLowerCase().includes(qLower)) ||
-    (qLower === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
-    (qLower === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||
-    (p.ukuran &&
-      (Array.isArray(p.ukuran)
-        ? p.ukuran.some(u => u.toLowerCase().includes(qLower))
-        : p.ukuran.toLowerCase().includes(qLower))) ||
-    (p.kualitas && p.kualitas.toLowerCase().includes(qLower))
-  );
-
-  renderResults(filtered, qLower);
-}
