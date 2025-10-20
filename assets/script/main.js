@@ -182,3 +182,43 @@ queryInput.addEventListener("input", function () {
     suggestionsBox.appendChild(div);
   });
 });
+
+const BASES = { "#": "https://www.laksanacraft.my.id" };
+
+async function loadAllData(files = []) {
+  let dataArray = [];
+  for (let file of files) {
+    try {
+      const res = await fetch(file);
+      if (!res.ok) continue;
+      const data = await res.json();
+
+      // Ganti alias # menjadi URL penuh
+      data.forEach(item => {
+        if (item.url && item.url.startsWith("#")) {
+          item.url = item.url.replace(/^#/, BASES["#"]);
+        }
+        if (item.link && item.link.startsWith("#")) {
+          item.link = item.link.replace(/^#/, BASES["#"]);
+        }
+        if (item.varian) {
+          item.varian.forEach(v => {
+            if (v.link && v.link.startsWith("#")) {
+              v.link = v.link.replace(/^#/, BASES["#"]);
+            }
+          });
+        }
+      });
+
+      dataArray.push(...data);
+    } catch (err) {
+      console.error("Gagal load", file, err);
+    }
+  }
+  return dataArray;
+}
+
+// Contoh penggunaan
+loadAllData(["/assets/config/utama.json", "/assets/config/toko.json", "/assets/config/sosial.json"]).then(allLinks => {
+  console.log(allLinks);
+});
