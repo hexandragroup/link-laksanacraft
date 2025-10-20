@@ -77,6 +77,21 @@ input {
   font-weight: bold;
 }
 
+#categories {
+  overflow-x: auto;
+  padding: 8px 0;
+  scroll-behavior: smooth; /* geser halus */
+}
+
+.category-btn {
+  flex: 0 0 auto; /* agar tidak mengecil */
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #ddd;
+  text-decoration: none;
+  color: #222;
+}
+
 /* 🔍 Tombol Hasil Pencarian */
 .result-btn {
   background: #fff;
