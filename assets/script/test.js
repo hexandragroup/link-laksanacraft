@@ -128,21 +128,26 @@ function highlightText(text, keyword) {
 /* --- Definisi Grup Tokoh --- */
 const GROUP_ALIASES = {
   punakawan: ["semar", "gareng", "petruk", "bagong"],
-  pandawa: ["arjuna", "nakula", "sadewa", "bima", "puntadewa"]
+  pandawa: ["arjuna", "bima", "nakula", "sadewa", "puntadewa"]
 };
 
 /* --- Fungsi Cek Grup Tokoh --- */
-function getGroupName(tokohList) {
+function getGroupName(tokohName) {
   for (let group in GROUP_ALIASES) {
-    // Jika semua tokoh grup ada di array produk, berarti ini grup itu
-    if (GROUP_ALIASES[group].every(t => tokohList.includes(t))) {
+    if (GROUP_ALIASES[group].includes(tokohName.toLowerCase())) {
       return group;
     }
   }
   return null;
 }
 
-/* --- Event Input: Auto-saran + Highlight dengan Prioritas --- */
+/* --- Fungsi Highlight --- */
+function highlightText(text, keyword) {
+  const regex = new RegExp(`(${keyword})`, "ig");
+  return text.replace(regex, `<b style="background-color:#ffebc2;color:#b33;">$1</b>`);
+}
+
+/* --- Event Input: Auto-saran --- */
 queryInput.addEventListener("input", function () {
   const val = this.value.trim().toLowerCase();
   suggestionsBox.innerHTML = "";
@@ -153,33 +158,29 @@ queryInput.addEventListener("input", function () {
   }
   if (!val) return;
 
-  // Kumpulkan semua keyword unik dari produk (gabungkan grup tokoh)
+  // Kumpulkan semua keyword unik
   let allKeywords = new Set();
   products.forEach(p => {
     if (p.tokoh) {
       const lowerTokoh = p.tokoh.map(t => t.toLowerCase());
-      const group = getGroupName(lowerTokoh);
-      if (group) {
-        // Jika grup cocok (punakawan/pandawa)
-        allKeywords.add(`tokoh:${group}`);
-      } else {
-        // Tambahkan satu per satu jika bukan grup
-        lowerTokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
-      }
+      lowerTokoh.forEach(t => allKeywords.add(`tokoh:${t}`));
     }
+
     if (p.ukuran)
-      (Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran]).forEach(u => allKeywords.add(`ukuran:${u}`));
+      (Array.isArray(p.ukuran) ? p.ukuran : [p.ukuran])
+        .forEach(u => allKeywords.add(`ukuran:${u}`));
+
     if (p.kualitas)
       allKeywords.add(`kualitas:${p.kualitas}`);
   });
 
   const allList = Array.from(allKeywords);
 
-  // --- Prioritaskan startsWith terlebih dahulu, lalu includes ---
-  let startsWithMatches = allList.filter(k => k.split(":")[1].toLowerCase().startsWith(val));
-  let includesMatches = allList.filter(k => {
-    const value = k.split(":")[1].toLowerCase();
-    return !value.startsWith(val) && value.includes(val);
+  // --- Prioritaskan startsWith ---
+  const startsWithMatches = allList.filter(k => k.split(":")[1].startsWith(val));
+  const includesMatches = allList.filter(k => {
+    const v = k.split(":")[1];
+    return !v.startsWith(val) && v.includes(val);
   });
 
   const matches = [...startsWithMatches, ...includesMatches];
@@ -189,23 +190,37 @@ queryInput.addEventListener("input", function () {
     return;
   }
 
-  // Tampilkan hasil dengan highlight
+  // --- Tampilkan hasil dengan label grup (informasi saja) ---
   matches.forEach(match => {
     const [type, value] = match.split(":");
     const div = document.createElement("div");
+    div.style.padding = "8px 10px";
+    div.style.borderBottom = "1px solid #eee";
+    div.style.cursor = "pointer";
 
     let label = "";
-    if (type === "tokoh") label = "👤 Tokoh: ";
-    else if (type === "ukuran") label = "📏 Ukuran: ";
-    else if (type === "kualitas") label = "⭐ Kualitas: ";
+    if (type === "tokoh") label = "👤 ";
+    else if (type === "ukuran") label = "📏 ";
+    else if (type === "kualitas") label = "⭐ ";
 
     const displayValue = value.charAt(0).toUpperCase() + value.slice(1);
 
-    div.innerHTML = label + highlightText(displayValue, val);
+    // Tambahkan label grup jika tokoh termasuk grup tertentu
+    let groupLabel = "";
+    if (type === "tokoh") {
+      const groupName = getGroupName(value);
+      if (groupName) {
+        groupLabel = ` (${groupName.charAt(0).toUpperCase() + groupName.slice(1)})`;
+      }
+    }
+
+    div.innerHTML = label + highlightText(displayValue + groupLabel, val);
 
     div.onclick = () => {
+      // Klik tetap menuju tokoh aslinya, bukan grup
       queryInput.value = displayValue;
       suggestionsBox.innerHTML = "";
+      window.location.href = `https://link.laksanacraft.my.id/page/search?q=${encodeURIComponent(value)}`;
     };
 
     suggestionsBox.appendChild(div);
