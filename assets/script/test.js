@@ -2,7 +2,7 @@
 // Daftar alias
 // ======================================================
 const BASES = {
-  "www": "https://www.laksanacraft.my.id",
+  "xxx": "https://www.laksanacraft.my.id",
   "url": "https://url.laksanacraft.my.id",
   "link": "https://link.laksanacraft.my.id",
   "blog": "https://blog.laksanacraft.my.id",
