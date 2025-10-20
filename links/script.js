@@ -114,3 +114,33 @@ function resizeGTranslate() {
 setTimeout(resizeGTranslate, 1000);
 setTimeout(resizeGTranslate, 1500);
 setTimeout(resizeGTranslate, 2000);
+
+// Input search: prioritas startsWith
+searchBox.addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+  currentPage = 1;
+
+  if (keyword.trim() === "") {
+    resultsEl.innerHTML = "";
+    paginationEl.innerHTML = "";
+    return;
+  }
+
+  // Prioritas yang dimulai dengan keyword
+  let startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    link.category.toLowerCase().startsWith(keyword)
+  );
+
+  // Jika tidak ada, cari yang mengandung keyword
+  let includeMatches = [];
+  if (startMatches.length === 0) {
+    includeMatches = allLinks.filter(link =>
+      link.title.toLowerCase().includes(keyword) ||
+      link.category.toLowerCase().includes(keyword)
+    );
+  }
+
+  filteredLinks = startMatches.length > 0 ? startMatches : includeMatches;
+  renderPage();
+});
