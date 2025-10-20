@@ -145,6 +145,7 @@ table.variant-table th {
   max-height: 250px;
   overflow-y: auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: left;
 }
 #tokoh-suggestions div {
   padding: 10px;
