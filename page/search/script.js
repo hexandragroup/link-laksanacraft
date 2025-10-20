@@ -25,7 +25,8 @@ const labels = {
 
 const groupAliases = {
   punakawan: ["semar", "gareng", "petruk", "bagong"],
-  pandawa: ["arjuna", "nakula", "sadewa", "bima", "puntadewa"]
+  pandawa: ["arjuna", "nakula", "sadewa", "bima", "puntadewa"],
+  hewan: ["Kuda", "Macan", "Banteng", "Gajah", "Naga", "Kidang", "Garuda", "Celeng"]
 };
 
 // ======================================================
