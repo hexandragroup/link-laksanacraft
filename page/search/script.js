@@ -77,7 +77,8 @@ function doFilterSearch() {
     (tokoh ? (
       p.tokoh.some(t => t.toLowerCase().includes(tokoh)) ||
       (tokoh === "punakawan" && matchesGroup(p.tokoh, "punakawan")) ||
-      (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa"))
+      (tokoh === "pandawa" && matchesGroup(p.tokoh, "pandawa")) ||    
+      (tokoh === "hewan" && matchesGroup(p.tokoh, "hewan"))
     ) : true) &&
     (ukuran
       ? ukuran === "20, 25, 30cm"
