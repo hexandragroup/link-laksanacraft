@@ -1,10 +1,14 @@
-// --- Tahun Dinamis ---
+// ======================================================
+// Tahun Dinamis
+// ======================================================
 const startYear = 1990;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
   currentYear > startYear ? startYear + "–" + currentYear : startYear;
 
-// --- Data & Label ---
+// ======================================================
+// Data & Label
+// ======================================================
 let products = [];
 const labels = {
   ukuran: {
@@ -12,14 +16,21 @@ const labels = {
     "20, 25, 30cm": "20, 25, 30cm",
     standar: "Standar Pedalangan"
   },
-  kualitas: { murah: "Murah", sedang: "Sedang", alusan: "Alusan" }
+  kualitas: {
+    murah: "Murah",
+    sedang: "Sedang",
+    alusan: "Alusan"
+  }
 };
+
 const groupAliases = {
   punakawan: ["semar", "gareng", "petruk", "bagong"],
   pandawa: ["arjuna", "nakula", "sadewa", "bima", "puntadewa"]
 };
 
-// --- Helper Functions ---
+// ======================================================
+// Helper Functions
+// ======================================================
 function escapeHtml(s) {
   return s
     ? String(s).replace(/[&<>"']/g, m => ({
@@ -38,13 +49,17 @@ function matchesGroup(tokoh, group) {
   return groupAliases[group]?.some(t => tokoh.includes(t));
 }
 
-// --- Form Submit ---
+// ======================================================
+// Form Submit
+// ======================================================
 document.getElementById("searchForm").addEventListener("submit", e => {
   e.preventDefault();
   doFilterSearch();
 });
 
-// --- Filter Search ---
+// ======================================================
+// Filter Search
+// ======================================================
 function doFilterSearch() {
   const tokoh = document.getElementById("tokoh").value.toLowerCase();
   const ukuran = document.getElementById("ukuran").value;
@@ -53,8 +68,7 @@ function doFilterSearch() {
   out.innerHTML = "";
 
   if (!tokoh && !ukuran && !kualitas) {
-    out.innerHTML =
-      "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
+    out.innerHTML = "<p style='color:red;'>⚠️ Silakan pilih minimal satu kriteria pencarian.</p>";
     return;
   }
 
@@ -83,7 +97,9 @@ function doFilterSearch() {
   renderResults(filtered);
 }
 
-// --- Query Param (/?q=...) ---
+// ======================================================
+// Query Param (/?q=...)
+// ======================================================
 function getQueryParam(name) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name);
@@ -92,6 +108,7 @@ function getQueryParam(name) {
 function checkQueryParam() {
   const q = getQueryParam("q");
   if (!q) return;
+
   const out = document.getElementById("results");
   out.innerHTML = "<p>🔎 Hasil pencarian untuk: <b>" + escapeHtml(q) + "</b></p>";
 
@@ -110,7 +127,9 @@ function checkQueryParam() {
   renderResults(filtered);
 }
 
-// --- Render Hasil ---
+// ======================================================
+// Render Hasil
+// ======================================================
 function renderResults(list) {
   const out = document.getElementById("results");
   if (list.length === 0) {
@@ -148,7 +167,9 @@ function renderResults(list) {
   });
 }
 
-/* === Autocomplete Tokoh dengan Highlight === */
+// ======================================================
+// Autocomplete Tokoh dengan Highlight
+// ======================================================
 function setupAutocomplete(products) {
   const input = document.getElementById("tokoh");
   const suggestionBox = document.getElementById("tokoh-suggestions");
@@ -162,6 +183,7 @@ function setupAutocomplete(products) {
   });
   tokohSet.add("Punakawan");
   tokohSet.add("Pandawa");
+
   const tokohList = Array.from(tokohSet);
 
   input.addEventListener("input", function() {
@@ -169,13 +191,12 @@ function setupAutocomplete(products) {
     suggestionBox.innerHTML = "";
     if (!val) return;
 
-    // Filter matches
     let matches = tokohList.filter(t => t.toLowerCase().startsWith(val));
-    if (matches.length === 0) matches = tokohList.filter(t => t.toLowerCase().includes(val));
+    if (matches.length === 0)
+      matches = tokohList.filter(t => t.toLowerCase().includes(val));
 
     matches.forEach(t => {
       const div = document.createElement("div");
-      // Highlight matching substring
       const regex = new RegExp(`(${val})`, 'gi');
       div.innerHTML = t.replace(regex, '<b>$1</b>');
       div.style.padding = "6px 10px";
@@ -195,7 +216,9 @@ function setupAutocomplete(products) {
   });
 }
 
-// --- Load Semua Produk ---
+// ======================================================
+// Load Semua Produk (tanpa alias otomatis)
+// ======================================================
 async function loadAllProducts() {
   const files = [];
   let i = 1;
@@ -214,7 +237,9 @@ async function loadAllProducts() {
   return files.flat();
 }
 
-// --- Inisialisasi ---
+// ======================================================
+// Inisialisasi
+// ======================================================
 loadAllProducts()
   .then(data => {
     products = data;
@@ -225,77 +250,3 @@ loadAllProducts()
     document.getElementById("results").innerHTML =
       "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
-
-// ======================================================
-// Alias produk otomatis
-// ======================================================
-const BASES_PRODUCTS = {
-  "www": "https://www.laksanacraft.my.id",
-  "url": "https://url.laksanacraft.my.id",
-  "link": "https://link.laksanacraft.my.id",
-  "blog": "https://blog.laksanacraft.my.id",
-  "shop": "https://shop.laksanacraft.my.id"
-};
-
-// ======================================================
-// Fungsi untuk mengganti alias di setiap item produk
-// ======================================================
-function replaceAliasProducts(item) {
-  for (let key in BASES_PRODUCTS) {
-    const baseUrl = BASES_PRODUCTS[key];
-
-    // Ganti untuk field link dan url
-    ["link", "url"].forEach(prop => {
-      if (item[prop] && !item[prop].startsWith("http")) {
-        const parts = item[prop].split("/");
-        if (parts[0] === key) {
-          item[prop] = baseUrl + "/" + parts.slice(1).join("/");
-        }
-      }
-    });
-
-    // Ganti untuk varian produk (jika ada)
-    if (item.varian && Array.isArray(item.varian)) {
-      item.varian.forEach(v => {
-        if (v.link && !v.link.startsWith("http")) {
-          const parts = v.link.split("/");
-          if (parts[0] === key) {
-            v.link = baseUrl + "/" + parts.slice(1).join("/");
-          }
-        }
-      });
-    }
-  }
-}
-
-// ======================================================
-// Fungsi untuk memuat semua products*.json
-// ======================================================
-async function loadProducts() {
-  let dataArray = [];
-  let i = 1;
-  while (true) {
-    const file = `/assets/products${i}.json`;
-    try {
-      const res = await fetch(file);
-      if (!res.ok) break;
-      const data = await res.json();
-      data.forEach(item => replaceAliasProducts(item));
-      dataArray.push(...data);
-      i++;
-    } catch (err) {
-      console.error("Gagal load", file, err);
-      break;
-    }
-  }
-  return dataArray;
-}
-
-// ======================================================
-// Jalankan load produk saat halaman selesai dimuat
-// ======================================================
-document.addEventListener("DOMContentLoaded", async () => {
-  const productsData = await loadProducts();
-  console.log("✅ Data produk (alias otomatis):", productsData);
-});
-
