@@ -79,14 +79,18 @@ input {
 }
 
 #categories {
+  flex-warp: nowrap;
   overflow-x: auto;
-  padding: 8px 0;
+  overflow-y: hidden;
+  padding: 8px 12px;
   scroll-behavior: smooth; /* geser halus */
   max-height: 100px;
 }
 
 .category-btn {
   flex: 0 0 auto; /* agar tidak mengecil */
+  text-align: center;
+  white-space: nowrap;
 
 #categories::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
