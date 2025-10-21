@@ -1,64 +1,39 @@
-// ======================================================
-// LAKSANA LINK - TEST.JS (FINAL - LIHAT SEMUA DI DALAM DROPDOWN)
-// ======================================================
+// =====================
+// Link JS (Versi Lengkap dengan Search Suggestion)
+// =====================
 
-// Tahun otomatis
-document.getElementById("year").textContent = new Date().getFullYear();
+// Tampilkan tahun
+const startYear = 2020;
+const currentYear = new Date().getFullYear();
+document.getElementById("year").textContent =
+  currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
 // Elemen utama
-const queryInput = document.getElementById("query");
-const suggestions = document.getElementById("suggestions");
 const categoriesEl = document.getElementById("categories");
+const resultsEl = document.getElementById("results");
+const paginationEl = document.getElementById("pagination");
+const searchBox = document.getElementById("searchBox");
+const suggestionsEl = document.getElementById("suggestions"); // 💡 tambahan
 
+// Data
 let allLinks = [];
-let debounceTimer;
+let filteredLinks = [];
+let currentPage = 1;
+const perPage = 10;
 
-// ==================== 🔍 PENCARIAN ==================== //
-queryInput.addEventListener("input", e => {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => showSuggestions(e.target.value.trim()), 250);
-});
-
-function showSuggestions(keyword) {
-  suggestions.innerHTML = "";
-  if (!keyword) {
-    suggestions.style.display = "none";
-    return;
-  }
-
-  const matches = allLinks.filter(link =>
-    link.title.toLowerCase().includes(keyword.toLowerCase()) ||
-    link.category.toLowerCase().includes(keyword.toLowerCase())
-  );
-
-  matches.slice(0, 50).forEach(link => {
-    const a = document.createElement("a");
-    a.textContent = `${link.icon} ${link.title}`;
-    a.href = link.url;
-    a.target = "_blank";
-    suggestions.appendChild(a);
-  });
-
-  suggestions.style.display = matches.length ? "block" : "none";
-}
-
-// Tutup dropdown saran jika klik di luar
-document.addEventListener("click", e => {
-  if (!e.target.closest(".search-box")) {
-    suggestions.style.display = "none";
-  }
-});
-
-// ==================== 🏷️ KATEGORI ==================== //
+// ---------------------
+// Load semua JSON otomatis
+// ---------------------
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
 
   while (true) {
-    const file = `assets/data${i}.json`; // ✅ versi test.html
+    const file = `assets/data${i}.json`;
     try {
       const res = await fetch(file);
       if (!res.ok) break;
+
       const data = await res.json();
       dataArray.push(...data);
       i++;
@@ -66,75 +41,171 @@ async function loadAllData() {
       break;
     }
   }
-
   return dataArray;
 }
 
-// Muat data dan tampilkan kategori
+// ---------------------
+// Setup kategori & tampilan
+// ---------------------
 loadAllData().then(data => {
   allLinks = data;
-  if (!allLinks.length) {
-    console.warn("⚠️ Tidak ada data JSON ditemukan di /assets/");
-    return;
-  }
 
-  const categories = [...new Set(allLinks.map(i => i.category))];
-  const mainCategories = categories.slice(0, 14);
+  // Ambil kategori unik
+  const categories = [...new Set(allLinks.map(item => item.category))];
 
-  // 🔹 14 kategori utama
-  mainCategories.forEach(cat => {
+  // Render kategori
+  categories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
     btn.textContent = cat;
-    btn.href = "#";
-    btn.onclick = e => {
+    btn.href = `search/?cat=${encodeURIComponent(cat)}`;
+
+    btn.addEventListener("click", e => {
       e.preventDefault();
-      queryInput.value = cat;
-      showSuggestions(cat);
-    };
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = btn.href;
+      }, 500);
+    });
+
     categoriesEl.appendChild(btn);
   });
+});
 
-  // 🔹 Dropdown kategori + opsi "Lihat Semua"
-  const select = document.createElement("select");
-  select.className = "category-select";
-  select.innerHTML = `<option value="">🏷️ Pilih Kategori</option>`;
+// ---------------------
+// Pencarian global
+// ---------------------
+searchBox.addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+  currentPage = 1;
 
-  // Tambahkan kategori utama dulu
-  mainCategories.forEach(cat => {
-    const opt = document.createElement("option");
-    opt.textContent = cat;
-    opt.value = cat;
-    select.appendChild(opt);
+  // Kosongkan jika input kosong
+  if (!keyword.trim()) {
+    resultsEl.innerHTML = "";
+    paginationEl.innerHTML = "";
+    suggestionsEl.innerHTML = ""; // 💡 tambahan
+    return;
+  }
+
+  // Prioritas startsWith
+  let startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    link.category.toLowerCase().startsWith(keyword)
+  );
+
+  // Jika tidak ada, cari includes
+  let includeMatches = [];
+  if (startMatches.length === 0) {
+    includeMatches = allLinks.filter(link =>
+      link.title.toLowerCase().includes(keyword) ||
+      link.category.toLowerCase().includes(keyword)
+    );
+  }
+
+  filteredLinks = startMatches.length > 0 ? startMatches : includeMatches;
+
+  // 💡 tampilkan suggestion otomatis
+  const suggestions = filteredLinks.slice(0, 8);
+  showSuggestions(suggestions, keyword);
+
+  renderPage();
+});
+
+// ---------------------
+// Render hasil pencarian & pagination
+// ---------------------
+function renderPage() {
+  resultsEl.innerHTML = "";
+  paginationEl.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredLinks.length / perPage);
+  const start = (currentPage - 1) * perPage;
+  const end = start + perPage;
+  const visible = filteredLinks.slice(start, end);
+
+  if (!visible.length) {
+    resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
+    return;
+  }
+
+  visible.forEach((link, i) => {
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.className = "btn result-btn";
+    a.textContent = `${link.icon} ${link.title}`;
+    a.target = "_blank";
+    a.style.animationDelay = `${i * 0.05}s`;
+    resultsEl.appendChild(a);
   });
 
-  // Tambahkan opsi "🔽 Lihat Semua Kategori"
-  const seeAllOpt = document.createElement("option");
-  seeAllOpt.textContent = "🔽 Lihat Semua Kategori";
-  seeAllOpt.value = "__all__";
-  select.appendChild(seeAllOpt);
-
-  categoriesEl.appendChild(select);
-
-  // 🔹 Saat memilih kategori
-  select.onchange = e => {
-    const cat = e.target.value;
-    if (cat === "__all__") {
-      // Jika pilih "Lihat Semua", ganti isi dropdown jadi semua kategori
-      select.innerHTML = `<option value="">🏷️ Pilih Kategori</option>`;
-      categories.forEach(fullCat => {
-        const opt = document.createElement("option");
-        opt.textContent = fullCat;
-        opt.value = fullCat;
-        select.appendChild(opt);
-      });
-      select.value = ""; // reset pilihan
-      return;
+  if (totalPages > 1) {
+    for (let i = 1; i <= totalPages; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.className = "page-btn" + (i === currentPage ? " active" : "");
+      btn.onclick = () => changePage(i);
+      paginationEl.appendChild(btn);
     }
+  }
+}
 
-    if (cat) {
-      queryInput.value = cat;
-      showSuggestions(cat);
-    }
-  };
+function changePage(page) {
+  currentPage = page;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  renderPage();
+}
+
+// ---------------------
+// 🔍 FITUR SUGGESTION (AUTOCOMPLETE)
+// ---------------------
+function showSuggestions(suggestions, keyword) {
+  if (!suggestions.length) {
+    suggestionsEl.innerHTML = "";
+    return;
+  }
+
+  const ul = document.createElement("ul");
+
+  suggestions.forEach(link => {
+    const li = document.createElement("li");
+    li.innerHTML = `${link.icon || "🔗"} ${highlightMatch(link.title, keyword)}`;
+    li.onclick = () => {
+      window.open(link.url, "_blank");
+      suggestionsEl.innerHTML = "";
+      searchBox.value = link.title;
+    };
+    ul.appendChild(li);
+  });
+
+  suggestionsEl.innerHTML = "";
+  suggestionsEl.appendChild(ul);
+}
+
+function highlightMatch(text, keyword) {
+  const regex = new RegExp(`(${keyword})`, "gi");
+  return text.replace(regex, "<strong>$1</strong>");
+}
+
+// Tutup suggestion kalau klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
+    suggestionsEl.innerHTML = "";
+  }
 });
+
+// ---------------------
+// Google Translate styling
+// ---------------------
+function resizeGTranslate() {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.style.width = "100%";
+    select.style.maxWidth = "420px";
+    select.style.padding = "14px 24px";
+    select.style.fontSize = "15px";
+    select.style.boxSizing = "border-box";
+  }
+}
+setTimeout(resizeGTranslate, 1000);
+setTimeout(resizeGTranslate, 1500);
+setTimeout(resizeGTranslate, 2000);
