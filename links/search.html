@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Kumpulan tautan resmi dan penting dari Laksana Link — akses mudah ke layanan, informasi, dan sumber daya kami.">
-  <title>Laksana Link (Test)</title>
+  <title>Laksana Link</title>
   <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
-  <link rel="stylesheet" href="/assets/style/style.css" />
-  <link rel="stylesheet" href="/assets/style/test.css" />
+
+  <!-- File CSS utama -->
+  <link rel="stylesheet" href="/assets/style/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
@@ -15,26 +17,26 @@
     <h1><a href="https://link.laksanacraft.my.id/">Laksana Link</a></h1>
     <p><em>"Satu Tempat untuk Banyak Manfaat"</em></p>
 
-    <!-- 🔍 Pencarian -->
-    <form class="search-box" onsubmit="event.preventDefault();">
-      <input type="text" id="query" placeholder="Cari tautan..." autocomplete="off" />
-      <div id="suggestions" class="suggestions"></div>
-    </form>
+    <!-- 🔍 Pencarian Global -->
+    <input type="text" id="searchBox" placeholder="Cari tautan di semua kategori..." />
+
+    <!-- 💡 Tambahan untuk fitur search suggestion -->
+    <div id="suggestions" class="suggestions"></div>
+
+    <!-- 🔍 Hasil pencarian dan navigasi -->
+    <div id="results"></div>
+    <div id="pagination" class="pagination"></div>
 
     <!-- 🏷️ Kategori -->
     <div class="section-title">Kategori</div>
-    <div class="category-wrapper">
-      <div id="categories" class="categories"></div>
-      <button id="showAllBtn" class="btn">🔽 Lihat Semua</button>
-
-      <div id="allCategories" class="all-categories" hidden>
-        <select class="btn" id="categorySelect">
-          <option value="">🏷️ Pilih Kategori</option>
-        </select>
-      </div>
+    <div class="category-wrapper" style="position: relative;">
+      <div id="categories"></div>
     </div>
 
-    <!-- 🌐 Translate -->
+    <!-- 🔗 Tautan Tambahan -->
+    <div class="section-title">Tautan Tambahan</div>
+
+    <!-- 🔹 Kotak Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -50,7 +52,6 @@
       </select>
     </div>
 
-    <!-- 🔗 Tombol tambahan -->
     <a href="mailto:admin@laksanacraft.my.id" class="btn" target="_blank">🐞 Laporkan Masalah</a>
     <a href="https://wa.me/6285608564084" class="btn" target="_blank">💬 Hubungi WhatsApp</a>
     <a href="https://url.laksanacraft.my.id/profil" class="btn">👤 Tentang Saya</a>
@@ -60,10 +61,13 @@
     </footer>
   </div>
 
-  <!-- Google Translate -->
+  <!-- Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
-  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- Script -->
   <script src="/assets/script/script.js"></script>
-  <script src="/assets/script/test.js"></script>
+  <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
