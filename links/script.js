@@ -143,15 +143,19 @@ setTimeout(resizeGTranslate, 1000);
 setTimeout(resizeGTranslate, 1500);
 setTimeout(resizeGTranslate, 2000);
 
-window.addEventListener('DOMContentLoaded', () => {
-  const catContainer = document.getElementById('categories');
-  const btnLeft = document.querySelector('.scroll-left');
-  const btnRight = document.querySelector('.scroll-right');
+const categoriesEl = document.getElementById('categories');
+const btnLeft = document.querySelector('.scroll-left');
+const btnRight = document.querySelector('.scroll-right');
+const categories = Array.from(document.querySelectorAll('.category-btn'));
 
-  btnLeft.addEventListener('click', () => {
-    catContainer.scrollBy({ left: -120, behavior: 'smooth' });
-  });
-  btnRight.addEventListener('click', () => {
-    catContainer.scrollBy({ left: 120, behavior: 'smooth' });
-  });
+const categoryWidth = 120; // perkiraan lebar satu kategori + gap
+const visibleCount = 5;     // jumlah kategori per “slide”
+const scrollDistance = categoryWidth * visibleCount;
+
+btnLeft.addEventListener('click', () => {
+  categoriesEl.scrollBy({ left: -scrollDistance, behavior: 'smooth' });
+});
+
+btnRight.addEventListener('click', () => {
+  categoriesEl.scrollBy({ left: scrollDistance, behavior: 'smooth' });
 });
