@@ -130,6 +130,86 @@ document.addEventListener("click", e => {
   }
 });
 
+// Ambil kategori unik dan batasi maksimal 14
+const allCategories = [...new Set(allLinks.map(item => item.category))];
+const categories = allCategories.slice(0, 14);
+
+// Render kategori (maks 14)
+categories.forEach(cat => {
+  const btn = document.createElement("a");
+  btn.className = "category-btn";
+  btn.textContent = cat;
+  btn.href = `search/?cat=${encodeURIComponent(cat)}`;
+  btn.addEventListener("click", e => {
+    e.preventDefault();
+    document.body.classList.add("fade-out");
+    setTimeout(() => { window.location.href = btn.href; }, 500);
+  });
+  categoriesEl.appendChild(btn);
+});
+
+// ===============================
+// 🔽 Tambah tombol "Lihat Kategori Lain"
+// ===============================
+if (allCategories.length > 14) {
+  const moreBtn = document.createElement("button");
+  moreBtn.className = "category-btn";
+  moreBtn.textContent = "⬇️ Lihat Kategori Lain";
+  moreBtn.style.background = "#ccc";
+  moreBtn.style.fontWeight = "bold";
+  categoriesEl.appendChild(moreBtn);
+
+  // Buat dropdown container
+  const dropdown = document.createElement("div");
+  dropdown.className = "category-dropdown";
+  dropdown.style.display = "none";
+  dropdown.style.position = "absolute";
+  dropdown.style.background = "#fff";
+  dropdown.style.border = "1px solid #ddd";
+  dropdown.style.borderRadius = "8px";
+  dropdown.style.padding = "10px";
+  dropdown.style.maxHeight = "250px";
+  dropdown.style.overflowY = "auto";
+  dropdown.style.zIndex = "999";
+  dropdown.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
+  dropdown.style.width = "100%";
+  dropdown.style.maxWidth = "420px";
+
+  // Isi dropdown dengan kategori lain
+  allCategories.slice(14).forEach(cat => {
+    const item = document.createElement("div");
+    item.textContent = cat;
+    item.className = "dropdown-item";
+    item.style.padding = "8px";
+    item.style.cursor = "pointer";
+    item.style.borderRadius = "6px";
+    item.onmouseover = () => (item.style.background = "#eee");
+    item.onmouseout = () => (item.style.background = "transparent");
+    item.onclick = () => {
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+      }, 400);
+    };
+    dropdown.appendChild(item);
+  });
+
+  // Tambahkan dropdown ke halaman
+  categoriesEl.appendChild(dropdown);
+
+  // Toggle tampil/sembunyi saat tombol diklik
+  moreBtn.addEventListener("click", () => {
+    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+  });
+
+  // Tutup dropdown jika klik di luar
+  document.addEventListener("click", e => {
+    if (!dropdown.contains(e.target) && e.target !== moreBtn) {
+      dropdown.style.display = "none";
+    }
+  });
+}
+
 // ---------------------
 // Google Translate styling
 // ---------------------
