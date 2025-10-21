@@ -103,27 +103,9 @@ input {
 
 .category-wrapper {
   position: relative;
+  padding: 0;
 }
 
-.scroll-left, .scroll-right {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(200,200,200,0.7);
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.scroll-left { left: 0; }
-.scroll-right { right: 0; }
-
-.scroll-left:hover, .scroll-right:hover {
-  background: rgba(180,180,180,0.9);
-}
 
 /* 🔍 Tombol Hasil Pencarian */
 .result-btn {
