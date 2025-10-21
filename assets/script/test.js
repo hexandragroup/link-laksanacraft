@@ -1,5 +1,5 @@
 // ======================================================
-// LAKSANA LINK - TEST.JS (FINAL LENGKAP)
+// LAKSANA LINK - TEST.JS (FINAL - LOAD DATA SEDERHANA)
 // ======================================================
 
 // Tahun otomatis di footer
@@ -48,41 +48,26 @@ document.addEventListener("click", e => {
   }
 });
 
-// ==================== 🔄 LOAD SEMUA DATA JSON ==================== //
+// ==================== 🔄 LOAD SEMUA DATA JSON (Versi Lama) ==================== //
 async function loadAllData() {
-  const dataArray = [];
+  let dataArray = [];
   let i = 1;
 
-  // 🔹 Path absolut agar bisa jalan dari folder manapun (termasuk /search/)
-  const basePath = `${window.location.origin}/assets/`;
-
   while (true) {
-    const fileUrl = `${basePath}data${i}.json`;
-
+    // gunakan path relatif ke folder /search/
+    const file = `../assets/data${i}.json`;
     try {
-      const res = await fetch(fileUrl);
-      if (!res.ok) {
-        console.info(`ℹ️ Berhenti memuat di data${i}.json — file tidak ditemukan.`);
-        break;
-      }
+      const res = await fetch(file);
+      if (!res.ok) break;
 
-      const jsonData = await res.json();
-
-      // Pastikan data berbentuk array
-      if (Array.isArray(jsonData)) {
-        dataArray.push(...jsonData);
-      } else {
-        console.warn(`⚠️ Format data${i}.json tidak valid (bukan array), dilewati.`);
-      }
-
+      const data = await res.json();
+      dataArray.push(...data);
       i++;
-    } catch (err) {
-      console.error(`❌ Gagal memuat ${fileUrl}:`, err);
+    } catch {
       break;
     }
   }
 
-  console.log(`✅ Total ${dataArray.length} item dimuat dari ${i - 1} file JSON.`);
   return dataArray;
 }
 
