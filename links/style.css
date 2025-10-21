@@ -82,6 +82,7 @@ input {
   font-size: 12px;
   transition: all 0.2s ease;
   color: #222;
+  text-decoration: none;
 }
 
 .category-btn:hover {
