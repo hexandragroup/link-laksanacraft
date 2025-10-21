@@ -1,16 +1,19 @@
-// ==================== Tahun Otomatis ====================
+// ======================================================
+// LAKSANA LINK - TEST.JS (FINAL)
+// ======================================================
+
+// Tahun otomatis
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// ==================== Variabel Global ====================
+// Ambil elemen penting
 const queryInput = document.getElementById("query");
 const suggestions = document.getElementById("suggestions");
 const categoriesEl = document.getElementById("categories");
-const allCategoriesEl = document.getElementById("allCategories");
-const categorySelect = document.getElementById("categorySelect");
+
 let allLinks = [];
 let debounceTimer;
 
-// ==================== 🔍 PENCARIAN ====================
+// ==================== 🔍 PENCARIAN ==================== //
 queryInput.addEventListener("input", e => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => showSuggestions(e.target.value.trim()), 250);
@@ -45,18 +48,17 @@ document.addEventListener("click", e => {
   }
 });
 
-// ==================== 🏷️ KATEGORI ====================
-
-// 🔹 Load semua data JSON (data1.json, data2.json, dst.)
+// ==================== 🏷️ KATEGORI ==================== //
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
 
   while (true) {
-    const file = `assets/data${i}.json`;
+    const file = "/assets/data" + i + ".json";
     try {
       const res = await fetch(file);
       if (!res.ok) break;
+
       const data = await res.json();
       dataArray.push(...data);
       i++;
@@ -68,6 +70,7 @@ async function loadAllData() {
   return dataArray;
 }
 
+// Muat data & tampilkan kategori
 loadAllData().then(data => {
   allLinks = data;
   if (!allLinks.length) {
@@ -76,9 +79,9 @@ loadAllData().then(data => {
   }
 
   const categories = [...new Set(allLinks.map(i => i.category))];
-
-  // 🔹 Maksimal 14 kategori utama
   const mainCategories = categories.slice(0, 14);
+
+  // 🔹 14 kategori utama
   mainCategories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -92,30 +95,48 @@ loadAllData().then(data => {
     categoriesEl.appendChild(btn);
   });
 
-  // 🔹 Tambahkan tombol "Lihat Semua"
+  // 🔹 Tombol + dropdown "Lihat Semua"
+  const seeAllWrapper = document.createElement("div");
+  seeAllWrapper.className = "category-seeall-wrapper";
+
   const seeAllBtn = document.createElement("a");
   seeAllBtn.className = "category-btn see-all";
   seeAllBtn.textContent = "🔽 Lihat Semua";
   seeAllBtn.href = "#";
-  seeAllBtn.onclick = e => {
-    e.preventDefault();
-    toggleAllCategories();
-  };
-  categoriesEl.appendChild(seeAllBtn);
+  seeAllWrapper.appendChild(seeAllBtn);
 
-  // 🔹 Isi dropdown kategori lengkap
+  // 🔹 Dropdown semua kategori
+  const select = document.createElement("select");
+  select.className = "category-select";
+  select.innerHTML = `<option value="">🏷️ Pilih Kategori</option>`;
   categories.forEach(cat => {
     const opt = document.createElement("option");
     opt.textContent = cat;
     opt.value = cat;
-    categorySelect.appendChild(opt);
+    select.appendChild(opt);
   });
-});
+  select.hidden = true;
+  seeAllWrapper.appendChild(select);
 
-function toggleAllCategories() {
-  allCategoriesEl.hidden = !allCategoriesEl.hidden;
-  const seeAllBtn = document.querySelector(".category-btn.see-all");
-  if (seeAllBtn) {
-    seeAllBtn.textContent = allCategoriesEl.hidden ? "🔽 Lihat Semua" : "🔼 Tutup";
-  }
-}
+  // 🔹 Klik "Lihat Semua"
+  seeAllBtn.onclick = e => {
+    e.preventDefault();
+    const show = select.hidden;
+    select.hidden = !show;
+    seeAllBtn.textContent = show ? "🔼 Tutup" : "🔽 Lihat Semua";
+    if (show) {
+      seeAllWrapper.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
+  // 🔹 Pilih kategori dari dropdown
+  select.onchange = e => {
+    const cat = e.target.value;
+    if (cat) {
+      queryInput.value = cat;
+      showSuggestions(cat);
+    }
+  };
+
+  categoriesEl.appendChild(seeAllWrapper);
+});
