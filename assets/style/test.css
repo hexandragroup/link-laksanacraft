@@ -1,5 +1,5 @@
 /* ======================================================
-   LINK.CSS (Versi Lengkap dengan Search Suggestion)
+   LINK.CSS
    ====================================================== */
 
 /* 🌐 Dropdown Translate (Mobile + Desktop) */
@@ -33,8 +33,70 @@ input {
   box-sizing: border-box;
 }
 
+/* ===================== KATEGORI ===================== */
+.category-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  max-width: 420px;
+  margin: 0 auto 20px;
+}
+
+/* Horizontal multi-baris scroll */
+#categories {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-rows: 40px;
+  grid-template-rows: repeat(5, auto);
+  gap: 6px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  padding: 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hilangkan scrollbar */
+#categories::-webkit-scrollbar { display: none; }
+#categories { scrollbar-width: none; }
+
+/* Tombol kategori */
+.category-btn {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ddd;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  color: #222;
+  text-decoration: none;
+}
+
+.category-btn:hover { background: #ccc; color: #000; }
+.category-btn.active { background: #bbb; font-weight: bold; }
+
+/* 📘 Judul Section */
+.section-title {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
+}
+
+/* 🔄 Efek Fade Out */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
 /* ======================================================
-   🔍 SUGGESTION BOX (AUTOCOMPLETE)
+   🔍 SUGGESTION BOX
    ====================================================== */
 .suggestions {
   position: relative;
@@ -52,7 +114,7 @@ input {
   list-style: none;
   padding: 0;
   margin-top: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   max-height: 200px;
   overflow-y: auto;
 }
@@ -72,129 +134,4 @@ input {
 .suggestions strong {
   color: #000;
   font-weight: bold;
-}
-
-/* ===================== KATEGORI ===================== */
-.category-wrapper {
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0;
-  max-width: 420px;
-  margin: 0 auto 20px;
-}
-
-/* Horizontal multi-baris scroll, 5 baris */
-#categories {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-rows: 40px;
-  grid-template-rows: repeat(5, auto);
-  gap: 6px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-  padding: 0;
-  -webkit-overflow-scrolling: touch; /* smooth di iOS */
-}
-
-/* Hilangkan scrollbar */
-#categories::-webkit-scrollbar {
-  display: none;
-}
-#categories {
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-
-/* Style tombol kategori */
-.category-btn {
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  white-space: nowrap;
-  background: #ddd;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s ease;
-  color: #222;
-  text-decoration: none;
-}
-
-.category-btn:hover {
-  background: #ccc;
-  color: #000;
-}
-
-.category-btn.active {
-  background: #bbb;
-  font-weight: bold;
-}
-
-/* ===================== PAGINATION ===================== */
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  max-width: 420px;
-  text-align: center;
-}
-
-.page-btn {
-  background: #ddd;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  color: #222;
-}
-
-.page-btn:hover {
-  background: #ccc;
-  color: #000;
-}
-
-.page-btn.active {
-  background: #bbb;
-  font-weight: bold;
-}
-
-/* 🔍 Tombol Hasil Pencarian */
-.result-btn {
-  background: #fff;
-  border: 1px solid #ddd;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeInUp 0.4s ease forwards;
-}
-
-/* ✨ Animasi */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* 📘 Judul Section */
-.section-title {
-  margin-top: 25px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  font-size: 14px;
-  color: #555;
-}
-
-/* 🔄 Efek Fade Out */
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease;
 }
