@@ -38,15 +38,16 @@
     .btn {
       display: block;
       margin: 8px auto;
-      padding: 12px 20px;
+      padding: 10px 14px;
       background: #fff;
       color: #222;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid #bbb;
       transition: all 0.3s ease;
       cursor: pointer;
       max-width: 420px;
+      font-size: 12px;
       opacity: 0;
       transform: translateY(10px);
       animation: fadeInUp 0.4s ease forwards;
@@ -68,28 +69,38 @@
       margin-bottom: 15px;
     }
 
+    /* ===================== KATEGORI SCROLL HORIZONTAL MULTI-BARIS ===================== */
     .filter-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: inline-grid;          /* grid horizontal multi-baris */
+      grid-auto-flow: column;
+      grid-auto-rows: 32px;          /* tinggi baris kategori */
       gap: 6px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      padding: 8px 0;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
       margin-bottom: 15px;
     }
 
     .filter-btn {
-      background: #ddd;
-      border: none;
+      text-decoration: none;         /* hilangkan garis bawah */
+      padding: 4px 10px;             /* tombol kecil */
       border-radius: 6px;
-      padding: 6px 12px;
+      background: #ddd;
+      font-size: 12px;
       cursor: pointer;
-      font-size: 13px;
+      white-space: nowrap;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       transition: all 0.2s ease;
+      border: none;
     }
     .filter-btn:hover { background: #ccc; }
-    .filter-btn.active {
-      background: #bbb;
-      font-weight: bold;
-    }
+    .filter-btn.active { background: #bbb; font-weight: bold; }
 
     /* 🔢 Pagination */
     .pagination {
@@ -109,10 +120,7 @@
       transition: all 0.2s ease;
     }
     .page-btn:hover { background: #ccc; }
-    .page-btn.active {
-      background: #bbb;
-      font-weight: bold;
-    }
+    .page-btn.active { background: #bbb; font-weight: bold; }
 
     a.back-link {
       display: block;
@@ -177,7 +185,7 @@
     const startYear = 2020;
     const currentYear = new Date().getFullYear();
     document.getElementById("year").textContent =
-      currentYear > startYear ? startYear + "–" + currentYear : startYear;
+      currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
     const params = new URLSearchParams(window.location.search);
     const selectedCategory = params.get("cat");
@@ -194,10 +202,8 @@
     let currentPage = 1;
     const itemsPerPage = 10;
 
-    // Animasi masuk
     window.addEventListener("load", () => { document.body.classList.add("loaded"); });
 
-    // Fade out saat kembali
     const backLink = document.querySelector(".back-link");
     backLink.addEventListener("click", e => {
       e.preventDefault();
@@ -205,53 +211,38 @@
       setTimeout(() => { window.location.href = backLink.href; }, 500);
     });
 
-// ======================================================
-// Load semua data*.json secara otomatis
-// ======================================================
-async function loadAllData() {
-  let allData = [];
-  let i = 1;
-
-  while (true) {
-    const file = `assets/data${i}.json`;
-    try {
-      const res = await fetch(file);
-      if (!res.ok) break; // berhenti jika file tidak ditemukan
-      const json = await res.json();
-      allData.push(...json);
-      i++;
-    } catch (err) {
-      console.warn(`Gagal memuat ${file}:`, err);
-      break;
-    }
-  }
-
-  return allData;
-}
-
-// ======================================================
-// Jalankan load saat halaman siap
-// ======================================================
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const data = await loadAllData();
-
-    if (!data.length) {
-      loadingEl.innerHTML = "<p>⚠️ Tidak ada data ditemukan.</p>";
-      return;
+    async function loadAllData() {
+      let allData = [];
+      let i = 1;
+      while (true) {
+        const file = `assets/data${i}.json`;
+        try {
+          const res = await fetch(file);
+          if (!res.ok) break;
+          const json = await res.json();
+          allData.push(...json);
+          i++;
+        } catch { break; }
+      }
+      return allData;
     }
 
-    allLinks = data;
-    setupFilters(data);
-    renderPage();
-    loadingEl.style.display = "none";
-    resultsEl.style.display = "block";
-
-  } catch (err) {
-    console.error("Gagal memuat data:", err);
-    loadingEl.innerHTML = "<p>⚠️ Gagal memuat data. Coba lagi nanti.</p>";
-  }
-});
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const data = await loadAllData();
+        if (!data.length) {
+          loadingEl.innerHTML = "<p>⚠️ Tidak ada data ditemukan.</p>";
+          return;
+        }
+        allLinks = data;
+        setupFilters(data);
+        renderPage();
+        loadingEl.style.display = "none";
+        resultsEl.style.display = "block";
+      } catch {
+        loadingEl.innerHTML = "<p>⚠️ Gagal memuat data. Coba lagi nanti.</p>";
+      }
+    });
 
     function setupFilters(data) {
       const categories = ["Semua", ...new Set(data.map(l => l.category))];
@@ -269,27 +260,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         filterContainer.appendChild(btn);
       });
-
       titleEl.textContent = selectedCategory ? selectedCategory : "Semua Kategori";
     }
 
-    // Ambil data terfilter + pencarian
     function getFilteredList() {
       let list = allLinks;
-      if (currentFilter !== "Semua") {
-        list = list.filter(l => l.category === currentFilter);
-      }
+      if (currentFilter !== "Semua") list = list.filter(l => l.category === currentFilter);
       const keyword = searchBox.value.toLowerCase();
-      if (keyword) {
-        list = list.filter(link =>
-          link.title.toLowerCase().includes(keyword) ||
-          link.category.toLowerCase().includes(keyword)
-        );
-      }
+      if (keyword) list = list.filter(l => l.title.toLowerCase().includes(keyword) || l.category.toLowerCase().includes(keyword));
       return list;
     }
 
-    // Render halaman sesuai pagination
     function renderPage() {
       const filtered = getFilteredList();
       const totalItems = filtered.length;
@@ -303,50 +284,4 @@ document.addEventListener("DOMContentLoaded", async () => {
       countEl.textContent = `${currentFilter === "Semua" ? "Semua kategori" : "Kategori: " + currentFilter} — ${totalItems} tautan ditemukan`;
     }
 
-    // Tampilkan daftar link
     function renderList(data) {
-      resultsEl.innerHTML = "";
-      if (data.length === 0) {
-        resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
-        paginationEl.innerHTML = "";
-        return;
-      }
-
-      data.forEach((link, index) => {
-        const a = document.createElement("a");
-        a.href = link.url;
-        a.className = "btn";
-        a.textContent = `${link.icon} ${link.title}`;
-        a.target = "_blank";
-        a.style.animationDelay = `${index * 0.05}s`;
-        resultsEl.appendChild(a);
-      });
-    }
-
-    // Tampilkan pagination
-    function renderPagination(totalPages) {
-      paginationEl.innerHTML = "";
-      if (totalPages <= 1) return;
-
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement("button");
-        btn.textContent = i;
-        btn.className = "page-btn";
-        if (i === currentPage) btn.classList.add("active");
-        btn.addEventListener("click", () => {
-          currentPage = i;
-          renderPage();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-        paginationEl.appendChild(btn);
-      }
-    }
-
-    // Pencarian real-time
-    searchBox.addEventListener("input", () => {
-      currentPage = 1;
-      renderPage();
-    });
-  </script>
-</body>
-  </html>
