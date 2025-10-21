@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion Only
+// Link JS - Suggestion Only (Prioritaskan Huruf Awal)
 // =====================
 
 // Tampilkan tahun otomatis
@@ -58,7 +58,7 @@ loadAllData().then(data => {
 });
 
 // ---------------------
-// 🔍 Pencarian hanya suggestion
+// 🔍 Pencarian suggestion dengan prioritas huruf awal
 // ---------------------
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
@@ -68,14 +68,23 @@ searchBox.addEventListener("input", e => {
     return;
   }
 
-  const suggestions = allLinks
-    .filter(link =>
-      link.title.toLowerCase().includes(keyword) ||
-      link.category.toLowerCase().includes(keyword)
-    )
-    .slice(0, 8);
+  // 1️⃣ Cari yang diawali huruf pencarian
+  const startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    link.category.toLowerCase().startsWith(keyword)
+  );
 
-  showSuggestions(suggestions, keyword);
+  // 2️⃣ Jika hasil masih sedikit, tambahkan yang mengandung kata
+  const includeMatches = allLinks.filter(link =>
+    (link.title.toLowerCase().includes(keyword) ||
+     link.category.toLowerCase().includes(keyword)) &&
+    !startMatches.includes(link)
+  );
+
+  // Gabungkan: prioritas startsWith dulu
+  const combined = [...startMatches, ...includeMatches].slice(0, 8);
+
+  showSuggestions(combined, keyword);
 });
 
 // ---------------------
@@ -105,14 +114,16 @@ function showSuggestions(suggestions, keyword) {
 }
 
 // ---------------------
-// ✨ Fungsi bantu highlight teks yang cocok
+// ✨ Fungsi highlight teks pencarian
 // ---------------------
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
   return text.replace(regex, "<strong>$1</strong>");
 }
 
+// ---------------------
 // Tutup suggestion jika klik di luar
+// ---------------------
 document.addEventListener("click", e => {
   if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
     suggestionsEl.innerHTML = "";
