@@ -57,7 +57,7 @@ loadAllData().then(data => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
     btn.textContent = cat;
-    btn.href = `search?cat=${encodeURIComponent(cat)}`;
+    btn.href = `search/?cat=${encodeURIComponent(cat)}`;
 
     btn.addEventListener("click", e => {
       e.preventDefault();
