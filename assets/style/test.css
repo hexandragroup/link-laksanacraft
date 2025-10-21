@@ -15,13 +15,12 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Logo */
 .logo {
-  width: 80px;
+  width: 90px;
   margin-bottom: 10px;
 }
 
-/* ================= PENCARIAN ================= */
+/* ==================== PENCARIAN ==================== */
 .search-box {
   position: relative;
   margin: 20px auto;
@@ -66,7 +65,7 @@ body {
   background: #f0f0f0;
 }
 
-/* ================= KATEGORI ================= */
+/* ==================== KATEGORI ==================== */
 .section-title {
   font-weight: bold;
   margin-top: 25px;
@@ -78,19 +77,26 @@ body {
   position: relative;
 }
 
+/* 🔹 Scroll horizontal 5 baris × 3 kolom */
 .categories {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 40px;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, 1fr);
+  grid-auto-columns: minmax(100px, 1fr);
   gap: 6px;
   overflow-x: auto;
-  padding: 4px;
-  max-height: 400px;
-  scrollbar-width: none;
+  overflow-y: hidden;
+  padding: 6px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
 }
 
 .categories::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+.categories::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 4px;
 }
 
 .category-btn {
@@ -103,6 +109,8 @@ body {
   font-size: 13px;
   text-decoration: none;
   color: #222;
+  min-width: 100px;
+  min-height: 40px;
   transition: background 0.2s;
 }
 
@@ -110,17 +118,13 @@ body {
   background: #ccc;
 }
 
-.btn {
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
-  background: #eee;
-  cursor: pointer;
-  width: 100%;
-  font-size: 14px;
+.category-btn.see-all {
+  background: #f2f2f2;
+  font-weight: bold;
+  color: #000;
 }
 
+/* 🔽 Dropdown kategori lengkap */
 .all-categories {
   margin-top: 10px;
   animation: fadeIn 0.3s ease;
@@ -131,28 +135,12 @@ body {
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #bbb;
+  font-size: 14px;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* 🌐 Dropdown Translate */
-.translate-box select,
-.goog-te-combo {
-  width: 100% !important;
-  max-width: 420px !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  border-radius: 8px !important;
-  border: 1px solid #bbb !important;
-  background: #fff !important;
-  color: #222 !important;
-  cursor: pointer !important;
-  margin: 8px auto !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
 }
 
 footer {
