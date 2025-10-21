@@ -2,7 +2,7 @@
    LAKSANA LINK - TEST.CSS (FINAL)
    ====================================================== */
 
-body {
+html, body {
   font-family: "Segoe UI", sans-serif;
   background: #f5f5f5;
   margin: 0;
@@ -10,6 +10,7 @@ body {
   text-align: center;
 }
 
+/* ==================== CONTAINER ==================== */
 .container {
   max-width: 420px;
   margin: 0 auto;
@@ -19,7 +20,13 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* ================= PENCARIAN ================= */
+.logo {
+  width: 80px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+/* ==================== PENCARIAN ==================== */
 .search-box {
   position: relative;
   margin: 20px auto;
@@ -44,7 +51,7 @@ body {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 6px;
-  max-height: 280px;
+  max-height: 280px; /* sekitar 10 baris */
   overflow-y: auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   z-index: 1000;
@@ -64,44 +71,44 @@ body {
   background: #f0f0f0;
 }
 
-/* ================= KATEGORI ================= */
+/* ==================== KATEGORI ==================== */
 .section-title {
   font-weight: bold;
   margin-top: 25px;
   margin-bottom: 10px;
   color: #555;
+  font-size: 14px;
 }
 
 .category-wrapper {
+  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0;
+  padding: 4px;
   max-width: 420px;
   margin: 0 auto 20px;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Grid horizontal multi-baris */
-#categories {
+.categories {
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(5, auto);
-  grid-auto-rows: 40px;
+  grid-template-rows: repeat(5, 40px); /* Maks 5 baris */
+  grid-auto-columns: 1fr;
   gap: 6px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 0;
-  -webkit-overflow-scrolling: touch;
-}
-
-#categories::-webkit-scrollbar { display: none; }
-#categories {
-  -ms-overflow-style: none;
+  white-space: nowrap;
+  padding: 4px;
   scrollbar-width: none;
 }
 
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
 .category-btn {
-  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +119,8 @@ body {
   text-decoration: none;
   color: #222;
   transition: background 0.2s;
-  padding: 6px 10px;
+  padding: 8px;
+  white-space: nowrap;
 }
 
 .category-btn:hover {
@@ -124,34 +132,45 @@ body {
   font-weight: bold;
 }
 
-/* 🔽 Wrapper tombol + dropdown lihat semua */
-.category-seeall-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 100px;
+.see-all {
+  background: #eaeaea;
+  font-weight: bold;
+  color: #333;
 }
 
+/* Dropdown kategori (selalu tampil) */
 .category-select {
-  margin-top: 6px;
-  padding: 8px;
-  border-radius: 6px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid #bbb;
-  font-size: 13px;
-  width: 120px;
   background: #fff;
-  animation: fadeIn 0.25s ease;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
-/* ================= FOOTER ================= */
+/* ==================== FOOTER ==================== */
 footer {
   margin-top: 30px;
   font-size: 13px;
   color: #777;
 }
 
-/* ✨ Animasi */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-5px); }
+/* ==================== ANIMASI ==================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* Hilangkan scrollbar horizontal (opsional) */
+.category-wrapper::-webkit-scrollbar {
+  display: none;
+}
+.category-wrapper {
+  scrollbar-width: none;
 }
