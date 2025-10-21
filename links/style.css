@@ -35,7 +35,8 @@ input {
 
 /* ===================== KATEGORI ===================== */
 .category-wrapper {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0;
   max-width: 420px;
   margin: 0 auto 20px;
@@ -43,15 +44,16 @@ input {
 
 /* Horizontal multi-baris scroll, 5 baris */
 #categories {
-  display: inline-grid;          /* inline-grid untuk scroll horizontal */
-  grid-auto-flow: column;        /* isi dari atas ke bawah, baru kolom berikutnya */
-  grid-auto-rows: 40px;          /* tinggi setiap baris kategori */
-  gap: 6px;                      /* jarak antar kategori */
-  overflow-x: auto;              /* scroll horizontal */
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-rows: 40px;
+  grid-template-rows: repeat(5, auto);
+  gap: 6px;
+  overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
   white-space: nowrap;
-  padding: 8px 0;
+  padding: 0;
   -webkit-overflow-scrolling: touch; /* smooth di iOS */
 }
 
