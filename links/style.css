@@ -7,7 +7,7 @@
 .goog-te-combo {
   width: 100% !important;
   max-width: 420px !important;
-  padding: 14px 24px !important; /* agar proporsional dengan .btn */
+  padding: 14px 24px !important;
   font-size: 15px !important;
   line-height: 1.5 !important;
   border-radius: 8px !important;
@@ -33,23 +33,45 @@ input {
   box-sizing: border-box;
 }
 
-/* 🗂️ Kategori & Pagination */
-#categories,
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
+/* ===================== KATEGORI ===================== */
+.category-wrapper {
+  overflow: hidden;
+  padding: 0;
   max-width: 420px;
-  text-align: center
+  margin: 0 auto 20px;
 }
 
-.category-btn,
-.page-btn {
+/* Horizontal multi-baris scroll, 5 baris */
+#categories {
+  display: inline-grid;          /* inline-grid untuk scroll horizontal */
+  grid-auto-flow: column;        /* isi dari atas ke bawah, baru kolom berikutnya */
+  grid-auto-rows: 40px;          /* tinggi setiap baris kategori */
+  gap: 6px;                      /* jarak antar kategori */
+  overflow-x: auto;              /* scroll horizontal */
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  white-space: nowrap;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch; /* smooth di iOS */
+}
+
+/* Hilangkan scrollbar */
+#categories::-webkit-scrollbar {
+  display: none;
+}
+#categories {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+/* Style tombol kategori */
+.category-btn {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  white-space: nowrap;
   background: #ddd;
   border: none;
   border-radius: 6px;
@@ -57,55 +79,51 @@ input {
   cursor: pointer;
   font-size: 13px;
   transition: all 0.2s ease;
-  text-decoration: none;
   color: #222;
 }
 
-.page-btn {
-  padding: 6px 10px; /* sedikit lebih kecil */
+.category-btn:hover {
+  background: #ccc;
+  color: #000;
 }
 
-/* Hover & Active States */
-.category-btn:hover,
+.category-btn.active {
+  background: #bbb;
+  font-weight: bold;
+}
+
+/* ===================== PAGINATION ===================== */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  max-width: 420px;
+  text-align: center;
+}
+
+.page-btn {
+  background: #ddd;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  color: #222;
+}
+
 .page-btn:hover {
   background: #ccc;
   color: #000;
 }
 
-.category-btn.active,
 .page-btn.active {
   background: #bbb;
   font-weight: bold;
 }
-
-#categories {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 8px 12px;
-  scroll-behavior: smooth; /* geser halus */
-  max-height: 100px;
-}
-
-.category-btn {
-  flex: 0 0 auto; /* agar tidak mengecil */
-  text-align: center;
-  white-space: nowrap;
-
-#categories::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-}
-#categories {
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
-}
-
-
-.category-wrapper {
-  position: relative;
-  padding: 0;
-}
-
 
 /* 🔍 Tombol Hasil Pencarian */
 .result-btn {
