@@ -1,29 +1,38 @@
+// =====================
+// Link JS
+// =====================
+
+// Tampilkan tahun
 const startYear = 2020;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
-  currentYear > startYear ? startYear + "–" + currentYear : startYear;
+  currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
+// Elemen utama
 const categoriesEl = document.getElementById("categories");
 const resultsEl = document.getElementById("results");
 const paginationEl = document.getElementById("pagination");
 const searchBox = document.getElementById("searchBox");
 
+// Data
 let allLinks = [];
 let filteredLinks = [];
 let currentPage = 1;
 const perPage = 10;
 
-window.addEventListener("load", () => { document.body.classList.add("loaded"); });
-
-// --- Load semua JSON otomatis ---
+// ---------------------
+// Load semua JSON otomatis
+// ---------------------
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
+
   while (true) {
     const file = `assets/data${i}.json`;
     try {
       const res = await fetch(file);
       if (!res.ok) break;
+
       const data = await res.json();
       dataArray.push(...data);
       i++;
@@ -34,11 +43,16 @@ async function loadAllData() {
   return dataArray;
 }
 
+// ---------------------
+// Setup kategori & tampilan
+// ---------------------
 loadAllData().then(data => {
   allLinks = data;
 
-  // --- Setup kategori ---
+  // Ambil kategori unik
   const categories = [...new Set(allLinks.map(item => item.category))];
+
+  // Render kategori
   categories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -48,31 +62,35 @@ loadAllData().then(data => {
     btn.addEventListener("click", e => {
       e.preventDefault();
       document.body.classList.add("fade-out");
-      setTimeout(() => { window.location.href = btn.href; }, 500);
+      setTimeout(() => {
+        window.location.href = btn.href;
+      }, 500);
     });
 
     categoriesEl.appendChild(btn);
   });
 });
 
-// --- Pencarian global: prioritas startsWith ---
+// ---------------------
+// Pencarian global
+// ---------------------
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
   currentPage = 1;
 
-  if (keyword.trim() === "") {
+  if (!keyword.trim()) {
     resultsEl.innerHTML = "";
     paginationEl.innerHTML = "";
     return;
   }
 
-  // Prioritas yang dimulai dengan keyword
+  // Prioritas startsWith
   let startMatches = allLinks.filter(link =>
     link.title.toLowerCase().startsWith(keyword) ||
     link.category.toLowerCase().startsWith(keyword)
   );
 
-  // Jika tidak ada, cari yang mengandung keyword
+  // Jika tidak ada, cari includes
   let includeMatches = [];
   if (startMatches.length === 0) {
     includeMatches = allLinks.filter(link =>
@@ -85,7 +103,9 @@ searchBox.addEventListener("input", e => {
   renderPage();
 });
 
-// --- Render hasil per halaman ---
+// ---------------------
+// Render hasil pencarian & pagination
+// ---------------------
 function renderPage() {
   resultsEl.innerHTML = "";
   paginationEl.innerHTML = "";
@@ -95,7 +115,7 @@ function renderPage() {
   const end = start + perPage;
   const visible = filteredLinks.slice(start, end);
 
-  if (visible.length === 0) {
+  if (!visible.length) {
     resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
     return;
   }
@@ -127,7 +147,9 @@ function changePage(page) {
   renderPage();
 }
 
-// --- Google Translate ---
+// ---------------------
+// Google Translate styling
+// ---------------------
 function resizeGTranslate() {
   const select = document.querySelector('.goog-te-combo');
   if (select) {
@@ -138,15 +160,6 @@ function resizeGTranslate() {
     select.style.boxSizing = "border-box";
   }
 }
-
 setTimeout(resizeGTranslate, 1000);
 setTimeout(resizeGTranslate, 1500);
 setTimeout(resizeGTranslate, 2000);
-
-const catWrapper = document.querySelector('.category-wrapper');
-document.querySelector('.scroll-left').onclick = () => {
-  catWrapper.scrollBy({ left: -150, behavior: 'smooth' });
-};
-document.querySelector('.scroll-right').onclick = () => {
-  catWrapper.scrollBy({ left: 150, behavior: 'smooth' });
-};
