@@ -1,26 +1,76 @@
-// Tahun Otomatis
-const year = document.getElementById("year");
-year.textContent = new Date().getFullYear();
+// Tahun otomatis
+document.getElementById("year").textContent = new Date().getFullYear();
 
-// Simulasi Data JSON
-const allLinks = [
-  { title: "Google", url: "https://google.com", icon: "🔍", category: "Search" },
-  { title: "YouTube", url: "https://youtube.com", icon: "▶️", category: "Media" },
-  { title: "GitHub", url: "https://github.com", icon: "💻", category: "Dev" },
-  { title: "Wikipedia", url: "https://wikipedia.org", icon: "📘", category: "Reference" },
-  { title: "Instagram", url: "https://instagram.com", icon: "📷", category: "Social" },
-  { title: "Twitter", url: "https://x.com", icon: "🐦", category: "Social" },
-  { title: "Canva", url: "https://canva.com", icon: "🎨", category: "Design" },
-  { title: "Figma", url: "https://figma.com", icon: "🧩", category: "Design" },
-  { title: "Bing", url: "https://bing.com", icon: "🪩", category: "Search" },
-  { title: "ChatGPT", url: "https://chat.openai.com", icon: "🤖", category: "AI" },
-];
-
-// ==================== 🔍 PENCARIAN ==================== //
+// Elemen utama
 const queryInput = document.getElementById("query");
 const suggestions = document.getElementById("suggestions");
+const categoriesEl = document.getElementById("categories");
+const showAllBtn = document.getElementById("showAllBtn");
+const allCategoriesEl = document.getElementById("allCategories");
+const categorySelect = document.getElementById("categorySelect");
+
+let allLinks = [];
 let debounceTimer;
 
+// ===================================================
+// 🔹 Ambil semua data JSON nyata
+// ===================================================
+async function loadAllData() {
+  let dataArray = [];
+  let i = 1;
+  while (true) {
+    const file = `assets/data${i}.json`;
+    try {
+      const res = await fetch(file);
+      if (!res.ok) break;
+      const data = await res.json();
+      dataArray.push(...data);
+      i++;
+    } catch {
+      break;
+    }
+  }
+  return dataArray;
+}
+
+// ===================================================
+// 🔹 Jalankan setelah data dimuat
+// ===================================================
+loadAllData().then(data => {
+  allLinks = data;
+  if (!allLinks.length) {
+    alert("❌ Tidak ada data ditemukan di folder assets/");
+    return;
+  }
+
+  // Kategori unik
+  const categories = [...new Set(allLinks.map(item => item.category))];
+
+  // Render kategori utama
+  categories.slice(0, 20).forEach(cat => {
+    const btn = document.createElement("a");
+    btn.className = "category-btn";
+    btn.textContent = cat;
+    btn.href = "#";
+    btn.onclick = e => {
+      e.preventDefault();
+      showCategoryLinks(cat);
+    };
+    categoriesEl.appendChild(btn);
+  });
+
+  // Isi dropdown kategori
+  categories.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.textContent = cat;
+    opt.value = cat;
+    categorySelect.appendChild(opt);
+  });
+});
+
+// ===================================================
+// 🔹 Pencarian dengan debounce + dropdown
+// ===================================================
 queryInput.addEventListener("input", e => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => showSuggestions(e.target.value.trim()), 250);
@@ -40,7 +90,7 @@ function showSuggestions(keyword) {
 
   matches.slice(0, 50).forEach(link => {
     const a = document.createElement("a");
-    a.textContent = `${link.icon} ${link.title}`;
+    a.textContent = `${link.icon || "🔗"} ${link.title}`;
     a.href = link.url;
     a.target = "_blank";
     suggestions.appendChild(a);
@@ -56,31 +106,41 @@ document.addEventListener("click", e => {
   }
 });
 
-// ==================== 🏷️ KATEGORI ==================== //
-const categoriesEl = document.getElementById("categories");
-const showAllBtn = document.getElementById("showAllBtn");
-const allCategoriesEl = document.getElementById("allCategories");
-const categorySelect = document.getElementById("categorySelect");
+// ===================================================
+// 🔹 Tampilkan tautan dalam kategori
+// ===================================================
+function showCategoryLinks(cat) {
+  suggestions.innerHTML = "";
+  const matches = allLinks.filter(link => link.category === cat);
+  if (!matches.length) return;
 
-// Ambil kategori unik
-const categories = [...new Set(allLinks.map(i => i.category))];
+  matches.forEach(link => {
+    const a = document.createElement("a");
+    a.textContent = `${link.icon || "🔗"} ${link.title}`;
+    a.href = link.url;
+    a.target = "_blank";
+    suggestions.appendChild(a);
+  });
+  suggestions.style.display = "block";
+}
 
-// Render kategori populer (maks 20 → 10 baris × 2 kolom)
-categories.slice(0, 20).forEach(cat => {
-  const btn = document.createElement("a");
-  btn.className = "category-btn";
-  btn.textContent = cat;
-  categoriesEl.appendChild(btn);
-});
-
-// Isi dropdown semua kategori
-categories.forEach(cat => {
-  const opt = document.createElement("option");
-  opt.textContent = cat;
-  categorySelect.appendChild(opt);
-});
-
+// ===================================================
+// 🔹 Tombol “Lihat Semua”
+// ===================================================
 showAllBtn.onclick = () => {
   allCategoriesEl.hidden = !allCategoriesEl.hidden;
   showAllBtn.textContent = allCategoriesEl.hidden ? "🔽 Lihat Semua" : "🔼 Tutup";
 };
+
+categorySelect.onchange = e => {
+  if (e.target.value) {
+    showCategoryLinks(e.target.value);
+  }
+};
+
+// ===================================================
+// 🔹 Google Translate
+// ===================================================
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: 'id' }, 'google_translate_element');
+}
