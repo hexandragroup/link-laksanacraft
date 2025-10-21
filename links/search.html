@@ -284,4 +284,48 @@
       countEl.textContent = `${currentFilter === "Semua" ? "Semua kategori" : "Kategori: " + currentFilter} — ${totalItems} tautan ditemukan`;
     }
 
-    function renderList(data) {
+function renderList(data) {
+      resultsEl.innerHTML = "";
+      if (data.length === 0) {
+        resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
+        paginationEl.innerHTML = "";
+        return;
+      }
+
+      data.forEach((link, index) => {
+        const a = document.createElement("a");
+        a.href = link.url;
+        a.className = "btn";
+        a.textContent = `${link.icon} ${link.title}`;
+        a.target = "_blank";
+        a.style.animationDelay = `${index * 0.05}s`;
+        resultsEl.appendChild(a);
+      });
+    }
+
+    function renderPagination(totalPages) {
+      paginationEl.innerHTML = "";
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = i;
+        btn.className = "page-btn";
+        if (i === currentPage) btn.classList.add("active");
+        btn.addEventListener("click", () => {
+          currentPage = i;
+          renderPage();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+        paginationEl.appendChild(btn);
+      }
+    }
+
+    // Pencarian real-time
+    searchBox.addEventListener("input", () => {
+      currentPage = 1;
+      renderPage();
+    });
+  </script>
+</body>
+</html>
