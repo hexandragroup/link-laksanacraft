@@ -1,156 +1,139 @@
-/* ======================================================
-  SEARCH CSS
-====================================================== */
-
-/* 🌟 Sublead */
-p.sublead {
-  font-size: 15px;
-  font-weight: bold;
-  margin-bottom: 18px;
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
 }
 
-/* 🧾 Form */
-form .input-row {
-  margin-top: 12px;
+.container {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ================= PENCARIAN ================= */
+.search-box {
   position: relative;
-}
-label.small {
-  font-size: 13px;
-  color: #666;
-  display: block;
-  margin-bottom: 4px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 420px;
-}
-input,
-select,
-button {
+  margin: 20px auto;
   width: 100%;
-  max-width: 420px;
-  padding: 10px;
-  border-radius: 8px;
+  max-width: 400px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px;
   border: 1px solid #bbb;
-  margin: 6px auto;
-  display: block;
+  border-radius: 8px;
+  font-size: 15px;
   box-sizing: border-box;
 }
-button[type="submit"] {
-  background: #333;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  cursor: pointer;
-}
-button[type="submit"]:hover {
-  background: #444;
-  transform: scale(1.03);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
 
-/* 🧩 Hasil pencarian */
-#results {
-  margin-top: 18px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 420px;
-  text-align: center;
-}
-.result {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  font-size: 0.9rem;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 420px;
-  text-align: left;
-}
-.result p {
-  margin: 6px 0;
-  text-align: left;
-}
-.small {
-  font-size: 0.8rem;
-  color: #666;
-  text-align: left;
-}
-
-/* 📋 Tabel variasi */
-table.variant-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 8px 0;
-  font-size: 14px;
-  text-align: center;
-}
-table.variant-table th,
-table.variant-table td {
-  border: 1px solid #ccc;
-  padding: 6px 8px;
-  text-align: left;
-}
-table.variant-table th {
-  background: #f9f9f9;
-}
-
-/* --- Autocomplete Custom --- */
-.autocomplete-items {
+.suggestions {
   position: absolute;
-  border: 1px solid #ddd;
-  border-top: none;
-  z-index: 99;
   top: 100%;
   left: 0;
   right: 0;
   background: #fff;
-  border-radius: 0 0 8px 8px;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-}
-.autocomplete-items div {
-  padding: 10px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.autocomplete-items div:hover {
-  background-color: #f5f5f5;
-}
-
-/* ✨ Highlight lembut pada teks yang cocok di dropdown */
-.autocomplete-items b,
-#tokoh-suggestions b {
-  background-color: #ffefef;
-  color: #cc0000;
-  font-weight: 600;
-  border-radius: 3px;
-  padding: 0 3px;
-}
-
-/* --- Kotak saran tokoh --- */
-#tokoh-suggestions {
-  position: absolute;
-  background: white;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 6px;
-  z-index: 100;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 420px;
-  max-height: 250px;
+  max-height: 280px; /* sekitar 10 baris */
   overflow-y: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: left;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 1000;
+  display: none;
 }
-#tokoh-suggestions div {
-  padding: 10px;
-  cursor: pointer;
+
+.suggestions a {
+  display: block;
+  padding: 8px 12px;
+  text-align: left;
+  color: #333;
+  text-decoration: none;
   transition: background 0.2s;
 }
-#tokoh-suggestions div:hover {
-  background-color: #f2f2f2;
+
+.suggestions a:hover {
+  background: #f0f0f0;
+}
+
+/* ================= KATEGORI ================= */
+.section-title {
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.category-wrapper {
+  position: relative;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 40px;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px;
+  max-height: 400px; /* 10 baris */
+  scrollbar-width: none;
+}
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.category-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: none;
+  color: #222;
+  transition: background 0.2s;
+}
+
+.category-btn:hover {
+  background: #ccc;
+}
+
+.btn {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+}
+
+.all-categories {
+  margin-top: 10px;
+  animation: fadeIn 0.3s ease;
+}
+
+.all-categories select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 13px;
+  color: #777;
 }
