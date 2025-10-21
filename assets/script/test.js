@@ -1,8 +1,8 @@
 // ======================================================
-// LAKSANA LINK - TEST.JS (FINAL)
+// LAKSANA LINK - TEST.JS (FINAL LENGKAP)
 // ======================================================
 
-// Tahun otomatis
+// Tahun otomatis di footer
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // Ambil elemen penting
@@ -48,29 +48,45 @@ document.addEventListener("click", e => {
   }
 });
 
-// ==================== 🏷️ KATEGORI ==================== //
+// ==================== 🔄 LOAD SEMUA DATA JSON ==================== //
 async function loadAllData() {
-  let dataArray = [];
+  const dataArray = [];
   let i = 1;
 
-  while (true) {
-    const file = "/assets/data" + i + ".json";
-    try {
-      const res = await fetch(file);
-      if (!res.ok) break;
+  // 🔹 Path absolut agar bisa jalan dari folder manapun (termasuk /search/)
+  const basePath = `${window.location.origin}/assets/`;
 
-      const data = await res.json();
-      dataArray.push(...data);
+  while (true) {
+    const fileUrl = `${basePath}data${i}.json`;
+
+    try {
+      const res = await fetch(fileUrl);
+      if (!res.ok) {
+        console.info(`ℹ️ Berhenti memuat di data${i}.json — file tidak ditemukan.`);
+        break;
+      }
+
+      const jsonData = await res.json();
+
+      // Pastikan data berbentuk array
+      if (Array.isArray(jsonData)) {
+        dataArray.push(...jsonData);
+      } else {
+        console.warn(`⚠️ Format data${i}.json tidak valid (bukan array), dilewati.`);
+      }
+
       i++;
-    } catch {
+    } catch (err) {
+      console.error(`❌ Gagal memuat ${fileUrl}:`, err);
       break;
     }
   }
 
+  console.log(`✅ Total ${dataArray.length} item dimuat dari ${i - 1} file JSON.`);
   return dataArray;
 }
 
-// Muat data & tampilkan kategori
+// ==================== 🏷️ KATEGORI ==================== //
 loadAllData().then(data => {
   allLinks = data;
   if (!allLinks.length) {
@@ -81,7 +97,7 @@ loadAllData().then(data => {
   const categories = [...new Set(allLinks.map(i => i.category))];
   const mainCategories = categories.slice(0, 14);
 
-  // 🔹 14 kategori utama
+  // 🔹 Tambahkan 14 kategori utama
   mainCategories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -95,7 +111,7 @@ loadAllData().then(data => {
     categoriesEl.appendChild(btn);
   });
 
-  // 🔹 Tombol + dropdown "Lihat Semua"
+  // 🔹 Tambahkan tombol + dropdown "Lihat Semua"
   const seeAllWrapper = document.createElement("div");
   seeAllWrapper.className = "category-seeall-wrapper";
 
