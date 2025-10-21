@@ -55,7 +55,7 @@ async function loadAllData() {
 
   while (true) {
     // gunakan path relatif ke folder /search/
-    const file = `../assets/data${i}.json`;
+    const file = `assets/data${i}.json`;
     try {
       const res = await fetch(file);
       if (!res.ok) break;
