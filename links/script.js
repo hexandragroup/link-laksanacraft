@@ -142,3 +142,10 @@ function resizeGTranslate() {
 setTimeout(resizeGTranslate, 1000);
 setTimeout(resizeGTranslate, 1500);
 setTimeout(resizeGTranslate, 2000);
+
+document.querySelector('.scroll-left').onclick = () => {
+  document.getElementById('categories').scrollBy({ left: -100, behavior: 'smooth' });
+};
+document.querySelector('.scroll-right').onclick = () => {
+  document.getElementById('categories').scrollBy({ left: 100, behavior: 'smooth' });
+};
