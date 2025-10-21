@@ -130,5 +130,11 @@
     "title": "Cek Pajak Kendaraan",
     "url": "https://cekpajak.co.id",
     "icon": "🚗"
+  },
+  {
+    "category": "🌐 Umum & Informasi",
+    "title": "Percobaan",
+    "url": "https://link.laksanacraft.my.id/links/search.html",
+    "icon": "😁"
   }
 ]
