@@ -1,11 +1,11 @@
 // ======================================================
-// LAKSANA LINK - TEST.JS (FINAL - LOAD DATA SEDERHANA)
+// LAKSANA LINK - TEST.JS (FINAL - LIHAT SEMUA SELALU TERBUKA)
 // ======================================================
 
-// Tahun otomatis di footer
+// Tahun otomatis
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Ambil elemen penting
+// Elemen utama
 const queryInput = document.getElementById("query");
 const suggestions = document.getElementById("suggestions");
 const categoriesEl = document.getElementById("categories");
@@ -42,20 +42,20 @@ function showSuggestions(keyword) {
   suggestions.style.display = matches.length ? "block" : "none";
 }
 
+// Tutup dropdown saran jika klik di luar
 document.addEventListener("click", e => {
   if (!e.target.closest(".search-box")) {
     suggestions.style.display = "none";
   }
 });
 
-// ==================== 🔄 LOAD SEMUA DATA JSON (Versi Lama) ==================== //
+// ==================== 🏷️ KATEGORI ==================== //
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
 
   while (true) {
-    // gunakan path relatif ke folder /search/
-    const file = `assets/data${i}.json`;
+    const file = `assets/data${i}.json`; // ✅ karena ini versi test
     try {
       const res = await fetch(file);
       if (!res.ok) break;
@@ -71,7 +71,7 @@ async function loadAllData() {
   return dataArray;
 }
 
-// ==================== 🏷️ KATEGORI ==================== //
+// Muat data dan tampilkan kategori
 loadAllData().then(data => {
   allLinks = data;
   if (!allLinks.length) {
@@ -96,17 +96,13 @@ loadAllData().then(data => {
     categoriesEl.appendChild(btn);
   });
 
-  // 🔹 Tambahkan tombol + dropdown "Lihat Semua"
-  const seeAllWrapper = document.createElement("div");
-  seeAllWrapper.className = "category-seeall-wrapper";
-
+  // 🔹 Tombol "Lihat Semua"
   const seeAllBtn = document.createElement("a");
   seeAllBtn.className = "category-btn see-all";
   seeAllBtn.textContent = "🔽 Lihat Semua";
-  seeAllBtn.href = "#";
-  seeAllWrapper.appendChild(seeAllBtn);
+  categoriesEl.appendChild(seeAllBtn);
 
-  // 🔹 Dropdown semua kategori
+  // 🔹 Dropdown semua kategori (selalu tampil)
   const select = document.createElement("select");
   select.className = "category-select";
   select.innerHTML = `<option value="">🏷️ Pilih Kategori</option>`;
@@ -116,19 +112,7 @@ loadAllData().then(data => {
     opt.value = cat;
     select.appendChild(opt);
   });
-  select.hidden = true;
-  seeAllWrapper.appendChild(select);
-
-  // 🔹 Klik "Lihat Semua"
-  seeAllBtn.onclick = e => {
-    e.preventDefault();
-    const show = select.hidden;
-    select.hidden = !show;
-    seeAllBtn.textContent = show ? "🔼 Tutup" : "🔽 Lihat Semua";
-    if (show) {
-      seeAllWrapper.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
+  categoriesEl.appendChild(select);
 
   // 🔹 Pilih kategori dari dropdown
   select.onchange = e => {
@@ -138,6 +122,4 @@ loadAllData().then(data => {
       showSuggestions(cat);
     }
   };
-
-  categoriesEl.appendChild(seeAllWrapper);
 });
