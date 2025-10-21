@@ -82,6 +82,7 @@ input {
   overflow-x: auto;
   padding: 8px 0;
   scroll-behavior: smooth; /* geser halus */
+  max-height: 100px;
 }
 
 .category-btn {
