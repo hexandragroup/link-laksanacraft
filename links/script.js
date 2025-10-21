@@ -28,7 +28,7 @@ async function loadAllData() {
   let i = 1;
 
   while (true) {
-    const file = `assets/data${i}.json`;
+    const file = `../assets/data${i}.json`;
     try {
       const res = await fetch(file);
       if (!res.ok) break;
