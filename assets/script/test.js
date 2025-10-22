@@ -32,7 +32,16 @@ async function loadAllData() {
 
 // ===================== SETUP KATEGORI =====================
 async function setupCategories() {
-  categoriesEl.innerHTML = "<p style='text-align:center;'>🔄 Memuat kategori...</p>";
+  categoriesEl.innerHTML = `
+  <div style="
+    width:100%;
+    text-align:center;
+    padding:10px 0;
+    font-size:13px;
+    color:#555;
+  ">
+    ⏳ Memuat kategori...
+  </div>`;
 
   allLinks = await loadAllData();
   const categories = [...new Set(allLinks.map(item => item.category))];
