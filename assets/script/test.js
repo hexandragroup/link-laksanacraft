@@ -60,7 +60,7 @@
         <option value="">🎨 Pilih Tema</option>
         <option value="base">🌤️ Modern</option>
         <option value="neo">🧊 Neo 3D</option>
-        <option value="dark">🌙 Dark Mode</option>
+        <option value="retro">🌙 Dark Mode</option>
       </select>
     </div>
   `;
