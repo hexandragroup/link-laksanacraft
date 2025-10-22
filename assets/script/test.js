@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion + Kategori Terbatas (Full-Screen Dropdown)
+// Link JS - Suggestion + Kategori Terbatas (Full-Screen Hitam)
 // =====================
 
 // 🕒 Tahun otomatis
@@ -94,7 +94,7 @@ loadAllData().then(data => {
     // Toggle full-screen dropdown
     moreBtn.addEventListener("click", e => {
       e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "flex";
     });
 
     // Tutup dropdown jika klik di luar
