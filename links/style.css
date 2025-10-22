@@ -95,47 +95,38 @@ input {
   font-weight: bold;
 }
 
-/* ===================== PAGINATION ===================== */
-.pagination {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 8px;
-  margin-bottom: 20px;
+/* ===================== SUGGESTION BOX ===================== */
+.suggestions {
+  position: relative;
   max-width: 420px;
-  text-align: center;
+  margin: 0 auto;
+  z-index: 1000;
 }
 
-.page-btn {
-  background: #ddd;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: all 0.2s ease;
-  color: #222;
-}
-
-.page-btn:hover {
-  background: #ccc;
-  color: #000;
-}
-
-.page-btn.active {
-  background: #bbb;
-  font-weight: bold;
-}
-
-/* 🔍 Tombol Hasil Pencarian */
-.result-btn {
+.suggestions ul {
+  position: absolute;
+  width: 100%;
   background: #fff;
-  border: 1px solid #ddd;
-  opacity: 0;
-  transform: translateY(10px);
-  animation: fadeInUp 0.4s ease forwards;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0;
+  margin-top: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
 }
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+  transition: background 0.2s;
+}
+
+.suggestions li:hover { background: #f5f5f5; }
+.suggestions strong { color: #000; font-weight: bold; }
 
 /* ✨ Animasi */
 @keyframes fadeInUp {
