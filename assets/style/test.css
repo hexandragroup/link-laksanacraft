@@ -1,5 +1,5 @@
 /* ======================================================
-   LINK.CSS – Kategori, Dropdown, Search Suggestion
+   LINK.CSS
    ====================================================== */
 
 /* 🌐 Dropdown Translate (Mobile + Desktop) */
@@ -22,13 +22,13 @@
 }
 
 /* 🏷️ Input Pencarian */
-input#searchBox {
+input {
   width: 100%;
   max-width: 420px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #bbb;
-  margin: 6px auto 12px;
+  margin: 6px auto;
   display: block;
   box-sizing: border-box;
 }
@@ -43,6 +43,7 @@ input#searchBox {
   position: relative;
 }
 
+/* Tampilan kategori (multi-baris scroll horizontal) */
 #categories {
   display: grid;
   grid-auto-flow: column;
@@ -63,7 +64,7 @@ input#searchBox {
 /* Tombol kategori */
 .category-btn {
   flex: 0 0 auto;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   background: #ddd;
@@ -76,7 +77,6 @@ input#searchBox {
   color: #222;
   text-decoration: none;
   user-select: none;
-  white-space: nowrap;
 }
 
 .category-btn:hover { background: #ccc; color: #000; }
@@ -84,15 +84,14 @@ input#searchBox {
 
 /* ===================== DROPDOWN KATEGORI ===================== */
 .category-dropdown {
-  display: none;               /* default hidden */
-  position: absolute;          /* overlay dropdown di atas kontainer */
-  top: 100%;                   /* tepat di bawah tombol */
+  display: none;
+  position: absolute; /* tetap absolute agar dropdown muncul di bawah tombol */
+  top: 100%;          /* tepat di bawah tombol */
   left: 0;
-  right: 0;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 8px 0;
+  padding: 10px 10px 0 10px;
   max-height: 250px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -100,24 +99,25 @@ input#searchBox {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 420px;
+  animation: fadeIn 0.3s ease;
   box-sizing: border-box;
-  animation: fadeIn 0.2s ease;
 }
 
 /* Item dropdown */
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 10px 16px;
+  padding: 10px;
   cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+  border-bottom: 1px solid #eee;
   font-size: 14px;
   color: #333;
-  border-bottom: 1px solid #eee;
   box-sizing: border-box;
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  transition: background 0.2s;
 }
 
 .dropdown-item:hover {
@@ -139,14 +139,14 @@ input#searchBox {
   color: #555;
 }
 
-/* 🔄 Efek Fade Out (body saat navigasi) */
+/* 🔄 Efek Fade Out */
 .fade-out {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
 /* ======================================================
-   🔍 SUGGESTION BOX
+   SUGGESTION BOX
    ====================================================== */
 .suggestions {
   position: relative;
