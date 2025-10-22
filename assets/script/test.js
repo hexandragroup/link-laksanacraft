@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion + Kategori Terbatas
+// Link JS - Suggestion + Kategori Terbatas (Prioritas Huruf Awal)
 // =====================
 
 // 🕒 Tahun otomatis
@@ -13,20 +13,14 @@ const categoriesEl = document.getElementById("categories");
 const searchBox = document.getElementById("searchBox");
 const suggestionsEl = document.getElementById("suggestions");
 
-// Container untuk menampilkan link
-const container = document.createElement("div");
-container.id = "linkContainer";
-document.querySelector(".container").appendChild(container);
-
-// Tampilkan loading awal
-container.innerHTML = "<p>🔄 Memuat...</p>";
-
 let allLinks = [];
-const linkCache = {};
 
 // ---------------------
-// Load semua JSON otomatis
+// 📁 Tampilkan "Memuat..." sekali saat load awal
+categoriesEl.innerHTML = "<p>🔄 Memuat kategori...</p>";
+
 // ---------------------
+// 📁 Load semua JSON otomatis
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
@@ -46,16 +40,15 @@ async function loadAllData() {
 }
 
 // ---------------------
-// Setup kategori
-// ---------------------
+// ⚙️ Setup kategori (maksimal 14 + dropdown tambahan)
 loadAllData().then(data => {
   allLinks = data;
-  container.innerHTML = ""; // hapus loading setelah data siap
+  categoriesEl.innerHTML = ""; // hapus loading setelah data siap
 
   const allCategories = [...new Set(allLinks.map(item => item.category))];
   const limitedCategories = allCategories.slice(0, 14);
 
-  // Render kategori utama
+  // Render 14 kategori pertama
   limitedCategories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -63,7 +56,9 @@ loadAllData().then(data => {
     btn.href = `search/?cat=${encodeURIComponent(cat)}`;
     btn.addEventListener("click", e => {
       e.preventDefault();
-      loadLinksByCategory(cat);
+      // Tetap gunakan navigasi biasa
+      document.body.classList.add("fade-out");
+      setTimeout(() => window.location.href = btn.href, 500);
     });
     categoriesEl.appendChild(btn);
   });
@@ -84,7 +79,10 @@ loadAllData().then(data => {
       const item = document.createElement("div");
       item.textContent = cat;
       item.className = "dropdown-item";
-      item.onclick = () => loadLinksByCategory(cat);
+      item.onclick = () => {
+        document.body.classList.add("fade-out");
+        setTimeout(() => window.location.href = `search/?cat=${encodeURIComponent(cat)}`, 400);
+      };
       dropdown.appendChild(item);
     });
 
@@ -92,8 +90,7 @@ loadAllData().then(data => {
 
     moreBtn.addEventListener("click", e => {
       e.stopPropagation();
-      dropdown.style.display =
-        dropdown.style.display === "none" ? "block" : "none";
+      dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
     });
 
     document.addEventListener("click", e => {
@@ -105,30 +102,7 @@ loadAllData().then(data => {
 });
 
 // ---------------------
-// Fungsi load link per kategori
-// ---------------------
-function loadLinksByCategory(cat) {
-  if (!linkCache[cat]) {
-    linkCache[cat] = allLinks.filter(link => link.category === cat);
-  }
-  renderLinks(linkCache[cat]);
-}
-
-function renderLinks(data) {
-  container.innerHTML = "";
-  data.forEach(link => {
-    const a = document.createElement("a");
-    a.className = "btn";       // tetap pakai btn asli
-    a.href = link.url;
-    a.textContent = link.title || link.text;
-    a.target = "_blank";
-    container.appendChild(a);
-  });
-}
-
-// ---------------------
-// Suggestion Search
-// ---------------------
+// 🔍 Pencarian dengan suggestion
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
   if (!keyword.trim()) {
@@ -151,6 +125,8 @@ searchBox.addEventListener("input", e => {
   showSuggestions(combined, keyword);
 });
 
+// ---------------------
+// 💡 Tampilkan suggestion
 function showSuggestions(suggestions, keyword) {
   if (!suggestions.length) {
     suggestionsEl.innerHTML = "";
@@ -174,12 +150,15 @@ function showSuggestions(suggestions, keyword) {
   suggestionsEl.appendChild(ul);
 }
 
+// ---------------------
+// ✨ Highlight hasil pencarian
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
   return text.replace(regex, "<strong>$1</strong>");
 }
 
-// Tutup suggestion jika klik di luar
+// ---------------------
+// ❌ Tutup suggestion jika klik di luar
 document.addEventListener("click", e => {
   if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
     suggestionsEl.innerHTML = "";
