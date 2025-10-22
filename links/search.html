@@ -7,19 +7,20 @@
   <title>Laksana Link</title>
   <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
 
-  <!-- File CSS -->
+  <!-- File CSS utama -->
   <link rel="stylesheet" href="/assets/style/style.css">
   <link rel="stylesheet" href="/assets/style/test.css">
 </head>
 <body>
   <div class="container">
-    <!-- Logo dan Judul -->
     <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
     <h1><a href="https://link.laksanacraft.my.id/">Laksana Link</a></h1>
     <p><em>"Satu Tempat untuk Banyak Manfaat"</em></p>
 
-    <!-- 🔍 Pencarian -->
+    <!-- 🔍 Pencarian Global -->
     <input type="text" id="searchBox" placeholder="Cari tautan di semua kategori..." />
+
+    <!-- 💡 Suggestion Box -->
     <div id="suggestions" class="suggestions"></div>
 
     <!-- 🏷️ Kategori -->
@@ -28,13 +29,10 @@
       <div id="categories"></div>
     </div>
 
-    <!-- 🔗 Container Link Dinamis -->
-    <div id="linkContainer"></div>
-
     <!-- 🔗 Tautan Tambahan -->
     <div class="section-title">Tautan Tambahan</div>
 
-    <!-- 🌏 Translate -->
+    <!-- 🌐 Kotak Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -50,10 +48,12 @@
       </select>
     </div>
 
-    <!-- 🔹 Tautan Tambahan -->
     <a href="mailto:admin@laksanacraft.my.id" class="btn" target="_blank">🐞 Laporkan Masalah</a>
     <a href="https://wa.me/6285608564084" class="btn" target="_blank">💬 Hubungi WhatsApp</a>
     <a href="https://url.laksanacraft.my.id/profil" class="btn">👤 Tentang Saya</a>
+
+    <!-- Container untuk menampilkan link kategori -->
+    <div id="linkContainer"></div>
 
     <footer>
       &copy; <span id="year"></span> Laksana Link · Yogyakarta, Indonesia
@@ -63,7 +63,7 @@
   <!-- Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
 
-  <!-- Script -->
+  <!-- Script JS -->
   <script src="/assets/script/script.js"></script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script src="/assets/script/test.js"></script>
