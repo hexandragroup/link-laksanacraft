@@ -1,34 +1,56 @@
-// Ambil container dropdown
-const categoryDropdown = document.querySelector('.category-dropdown');
-const categorySelected = categoryDropdown.querySelector('.category-selected');
-const categoryList = categoryDropdown.querySelector('.category-list');
-
-// Load kategori
 loadAllData().then(data => {
   allLinks = data;
+
   const categories = [...new Set(allLinks.map(item => item.category))];
+  const maxVisible = 14;
 
-  categories.forEach(cat => {
-    const div = document.createElement('div');
-    div.textContent = cat;
-    div.addEventListener('click', () => {
-      categorySelected.textContent = cat; // tampilkan kategori yang dipilih
-      categoryDropdown.classList.remove('open'); // tutup dropdown
-      // Arahkan ke halaman kategori
-      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+  const categoriesEl = document.getElementById("categories");
+  const moreDropdown = document.querySelector('.category-more-dropdown');
+  const moreBtn = moreDropdown.querySelector('.category-more-btn');
+  const moreList = moreDropdown.querySelector('.category-more-list');
+
+  // Bagi kategori
+  const visibleCategories = categories.slice(0, maxVisible);
+  const extraCategories = categories.slice(maxVisible);
+
+  // Render kategori horizontal
+  visibleCategories.forEach(cat => {
+    const btn = document.createElement("a");
+    btn.className = "category-btn";
+    btn.textContent = cat;
+    btn.href = `search/?cat=${encodeURIComponent(cat)}`;
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      window.location.href = btn.href;
     });
-    categoryList.appendChild(div);
+    categoriesEl.appendChild(btn);
   });
-});
 
-// Toggle dropdown saat diklik
-categorySelected.addEventListener('click', () => {
-  categoryDropdown.classList.toggle('open');
-});
+  // Render kategori tambahan di dropdown
+  extraCategories.forEach(cat => {
+    const div = document.createElement("div");
+    div.textContent = cat;
+    div.addEventListener("click", () => {
+      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+      moreDropdown.classList.remove('open');
+    });
+    moreList.appendChild(div);
+  });
 
-// Tutup dropdown jika klik di luar
-document.addEventListener('click', e => {
-  if (!categoryDropdown.contains(e.target)) {
-    categoryDropdown.classList.remove('open');
+  // Toggle dropdown saat klik
+  moreBtn.addEventListener("click", () => {
+    moreDropdown.classList.toggle('open');
+  });
+
+  // Tutup dropdown jika klik di luar
+  document.addEventListener("click", e => {
+    if (!moreDropdown.contains(e.target)) {
+      moreDropdown.classList.remove('open');
+    }
+  });
+
+  // Sembunyikan tombol dropdown jika tidak ada extra category
+  if (extraCategories.length === 0) {
+    moreDropdown.style.display = 'none';
   }
 });
