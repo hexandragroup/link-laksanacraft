@@ -10,8 +10,7 @@ document.getElementById("year").textContent =
 
 // Elemen utama
 const categoriesEl = document.getElementById("categories");
-const resultsEl = document.getElementById("results");
-const paginationEl = document.getElementById("pagination");
+const suggestionsEl = document.getElementById("suggestions");
 const searchBox = document.getElementById("searchBox");
 
 // Data
