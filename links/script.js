@@ -70,37 +70,6 @@ loadAllData().then(data => {
   });
 });
 
-// ---------------------
-// Pencarian global
-// ---------------------
-searchBox.addEventListener("input", e => {
-  const keyword = e.target.value.toLowerCase();
-  currentPage = 1;
-
-  if (!keyword.trim()) {
-    resultsEl.innerHTML = "";
-    paginationEl.innerHTML = "";
-    return;
-  }
-
-  // Prioritas startsWith
-  let startMatches = allLinks.filter(link =>
-    link.title.toLowerCase().startsWith(keyword) ||
-    link.category.toLowerCase().startsWith(keyword)
-  );
-
-  // Jika tidak ada, cari includes
-  let includeMatches = [];
-  if (startMatches.length === 0) {
-    includeMatches = allLinks.filter(link =>
-      link.title.toLowerCase().includes(keyword) ||
-      link.category.toLowerCase().includes(keyword)
-    );
-  }
-
-  filteredLinks = startMatches.length > 0 ? startMatches : includeMatches;
-  renderPage();
-});
 
 // ---------------------
 // 🔍 Suggestion search
