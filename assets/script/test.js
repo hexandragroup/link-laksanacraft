@@ -29,6 +29,7 @@
 
     /* Dropdown tema */
     .theme-switcher {
+      width: 170px;
       margin: 15px 15px 30px 15px;
       padding: 8px;
       border: 1px solid #bbb;
@@ -37,6 +38,7 @@
       font-size: 14px;
       cursor: pointer;
       transition: background 0.2s;
+      box-sizing: border-box;
     }
     .theme-switcher:hover { background: #eee; }
 
