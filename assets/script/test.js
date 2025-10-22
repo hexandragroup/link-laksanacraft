@@ -1,190 +1,119 @@
-// Tahun otomatis
-const startYear = 2020;
-const currentYear = new Date().getFullYear();
-document.getElementById("year").textContent =
-  currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
-
-// Elemen
-const suggestionsEl = document.getElementById("suggestions");
-const searchBox = document.getElementById("searchBox");
-const categoriesEl = document.getElementById("categories");
-
-let allLinks = [];
-
-// ===================== LOAD SEMUA DATA =====================
-async function loadAllData() {
-  let dataArray = [];
-  let i = 1;
-  while (true) {
-    const file = `assets/data${i}.json`;
-    try {
-      const res = await fetch(file);
-      if (!res.ok) break;
-      const data = await res.json();
-      dataArray.push(...data);
-      i++;
-    } catch {
-      break;
+(function(){
+  const style = document.createElement('style');
+  style.textContent = `
+    .corner-tab {
+      position: fixed; top:30px; right:-10px; width:55px; height:55px;
+      background:#333; color:#fff; font-size:28px; border-radius:30px 0 0 30px;
+      display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:10000;
+      transition: transform 0.3s, opacity 0.3s;
     }
-  }
-  return dataArray;
-}
+    .corner-tab:hover { background:#555; transform: scale(1.05); }
 
-// ===================== SETUP KATEGORI =====================
-async function setupCategories() {
-  categoriesEl.innerHTML = `
-  <div style="
-    width:100%;
-    text-align:center;
-    padding:10px 0;
-    font-size:13px;
-    color:#555;
-  ">
-    ⏳ Memuat kategori...
-  </div>`;
+    .corner-menu {
+      position:fixed; top:0; right:-200px; width:200px; height:100%;
+      background: rgba(255,255,255,0.97);
+      box-shadow: -3px 0 12px rgba(0,0,0,0.2);
+      display:flex; flex-direction:column;
+      padding-top:60px;
+      transition:right 0.3s ease;
+      z-index:9999;
+    }
+    .corner-menu.show { right:0; }
 
-  allLinks = await loadAllData();
-  const categories = [...new Set(allLinks.map(item => item.category))];
-  const maxVisible = 14;
+    .corner-menu a {
+      padding:12px 20px;
+      border-bottom:1px solid rgba(0,0,0,0.1);
+      text-decoration:none; color:#222;
+    }
+    .corner-menu a:hover { background: rgba(0,0,0,0.05); }
 
-  categoriesEl.innerHTML = ""; // hapus teks memuat
-  categoriesEl.style.opacity = 0;
+    /* Dropdown tema */
+    .theme-switcher {
+      margin: 15px 15px 30px 15px;
+      padding: 8px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      background: #f8f8f8;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .theme-switcher:hover { background: #eee; }
+  `;
+  document.head.appendChild(style);
 
-  // Render kategori utama
-  categories.slice(0, maxVisible).forEach(cat => {
-    const btn = document.createElement("button");
-    btn.className = "category-btn";
-    btn.textContent = cat;
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
-    });
-    categoriesEl.appendChild(btn);
+  const html = `
+    <div class="corner-tab" id="cornerTab">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </div>
+
+    <div class="corner-menu" id="cornerMenu">
+      <a href="https://link.laksanacraft.my.id/">🏠 Beranda</a>
+      <a href="https://url.laksanacraft.my.id/profil">👤 Tentang</a>
+      <a href="https://linktr.ee/hexandra" target="_blank">💼 Bisnis</a>
+      <a href="https://url.laksanacraft.my.id/link">🔗 Tautan</a>
+
+      <select id="themeSelector" class="theme-switcher">
+        <option value="">🎨 Pilih Tema</option>
+        <option value="base">🌤️ Modern</option>
+        <option value="neo">🧊 Neo 3D</option>
+        <option value="dark">🌙 Dark Mode</option>
+      </select>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  const cornerTab = document.getElementById("cornerTab");
+  const cornerMenu = document.getElementById("cornerMenu");
+  const themeSelector = document.getElementById("themeSelector");
+
+  // === Animasi menu ===
+  cornerTab.addEventListener("click", e => {
+    e.stopPropagation();
+    cornerMenu.classList.add("show");
+    cornerTab.style.opacity = "0";
+    cornerTab.style.pointerEvents = "none";
   });
 
-  // Dropdown kategori tambahan
-  if (categories.length > maxVisible) {
-    const dropdownContainer = document.createElement("div");
-    dropdownContainer.classList.add("select-dropdown-container");
-
-    const select = document.createElement("select");
-    select.classList.add("select-dropdown");
-    select.innerHTML = '<option value="">-- Pilih Kategori Lain --</option>';
-
-    categories.slice(maxVisible).forEach(cat => {
-      const option = document.createElement("option");
-      option.value = cat;
-      option.textContent = cat;
-      select.appendChild(option);
-    });
-
-    select.addEventListener("change", () => {
-      const selected = select.value;
-      if (selected) window.location.href = `search/?cat=${encodeURIComponent(selected)}`;
-    });
-
-    dropdownContainer.appendChild(select);
-    categoriesEl.appendChild(dropdownContainer);
-  }
-
-  // Fade-in efek halus
-  setTimeout(() => (categoriesEl.style.transition = "opacity .5s ease", categoriesEl.style.opacity = 1), 100);
-}
-
-setupCategories();
-
-// ===================== SUGGESTION SEARCH =====================
-searchBox.addEventListener("input", e => {
-  const keyword = e.target.value.toLowerCase();
-  if (!keyword.trim()) {
-    suggestionsEl.innerHTML = "";
-    return;
-  }
-
-  const startMatches = allLinks.filter(link =>
-    link.title.toLowerCase().startsWith(keyword) ||
-    link.category.toLowerCase().startsWith(keyword)
-  );
-
-  const includeMatches = allLinks.filter(link =>
-    (link.title.toLowerCase().includes(keyword) ||
-      link.category.toLowerCase().includes(keyword)) &&
-    !startMatches.includes(link)
-  );
-
-  const combined = [...startMatches, ...includeMatches].slice(0, 8);
-  showSuggestions(combined, keyword);
-});
-
-// Tampilkan hasil suggestion
-function showSuggestions(suggestions, keyword) {
-  if (!suggestions.length) {
-    suggestionsEl.innerHTML = "";
-    return;
-  }
-
-  const ul = document.createElement("ul");
-  suggestions.forEach(link => {
-    const li = document.createElement("li");
-    li.innerHTML = `${link.icon || "🔗"} ${highlightMatch(link.title, keyword)}`;
-    li.onclick = () => {
-      window.open(link.url, "_blank");
-      suggestionsEl.innerHTML = "";
-      searchBox.value = link.title;
-    };
-    ul.appendChild(li);
+  document.addEventListener("click", e => {
+    if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
+      cornerMenu.classList.remove("show");
+      cornerTab.style.opacity = "1";
+      cornerTab.style.pointerEvents = "auto";
+    }
   });
 
-  suggestionsEl.innerHTML = "";
-  suggestionsEl.appendChild(ul);
-}
+  // === Swipe close (mobile) ===
+  let touchStartX = 0;
+  document.addEventListener("touchstart", e => touchStartX = e.touches[0].clientX);
+  document.addEventListener("touchend", e => {
+    const touchEndX = e.changedTouches[0].clientX;
+    if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
+      cornerMenu.classList.remove("show");
+      cornerTab.style.opacity = "1";
+      cornerTab.style.pointerEvents = "auto";
+    }
+  });
 
-// Highlight teks pencarian
-function highlightMatch(text, keyword) {
-  const regex = new RegExp(`(${keyword})`, "gi");
-  return text.replace(regex, "<strong>$1</strong>");
-}
+  // === Theme switcher ===
+  const themeLink = document.createElement("link");
+  themeLink.id = "theme-style";
+  themeLink.rel = "stylesheet";
+  document.head.appendChild(themeLink);
 
-// Tutup suggestion saat klik di luar
-document.addEventListener("click", e => {
-  if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
-    suggestionsEl.innerHTML = "";
-  }
-});
+  // Muat tema tersimpan
+  const savedTheme = localStorage.getItem("theme") || "base";
+  themeLink.href = `themes/${savedTheme}.css`;
+  themeSelector.value = savedTheme;
 
-// ===================== GOOGLE TRANSLATE =====================
-function resizeGTranslate() {
-  const select = document.querySelector('.goog-te-combo');
-  if (select) {
-    select.style.width = "100%";
-    select.style.maxWidth = "420px";
-    select.style.padding = "14px 24px";
-    select.style.fontSize = "15px";
-    select.style.boxSizing = "border-box";
-  }
-}
-setTimeout(resizeGTranslate, 1000);
-setTimeout(resizeGTranslate, 1500);
-setTimeout(resizeGTranslate, 2000);
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({ pageLanguage: "id" }, "google_translate_element");
-}
-
-function doGTranslate(el) {
-  if (!el.value) return;
-  const langPair = el.value.split("|");
-  const lang = langPair[1];
-  if (lang === "id") {
-    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname + ";";
-    window.location.href = window.location.origin + window.location.pathname;
-    return;
-  }
-  const select = document.querySelector(".goog-te-combo");
-  if (select) {
-    select.value = lang;
-    select.dispatchEvent(new Event("change"));
-  }
-}
+  // Ganti tema saat dipilih
+  themeSelector.addEventListener("change", () => {
+    const val = themeSelector.value;
+    if (!val) return;
+    themeLink.href = `themes/${val}.css`;
+    localStorage.setItem("theme", val);
+  });
+})();
