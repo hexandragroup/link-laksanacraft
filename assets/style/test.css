@@ -1,6 +1,37 @@
 /* ======================================================
-   LINK.CSS – Kategori, Dropdown, Suggestion
+   LINK.CSS – Kategori, Dropdown, Search Suggestion
    ====================================================== */
+
+/* 🌐 Dropdown Translate (Mobile + Desktop) */
+.translate-box select,
+.goog-te-combo {
+  width: 100% !important;
+  max-width: 420px !important;
+  padding: 14px 24px !important;
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  border-radius: 8px !important;
+  border: 1px solid #bbb !important;
+  background: #fff !important;
+  color: #222 !important;
+  cursor: pointer !important;
+  display: block !important;
+  margin: 8px auto !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+}
+
+/* 🏷️ Input Pencarian */
+input#searchBox {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin: 6px auto 12px;
+  display: block;
+  box-sizing: border-box;
+}
 
 /* ===================== KATEGORI ===================== */
 .category-wrapper {
@@ -9,9 +40,9 @@
   padding: 0;
   max-width: 420px;
   margin: 0 auto 20px;
+  position: relative;
 }
 
-/* Tampilan kategori (multi-baris scroll horizontal) */
 #categories {
   display: grid;
   grid-auto-flow: column;
@@ -32,7 +63,7 @@
 /* Tombol kategori */
 .category-btn {
   flex: 0 0 auto;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   background: #ddd;
@@ -45,6 +76,7 @@
   color: #222;
   text-decoration: none;
   user-select: none;
+  white-space: nowrap;
 }
 
 .category-btn:hover { background: #ccc; color: #000; }
@@ -52,37 +84,40 @@
 
 /* ===================== DROPDOWN KATEGORI ===================== */
 .category-dropdown {
-  display: none;
-  position: absolute; /* muncul di bawah tombol */
+  display: none;               /* default hidden */
+  position: absolute;          /* overlay dropdown di atas kontainer */
+  top: 100%;                   /* tepat di bawah tombol */
+  left: 0;
+  right: 0;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px 10px 0 10px;
+  padding: 8px 0;
   max-height: 250px;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 420px;
-  animation: fadeIn 0.3s ease;
   box-sizing: border-box;
+  animation: fadeIn 0.2s ease;
 }
 
 /* Item dropdown */
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 16px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s;
-  border-bottom: 1px solid #eee;
   font-size: 14px;
   color: #333;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  transition: background 0.2s;
 }
 
 .dropdown-item:hover {
@@ -104,7 +139,15 @@
   color: #555;
 }
 
-/* ===================== SUGGESTION ===================== */
+/* 🔄 Efek Fade Out (body saat navigasi) */
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* ======================================================
+   🔍 SUGGESTION BOX
+   ====================================================== */
 .suggestions {
   position: relative;
   max-width: 420px;
@@ -142,41 +185,4 @@
 .suggestions strong {
   color: #000;
   font-weight: bold;
-}
-
-/* 🔄 Efek fade-out saat navigasi */
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-/* 🌐 Dropdown Translate */
-.translate-box select,
-.goog-te-combo {
-  width: 100% !important;
-  max-width: 420px !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  border-radius: 8px !important;
-  border: 1px solid #bbb !important;
-  background: #fff !important;
-  color: #222 !important;
-  cursor: pointer !important;
-  display: block !important;
-  margin: 8px auto !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
-/* 🏷️ Input pencarian */
-input#searchBox {
-  width: 100%;
-  max-width: 420px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #bbb;
-  margin: 6px auto;
-  display: block;
-  box-sizing: border-box;
 }
