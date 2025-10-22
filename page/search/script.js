@@ -255,3 +255,27 @@ loadAllProducts()
     document.getElementById("results").innerHTML =
       "<p style='color:red;'>⚠️ Gagal memuat data produk.</p>";
   });
+
+// Theme switcher
+const themeSelector = document.getElementById("themeSelector");
+const themeLink = document.createElement("link");
+themeLink.id = "theme-style";
+themeLink.rel = "stylesheet";
+document.head.appendChild(themeLink);
+
+// Muat tema tersimpan
+const savedTheme = localStorage.getItem("theme") || "base";
+themeLink.href = savedTheme === "base" 
+    ? "../../assets/style/style.css" 
+    : `../../assets/style/themes/${savedTheme}.css`;
+themeSelector.value = savedTheme;
+
+// Ganti tema saat dipilih
+themeSelector.addEventListener("change", () => {
+  const val = themeSelector.value;
+  if (!val) return;
+  themeLink.href = val === "base" 
+      ? "../../assets/style/style.css" 
+      : `../../assets/style/themes/${val}.css`;
+  localStorage.setItem("theme", val);
+});
