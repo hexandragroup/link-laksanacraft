@@ -84,11 +84,12 @@ input {
 /* ===================== DROPDOWN TAMBAHAN ===================== */
 .category-dropdown {
   display: none;
-  position: absolute;
+  position: relative;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
+  margin: 0 auto;
   max-height: 250px;
   overflow-y: auto;
   z-index: 999;
@@ -99,10 +100,12 @@ input {
 }
 
 .dropdown-item {
+  position: absolute;
   padding: 8px;
   cursor: pointer;
   border-radius: 6px;
   transition: background 0.2s;
+  border-bottom: 1px solid #eee;
   font-size: 13px;
   color: #333;
 }
