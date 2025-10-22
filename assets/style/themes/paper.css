@@ -1,0 +1,166 @@
+/* ======================================================
+   CARDPAPER.CSS – Tema Card Paper
+   ====================================================== */
+
+/* 🌤️ Tampilan dasar */
+html, body {
+  font-size: 1rem;
+  height: 100% !important;
+  background: linear-gradient(to bottom, #f5f6fa, #e8ebf0) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #333;
+  padding: 30px;
+  margin: 0;
+  top: 0 !important;
+}
+
+body.loaded { opacity: 1; }
+body, button, input, textarea, select, label {
+  font-size: inherit;
+}
+
+/* Tambah ruang ekstra di bawah halaman */
+body::after {
+  content: "";
+  display: block;
+  height: 30px;
+}
+
+/* Container utama (grid) */
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 10px;
+  max-width: 500px;
+  margin: auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  scroll-snap-align: start;
+}
+
+/* Judul & header */
+h1 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+/* Paragraf */
+p {
+  color: #555;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* 🔘 Tombol umum (ganti category-btn → .btn) */
+.btn {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.active {
+  background: #e3f2fd;
+  border-color: #64b5f6;
+  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+/* Dropdown */
+select {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  color: #333;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: all 0.25s ease;
+  appearance: none;
+}
+
+select:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+select:focus {
+  outline: none;
+  background: #e3f2fd;
+  border-color: #64b5f6;
+}
+
+select.selected {
+  background: #e3f2fd;
+  border-color: #64b5f6;
+  color: #0d47a1;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
+}
+
+/* Panah custom dropdown */
+.select-dropdown-container {
+  position: relative;
+  width: 100%;
+}
+.select-dropdown-container::after {
+  content: "▼";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #666;
+  pointer-events: none;
+}
+
+/* Footer */
+footer {
+  margin-top: 30px;
+  font-size: 0.75rem;
+  color: #666;
+  text-align: center;
+}
+
+/* Responsif: ubah jadi 2 kolom di layar kecil */
+@media (max-width: 600px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 20px;
+  }
+}
