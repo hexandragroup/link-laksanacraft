@@ -58,7 +58,7 @@
 
 <select id="themeSelector" class="theme-switcher">
   <option value="base">🌤️ Modern</option>
-  <option value="neo">🧊 Neo 3D</option>
+  <option value="neo">🌙 Neo 3D</option>
   <option value="paper">📄 Card Paper</option>
   <option value="retro">🎛️ Retro 3D</option>
 </select>
