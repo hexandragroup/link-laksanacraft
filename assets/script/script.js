@@ -37,13 +37,6 @@ gtag('config', 'G-V1JWDFFYK2');
       }
     });
 
-  // === Theme switcher ===
-  const themeLink = document.createElement("link");
-  themeLink.id = "theme-style";
-  themeLink.rel = "stylesheet";
-  document.head.appendChild(themeLink);
-
-
 /* ======================================================
    Google Translate (stabil)
    ====================================================== */
