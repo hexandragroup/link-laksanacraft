@@ -1,60 +1,28 @@
 /* ======================================================
-   LINK.CSS - Lengkap
+   LINK.CSS – Kategori & Suggestion
    ====================================================== */
-
-/* 🌐 Dropdown Translate (Mobile + Desktop) */
-.translate-box select,
-.goog-te-combo {
-  width: 100% !important;
-  max-width: 420px !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  border-radius: 8px !important;
-  border: 1px solid #bbb !important;
-  background: #fff !important;
-  color: #222 !important;
-  cursor: pointer !important;
-  display: block !important;
-  margin: 8px auto !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
-/* 🏷️ Input Pencarian */
-input {
-  width: 100%;
-  max-width: 420px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #bbb;
-  margin: 6px auto;
-  display: block;
-  box-sizing: border-box;
-}
 
 /* ===================== KATEGORI ===================== */
 .category-wrapper {
-  overflow-x: hidden; /* cegah scroll horizontal */
-  overflow-y: visible;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0;
   max-width: 420px;
   margin: 0 auto 20px;
 }
 
-/* Tampilan kategori (grid multi-baris) */
 #categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  grid-auto-rows: 40px;
+  display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  overflow: visible;
   padding: 0;
-  box-sizing: border-box;
+  margin: 0 auto;
+  justify-content: center;
 }
 
-/* Tombol kategori */
+/* Tombol kategori utama */
 .category-btn {
+  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,7 +36,6 @@ input {
   color: #222;
   text-decoration: none;
   user-select: none;
-  white-space: nowrap;
 }
 
 .category-btn:hover { background: #ccc; color: #000; }
@@ -78,16 +45,13 @@ input {
 .category-dropdown {
   display: none;
   position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px 10px 0 10px;
   max-height: 250px;
-  overflow-y: auto;
-  overflow-x: hidden; /* cegah scroll horizontal */
+  overflow-y: auto;       /* scroll vertikal */
+  overflow-x: hidden;     /* cegah horizontal */
   z-index: 999;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   width: 100%;
@@ -96,7 +60,6 @@ input {
   box-sizing: border-box;
 }
 
-/* Item dropdown */
 .dropdown-item {
   display: block;
   width: 100%;
@@ -123,34 +86,27 @@ input {
   height: 15px;  /* ruang kosong di bawah */
 }
 
-/* Animasi muncul dropdown */
+/* Animasi dropdown */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📘 Judul Section */
+/* ===================== SECTION TITLE ===================== */
 .section-title {
   margin-top: 25px;
   margin-bottom: 10px;
   font-weight: bold;
   font-size: 14px;
   color: #555;
+  text-align: left;
 }
 
-/* 🔄 Efek Fade Out */
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-/* ======================================================
-   🔍 SUGGESTION BOX
-   ====================================================== */
+/* ===================== SUGGESTION BOX ===================== */
 .suggestions {
   position: relative;
   max-width: 420px;
-  margin: 0 auto;
+  margin: 0 auto 10px;
   z-index: 1000;
 }
 
@@ -185,20 +141,3 @@ input {
   color: #000;
   font-weight: bold;
 }
-
-/* 🌐 Tombol umum */
-.btn {
-  display: inline-block;
-  text-decoration: none;
-  background: #ddd;
-  color: #222;
-  padding: 8px 12px;
-  border-radius: 6px;
-  margin: 4px 2px;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-.btn:hover { background: #ccc; }
-
-/* ==================================== */
