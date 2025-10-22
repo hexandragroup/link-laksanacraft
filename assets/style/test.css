@@ -123,6 +123,12 @@ input {
   background: #f5f5f5;
 }
 
+.category-dropdown::after {
+  content: "";
+  display: block;
+  height: 10px;  /* ruang kosong di bawah */
+}
+
 /* Animasi muncul dropdown */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
