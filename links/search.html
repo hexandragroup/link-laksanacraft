@@ -19,20 +19,20 @@
 
     <!-- 🔍 Pencarian Global -->
     <input type="text" id="searchBox" placeholder="Cari tautan di semua kategori..." />
-
-    <!-- 💡 Suggestion Box -->
     <div id="suggestions" class="suggestions"></div>
 
     <!-- 🏷️ Kategori -->
     <div class="section-title">Kategori</div>
-    <div class="category-wrapper">
-      <div id="categories"></div>
+    <div class="category-wrapper" style="position: relative;">
+      <select id="categoriesSelect">
+        <option value="">⬇️ Pilih Kategori</option>
+      </select>
     </div>
 
     <!-- 🔗 Tautan Tambahan -->
     <div class="section-title">Tautan Tambahan</div>
 
-    <!-- 🌐 Kotak Translate -->
+    <!-- 🔹 Kotak Translate -->
     <div class="translate-box">
       <select class="btn" onchange="doGTranslate(this);">
         <option value="">🌏 Pilih Bahasa</option>
@@ -52,7 +52,7 @@
     <a href="https://wa.me/6285608564084" class="btn" target="_blank">💬 Hubungi WhatsApp</a>
     <a href="https://url.laksanacraft.my.id/profil" class="btn">👤 Tentang Saya</a>
 
-    <!-- Container untuk menampilkan link kategori -->
+    <!-- Container untuk menampilkan link -->
     <div id="linkContainer"></div>
 
     <footer>
@@ -63,7 +63,7 @@
   <!-- Google Translate Hidden -->
   <div id="google_translate_element" style="display:none;"></div>
 
-  <!-- Script JS -->
+  <!-- Script -->
   <script src="/assets/script/script.js"></script>
   <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   <script src="/assets/script/test.js"></script>
