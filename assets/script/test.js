@@ -13,7 +13,18 @@ const categoriesEl = document.getElementById("categories");
 const searchBox = document.getElementById("searchBox");
 const suggestionsEl = document.getElementById("suggestions");
 
+// Tambahkan container untuk menampilkan link
+const container = document.createElement("div");
+container.id = "linkContainer";
+document.querySelector(".container").appendChild(container);
+
 let allLinks = [];
+const linkCache = {};
+
+// ---------------------
+// 📁 Tampilkan loading awal
+// ---------------------
+container.innerHTML = "<p>🔄 Memuat...</p>";
 
 // ---------------------
 // 📁 Load semua JSON otomatis
@@ -41,6 +52,7 @@ async function loadAllData() {
 // ---------------------
 loadAllData().then(data => {
   allLinks = data;
+  container.innerHTML = ""; // hapus loading setelah data siap
 
   const allCategories = [...new Set(allLinks.map(item => item.category))];
   const limitedCategories = allCategories.slice(0, 14);
@@ -53,15 +65,13 @@ loadAllData().then(data => {
     btn.href = `search/?cat=${encodeURIComponent(cat)}`;
     btn.addEventListener("click", e => {
       e.preventDefault();
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = btn.href;
-      }, 500);
+      // Klik kategori sekarang tidak menampilkan loading lagi
+      loadLinksByCategory(cat);
     });
     categoriesEl.appendChild(btn);
   });
 
-  // Jika kategori lebih dari 14 → tambahkan tombol dropdown
+  // Dropdown kategori tambahan
   if (allCategories.length > 14) {
     const moreBtn = document.createElement("button");
     moreBtn.className = "category-btn";
@@ -70,50 +80,25 @@ loadAllData().then(data => {
     moreBtn.style.fontWeight = "bold";
     categoriesEl.appendChild(moreBtn);
 
-    // Buat dropdown container
     const dropdown = document.createElement("div");
     dropdown.className = "category-dropdown";
-    dropdown.style.display = "none";
-    dropdown.style.position = "absolute";
-    dropdown.style.background = "#fff";
-    dropdown.style.border = "1px solid #ddd";
-    dropdown.style.borderRadius = "8px";
-    dropdown.style.padding = "10px";
-    dropdown.style.maxHeight = "250px";
-    dropdown.style.overflowY = "auto";
-    dropdown.style.zIndex = "999";
-    dropdown.style.boxShadow = "0 2px 6px rgba(0,0,0,0.15)";
-    dropdown.style.width = "100%";
-    dropdown.style.maxWidth = "420px";
 
-    // Tambahkan kategori lainnya ke dropdown
     allCategories.slice(14).forEach(cat => {
       const item = document.createElement("div");
       item.textContent = cat;
       item.className = "dropdown-item";
-      item.style.padding = "8px";
-      item.style.cursor = "pointer";
-      item.style.borderRadius = "6px";
-      item.onmouseover = () => (item.style.background = "#eee");
-      item.onmouseout = () => (item.style.background = "transparent");
-      item.onclick = () => {
-        document.body.classList.add("fade-out");
-        setTimeout(() => {
-          window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
-        }, 400);
-      };
+      item.onclick = () => loadLinksByCategory(cat);
       dropdown.appendChild(item);
     });
 
     categoriesEl.appendChild(dropdown);
 
-    // Toggle dropdown saat tombol diklik
-    moreBtn.addEventListener("click", () => {
+    moreBtn.addEventListener("click", e => {
+      e.stopPropagation();
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
     });
 
-    // Tutup dropdown jika klik di luar
     document.addEventListener("click", e => {
       if (!dropdown.contains(e.target) && e.target !== moreBtn) {
         dropdown.style.display = "none";
@@ -123,11 +108,32 @@ loadAllData().then(data => {
 });
 
 // ---------------------
+// 📥 Fungsi load link per kategori (tanpa loading tambahan)
+// ---------------------
+function loadLinksByCategory(cat) {
+  if (!linkCache[cat]) {
+    linkCache[cat] = allLinks.filter(link => link.category === cat);
+  }
+  renderLinks(linkCache[cat]);
+}
+
+function renderLinks(data) {
+  container.innerHTML = "";
+  data.forEach(link => {
+    const a = document.createElement("a");
+    a.className = "btn";
+    a.href = link.url;
+    a.textContent = link.title || link.text;
+    a.target = "_blank";
+    container.appendChild(a);
+  });
+}
+
+// ---------------------
 // 🔍 Pencarian dengan suggestion (prioritas huruf awal)
 // ---------------------
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
-
   if (!keyword.trim()) {
     suggestionsEl.innerHTML = "";
     return;
@@ -140,7 +146,7 @@ searchBox.addEventListener("input", e => {
 
   const includeMatches = allLinks.filter(link =>
     (link.title.toLowerCase().includes(keyword) ||
-     link.category.toLowerCase().includes(keyword)) &&
+      link.category.toLowerCase().includes(keyword)) &&
     !startMatches.includes(link)
   );
 
