@@ -42,6 +42,7 @@ input {
   margin: 0 auto 20px;
 }
 
+/* Tampilan kategori (multi-baris scroll) */
 #categories {
   display: grid;
   grid-auto-flow: column;
@@ -82,51 +83,44 @@ input {
 
 /* ===================== DROPDOWN KATEGORI ===================== */
 .category-dropdown {
-  display: none;
-  position: absolute; /* penting supaya dropdown muncul overlay */
-  top: 100%; /* tepat di bawah tombol */
-  left: 0;
+  display: none; /* sembunyi default */
+  margin-top: 5px;
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 10px 10px 0 10px;
+  padding: 5px 10px;
   max-height: 250px;
-  overflow-y: auto;  /* scroll vertikal */
+  overflow-y: auto;
   overflow-x: hidden;
-  z-index: 999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 420px;
-  animation: fadeIn 0.3s ease;
   box-sizing: border-box;
+  animation: fadeIn 0.3s ease;
 }
 
 /* Item dropdown */
 .dropdown-item {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.2s;
   border-bottom: 1px solid #eee;
   font-size: 14px;
   color: #333;
-  text-decoration: none;
-  white-space: normal;
+  border-radius: 6px;
+  transition: background 0.2s;
 }
 
 .dropdown-item:hover {
   background: #f5f5f5;
 }
 
-/* Animasi dropdown muncul */
+/* Animasi dropdown */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 📘 Judul Section */
+/* Judul Section */
 .section-title {
   margin-top: 25px;
   margin-bottom: 10px;
@@ -135,15 +129,39 @@ input {
   color: #555;
 }
 
-/* 🔄 Efek Fade Out */
+/* Efek fade-out saat pindah halaman */
 .fade-out {
   opacity: 0;
   transition: opacity 0.5s ease;
 }
 
-/* ======================================================
-   🔍 SUGGESTION BOX
-   ====================================================== */
+/* ===================== LINK CONTAINER ===================== */
+#linkContainer {
+  max-width: 420px;
+  margin: 15px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Tombol link di container */
+#linkContainer .btn {
+  display: block;
+  text-align: center;
+  background: #fff;
+  color: #222;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+#linkContainer .btn:hover {
+  background: #e6e6e6;
+}
+
+/* ===================== SUGGESTION BOX ===================== */
 .suggestions {
   position: relative;
   max-width: 420px;
