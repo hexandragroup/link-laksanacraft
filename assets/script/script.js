@@ -43,22 +43,6 @@ gtag('config', 'G-V1JWDFFYK2');
   themeLink.rel = "stylesheet";
   document.head.appendChild(themeLink);
 
-// Muat tema tersimpan
-const savedTheme = localStorage.getItem("theme") || "base";
-themeLink.href = savedTheme === "base" 
-    ? "../../assets/style/style.css" 
-    : `../../assets/style/themes/${savedTheme}.css`;
-themeSelector.value = savedTheme;
-
-// Ganti tema saat dipilih
-themeSelector.addEventListener("change", () => {
-  const val = themeSelector.value;
-  if (!val) return;
-  themeLink.href = val === "base" 
-      ? "../../assets/style/style.css" 
-      : `../../assets/style/themes/${val}.css`;
-  localStorage.setItem("theme", val);
-});
 
 /* ======================================================
    Google Translate (stabil)
