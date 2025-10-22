@@ -150,6 +150,22 @@ function showSuggestions(suggestions, keyword) {
   suggestionsEl.appendChild(ul);
 }
 
+
+// ---------------------
+// ✨ Highlight pencarian
+function highlightMatch(text, keyword) {
+  const regex = new RegExp(`(${keyword})`, "gi");
+  return text.replace(regex, "<strong>$1</strong>");
+}
+
+// ---------------------
+// ❌ Tutup suggestion jika klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
+    suggestionsEl.innerHTML = "";
+  }
+});
+
 // ---------------------
 // Google Translate styling
 // ---------------------
