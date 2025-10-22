@@ -34,70 +34,70 @@ loadAllData().then(data => {
   const maxVisible = 14;
 
   const categoriesEl = document.getElementById("categories");
-  const moreDropdown = document.querySelector('.category-more-dropdown');
-  const moreBtn = moreDropdown.querySelector('.category-more-btn');
-  const moreList = moreDropdown.querySelector('.category-more-list');
 
-  // Render kategori utama
+  // Bersihkan isi sebelumnya
+  categoriesEl.innerHTML = "";
+
+  // Render 14 kategori utama
   categories.slice(0, maxVisible).forEach(cat => {
-    const btn = document.createElement("a");
+    const btn = document.createElement("button");
     btn.className = "category-btn";
     btn.textContent = cat;
-    btn.href = `search/?cat=${encodeURIComponent(cat)}`;
-    btn.addEventListener("click", e => {
-      e.preventDefault();
-      window.location.href = btn.href;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
     });
     categoriesEl.appendChild(btn);
   });
 
-  // Render dropdown kategori tambahan
-  categories.slice(maxVisible).forEach(cat => {
-    const div = document.createElement("div");
-    div.textContent = cat;
-    div.addEventListener("click", () => {
-      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
-      moreDropdown.classList.remove('open');
+  // Tambahkan dropdown kategori tambahan di slot ke-15
+  if (categories.length > maxVisible) {
+    const dropdownContainer = document.createElement("div");
+    dropdownContainer.classList.add("select-dropdown-container");
+
+    const select = document.createElement("select");
+    select.classList.add("select-dropdown");
+    select.innerHTML = '<option value="">-- Pilih Kategori Lain --</option>';
+
+    categories.slice(maxVisible).forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.textContent = cat;
+      select.appendChild(option);
     });
-    moreList.appendChild(div);
-  });
 
-  // Sembunyikan dropdown jika kosong
-  if (categories.length <= maxVisible) moreDropdown.style.display = "none";
+    select.addEventListener("change", () => {
+      const selected = select.value;
+      if (selected) window.location.href = `search/?cat=${encodeURIComponent(selected)}`;
+    });
 
-  // Toggle dropdown Lainnya
-  moreBtn.addEventListener("click", e => {
-    e.stopPropagation();
-    moreDropdown.classList.toggle("open");
-  });
+    dropdownContainer.appendChild(select);
+    categoriesEl.appendChild(dropdownContainer);
+  }
+});
 
-  // Tutup dropdown jika klik di luar
-  document.addEventListener("click", e => {
-    if (!moreDropdown.contains(e.target)) moreDropdown.classList.remove("open");
-  });
+// --------------------- Suggestion search
+searchBox.addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+  if (!keyword.trim()) {
+    suggestionsEl.innerHTML = "";
+    return;
+  }
 
-  // --------------------- Suggestion search
-  searchBox.addEventListener("input", e => {
-    const keyword = e.target.value.toLowerCase();
-    if (!keyword.trim()) {
-      suggestionsEl.innerHTML = "";
-      return;
-    }
+  const startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    link.category.toLowerCase().startsWith(keyword)
+  );
 
-    const startMatches = allLinks.filter(link =>
-      link.title.toLowerCase().startsWith(keyword) ||
-      link.category.toLowerCase().startsWith(keyword)
-    );
+  const includeMatches = allLinks.filter(link =>
+    (link.title.toLowerCase().includes(keyword) ||
+      link.category.toLowerCase().includes(keyword)) &&
+    !startMatches.includes(link)
+  );
 
-    const includeMatches = allLinks.filter(link =>
-      (link.title.toLowerCase().includes(keyword) ||
-        link.category.toLowerCase().includes(keyword)) &&
-      !startMatches.includes(link)
-    );
-
-    const combined = [...startMatches, ...includeMatches].slice(0, 8);
-    showSuggestions(combined, keyword);
-  });
+  const combined = [...startMatches, ...includeMatches].slice(0, 8);
+  showSuggestions(combined, keyword);
 });
 
 // Show suggestion
