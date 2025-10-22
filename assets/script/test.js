@@ -13,10 +13,19 @@ const categoriesEl = document.getElementById("categories");
 const searchBox = document.getElementById("searchBox");
 const suggestionsEl = document.getElementById("suggestions");
 
+// Container link
+const container = document.createElement("div");
+container.id = "linkContainer";
+document.querySelector(".container").appendChild(container);
+
+// Tampilkan loading saat halaman pertama
+container.innerHTML = "<p>🔄 Memuat kategori...</p>";
+
 let allLinks = [];
+const linkCache = {};
 
 // ---------------------
-// 📁 Load semua JSON otomatis
+// Load semua JSON otomatis
 // ---------------------
 async function loadAllData() {
   let dataArray = [];
@@ -37,10 +46,11 @@ async function loadAllData() {
 }
 
 // ---------------------
-// ⚙️ Setup kategori (maksimal 14 + dropdown tambahan)
+// Setup kategori (maks 14 + dropdown)
 // ---------------------
 loadAllData().then(data => {
   allLinks = data;
+  container.innerHTML = ""; // hapus loading setelah data siap
 
   const allCategories = [...new Set(allLinks.map(item => item.category))];
   const limitedCategories = allCategories.slice(0, 14);
@@ -51,6 +61,10 @@ loadAllData().then(data => {
     btn.className = "category-btn";
     btn.textContent = cat;
     btn.href = `search/?cat=${encodeURIComponent(cat)}`;
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      loadLinksByCategory(cat);
+    });
     categoriesEl.appendChild(btn);
   });
 
@@ -61,21 +75,25 @@ loadAllData().then(data => {
     moreBtn.textContent = "⬇️ Lihat Kategori Lain";
     moreBtn.style.background = "#ccc";
     moreBtn.style.fontWeight = "bold";
+    categoriesEl.appendChild(moreBtn);
 
     const dropdown = document.createElement("div");
     dropdown.className = "category-dropdown";
 
     allCategories.slice(14).forEach(cat => {
-      const item = document.createElement("a");
-      item.className = "dropdown-item";
-      item.href = `search/?cat=${encodeURIComponent(cat)}`;
+      const item = document.createElement("div");
       item.textContent = cat;
+      item.className = "dropdown-item";
+      item.onclick = () => loadLinksByCategory(cat);
       dropdown.appendChild(item);
     });
 
+    categoriesEl.appendChild(dropdown);
+
     moreBtn.addEventListener("click", e => {
       e.stopPropagation();
-      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+      dropdown.style.display =
+        dropdown.style.display === "none" ? "block" : "none";
     });
 
     document.addEventListener("click", e => {
@@ -83,15 +101,33 @@ loadAllData().then(data => {
         dropdown.style.display = "none";
       }
     });
-
-    // Tambahkan tombol dan dropdown setelah kategori
-    categoriesEl.appendChild(moreBtn);
-    categoriesEl.appendChild(dropdown);
   }
 });
 
 // ---------------------
-// 🔍 Pencarian suggestion (prioritas huruf awal)
+// Fungsi load link per kategori
+// ---------------------
+function loadLinksByCategory(cat) {
+  if (!linkCache[cat]) {
+    linkCache[cat] = allLinks.filter(link => link.category === cat);
+  }
+  renderLinks(linkCache[cat]);
+}
+
+function renderLinks(data) {
+  container.innerHTML = "";
+  data.forEach(link => {
+    const a = document.createElement("a");
+    a.className = "btn";
+    a.href = link.url;
+    a.textContent = link.title || link.text;
+    a.target = "_blank";
+    container.appendChild(a);
+  });
+}
+
+// ---------------------
+// Search suggestion
 // ---------------------
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
@@ -116,7 +152,7 @@ searchBox.addEventListener("input", e => {
 });
 
 // ---------------------
-// 💡 Tampilkan suggestion
+// Tampilkan suggestion
 // ---------------------
 function showSuggestions(suggestions, keyword) {
   if (!suggestions.length) {
@@ -125,7 +161,6 @@ function showSuggestions(suggestions, keyword) {
   }
 
   const ul = document.createElement("ul");
-
   suggestions.forEach(link => {
     const li = document.createElement("li");
     li.innerHTML = `${link.icon || "🔗"} ${highlightMatch(link.title, keyword)}`;
@@ -142,7 +177,7 @@ function showSuggestions(suggestions, keyword) {
 }
 
 // ---------------------
-// ✨ Highlight pencarian
+// Highlight hasil search
 // ---------------------
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
@@ -150,7 +185,7 @@ function highlightMatch(text, keyword) {
 }
 
 // ---------------------
-// ❌ Tutup suggestion jika klik di luar
+// Tutup suggestion jika klik di luar
 // ---------------------
 document.addEventListener("click", e => {
   if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
@@ -159,7 +194,7 @@ document.addEventListener("click", e => {
 });
 
 // ---------------------
-// 🌍 Styling Google Translate
+// Styling Google Translate
 // ---------------------
 function resizeGTranslate() {
   const select = document.querySelector(".goog-te-combo");
