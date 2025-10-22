@@ -40,7 +40,8 @@ input {
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 10px;
-  max-width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   padding: 6px 0 10px;
 }
 
