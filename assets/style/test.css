@@ -102,6 +102,7 @@ input {
 
 .dropdown-item {
   width: 100%;
+  max-width: 420px;
   padding: 8px;
   cursor: pointer;
   border-radius: 6px;
