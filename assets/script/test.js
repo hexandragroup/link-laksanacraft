@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion + Kategori Select
+// Link JS - 14 Tombol + Dropdown Kategori Lainnya
 // =====================
 
 // 🕒 Tahun otomatis
@@ -9,9 +9,9 @@ document.getElementById("year").textContent =
   currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
 // Elemen utama
+const categoriesEl = document.getElementById("categories");
 const searchBox = document.getElementById("searchBox");
 const suggestionsEl = document.getElementById("suggestions");
-const categorySelect = document.getElementById("categorySelect");
 
 // Container untuk link
 const container = document.createElement("div");
@@ -46,52 +46,67 @@ async function loadAllData() {
 }
 
 // ---------------------
-// ⚙️ Setup kategori select
+// ⚙️ Setup kategori
 loadAllData().then(data => {
   allLinks = data;
   container.innerHTML = ""; // hapus loading setelah data siap
 
   const allCategories = [...new Set(allLinks.map(item => item.category))];
 
-  const limitedCategories = allCategories.slice(0, 14); // prioritas
+  const limitedCategories = allCategories.slice(0, 14);
   const extraCategories = allCategories.slice(14);
-  const finalCategories = [...limitedCategories, ...extraCategories];
 
-  // Render semua kategori di select
-  finalCategories.forEach(cat => {
-    const option = document.createElement("option");
-    option.value = cat;
-    option.textContent = cat;
-    categorySelect.appendChild(option);
+  // Render 14 tombol utama
+  limitedCategories.forEach(cat => {
+    const btn = document.createElement("a");
+    btn.className = "category-btn";
+    btn.textContent = cat;
+    btn.href = `search/?cat=${encodeURIComponent(cat)}`;
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      window.location.href = btn.href;
+    });
+    categoriesEl.appendChild(btn);
   });
-});
 
-// ---------------------
-// Pilih kategori
-categorySelect.addEventListener("change", e => {
-  const selectedCat = e.target.value;
-  if (!selectedCat) return;
+  // Tombol kategori lainnya (dropdown full-screen)
+  if (extraCategories.length > 0) {
+    const moreBtn = document.createElement("button");
+    moreBtn.className = "category-btn";
+    moreBtn.textContent = "⬇️ Pilih Kategori Lainnya";
+    categoriesEl.appendChild(moreBtn);
 
-  // Load link sesuai kategori
-  if (!linkCache[selectedCat]) {
-    linkCache[selectedCat] = allLinks.filter(link => link.category === selectedCat);
+    const dropdown = document.createElement("div");
+    dropdown.className = "category-dropdown";
+    dropdown.style.display = "none";
+
+    extraCategories.forEach(cat => {
+      const item = document.createElement("div");
+      item.className = "dropdown-item";
+      item.textContent = cat;
+      item.onclick = () => {
+        dropdown.style.display = "none";
+        window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+      };
+      dropdown.appendChild(item);
+    });
+
+    document.body.appendChild(dropdown);
+
+    // Toggle dropdown
+    moreBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    // Tutup dropdown jika klik di luar
+    document.addEventListener("click", e => {
+      if (!dropdown.contains(e.target) && e.target !== moreBtn) {
+        dropdown.style.display = "none";
+      }
+    });
   }
-  renderLinks(linkCache[selectedCat]);
 });
-
-// ---------------------
-// Render link
-function renderLinks(data) {
-  container.innerHTML = "";
-  data.forEach(link => {
-    const a = document.createElement("a");
-    a.className = "btn";
-    a.href = link.url;
-    a.textContent = link.title || link.text;
-    a.target = "_blank";
-    container.appendChild(a);
-  });
-}
 
 // ---------------------
 // 🔍 Suggestion search
