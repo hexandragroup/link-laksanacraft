@@ -126,7 +126,7 @@ input {
 .category-dropdown::after {
   content: "";
   display: block;
-  height: 10px;  /* ruang kosong di bawah */
+  height: 15px;  /* ruang kosong di bawah */
 }
 
 /* Animasi muncul dropdown */
