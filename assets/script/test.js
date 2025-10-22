@@ -1,23 +1,16 @@
-// =====================
-// Link JS
-// =====================
-
-// Tampilkan tahun
+// Tahun otomatis
 const startYear = 2020;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent =
   currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
 
-// Elemen utama
+// Elemen
 const suggestionsEl = document.getElementById("suggestions");
 const searchBox = document.getElementById("searchBox");
 
-// Data
 let allLinks = [];
 
-// ---------------------
-// Load semua JSON otomatis
-// ---------------------
+// Load semua JSON
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
@@ -27,20 +20,15 @@ async function loadAllData() {
     try {
       const res = await fetch(file);
       if (!res.ok) break;
-
       const data = await res.json();
       dataArray.push(...data);
       i++;
-    } catch {
-      break;
-    }
+    } catch { break; }
   }
   return dataArray;
 }
 
-// ---------------------
-// Setup kategori & tampilan + suggestion
-// ---------------------
+// Setup kategori & suggestion
 loadAllData().then(data => {
   allLinks = data;
 
@@ -56,7 +44,7 @@ loadAllData().then(data => {
   const visibleCategories = categories.slice(0, maxVisible);
   const extraCategories = categories.slice(maxVisible);
 
-  // Render kategori horizontal
+  // Render horizontal
   visibleCategories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -69,7 +57,7 @@ loadAllData().then(data => {
     categoriesEl.appendChild(btn);
   });
 
-  // Render kategori tambahan di dropdown
+  // Dropdown tambahan
   extraCategories.forEach(cat => {
     const div = document.createElement("div");
     div.textContent = cat;
@@ -80,25 +68,23 @@ loadAllData().then(data => {
     moreList.appendChild(div);
   });
 
-  // Toggle dropdown saat klik
-  moreBtn.addEventListener("click", () => {
+  // Toggle dropdown
+  moreBtn.addEventListener("click", e => {
+    e.stopPropagation();
     moreDropdown.classList.toggle('open');
   });
 
-  // Tutup dropdown jika klik di luar
+  // Tutup dropdown klik di luar
   document.addEventListener("click", e => {
     if (!moreDropdown.contains(e.target)) {
       moreDropdown.classList.remove('open');
     }
   });
 
-  // Sembunyikan tombol dropdown jika tidak ada extra category
-  if (extraCategories.length === 0) {
-    moreDropdown.style.display = 'none';
-  }
+  // Sembunyikan tombol Lainnya jika tidak ada extra category
+  if (extraCategories.length === 0) moreDropdown.style.display = 'none';
 
-  // ---------------------
-  // 🔍 Suggestion search
+  // --------------------- Suggestion search
   searchBox.addEventListener("input", e => {
     const keyword = e.target.value.toLowerCase();
     if (!keyword.trim()) {
@@ -122,8 +108,7 @@ loadAllData().then(data => {
   });
 });
 
-// ---------------------
-// 💡 Tampilkan suggestion
+// Show suggestion
 function showSuggestions(suggestions, keyword) {
   if (!suggestions.length) {
     suggestionsEl.innerHTML = "";
@@ -146,22 +131,19 @@ function showSuggestions(suggestions, keyword) {
   suggestionsEl.appendChild(ul);
 }
 
-// ---------------------
-// ✨ Highlight pencarian
+// Highlight pencarian
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
   return text.replace(regex, "<strong>$1</strong>");
 }
 
-// ---------------------
-// ❌ Tutup suggestion jika klik di luar
+// Tutup suggestion jika klik di luar
 document.addEventListener("click", e => {
   if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
     suggestionsEl.innerHTML = "";
   }
 });
 
-// ---------------------
 // Google Translate styling
 function resizeGTranslate() {
   const select = document.querySelector('.goog-te-combo');
