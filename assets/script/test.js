@@ -20,25 +20,13 @@
     }
     .corner-menu.show { right:0; }
 
-    .corner-menu a {
+    .corner-menu a, .theme-switcher {
       padding:12px 20px;
       border-bottom:1px solid rgba(0,0,0,0.1);
       text-decoration:none; color:#222;
     }
-    .corner-menu a:hover { background: rgba(0,0,0,0.05); }
+    .corner-menu a:hover, .theme-switcher: hover { background: rgba(0,0,0,0.05); }
 
-    /* Dropdown tema */
-    .theme-switcher {
-      margin: 15px 15px 30px 15px;
-      padding: 8px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      background: #f8f8f8;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .theme-switcher:hover { background: #eee; }
   `;
   document.head.appendChild(style);
 
