@@ -104,47 +104,51 @@ searchBox.addEventListener("input", e => {
 });
 
 // ---------------------
-// Render hasil pencarian & pagination
-// ---------------------
-function renderPage() {
-  resultsEl.innerHTML = "";
-  paginationEl.innerHTML = "";
-
-  const totalPages = Math.ceil(filteredLinks.length / perPage);
-  const start = (currentPage - 1) * perPage;
-  const end = start + perPage;
-  const visible = filteredLinks.slice(start, end);
-
-  if (!visible.length) {
-    resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
+// 🔍 Suggestion search
+searchBox.addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+  if (!keyword.trim()) {
+    suggestionsEl.innerHTML = "";
     return;
   }
 
-  visible.forEach((link, i) => {
-    const a = document.createElement("a");
-    a.href = link.url;
-    a.className = "btn result-btn";
-    a.textContent = `${link.icon} ${link.title}`;
-    a.target = "_blank";
-    a.style.animationDelay = `${i * 0.05}s`;
-    resultsEl.appendChild(a);
+  const startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    link.category.toLowerCase().startsWith(keyword)
+  );
+
+  const includeMatches = allLinks.filter(link =>
+    (link.title.toLowerCase().includes(keyword) ||
+      link.category.toLowerCase().includes(keyword)) &&
+    !startMatches.includes(link)
+  );
+
+  const combined = [...startMatches, ...includeMatches].slice(0, 8);
+  showSuggestions(combined, keyword);
+});
+
+// ---------------------
+// 💡 Tampilkan suggestion
+function showSuggestions(suggestions, keyword) {
+  if (!suggestions.length) {
+    suggestionsEl.innerHTML = "";
+    return;
+  }
+
+  const ul = document.createElement("ul");
+  suggestions.forEach(link => {
+    const li = document.createElement("li");
+    li.innerHTML = `${link.icon || "🔗"} ${highlightMatch(link.title, keyword)}`;
+    li.onclick = () => {
+      window.open(link.url, "_blank");
+      suggestionsEl.innerHTML = "";
+      searchBox.value = link.title;
+    };
+    ul.appendChild(li);
   });
 
-  if (totalPages > 1) {
-    for (let i = 1; i <= totalPages; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      btn.className = "page-btn" + (i === currentPage ? " active" : "");
-      btn.onclick = () => changePage(i);
-      paginationEl.appendChild(btn);
-    }
-  }
-}
-
-function changePage(page) {
-  currentPage = page;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  renderPage();
+  suggestionsEl.innerHTML = "";
+  suggestionsEl.appendChild(ul);
 }
 
 // ---------------------
