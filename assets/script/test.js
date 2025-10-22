@@ -14,7 +14,6 @@ let allLinks = [];
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
-
   while (true) {
     const file = `assets/data${i}.json`;
     try {
@@ -31,7 +30,6 @@ async function loadAllData() {
 // Setup kategori & suggestion
 loadAllData().then(data => {
   allLinks = data;
-
   const categories = [...new Set(allLinks.map(item => item.category))];
   const maxVisible = 14;
 
@@ -40,12 +38,8 @@ loadAllData().then(data => {
   const moreBtn = moreDropdown.querySelector('.category-more-btn');
   const moreList = moreDropdown.querySelector('.category-more-list');
 
-  // Bagi kategori
-  const visibleCategories = categories.slice(0, maxVisible);
-  const extraCategories = categories.slice(maxVisible);
-
-  // Render horizontal
-  visibleCategories.forEach(cat => {
+  // Render kategori utama
+  categories.slice(0, maxVisible).forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
     btn.textContent = cat;
@@ -57,8 +51,8 @@ loadAllData().then(data => {
     categoriesEl.appendChild(btn);
   });
 
-  // Dropdown tambahan
-  extraCategories.forEach(cat => {
+  // Render dropdown kategori tambahan
+  categories.slice(maxVisible).forEach(cat => {
     const div = document.createElement("div");
     div.textContent = cat;
     div.addEventListener("click", () => {
@@ -68,21 +62,19 @@ loadAllData().then(data => {
     moreList.appendChild(div);
   });
 
-  // Toggle dropdown
+  // Sembunyikan dropdown jika kosong
+  if (categories.length <= maxVisible) moreDropdown.style.display = "none";
+
+  // Toggle dropdown Lainnya
   moreBtn.addEventListener("click", e => {
     e.stopPropagation();
-    moreDropdown.classList.toggle('open');
+    moreDropdown.classList.toggle("open");
   });
 
-  // Tutup dropdown klik di luar
+  // Tutup dropdown jika klik di luar
   document.addEventListener("click", e => {
-    if (!moreDropdown.contains(e.target)) {
-      moreDropdown.classList.remove('open');
-    }
+    if (!moreDropdown.contains(e.target)) moreDropdown.classList.remove("open");
   });
-
-  // Sembunyikan tombol Lainnya jika tidak ada extra category
-  if (extraCategories.length === 0) moreDropdown.style.display = 'none';
 
   // --------------------- Suggestion search
   searchBox.addEventListener("input", e => {
@@ -158,3 +150,25 @@ function resizeGTranslate() {
 setTimeout(resizeGTranslate, 1000);
 setTimeout(resizeGTranslate, 1500);
 setTimeout(resizeGTranslate, 2000);
+
+// Google Translate init
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: "id" }, "google_translate_element");
+}
+
+function doGTranslate(el) {
+  if (!el.value) return;
+  const langPair = el.value.split("|");
+  const lang = langPair[1];
+  if (lang === "id") {
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + window.location.hostname + ";";
+    window.location.href = window.location.origin + window.location.pathname;
+    return;
+  }
+  const select = document.querySelector(".goog-te-combo");
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event("change"));
+  }
+}
