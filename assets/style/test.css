@@ -34,25 +34,30 @@ input {
 }
 
 /* ===================== KATEGORI ===================== */
+/* Wrapper dengan scroll horizontal */
 .category-wrapper {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
-  max-width: 420px;
-  margin: 0 auto 20px;
-  gap: 6px;
+  gap: 10px;
+  max-width: 100%;
+  padding-bottom: 6px;
+  scroll-behavior: smooth;
 }
 
-/* Kategori utama horizontal */
+/* Grid 5x3 (15 slot: 14 tombol + 1 dropdown) */
 #categories {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
   gap: 6px;
-  flex-wrap: nowrap;
+  flex: 0 0 auto; /* ikut scroll horizontal */
+  padding: 6px;
+  scroll-snap-align: start;
 }
 
 /* Style tombol kategori */
 .category-btn {
-  flex: 0 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,7 +66,7 @@ input {
   background: #ddd;
   border: none;
   border-radius: 6px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   cursor: pointer;
   font-size: 12px;
   transition: all 0.2s ease;
@@ -79,60 +84,52 @@ input {
   font-weight: bold;
 }
 
-/* Tombol “Lainnya” */
-.category-more-dropdown {
-  position: relative;
-}
-
-.category-more-btn {
-  flex: 0 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  white-space: nowrap;
-  background: #ddd; /* sama persis dengan .category-btn */
+/* Dropdown tampil seperti tombol kategori */
+.select-dropdown {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #222;
+  background: #ddd;
   border: none;
   border-radius: 6px;
-  padding: 6px 10px;
   cursor: pointer;
-  font-size: 12px;
   transition: all 0.2s ease;
-  color: #222;
-  text-decoration: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
 }
 
-.category-more-btn:hover {
+.select-dropdown:hover {
   background: #ccc;
   color: #000;
 }
 
-/* Dropdown kategori tambahan */
-.category-more-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.select-dropdown:focus {
+  outline: none;
+  background: #bbb;
+}
+
+/* Panah custom */
+.select-dropdown::-ms-expand {
   display: none;
-  min-width: 120px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
 }
 
-.category-more-list div {
-  padding: 6px 12px;
-  cursor: pointer;
+.select-dropdown-container {
+  position: relative;
+  width: 100%;
 }
 
-.category-more-list div:hover {
-  background: #f5f5f5;
-}
-
-.category-more-dropdown.open .category-more-list {
-  display: block;
+.select-dropdown-container::after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  pointer-events: none;
+  color: #222;
 }
 
 /* ===================== SUGGESTION BOX ===================== */
