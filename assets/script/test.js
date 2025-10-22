@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion + Kategori Terbatas (Prioritas Huruf Awal)
+// Link JS - Suggestion + Kategori Terbatas + Dropdown
 // =====================
 
 // 🕒 Tahun otomatis
@@ -17,6 +17,13 @@ const suggestionsEl = document.getElementById("suggestions");
 const container = document.createElement("div");
 container.id = "linkContainer";
 document.querySelector(".container").appendChild(container);
+
+// Tambahkan container untuk dropdown kategori tambahan
+const dropdownEl = document.createElement("div");
+dropdownEl.id = "categoryDropdown";
+dropdownEl.className = "category-dropdown";
+dropdownEl.style.display = "none";
+categoriesEl.parentElement.appendChild(dropdownEl);
 
 let allLinks = [];
 const linkCache = {};
@@ -65,7 +72,6 @@ loadAllData().then(data => {
     btn.href = `search/?cat=${encodeURIComponent(cat)}`;
     btn.addEventListener("click", e => {
       e.preventDefault();
-      // Klik kategori sekarang tidak menampilkan loading lagi
       loadLinksByCategory(cat);
     });
     categoriesEl.appendChild(btn);
@@ -80,28 +86,24 @@ loadAllData().then(data => {
     moreBtn.style.fontWeight = "bold";
     categoriesEl.appendChild(moreBtn);
 
-    const dropdown = document.createElement("div");
-    dropdown.className = "category-dropdown";
-
     allCategories.slice(14).forEach(cat => {
       const item = document.createElement("div");
-      item.textContent = cat;
       item.className = "dropdown-item";
+      item.textContent = cat;
       item.onclick = () => loadLinksByCategory(cat);
-      dropdown.appendChild(item);
+      dropdownEl.appendChild(item);
     });
 
-    categoriesEl.appendChild(dropdown);
-
+    // Toggle dropdown
     moreBtn.addEventListener("click", e => {
       e.stopPropagation();
-      dropdown.style.display =
-        dropdown.style.display === "none" ? "block" : "none";
+      dropdownEl.style.display = dropdownEl.style.display === "none" ? "block" : "none";
     });
 
+    // Tutup dropdown jika klik di luar
     document.addEventListener("click", e => {
-      if (!dropdown.contains(e.target) && e.target !== moreBtn) {
-        dropdown.style.display = "none";
+      if (!dropdownEl.contains(e.target) && e.target !== moreBtn) {
+        dropdownEl.style.display = "none";
       }
     });
   }
