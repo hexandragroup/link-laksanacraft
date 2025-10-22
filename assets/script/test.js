@@ -1,5 +1,5 @@
 // =====================
-// Link JS - Suggestion + Kategori Terbatas
+// Link JS - Suggestion + Kategori Terbatas (Full-Screen Dropdown)
 // =====================
 
 // 🕒 Tahun otomatis
@@ -13,20 +13,20 @@ const categoriesEl = document.getElementById("categories");
 const searchBox = document.getElementById("searchBox");
 const suggestionsEl = document.getElementById("suggestions");
 
-// Container link
+// Container untuk link
 const container = document.createElement("div");
 container.id = "linkContainer";
 document.querySelector(".container").appendChild(container);
-
-// Tampilkan loading saat halaman pertama
-container.innerHTML = "<p>🔄 Memuat kategori...</p>";
 
 let allLinks = [];
 const linkCache = {};
 
 // ---------------------
-// Load semua JSON otomatis
+// 📁 Loading awal
+container.innerHTML = "<p>🔄 Memuat...</p>";
+
 // ---------------------
+// 📁 Load semua JSON otomatis
 async function loadAllData() {
   let dataArray = [];
   let i = 1;
@@ -46,8 +46,7 @@ async function loadAllData() {
 }
 
 // ---------------------
-// Setup kategori (maks 14 + dropdown)
-// ---------------------
+// ⚙️ Setup kategori
 loadAllData().then(data => {
   allLinks = data;
   container.innerHTML = ""; // hapus loading setelah data siap
@@ -55,7 +54,7 @@ loadAllData().then(data => {
   const allCategories = [...new Set(allLinks.map(item => item.category))];
   const limitedCategories = allCategories.slice(0, 14);
 
-  // Render 14 kategori pertama
+  // Render 14 kategori utama
   limitedCategories.forEach(cat => {
     const btn = document.createElement("a");
     btn.className = "category-btn";
@@ -63,39 +62,42 @@ loadAllData().then(data => {
     btn.href = `search/?cat=${encodeURIComponent(cat)}`;
     btn.addEventListener("click", e => {
       e.preventDefault();
-      loadLinksByCategory(cat);
+      window.location.href = btn.href;
     });
     categoriesEl.appendChild(btn);
   });
 
-  // Dropdown kategori tambahan
+  // Tombol dropdown full-screen jika kategori > 14
   if (allCategories.length > 14) {
     const moreBtn = document.createElement("button");
     moreBtn.className = "category-btn";
     moreBtn.textContent = "⬇️ Lihat Kategori Lain";
-    moreBtn.style.background = "#ccc";
-    moreBtn.style.fontWeight = "bold";
     categoriesEl.appendChild(moreBtn);
 
     const dropdown = document.createElement("div");
-    dropdown.className = "category-dropdown";
+    dropdown.className = "category-dropdown"; // full-screen
+    dropdown.style.display = "none";
 
     allCategories.slice(14).forEach(cat => {
       const item = document.createElement("div");
-      item.textContent = cat;
       item.className = "dropdown-item";
-      item.onclick = () => loadLinksByCategory(cat);
+      item.textContent = cat;
+      item.onclick = () => {
+        dropdown.style.display = "none";
+        window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+      };
       dropdown.appendChild(item);
     });
 
-    categoriesEl.appendChild(dropdown);
+    document.body.appendChild(dropdown);
 
+    // Toggle full-screen dropdown
     moreBtn.addEventListener("click", e => {
       e.stopPropagation();
-      dropdown.style.display =
-        dropdown.style.display === "none" ? "block" : "none";
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
     });
 
+    // Tutup dropdown jika klik di luar
     document.addEventListener("click", e => {
       if (!dropdown.contains(e.target) && e.target !== moreBtn) {
         dropdown.style.display = "none";
@@ -105,30 +107,7 @@ loadAllData().then(data => {
 });
 
 // ---------------------
-// Fungsi load link per kategori
-// ---------------------
-function loadLinksByCategory(cat) {
-  if (!linkCache[cat]) {
-    linkCache[cat] = allLinks.filter(link => link.category === cat);
-  }
-  renderLinks(linkCache[cat]);
-}
-
-function renderLinks(data) {
-  container.innerHTML = "";
-  data.forEach(link => {
-    const a = document.createElement("a");
-    a.className = "btn";
-    a.href = link.url;
-    a.textContent = link.title || link.text;
-    a.target = "_blank";
-    container.appendChild(a);
-  });
-}
-
-// ---------------------
-// Search suggestion
-// ---------------------
+// 🔍 Suggestion search
 searchBox.addEventListener("input", e => {
   const keyword = e.target.value.toLowerCase();
   if (!keyword.trim()) {
@@ -152,8 +131,7 @@ searchBox.addEventListener("input", e => {
 });
 
 // ---------------------
-// Tampilkan suggestion
-// ---------------------
+// 💡 Tampilkan suggestion
 function showSuggestions(suggestions, keyword) {
   if (!suggestions.length) {
     suggestionsEl.innerHTML = "";
@@ -177,35 +155,16 @@ function showSuggestions(suggestions, keyword) {
 }
 
 // ---------------------
-// Highlight hasil search
-// ---------------------
+// ✨ Highlight pencarian
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
   return text.replace(regex, "<strong>$1</strong>");
 }
 
 // ---------------------
-// Tutup suggestion jika klik di luar
-// ---------------------
+// ❌ Tutup suggestion jika klik di luar
 document.addEventListener("click", e => {
   if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
     suggestionsEl.innerHTML = "";
   }
 });
-
-// ---------------------
-// Styling Google Translate
-// ---------------------
-function resizeGTranslate() {
-  const select = document.querySelector(".goog-te-combo");
-  if (select) {
-    select.style.width = "100%";
-    select.style.maxWidth = "420px";
-    select.style.padding = "14px 24px";
-    select.style.fontSize = "15px";
-    select.style.boxSizing = "border-box";
-  }
-}
-setTimeout(resizeGTranslate, 1000);
-setTimeout(resizeGTranslate, 1500);
-setTimeout(resizeGTranslate, 2000);
