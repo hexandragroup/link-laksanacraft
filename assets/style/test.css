@@ -81,39 +81,46 @@ input {
 .category-btn:hover { background: #ccc; color: #000; }
 .category-btn.active { background: #bbb; font-weight: bold; }
 
-/* ===================== DROPDOWN TAMBAHAN ===================== */
+/* ===================== DROPDOWN KATEGORI (Perbaikan) ===================== */
 .category-dropdown {
   display: none;
   position: relative;
   background: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
   margin: 0 auto;
   max-height: 250px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto;       /* hanya scroll vertikal */
+  overflow-x: hidden;     /* cegah scroll horizontal */
   z-index: 999;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   width: 100%;
   max-width: 420px;
   animation: fadeIn 0.3s ease;
+  box-sizing: border-box;
 }
 
+/* Item dropdown */
 .dropdown-item {
-  width: 100%;
-  max-width: 420px;
-  padding: 8px;
+  position: relative;      /* tidak absolute */
+  display: block;          /* pastikan tampil vertikal */
+  width: 100%;             /* penuh */
+  padding: 10px;
   cursor: pointer;
   border-radius: 6px;
   transition: background 0.2s;
   border-bottom: 1px solid #eee;
-  font-size: 13px;
+  font-size: 14px;
   color: #333;
+  box-sizing: border-box;  /* agar padding tidak nambah lebar */
+  white-space: normal;     /* teks bisa turun ke baris baru */
+  word-wrap: break-word;   /* pecah kata panjang */
+  overflow-wrap: break-word; /* untuk browser modern */
 }
 
 .dropdown-item:hover {
-  background: #eee;
+  background: #f5f5f5;
 }
 
 /* Animasi muncul dropdown */
