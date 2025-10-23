@@ -61,7 +61,7 @@
 
 <select id="themeSelector" class="theme-switcher">
   <option value="base">🎨 Pilih Tema</option>
-  <option value="neo">🌙 Neo 3D</option>
+  <option value="neon">🌙 Neon 3D</option>
   <option value="paper">📄 Card Paper</option>
   <option value="retro">🎛️ Retro 3D</option>
 </select>
