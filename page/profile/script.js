@@ -31,19 +31,43 @@ themeLink.id = "theme-style";
 themeLink.rel = "stylesheet";
 document.head.appendChild(themeLink);
 
+// Opsi placeholder awal
+const defaultText = "🎨 Pilih Tema";
+const defaultValue = "base";
+
 // Muat tema tersimpan
-const savedTheme = localStorage.getItem("theme") || "base";
-themeLink.href = savedTheme === "base" 
+let savedTheme = localStorage.getItem("theme") || defaultValue;
+themeLink.href = savedTheme === defaultValue 
     ? "../../assets/style/style.css" 
     : `../../assets/style/themes/${savedTheme}.css`;
+
+// Set teks dan value dropdown
 themeSelector.value = savedTheme;
+updatePlaceholderText(savedTheme);
+
+// Fungsi update placeholder
+function updatePlaceholderText(val) {
+  const firstOption = themeSelector.querySelector('option[value="base"]');
+  if(val === defaultValue) {
+    firstOption.textContent = defaultText; // Pilih Tema
+  } else {
+    firstOption.textContent = "🎨 Default"; // Setelah ganti tema
+  }
+}
 
 // Ganti tema saat dipilih
 themeSelector.addEventListener("change", () => {
   const val = themeSelector.value;
   if (!val) return;
-  themeLink.href = val === "base" 
-      ? "../../assets/style/style.css" 
-      : `../../assets/style/themes/${val}.css`;
+
+  // Ganti stylesheet
+  themeLink.href = val === defaultValue
+      ? "../assets/style/style.css"
+      : `../assets/style/themes/${val}.css`;
+
+  // Simpan di localStorage
   localStorage.setItem("theme", val);
+
+  // Update teks placeholder
+  updatePlaceholderText(val);
 });
