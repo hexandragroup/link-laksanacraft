@@ -18,7 +18,7 @@
     "icon": "🏛️"
   },
   {
-    "category": ["💼 Keuangan & Bisnis", "🔗 Link Laksana"],
+    "category": ["💼 Keuangan & Bisnis"], ["🔗 Link Laksana"],
     "title": "Kalkulator Investasi",
     "url": "https://link.laksanacraft.my.id/page/investasi",
     "icon": "💰"
