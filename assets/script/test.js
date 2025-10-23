@@ -1,104 +1,253 @@
-(function(){
-  const style = document.createElement('style');
-  style.textContent = `
-    .corner-tab {
-      position: fixed; top:30px; right:-10px; width:55px; height:55px;
-      background:#333; color:#fff; font-size:28px; border-radius:30px 0 0 30px;
-      display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:10000;
-      transition: transform 0.3s, opacity 0.3s;
+/* ======================================================
+   LINK.JS — Script
+   ====================================================== */
+
+/* ===================== TAHUN OTOMATIS ===================== */
+const startYear = 2020;
+const currentYear = new Date().getFullYear();
+document.getElementById("year").textContent =
+  currentYear > startYear ? `${startYear}–${currentYear}` : startYear;
+
+/* ===================== ELEMEN DASAR ===================== */
+const suggestionsEl = document.getElementById("suggestions");
+const searchBox = document.getElementById("searchBox");
+const categoriesEl = document.getElementById("categories");
+
+let allLinks = [];
+
+/* ===================== LOAD SEMUA DATA JSON ===================== */
+async function loadAllData() {
+  const dataArray = [];
+  let i = 1;
+
+  while (true) {
+    try {
+      const res = await fetch(`assets/data${i}.json`);
+      if (!res.ok) break;
+      const data = await res.json();
+      dataArray.push(...data);
+      i++;
+    } catch {
+      break;
     }
-    .corner-tab:hover { background:#555; transform: scale(1.05); }
+  }
 
-    .corner-menu {
-      position:fixed; top:0; right:-200px; width:200px; height:100%;
-      background: rgba(255,255,255,0.97);
-      box-shadow: -3px 0 12px rgba(0,0,0,0.2);
-      display:flex; flex-direction:column;
-      padding-top:60px;
-      transition:right 0.3s ease;
-      z-index:9999;
-    }
-    .corner-menu.show { right:0; }
+  return dataArray;
+}
 
-    .corner-menu a {
-      padding:12px 20px;
-      border-bottom:1px solid rgba(0,0,0,0.1);
-      text-decoration:none; color:#222;
-    }
-    .corner-menu a:hover { background: rgba(0,0,0,0.05); }
+/* ===================== SETUP KATEGORI ===================== */
+async function setupCategories() {
+  // Tampilkan teks "Memuat..."
+  categoriesEl.innerHTML = `
+    <div style="
+      width:100%;
+      text-align:center;
+      padding:10px 0;
+      font-size:13px;
+      color:#555;
+    ">
+      ⏳ Memuat kategori...
+    </div>`;
 
-    /* Dropdown tema */
-    .theme-switcher {
-      width: 170px;
-      margin: 15px 15px 30px 15px;
-      padding: 8px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      background: #f8f8f8;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-      box-sizing: border-box;
-    }
-    .theme-switcher:hover { background: #eee; }
+  // Ambil semua data
+  allLinks = await loadAllData();
 
-  `;
-  document.head.appendChild(style);
+  // Ambil semua kategori, flatten array jika ada
+  const categories = [
+    ...new Set(
+      allLinks.flatMap(item =>
+        Array.isArray(item.category) ? item.category : [item.category]
+      )
+    )
+  ];
 
-  const html = `
-    <div class="corner-tab" id="cornerTab">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </div>
+  const maxVisible = 14;
 
-    <div class="corner-menu" id="cornerMenu">
-      <a href="https://link.laksanacraft.my.id/">🏠 Beranda</a>
-      <a href="https://url.laksanacraft.my.id/profil">👤 Tentang</a>
-      <a href="https://linktr.ee/hexandra" target="_blank">💼 Bisnis</a>
-      <a href="https://url.laksanacraft.my.id/link">🔗 Tautan</a>
+  // Bersihkan & sembunyikan sejenak untuk efek fade-in
+  categoriesEl.innerHTML = "";
+  categoriesEl.style.opacity = 0;
 
-<select id="themeSelector" class="theme-switcher">
-  <option value="base">🎨 Pilih Tema</option>
-  <option value="neo">🌙 Neo 3D</option>
-  <option value="paper">📄 Card Paper</option>
-  <option value="retro">🎛️ Retro 3D</option>
-</select>
+  // Tambahkan kategori utama (maksimal 14)
+  categories.slice(0, maxVisible).forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "category-btn";
+    btn.textContent = cat;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-  `;
-  document.body.insertAdjacentHTML('beforeend', html);
+      // Filter item berdasarkan kategori yang diklik
+      const filtered = allLinks.filter(item =>
+        Array.isArray(item.category)
+          ? item.category.includes(cat)
+          : item.category === cat
+      );
 
-  const cornerTab = document.getElementById("cornerTab");
-  const cornerMenu = document.getElementById("cornerMenu");
-  const themeSelector = document.getElementById("themeSelector");
-
-  // === Animasi menu ===
-  cornerTab.addEventListener("click", e => {
-    e.stopPropagation();
-    cornerMenu.classList.add("show");
-    cornerTab.style.opacity = "0";
-    cornerTab.style.pointerEvents = "none";
+      // Arahkan ke halaman search atau tampilkan hasil sesuai kebutuhan
+      window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
+    });
+    categoriesEl.appendChild(btn);
   });
 
-  document.addEventListener("click", e => {
-    if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
-      cornerMenu.classList.remove("show");
-      cornerTab.style.opacity = "1";
-      cornerTab.style.pointerEvents = "auto";
-    }
+  // Tambahkan dropdown untuk kategori tambahan
+  if (categories.length > maxVisible) {
+    const dropdownContainer = document.createElement("div");
+    dropdownContainer.classList.add("select-dropdown-container");
+
+    const select = document.createElement("select");
+    select.classList.add("select-dropdown");
+    select.innerHTML = '<option value="">-- Pilih Kategori Lain --</option>';
+
+    categories.slice(maxVisible).forEach(cat => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.textContent = cat;
+      select.appendChild(option);
+    });
+
+    select.addEventListener("change", () => {
+      const selected = select.value;
+      if (!selected) return;
+      window.location.href = `search/?cat=${encodeURIComponent(selected)}`;
+    });
+
+    dropdownContainer.appendChild(select);
+    categoriesEl.appendChild(dropdownContainer);
+  }
+
+  // Efek fade-in halus
+  setTimeout(() => {
+    categoriesEl.style.transition = "opacity .5s ease";
+    categoriesEl.style.opacity = 1;
+  }, 100);
+}
+
+setupCategories();
+
+/* ===================== FITUR PENCARIAN (SUGGESTIONS) ===================== */
+searchBox.addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase().trim();
+  if (!keyword) return (suggestionsEl.innerHTML = "");
+
+  const startMatches = allLinks.filter(link =>
+    link.title.toLowerCase().startsWith(keyword) ||
+    (Array.isArray(link.category)
+      ? link.category.some(c => c.toLowerCase().startsWith(keyword))
+      : link.category.toLowerCase().startsWith(keyword))
+  );
+
+  const includeMatches = allLinks.filter(link =>
+    (link.title.toLowerCase().includes(keyword) ||
+      (Array.isArray(link.category)
+        ? link.category.some(c => c.toLowerCase().includes(keyword))
+        : link.category.toLowerCase().includes(keyword))) &&
+    !startMatches.includes(link)
+  );
+
+  const combined = [...startMatches, ...includeMatches].slice(0, 8);
+  showSuggestions(combined, keyword);
+});
+
+// Tampilkan hasil suggestion
+function showSuggestions(suggestions, keyword) {
+  if (!suggestions.length) {
+    suggestionsEl.innerHTML = "";
+    return;
+  }
+
+  const ul = document.createElement("ul");
+  suggestions.forEach(link => {
+    const li = document.createElement("li");
+    li.innerHTML = `${link.icon || "🔗"} ${highlightMatch(link.title, keyword)}`;
+    li.onclick = () => {
+      window.open(link.url, "_blank");
+      suggestionsEl.innerHTML = "";
+      searchBox.value = link.title;
+    };
+    ul.appendChild(li);
   });
 
-  // === Swipe close (mobile) ===
-  let touchStartX = 0;
-  document.addEventListener("touchstart", e => touchStartX = e.touches[0].clientX);
-  document.addEventListener("touchend", e => {
-    const touchEndX = e.changedTouches[0].clientX;
-    if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
-      cornerMenu.classList.remove("show");
-      cornerTab.style.opacity = "1";
-      cornerTab.style.pointerEvents = "auto";
-    }
-  });
+  suggestionsEl.innerHTML = "";
+  suggestionsEl.appendChild(ul);
+}
 
-})();
+// Highlight teks pencarian
+function highlightMatch(text, keyword) {
+  const regex = new RegExp(`(${keyword})`, "gi");
+  return text.replace(regex, "<strong>$1</strong>");
+}
+
+// Tutup suggestion jika klik di luar
+document.addEventListener("click", e => {
+  if (!suggestionsEl.contains(e.target) && e.target !== searchBox) {
+    suggestionsEl.innerHTML = "";
+  }
+});
+
+/* ===================== GOOGLE TRANSLATE ===================== */
+function resizeGTranslate() {
+  const select = document.querySelector(".goog-te-combo");
+  if (select) {
+    Object.assign(select.style, {
+      width: "100%",
+      maxWidth: "420px",
+      padding: "14px 24px",
+      fontSize: "15px",
+      boxSizing: "border-box",
+    });
+  }
+}
+
+// Jalankan resize beberapa kali (Translate kadang lambat dimuat)
+[1000, 1500, 2000].forEach(t => setTimeout(resizeGTranslate, t));
+
+// Inisialisasi Google Translate
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: "id" }, "google_translate_element");
+}
+
+// Fungsi pemicu ganti bahasa
+function doGTranslate(el) {
+  if (!el.value) return;
+
+  const lang = el.value.split("|")[1];
+  if (lang === "id") {
+    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" +
+      window.location.hostname +
+      ";";
+    window.location.href = window.location.origin + window.location.pathname;
+    return;
+  }
+
+  const select = document.querySelector(".goog-te-combo");
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event("change"));
+  }
+}
+
+/* ===================== THEME SWITCHER ===================== */
+const themeSelector = document.getElementById("themeSelector");
+const themeLink = document.createElement("link");
+themeLink.id = "theme-style";
+themeLink.rel = "stylesheet";
+document.head.appendChild(themeLink);
+
+// Muat tema tersimpan
+const savedTheme = localStorage.getItem("theme") || "base";
+themeLink.href = savedTheme === "base" 
+    ? "../assets/style/style.css" 
+    : `../assets/style/themes/${savedTheme}.css`;
+themeSelector.value = savedTheme;
+
+// Ganti tema saat dipilih
+themeSelector.addEventListener("change", () => {
+  const val = themeSelector.value;
+  if (!val) return;
+  themeLink.href = val === "base" 
+      ? "../assets/style/style.css" 
+      : `../assets/style/themes/${val}.css`;
+  localStorage.setItem("theme", val);
+});
