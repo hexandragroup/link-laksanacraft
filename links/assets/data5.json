@@ -30,7 +30,7 @@
     "icon": "🏛️"
   },
   {
-    "category": "🌐 Cloud & Penyimpanan",
+    "category": "☁️ Cloud & Penyimpanan",
     "title": "Google Photos",
     "url": "https://photos.google.com",
     "icon": "📸"
@@ -42,10 +42,10 @@
     "icon": "📧"
   },
   {
-    "category": "🌐 Cloud & Penyimpanan",
+    "category": "☁️ Cloud & Penyimpanan",
     "title": "Google Drive",
     "url": "https://drive.google.com",
-    "icon": "☁️"
+    "icon": "📂"
   },
   {
     "category": "💻 Pengembangan & Kode",
