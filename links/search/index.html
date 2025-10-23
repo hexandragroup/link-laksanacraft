@@ -69,11 +69,10 @@
       margin-bottom: 15px;
     }
 
-    /* ===================== KATEGORI SCROLL HORIZONTAL MULTI-BARIS ===================== */
     .filter-container {
-      display: inline-grid;          /* grid horizontal multi-baris */
+      display: inline-grid;
       grid-auto-flow: column;
-      grid-auto-rows: 32px;          /* tinggi baris kategori */
+      grid-auto-rows: 32px;
       gap: 6px;
       overflow-x: auto;
       overflow-y: hidden;
@@ -86,8 +85,8 @@
     }
 
     .filter-btn {
-      text-decoration: none;         /* hilangkan garis bawah */
-      padding: 4px 10px;             /* tombol kecil */
+      text-decoration: none;
+      padding: 4px 10px;
       border-radius: 6px;
       background: #ddd;
       font-size: 12px;
@@ -102,7 +101,6 @@
     .filter-btn:hover { background: #ccc; }
     .filter-btn.active { background: #bbb; font-weight: bold; }
 
-    /* 🔢 Pagination */
     .pagination {
       margin-top: 20px;
       display: flex;
@@ -137,7 +135,6 @@
       color: #666;
     }
 
-    /* Spinner loading */
     .spinner {
       display: inline-block;
       width: 28px;
@@ -165,7 +162,6 @@
     <input type="text" id="searchBox" placeholder="Cari tautan di semua kategori..." />
     <div class="filter-container" id="filterContainer"></div>
 
-    <!-- Spinner -->
     <div id="loading">
       <div class="spinner"></div>
       <div class="loading-text">Memuat data...</div>
@@ -245,7 +241,13 @@
     });
 
     function setupFilters(data) {
-      const categories = ["Semua", ...new Set(data.map(l => l.category))];
+      const categoriesSet = new Set();
+      data.forEach(l => {
+        if (Array.isArray(l.category)) l.category.forEach(c => categoriesSet.add(c));
+        else categoriesSet.add(l.category);
+      });
+      const categories = ["Semua", ...categoriesSet];
+
       categories.forEach(cat => {
         const btn = document.createElement("button");
         btn.textContent = cat;
@@ -265,9 +267,16 @@
 
     function getFilteredList() {
       let list = allLinks;
-      if (currentFilter !== "Semua") list = list.filter(l => l.category === currentFilter);
+      if (currentFilter !== "Semua") {
+        list = list.filter(l => Array.isArray(l.category) ? l.category.includes(currentFilter) : l.category === currentFilter);
+      }
       const keyword = searchBox.value.toLowerCase();
-      if (keyword) list = list.filter(l => l.title.toLowerCase().includes(keyword) || l.category.toLowerCase().includes(keyword));
+      if (keyword) {
+        list = list.filter(l => 
+          l.title.toLowerCase().includes(keyword) || 
+          (Array.isArray(l.category) ? l.category.some(c => c.toLowerCase().includes(keyword)) : l.category.toLowerCase().includes(keyword))
+        );
+      }
       return list;
     }
 
@@ -284,9 +293,9 @@
       countEl.textContent = `${currentFilter === "Semua" ? "Semua kategori" : "Kategori: " + currentFilter} — ${totalItems} tautan ditemukan`;
     }
 
-function renderList(data) {
+    function renderList(data) {
       resultsEl.innerHTML = "";
-      if (data.length === 0) {
+      if (!data.length) {
         resultsEl.innerHTML = "<p>Tidak ada hasil.</p>";
         paginationEl.innerHTML = "";
         return;
