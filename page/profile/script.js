@@ -62,8 +62,8 @@ themeSelector.addEventListener("change", () => {
 
   // Ganti stylesheet
   themeLink.href = val === defaultValue
-      ? "../assets/style/style.css"
-      : `../assets/style/themes/${val}.css`;
+      ? "../../assets/style/style.css"
+      : `../../assets/style/themes/${val}.css`;
 
   // Simpan di localStorage
   localStorage.setItem("theme", val);
