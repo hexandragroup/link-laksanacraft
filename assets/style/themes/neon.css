@@ -46,7 +46,6 @@ body::after {
 /* Judul & header */
 img.logo {
   width: 100px;
-  margin-top: auto;
   margin-bottom: 15px;
   filter: drop-shadow(0 0 16px rgba(0,255,200,0.5));
 }
