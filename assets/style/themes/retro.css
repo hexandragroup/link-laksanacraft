@@ -48,7 +48,8 @@ body::after {
 img.logo {
   width: 100px;
   margin: 15px 0;
-  box-shadow: inset 0 1px #fff, 0 3px 6px
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3))
+          drop-shadow(0 1px 0 #fff);
 }
 
 h1 {
