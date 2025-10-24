@@ -187,9 +187,9 @@ footer {
   text-shadow: 0 0 6px #00f5d4;
 }
 
-/* Responsif */
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-}
+/* Google Translate fix */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* Cegah browser kecilkan teks otomatis */
+html { -webkit-text-size-adjust: 100%; }
