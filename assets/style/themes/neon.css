@@ -47,7 +47,7 @@ body::after {
 img.logo {
   width: 100px;
   margin-bottom: 15px;
-  filter: drop-shadow(0 8px 16px rgba(0,255,200,0.5));
+  filter: drop-shadow(0 0 16px rgba(0,255,200,0.5));
 }
 
 h1 {
