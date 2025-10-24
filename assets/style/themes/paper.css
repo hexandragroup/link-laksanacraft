@@ -1,12 +1,12 @@
 /* ======================================================
-   CARDPAPER.CSS – Tema Card Paper (mengikuti Base.css)
+   BASE.CSS – Struktur utama & tombol umum
    ====================================================== */
 
 /* 🌤️ Tampilan dasar */
 html, body {
   font-size: 1rem;
   height: 100% !important;
-  background: linear-gradient(to bottom, #f5f6fa, #e8ebf0) !important;
+  background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -36,10 +36,10 @@ body::after {
 .container {
   max-width: 500px;
   margin: auto;
-  background: #fff;
+  background: #f2f2f2;
   padding: 25px;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   text-align: center;
 }
 
@@ -57,30 +57,38 @@ h1 {
   margin-right: auto;
   max-width: 420px;
   text-align: center;
-  color: #333;
 }
+
+h1 a {
+  color: #222;
+  text-decoration: none;
+}
+h1 a:hover { text-decoration: underline; }
 
 /* Paragraf */
 p {
-  color: #555;
+  color: #444;
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
   max-width: 420px;
   text-align: center;
 }
+p em {
+  font-size: 0.9rem;
+  color: #555;
+}
 
-/* 🔘 Tombol umum (Base ukuran & layout) dengan efek Card Paper */
+/* 🔘 Tombol umum */
 .btn {
   display: block;
   margin: 8px auto;
-  padding: 12px 20px; /* seperti Base */
+  padding: 12px 20px;
   background: #fff;
   color: #222;
   text-decoration: none;
-  border-radius: 8px; /* seperti Base */
+  border-radius: 8px;
   border: 1px solid #bbb;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* efek Card Paper */
   transition: all 0.3s ease;
   cursor: pointer;
   max-width: 420px;
@@ -91,73 +99,8 @@ p {
 }
 
 .btn:hover {
-  background: #e3f2fd; /* efek hover Card Paper */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transform: translateY(-2px);
-}
-
-.btn:active {
-  transform: translateY(1px);
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.btn.active {
-  background: #e3f2fd;
-  border-color: #64b5f6;
-  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
-  color: #0d47a1;
-  font-weight: bold;
-}
-
-/* Dropdown */
-select {
-  width: 100%;
-  padding: 12px; /* ukuran seperti Base */
-  font-size: 16px;
-  color: #222;
-  background: #fff;
-  border: 1px solid #bbb;
-  border-radius: 8px; /* seperti Base */
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  text-align: center;
-  transition: all 0.3s ease;
-  appearance: none;
-}
-
-select:hover {
-  background: #e3f2fd;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-select:focus {
-  outline: none;
-  background: #e3f2fd;
-  border-color: #64b5f6;
-}
-
-select.selected {
-  background: #e3f2fd;
-  border-color: #64b5f6;
-  color: #0d47a1;
-  font-weight: bold;
-  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
-}
-
-/* Panah custom dropdown */
-.select-dropdown-container {
-  position: relative;
-  width: 100%;
-}
-.select-dropdown-container::after {
-  content: "▼";
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 10px;
-  color: #333;
-  pointer-events: none;
+  background: #e6e6e6;
+  scale: 1.03; /* lebih aman daripada transform: scale() */
 }
 
 /* Footer */
@@ -165,12 +108,15 @@ footer {
   margin-top: 30px;
   font-size: 0.75rem;
   color: #666;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
   text-align: center;
 }
 
-/* Responsif: ubah jadi 2 kolom di layar kecil */
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-}
+/* Google Translate fix */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* Cegah browser kecilkan teks otomatis */
+html { -webkit-text-size-adjust: 100%; }
