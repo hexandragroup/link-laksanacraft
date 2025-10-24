@@ -187,9 +187,9 @@ footer {
   text-align: center;
 }
 
-/* Responsif: ubah jadi 2 kolom di layar kecil */
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-}
+/* Google Translate fix */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* Cegah browser kecilkan teks otomatis */
+html { -webkit-text-size-adjust: 100%; }
