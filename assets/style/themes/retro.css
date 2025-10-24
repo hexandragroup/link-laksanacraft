@@ -32,23 +32,36 @@ body::after {
   height: 30px;
 }
 
-/* Container utama */
+/* Container utama - efek pressed statis */
 .container {
   max-width: 500px;
   margin: auto;
   background: #eee;
   padding: 25px;
   border-radius: 16px;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.8),
-              0 3px 8px rgba(0,0,0,0.1);
   text-align: center;
+  box-shadow: inset 0 4px 8px rgba(0,0,0,0.2),
+              0 3px 8px rgba(0,0,0,0.1);
+  transform: translateY(2px);
+  transition: all 0.3s ease;
 }
 
-/* Judul & header */
+/* Logo - efek masuk statis */
 img.logo {
   width: 100px;
   margin: 15px 0;
   filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3))
+          drop-shadow(0 1px 0 #fff);
+  transform: translateY(1px);
+  transition: all 0.3s ease;
+}
+
+/* Opsional: hover memberi kesan lebih “mengambang” */
+.container:hover, img.logo:hover {
+  transform: translateY(0); 
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1),
+              0 4px 10px rgba(0,0,0,0.12);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25))
           drop-shadow(0 1px 0 #fff);
 }
 
