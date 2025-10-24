@@ -6,7 +6,7 @@
 html, body {
   font-size: 1rem;
   height: 100% !important;
-  background: linear-gradient(to bottom, #eeeeee, #cccccc) !important;
+  background: linear-gradient(to bottom, #f5f6fa, #e8ebf0) !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
