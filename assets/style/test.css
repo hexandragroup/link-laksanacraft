@@ -1,12 +1,12 @@
 /* ======================================================
-   CARDPAPER.CSS – Tema Card Paper (mengikuti Base.css)
+   RETRO3D.CSS – Tema Retro 3D (sesuai Base.css)
    ====================================================== */
 
 /* 🌤️ Tampilan dasar */
 html, body {
   font-size: 1rem;
   height: 100% !important;
-  background: linear-gradient(to bottom, #f5f6fa, #e8ebf0) !important;
+  background: linear-gradient(to bottom, #d2d2d2, #b8b8b8) !important;
   background-attachment: fixed !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -32,22 +32,38 @@ body::after {
   height: 30px;
 }
 
-/* Container utama */
+/* Container utama - efek pressed statis */
 .container {
   max-width: 500px;
   margin: auto;
-  background: #fff;
   padding: 25px;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   text-align: center;
+  background: linear-gradient(#f3f3f3, #e0e0e0);
+  box-shadow:
+    inset 0 3px 6px rgba(0,0,0,0.35),
+    0 1px 2px rgba(255,255,255,0.4);
+  transform: translateY(1px);
+  transition: all 0.1s ease;
 }
 
-/* Logo & header */
+/* Logo - efek masuk statis */
 img.logo {
   width: 100px;
-  border-radius: 50%;
   margin: 15px 0;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3))
+          drop-shadow(0 1px 0 #fff);
+  transform: translateY(1px);
+  transition: all 0.1s ease;
+}
+
+/* Opsional: hover memberi kesan lebih “mengambang” */
+.container:hover, img.logo:hover {
+  transform: translateY(0); 
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1),
+              0 4px 10px rgba(0,0,0,0.12);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25))
+          drop-shadow(0 1px 0 #fff);
 }
 
 h1 {
@@ -57,7 +73,7 @@ h1 {
   margin-right: auto;
   max-width: 420px;
   text-align: center;
-  color: #333;
+  color: #444;
 }
 
 /* Paragraf */
@@ -70,78 +86,125 @@ p {
   text-align: center;
 }
 
-/* 🔘 Tombol umum (Base ukuran & layout) dengan efek Card Paper */
+/* 🔍 Kotak pencarian */
+form.search-box {
+  margin: 20px 0;
+  position: relative;
+}
+form.search-box input,
+form.search-box button {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+form.search-box input { 
+  border: 1px solid #bbb; 
+  background: linear-gradient(#f3f3f3, #e7e7e7);
+  border: 1px solid #aaa;
+  box-shadow: inset 0 1px #fff;
+  transition: all 0.25s ease;
+  color: #222;
+}
+form.search-box input:focus { 
+  background: linear-gradient(#d0d0d0, #ececec);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
+  border-color: #888;
+  transform: translateY(1px);
+  outline: none; 
+}
+form.search-box button {
+  margin-top: 10px;
+  background: linear-gradient(#e0e0e0, #c8c8c8);
+  border: 1px solid #999;
+  color: #222;
+  font-weight: 600;
+  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+form.search-box button:hover { background: linear-gradient(#d5d5d5, #bfbfbf); }
+
+form.search-box button:active {
+  background: linear-gradient(#b0b0b0, #d5d5d5);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  border-color: #888;
+  transform: translateY(1px);
+}
+
+/* 🔘 Tombol umum (Base ukuran & layout) dengan efek Retro 3D */
 .btn {
   display: block;
   margin: 8px auto;
-  padding: 12px 20px; /* seperti Base */
-  background: #fff;
+  padding: 12px 20px; /* ukuran seperti Base */
+  background: linear-gradient(#e0e0e0, #c0c0c0);
   color: #222;
   text-decoration: none;
-  border-radius: 8px; /* seperti Base */
-  border: 1px solid #bbb;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* efek Card Paper */
-  transition: all 0.3s ease;
+  border-radius: 8px; /* sesuai Base */
+  border: 1px solid #999;
+  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
   max-width: 420px;
   width: 100%;
   box-sizing: border-box;
   text-align: center;
-  font-size: 16px;
 }
 
 .btn:hover {
-  background: #e3f2fd; /* efek hover Card Paper */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  transform: translateY(-2px);
+  background: linear-gradient(#d5d5d5, #b8b8b8);
+  box-shadow: inset 0 1px #fff, 0 4px 8px rgba(0,0,0,0.25);
+  scale: 1.03;
 }
 
 .btn:active {
   transform: translateY(1px);
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+  background: linear-gradient(#b0b0b0, #e0e0e0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .btn.active {
-  background: #e3f2fd;
-  border-color: #64b5f6;
-  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
-  color: #0d47a1;
-  font-weight: bold;
+  background: linear-gradient(#bcbcbc, #a0a0a0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  color: #000;
 }
 
-/* Dropdown */
+/* Dropdown bergaya Retro */
 select {
   width: 100%;
   padding: 12px; /* ukuran seperti Base */
   font-size: 16px;
+  font-weight: 600;
   color: #222;
-  background: #fff;
-  border: 1px solid #bbb;
-  border-radius: 8px; /* seperti Base */
+  background: linear-gradient(#e0e0e0, #c0c0c0);
+  border: 1px solid #999;
+  border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
   text-align: center;
   transition: all 0.3s ease;
   appearance: none;
 }
 
 select:hover {
-  background: #e3f2fd;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  background: linear-gradient(#d5d5d5, #b8b8b8);
 }
 
 select:focus {
   outline: none;
-  background: #e3f2fd;
-  border-color: #64b5f6;
+  background: linear-gradient(#bcbcbc, #a0a0a0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
 
 select.selected {
-  background: #e3f2fd;
-  border-color: #64b5f6;
-  color: #0d47a1;
-  font-weight: bold;
-  box-shadow: 0 3px 8px rgba(33,150,243,0.3);
+  background: linear-gradient(#bcbcbc, #a0a0a0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  color: #000;
 }
 
 /* Panah custom dropdown */
@@ -160,6 +223,43 @@ select.selected {
   pointer-events: none;
 }
 
+/* 🧩 Tabs */
+.tabs { 
+  margin-top: 20px; 
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
+  text-align: center; }
+.tab-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+.tab-buttons button {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: 0.3s;
+  background: linear-gradient(#e0e0e0, #c0c0c0);
+  border: 1px solid #999;
+  border-radius: 8px;
+  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+}
+.tab-buttons button.active { 
+  color: #222;
+  background: linear-gradient(#b0b0b0, #e0e0e0);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
+  transform: translateY(1px); 
+}
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.3s;
+
 /* Footer */
 footer {
   margin-top: 30px;
@@ -168,9 +268,9 @@ footer {
   text-align: center;
 }
 
-/* Responsif: ubah jadi 2 kolom di layar kecil */
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-}
+/* Google Translate fix */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* Cegah browser kecilkan teks otomatis */
+html { -webkit-text-size-adjust: 100%; }
