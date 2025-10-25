@@ -60,7 +60,7 @@ img.logo {
 }
 
 /* Opsional: hover memberi kesan lebih “mengambang” */
-.container:hover, img.logo:hover {
+.container:hover {
   transform: translateY(0); 
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.1),
               0 4px 10px rgba(0,0,0,0.12);
@@ -75,7 +75,7 @@ h1 {
   margin-right: auto;
   max-width: 420px;
   text-align: center;
-  color: #444;
+  color: #3a2f2f;
 }
 
 /* Paragraf */
@@ -117,21 +117,21 @@ form.search-box input:focus {
 }
 form.search-box button {
   margin-top: 10px;
-  background: linear-gradient(#e0e0e0, #c8c8c8);
-  border: 1px solid #999;
-  color: #222;
+  background: linear-gradient(#F0EAD6, #E0D8B8);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
   font-weight: 600;
-  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   cursor: pointer;
   text-align: center;
   text-decoration: none;
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
-form.search-box button:hover { background: linear-gradient(#d5d5d5, #bfbfbf); }
+form.search-box button:hover { background: linear-gradient(#D8C8A8, #B8A888); }
 
 form.search-box button:active {
-  background: linear-gradient(#b0b0b0, #d5d5d5);
+  background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   border-color: #888;
   transform: translateY(1px);
@@ -141,13 +141,13 @@ form.search-box button:active {
 .btn {
   display: block;
   margin: 8px auto;
-  padding: 12px 20px; /* ukuran seperti Base */
-  background: linear-gradient(#e0e0e0, #c0c0c0);
-  color: #222;
+  padding: 12px 20px;
+  background: linear-gradient(#E0D8B8, #C8B998);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
   text-decoration: none;
-  border-radius: 8px; /* sesuai Base */
-  border: 1px solid #999;
-  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -158,19 +158,19 @@ form.search-box button:active {
 }
 
 .btn:hover {
-  background: linear-gradient(#d5d5d5, #b8b8b8);
-  box-shadow: inset 0 1px #fff, 0 4px 8px rgba(0,0,0,0.25);
+  background: linear-gradient(#D8C8A8, #B8A888);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   scale: 1.03;
 }
 
 .btn:active {
   transform: translateY(1px);
-  background: linear-gradient(#b0b0b0, #e0e0e0);
+  background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
 }
 
 .btn.active {
-  background: linear-gradient(#bcbcbc, #a0a0a0);
+  background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   color: #000;
 }
@@ -181,25 +181,26 @@ select {
   padding: 12px; /* ukuran seperti Base */
   font-size: 16px;
   font-weight: 600;
-  color: #222;
-  background: linear-gradient(#e0e0e0, #c0c0c0);
-  border: 1px solid #999;
+  background: linear-gradient(#F0EAD6, #E0D8B8);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
   text-align: center;
   transition: all 0.3s ease;
   appearance: none;
 }
 
 select:hover {
-  background: linear-gradient(#d5d5d5, #b8b8b8);
+  background: linear-gradient(#D8C8A8, #B8A888);
 }
 
 select:focus {
   outline: none;
-  background: linear-gradient(#bcbcbc, #a0a0a0);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  background: linear-gradient(#EFE6C8, #E8E0C8);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  border-color: #B8A888;
 }
 
 select.selected {
@@ -244,15 +245,17 @@ select.selected {
   font-size: 0.75rem;
   cursor: pointer;
   transition: 0.3s;
-  background: linear-gradient(#e0e0e0, #c0c0c0);
-  border: 1px solid #999;
+  background: linear-gradient(#E0D8B8, #C8B998);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
   border-radius: 8px;
-  box-shadow: inset 0 1px #fff, 0 3px 6px rgba(0,0,0,0.2);
+}
+.tab-buttons button:hover {
+  background: linear-gradient(#D8C8A8, #B8A888);
 }
 .tab-buttons button.active { 
-  color: #222;
-  background: linear-gradient(#b0b0b0, #e0e0e0);
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.4);
+  background: linear-gradient(#B8A888, #D8C8A8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   transform: translateY(1px); 
 }
 .tab-content {
