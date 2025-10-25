@@ -31,7 +31,6 @@ async function loadAllData() {
       break;
     }
   }
-
   return dataArray;
 }
 
@@ -48,16 +47,20 @@ async function setupCategories() {
     ">
       ⏳ Memuat kategori...
     </div>`;
-
   // Ambil semua data
   allLinks = await loadAllData();
-  const categories = [...new Set(allLinks.map(item => item.category))];
+  // Ambil semua kategori, flatten array jika ada
+  const categories = [
+    ...new Set(
+      allLinks.flatMap(item =>
+        Array.isArray(item.category) ? item.category : [item.category]
+      )
+    )
+  ];
   const maxVisible = 14;
-
   // Bersihkan & sembunyikan sejenak untuk efek fade-in
   categoriesEl.innerHTML = "";
   categoriesEl.style.opacity = 0;
-
   // Tambahkan kategori utama (maksimal 14)
   categories.slice(0, maxVisible).forEach(cat => {
     const btn = document.createElement("button");
@@ -66,30 +69,34 @@ async function setupCategories() {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".category-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
+      // Filter item berdasarkan kategori yang diklik
+      const filtered = allLinks.filter(item =>
+        Array.isArray(item.category)
+          ? item.category.includes(cat)
+          : item.category === cat
+      );
+      // Arahkan ke halaman search atau tampilkan hasil sesuai kebutuhan
       window.location.href = `search/?cat=${encodeURIComponent(cat)}`;
     });
     categoriesEl.appendChild(btn);
   });
-
   // Tambahkan dropdown untuk kategori tambahan
   if (categories.length > maxVisible) {
     const dropdownContainer = document.createElement("div");
     dropdownContainer.classList.add("select-dropdown-container");
-
     const select = document.createElement("select");
     select.classList.add("select-dropdown");
     select.innerHTML = '<option value="">-- Pilih Kategori Lain --</option>';
-
     categories.slice(maxVisible).forEach(cat => {
       const option = document.createElement("option");
       option.value = cat;
       option.textContent = cat;
       select.appendChild(option);
     });
-
     select.addEventListener("change", () => {
       const selected = select.value;
-      if (selected) window.location.href = `search/?cat=${encodeURIComponent(selected)}`;
+      if (!selected) return;
+      window.location.href = `search/?cat=${encodeURIComponent(selected)}`;
     });
 
     dropdownContainer.appendChild(select);
@@ -112,12 +119,16 @@ searchBox.addEventListener("input", e => {
 
   const startMatches = allLinks.filter(link =>
     link.title.toLowerCase().startsWith(keyword) ||
-    link.category.toLowerCase().startsWith(keyword)
+    (Array.isArray(link.category)
+      ? link.category.some(c => c.toLowerCase().startsWith(keyword))
+      : link.category.toLowerCase().startsWith(keyword))
   );
 
   const includeMatches = allLinks.filter(link =>
     (link.title.toLowerCase().includes(keyword) ||
-      link.category.toLowerCase().includes(keyword)) &&
+      (Array.isArray(link.category)
+        ? link.category.some(c => c.toLowerCase().includes(keyword))
+        : link.category.toLowerCase().includes(keyword))) &&
     !startMatches.includes(link)
   );
 
@@ -143,11 +154,9 @@ function showSuggestions(suggestions, keyword) {
     };
     ul.appendChild(li);
   });
-
   suggestionsEl.innerHTML = "";
   suggestionsEl.appendChild(ul);
 }
-
 // Highlight teks pencarian
 function highlightMatch(text, keyword) {
   const regex = new RegExp(`(${keyword})`, "gi");
@@ -174,19 +183,15 @@ function resizeGTranslate() {
     });
   }
 }
-
 // Jalankan resize beberapa kali (Translate kadang lambat dimuat)
 [1000, 1500, 2000].forEach(t => setTimeout(resizeGTranslate, t));
-
 // Inisialisasi Google Translate
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({ pageLanguage: "id" }, "google_translate_element");
 }
-
 // Fungsi pemicu ganti bahasa
 function doGTranslate(el) {
   if (!el.value) return;
-
   const lang = el.value.split("|")[1];
   if (lang === "id") {
     document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -197,15 +202,13 @@ function doGTranslate(el) {
     window.location.href = window.location.origin + window.location.pathname;
     return;
   }
-
   const select = document.querySelector(".goog-te-combo");
   if (select) {
     select.value = lang;
     select.dispatchEvent(new Event("change"));
   }
 }
-
-// Theme switcher
+/* ===================== THEME SWITCHER ===================== */
 const themeSelector = document.getElementById("themeSelector");
 const themeLink = document.createElement("link");
 themeLink.id = "theme-style";
