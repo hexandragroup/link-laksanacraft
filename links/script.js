@@ -45,7 +45,7 @@ async function setupCategories() {
       font-size:13px;
       color:#555;
     ">
-      ⏳ Memuat kategori...
+      <p>⏳ Memuat kategori...</p>
     </div>`;
   // Ambil semua data
   allLinks = await loadAllData();
