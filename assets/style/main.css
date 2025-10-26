@@ -98,15 +98,27 @@ form.search-box button:hover { background: #555; }
 .translate-box {
   position: relative;
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.translate-box select {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  z-index: 2;
 }
 
 .translate-box::after {
-  content: "▼";
+  content: "▾";
   position: absolute;
   right: 10px !important;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 10px;
+  font-size: 0.9em;
   pointer-events: none;
   color: #222;
 }
@@ -114,13 +126,6 @@ form.search-box button:hover { background: #555; }
 /* ❌ Hilangkan panah default IE/Edge lama */
 .select-dropdown::-ms-expand, .translate-box::-ms-expand {
   display: none;
-}
-.translate-box select.btn {
-  width: 100%;
-  flex: 1;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 /* 🧭 Tombol menu pojok kanan atas */
