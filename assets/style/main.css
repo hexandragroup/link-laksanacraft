@@ -106,8 +106,6 @@ form.search-box button:hover { background: #555; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(#ffffff, #f5f5f5);
-  border: 1px solid #bbb;
   border-radius: 8px;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
   position: relative;
@@ -117,7 +115,6 @@ form.search-box button:hover { background: #555; }
 
 .translate-select select {
   width: 100%;
-  padding: 12px;
   border: none;
   background: transparent;
   color: #222;
@@ -142,20 +139,8 @@ form.search-box button:hover { background: #555; }
   pointer-events: none;
 }
 
-.translate-select:hover {
-  background: linear-gradient(#f8f8f8, #ededed);
-  border-color: #999;
-}
-
-.translate-select:focus-within {
-  background: linear-gradient(#f4f4f4, #eaeaea);
-  border-color: #888;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.15);
-}
-
 /* === Responsif === */
 @media (max-width: 480px) {
-  .container { padding: 20px; }
   .translate-select select { font-size: 14px; }
 }
 
