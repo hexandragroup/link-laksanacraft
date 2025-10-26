@@ -116,7 +116,7 @@ form.search-box button:hover { background: #555; }
   display: none;
 }
 .translate-box select.btn {
-  padding-right: 7% !important;
+  padding-right: 15% !important;
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
