@@ -2,26 +2,6 @@
    LINK.CSS — Style
    ====================================================== */
 
-/* 🌐 DROPDOWN TRANSLATE (Mobile + Desktop)
------------------------------------------------------- */
-.translate-box select,
-.goog-te-combo {
-  width: 100% !important;
-  max-width: 420px !important;
-  padding: 14px 24px !important;
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  border-radius: 8px !important;
-  border: 1px solid #bbb !important;
-  background: #fff !important;
-  color: #222 !important;
-  cursor: pointer !important;
-  display: block !important;
-  margin: 8px auto !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
 /* 🏷️ INPUT PENCARIAN
 ------------------------------------------------------ */
 input {
