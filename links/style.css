@@ -119,14 +119,15 @@ input {
   pointer-events: none;
   color: #222;
 }
+
 /* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
 @media (min-width: 768px) {
   .translate-box::after {
-    right: 30px;          /* Geser sedikit ke kiri (sesuaikan: 16–20px jika perlu) */
+    right: 7%;
   }
 
   .translate-box select.btn {
-    padding-right: 34px;  /* Tambah ruang kanan agar teks tidak menabrak panah */
+    padding-right: 7%;
   }
 }
 
