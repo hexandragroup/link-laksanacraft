@@ -119,6 +119,16 @@ input {
   pointer-events: none;
   color: #222;
 }
+/* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
+@media (min-width: 768px) {
+  .translate-box::after {
+    right: 18px;          /* Geser sedikit ke kiri (sesuaikan: 16–20px jika perlu) */
+  }
+
+  .translate-box select.btn {
+    padding-right: 34px;  /* Tambah ruang kanan agar teks tidak menabrak panah */
+  }
+}
 
 /* 🖱️ Scrollbar Halus & Tipis */
 .category-scroll-wrapper::-webkit-scrollbar {
