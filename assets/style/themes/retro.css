@@ -178,7 +178,7 @@ form.search-box button:active {
 /* Dropdown bergaya Retro */
 select {
   width: 100%;
-  padding: 12px; /* ukuran seperti Base */
+  padding: 12px;
   font-size: 16px;
   font-weight: 600;
   background: linear-gradient(#F0EAD6, #E0D8B8);
@@ -214,7 +214,7 @@ select.selected {
   position: relative;
   width: 100%;
 }
-.select-dropdown-container::after {
+.select-dropdown-container::after, select {
   content: "▼";
   position: absolute;
   right: 10px;
