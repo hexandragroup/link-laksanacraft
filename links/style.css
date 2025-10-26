@@ -97,6 +97,8 @@ input {
   display: none;
 }
 .translate-box select.btn {
+  padding: 8px 12px !important;
+  font-size: 12px;
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
@@ -118,17 +120,6 @@ input {
   font-size: 10px;
   pointer-events: none;
   color: #222;
-}
-
-/* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
-@media (min-width: 768px) {
-  .translate-box::after {
-    right: 7%;
-  }
-
-  .translate-box select.btn {
-    padding-right: 7%;
-  }
 }
 
 /* 🖱️ Scrollbar Halus & Tipis */
