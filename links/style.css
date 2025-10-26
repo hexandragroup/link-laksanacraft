@@ -96,6 +96,11 @@ input {
 .select-dropdown::-ms-expand, .translate-box::-ms-expand {
   display: none;
 }
+.translate-box select.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
 
 /* 🔽 Panah Custom */
 .select-dropdown-container, .translate-box {
