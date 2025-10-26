@@ -120,6 +120,17 @@ input {
   color: #222;
 }
 
+/* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
+@media (min-width: 768px) {
+  .translate-box::after {
+    right: 10%;
+  }
+
+  .translate-box select.btn {
+    padding-right: 7%;
+  }
+}
+
 /* 🖱️ Scrollbar Halus & Tipis */
 .category-scroll-wrapper::-webkit-scrollbar {
   height: 6px;
