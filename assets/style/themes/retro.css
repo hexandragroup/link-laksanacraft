@@ -254,6 +254,7 @@ select.selected {
   background: linear-gradient(#D8C8A8, #B8A888);
 }
 .tab-buttons button.active { 
+  color: #3a2f2f;
   background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   transform: translateY(1px); 
