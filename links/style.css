@@ -122,7 +122,7 @@ input {
 /* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
 @media (min-width: 768px) {
   .translate-box::after {
-    right: 18px;          /* Geser sedikit ke kiri (sesuaikan: 16–20px jika perlu) */
+    right: 30px;          /* Geser sedikit ke kiri (sesuaikan: 16–20px jika perlu) */
   }
 
   .translate-box select.btn {
