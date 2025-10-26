@@ -66,7 +66,7 @@ input {
 }
 
 /* 🔽 Dropdown Tampil seperti Tombol Kategori */
-.select-dropdown {
+.select-dropdown, .translate-box {
   width: 100%;
   padding: 8px 12px;
   font-size: 12px;
@@ -93,7 +93,7 @@ input {
 }
 
 /* ❌ Hilangkan panah default IE/Edge lama */
-.select-dropdown::-ms-expand {
+.select-dropdown::-ms-expand, .translate-box::-ms-expand {
   display: none;
 }
 
