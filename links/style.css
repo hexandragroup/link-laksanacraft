@@ -97,8 +97,7 @@ input {
   display: none;
 }
 .translate-box select.btn {
-  padding: 8px 12px !important;
-  font-size: 12px;
+  padding-right: 7% !important;
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
