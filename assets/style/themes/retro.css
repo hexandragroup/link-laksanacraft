@@ -210,11 +210,11 @@ select.selected {
 }
 
 /* Panah custom dropdown */
-.select-dropdown-container, .translate-box {
+.select-dropdown-container, .translate-box, .dropdown-btn {
   position: relative;
   width: 100%;
 }
-.select-dropdown-container::after, .translate-box::after {
+.select-dropdown-container::after, .translate-box::after, .dropdown-btn::after {
   content: "▼";
   position: absolute;
   right: 10px;
