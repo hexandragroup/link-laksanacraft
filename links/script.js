@@ -38,15 +38,18 @@ async function loadAllData() {
 async function setupCategories() {
   // Tampilkan teks "Memuat..."
   categoriesEl.innerHTML = `
-    <div style="
-      width:100%;
-      text-align:center;
-      padding:10px 0;
-      font-size:13px;
-      color:#555;
-    ">
-      <p>⏳ Memuat kategori...</p>
-    </div>`;
+  <div style="
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:10px 0;
+    font-size:13px;
+    color:#555;
+  ">
+    ⏳ Memuat kategori...
+  </div>`;
   // Ambil semua data
   allLinks = await loadAllData();
   // Ambil semua kategori, flatten array jika ada
