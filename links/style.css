@@ -98,12 +98,12 @@ input {
 }
 
 /* 🔽 Panah Custom */
-.select-dropdown-container {
+.select-dropdown-container, .translate-box {
   position: relative;
   width: 100%;
 }
 
-.select-dropdown-container::after {
+.select-dropdown-container::after, .translate-box::after {
   content: "▼";
   position: absolute;
   right: 10px;
