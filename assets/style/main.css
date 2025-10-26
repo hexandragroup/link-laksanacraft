@@ -111,6 +111,18 @@ form.search-box button:hover { background: #555; }
   color: #222;
 }
 
+/* ❌ Hilangkan panah default IE/Edge lama */
+.select-dropdown::-ms-expand, .translate-box::-ms-expand {
+  display: none;
+}
+.translate-box select.btn {
+  padding-right: 7% !important;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
 /* 🧭 Tombol menu pojok kanan atas */
 .corner-tab {
   position: fixed;
