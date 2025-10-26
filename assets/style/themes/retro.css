@@ -214,7 +214,7 @@ select.selected {
   position: relative;
   width: 100%;
 }
-.select-dropdown-container::after, select::after {
+.select-dropdown-container::after, .select::after {
   content: "▼";
   position: absolute;
   right: 10px;
