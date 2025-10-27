@@ -73,7 +73,7 @@
   width: 100%;
 }
 .dropdown-btn::after {
-  content: "▼";
+  content: "▾";
   position: absolute;
   right: 10px;
   top: 50%;
