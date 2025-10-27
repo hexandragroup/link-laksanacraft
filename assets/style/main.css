@@ -94,44 +94,30 @@ form.search-box button:hover { background: #555; }
   padding: 0 2px;
 }
 
-/* 🔽 Panah Custom */
+/* 🌏 Kotak pembungkus dropdown */
 .translate-box {
   position: relative;
   width: 100%;
   max-width: 420px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 
-.translate-select {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.25s ease;
-}
-
-.translate-select select {
-  width: 100%;
-  border: none;
-  background: transparent;
-  color: #222;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: center;
-  cursor: pointer;
+/* 📋 <select> yang memakai class .btn */
+select.btn {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  z-index: 2;
+  text-align: center;
+  position: relative;
+  background: #fff;
+  font-family: inherit;
 }
 
-.translate-select::after {
+/* 🧭 Panah custom di sebelah kanan */
+.translate-box::after {
   content: "▾";
   position: absolute;
-  right: 12px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.9em;
@@ -139,9 +125,9 @@ form.search-box button:hover { background: #555; }
   pointer-events: none;
 }
 
-/* === Responsif === */
-@media (max-width: 480px) {
-  .translate-select select { font-size: 14px; }
+/* Hapus panah default (untuk IE lawas) */
+select.btn::-ms-expand {
+  display: none;
 }
 
 /* 🧭 Tombol menu pojok kanan atas */
