@@ -109,7 +109,7 @@ input {
   right: 10px !important 
   top: 50%;
   transform: translateY(-50%);
-  font-size: 10px;
+  font-size: 0.9em;
   pointer-events: none;
   color: #222;
 }
