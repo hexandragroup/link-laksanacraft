@@ -208,6 +208,14 @@ select.selected {
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   color: #000;
 }
+select.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+  position: relative;
+  font-family: inherit;
+}
 
 /* Panah custom dropdown */
 .select-dropdown-container, .translate-box, .dropdown-btn {
@@ -215,12 +223,12 @@ select.selected {
   width: 100%;
 }
 .select-dropdown-container::after, .translate-box::after, .dropdown-btn::after {
-  content: "▼";
+  content: "▾";
   position: absolute;
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 10px;
+  font-size: 0.9em;
   color: #333;
   pointer-events: none;
 }
