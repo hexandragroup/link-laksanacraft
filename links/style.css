@@ -103,10 +103,10 @@ input {
   width: 100%;
 }
 
-.select-dropdown-container::after {
-  content: "▼";
+.select-dropdown-container::after, .translate-box::after {
+  content: "▾";
   position: absolute;
-  right: 10px !important;
+  right: 10px
   top: 50%;
   transform: translateY(-50%);
   font-size: 10px;
@@ -131,18 +131,6 @@ select.btn {
   position: relative;
   background: #fff;
   font-family: inherit;
-}
-
-/* 🧭 Panah custom di sebelah kanan */
-.translate-box::after {
-  content: "▾";
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 0.9em;
-  color: #333;
-  pointer-events: none;
 }
 
 /* 🖱️ Scrollbar Halus & Tipis */
