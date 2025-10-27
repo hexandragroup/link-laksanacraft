@@ -103,7 +103,7 @@ input {
   width: 100%;
 }
 
-.select-dropdown-container::after {
+.select-dropdown-container::after, .translate-box::after {
   content: "▾";
   position: absolute;
   right: 10px;
