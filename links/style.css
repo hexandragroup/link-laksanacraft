@@ -93,23 +93,17 @@ input {
 }
 
 /* ❌ Hilangkan panah default IE/Edge lama */
-.select-dropdown::-ms-expand, .translate-box::-ms-expand {
+.select-dropdown::-ms-expand, select.btn::-ms-expand {
   display: none;
-}
-.translate-box select.btn {
-  width: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 /* 🔽 Panah Custom */
-.select-dropdown-container, .translate-box {
+.select-dropdown-container {
   position: relative;
   width: 100%;
 }
 
-.select-dropdown-container::after, .translate-box::after {
+.select-dropdown-container::after {
   content: "▼";
   position: absolute;
   right: 10px !important;
@@ -120,15 +114,35 @@ input {
   color: #222;
 }
 
-/* 🖥️ Koreksi posisi panah translate hanya untuk desktop */
-@media (min-width: 768px) {
-  .translate-box::after {
-    right: 10%;
-  }
+/* 🌏 Kotak pembungkus dropdown */
+.translate-box {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 10px auto;
+}
 
-  .translate-box select.btn {
-    padding-right: 7%;
-  }
+/* 📋 <select> yang memakai class .btn */
+select.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+  position: relative;
+  background: #fff;
+  font-family: inherit;
+}
+
+/* 🧭 Panah custom di sebelah kanan */
+.translate-box::after {
+  content: "▾";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9em;
+  color: #333;
+  pointer-events: none;
 }
 
 /* 🖱️ Scrollbar Halus & Tipis */
