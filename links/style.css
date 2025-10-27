@@ -106,7 +106,7 @@ input {
 .select-dropdown-container::after {
   content: "▾";
   position: absolute;
-  right: 10px !important;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.9em;
