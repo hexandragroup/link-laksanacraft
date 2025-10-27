@@ -103,7 +103,7 @@ input {
   width: 100%;
 }
 
-.select-dropdown-container::after, .translate-box::after {
+.select-dropdown-container::after {
   content: "▾";
   position: absolute;
   right: 10px !important 
@@ -120,6 +120,18 @@ input {
   width: 100%;
   max-width: 420px;
   margin: 10px auto;
+}
+
+/* 🧭 Panah custom di sebelah kanan */
+.translate-box::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9em;
+  color: #333;
+  pointer-events: none;
 }
 
 /* 📋 <select> yang memakai class .btn */
