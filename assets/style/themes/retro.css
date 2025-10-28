@@ -160,6 +160,10 @@ form.search-box button:active {
   transform: translateY(1px);
 }
 
+#suggestions {
+  background: linear-gradient(#F8F0D8, #E8E0C8);
+}
+
 /* 🔘 Tombol umum (Base ukuran & layout) dengan efek Retro 3D */
 .btn, .dropdown-btn, select.btn {
   display: block;
