@@ -160,8 +160,15 @@ form.search-box button:active {
   transform: translateY(1px);
 }
 
-#suggestions, .result, .autocomplete-items {
+#suggestions, #tokoh-suggestions, table.variant-table th {
   background: linear-gradient(#F8F0D8, #E8E0C8);
+  border: 1px solid #B8A888;
+}
+.result {
+background: linear-gradient(#F8F0D8, #E8E0C8);
+  border: 1px solid #C8B998;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  color: #3a2f2f;
 }
 
 /* 🔘 Tombol umum (Base ukuran & layout) dengan efek Retro 3D */
