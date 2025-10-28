@@ -117,7 +117,7 @@ form.search-box {
   position: relative;
 }
 form.search-box input,
-form.search-box button, input {
+form.search-box button, input,  {
   width: 100%;
   max-width: 420px;
   padding: 12px;
@@ -151,6 +151,7 @@ form.search-box button, button[type="submit"] {
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
+
 form.search-box button:hover, button[type="submit"]:hover { background: linear-gradient(#D8C8A8, #B8A888); }
 
 form.search-box button:active, button[type="submit"]:active {
@@ -165,10 +166,10 @@ form.search-box button:active, button[type="submit"]:active {
   border: 1px solid #B8A888;
 }
 .result {
-background: linear-gradient(#F8F0D8, #E8E0C8);
-  border: 1px solid #C8B998;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-  color: #3a2f2f;
+  background: linear-gradient(#EFE6C8, #E8E0C8);
+  border-color: #B8A888;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  outline: none;
 }
 
 /* 🔘 Tombol umum (Base ukuran & layout) dengan efek Retro 3D */
