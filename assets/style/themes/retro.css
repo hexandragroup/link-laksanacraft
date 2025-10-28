@@ -160,7 +160,7 @@ form.search-box button:active {
   transform: translateY(1px);
 }
 
-#suggestions {
+#suggestions, .result, .autocompeled-item {
   background: linear-gradient(#F8F0D8, #E8E0C8);
 }
 
