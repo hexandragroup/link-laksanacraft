@@ -100,7 +100,7 @@ form.search-box button {
   border-radius: 8px;
   box-sizing: border-box;
 }
-form.search-box input { 
+form.search-box input, input { 
   background: linear-gradient(#F8F0D8, #E8E0C8);
   border: 1px solid #C8B998;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
@@ -108,13 +108,13 @@ form.search-box input {
   transition: all 0.25s ease;
   box-sizing: border-box;
 }
-form.search-box input:focus { 
+form.search-box input:focus, input:focus { 
   background: linear-gradient(#EFE6C8, #E8E0C8);
   border-color: #B8A888;
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
   outline: none;
 }
-form.search-box button {
+form.search-box button, button {
   margin-top: 10px;
   background: linear-gradient(#E0D8B8, #C8B998);
   border: 1px solid #B8A888;
@@ -127,9 +127,9 @@ form.search-box button {
   transition: all 0.2s ease;
   box-sizing: border-box;
 }
-form.search-box button:hover { background: linear-gradient(#D8C8A8, #B8A888); }
+form.search-box button:hover, button:hover { background: linear-gradient(#D8C8A8, #B8A888); }
 
-form.search-box button:active {
+form.search-box button:active, button:active {
   background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
   border-color: #888;
