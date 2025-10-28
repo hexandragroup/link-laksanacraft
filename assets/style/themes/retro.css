@@ -161,10 +161,14 @@ form.search-box button:active, button[type="submit"]:active {
   transform: translateY(1px);
 }
 
-#suggestions, #tokoh-suggestions, table.variant-table th {
+#suggestions, #tokoh-suggestions, .suggestions ul, table.variant-table th {
   background: linear-gradient(#F8F0D8, #E8E0C8);
-  border: 1px solid #B8A888;
 }
+
+#suggestions div, #tokoh-suggestions div, .suggestions li {
+  border-bottom: 1px solid #C8B998;
+}
+
 .result {
   background: linear-gradient(#EFE6C8, #E8E0C8);
   border-color: #B8A888;
