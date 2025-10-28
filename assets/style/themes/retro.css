@@ -285,7 +285,7 @@ select.btn {
   gap: 6px;
   margin-bottom: 15px;
 }
-.tab-buttons button, .tab-btn {
+.tab-buttons button, .tab-btn, .category-btn {
   flex: 1;
   padding: 10px 8px;
   border-radius: 8px;
@@ -297,10 +297,10 @@ select.btn {
   color: #3a2f2f;
   border-radius: 8px;
 }
-.tab-buttons button:hover {
+.tab-buttons button:hover, .category-btn:hover {
   background: linear-gradient(#D8C8A8, #B8A888);
 }
-.tab-buttons button.active, .tab-btn.active { 
+.tab-buttons button.active, .tab-btn.active, .category-btn.active { 
   color: #3a2f2f;
   background: linear-gradient(#B8A888, #D8C8A8);
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
