@@ -297,7 +297,7 @@ select.btn {
   color: #3a2f2f;
   border-radius: 8px;
 }
-.tab-buttons button:hover, .category-btn:hover {
+.tab-buttons button:hover {
   background: linear-gradient(#D8C8A8, #B8A888);
 }
 .tab-buttons button.active, .tab-btn.active  { 
