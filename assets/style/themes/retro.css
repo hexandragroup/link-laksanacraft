@@ -166,7 +166,7 @@ form.search-box button:active, button[type="submit"]:active {
 }
 
 #suggestions div, #tokoh-suggestions div, .suggestions li {
-  border-bottom: 1px solid #C8B998;
+  border-bottom: 1px solid #D8C8A8;
 }
 
 .result {
