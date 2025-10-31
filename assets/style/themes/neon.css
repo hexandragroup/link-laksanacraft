@@ -244,12 +244,12 @@ select.selected {
 }
 
 .category-scroll-wrapper::-webkit-scrollbar-thumb {
-  background: #B8A888;
+  background: #00f5d4;
   border-radius: 3px;
 }
 
 .category-scroll-wrapper::-webkit-scrollbar-track {
-  background: #E0D8B8;
+  background: #1b263b;
 }
 
 /* Footer */
