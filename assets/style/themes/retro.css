@@ -312,29 +312,8 @@ select.btn {
   transform: translateY(10px);
   transition: 0.3s;
 
-  /* ===================== KATEGORI (Grid 5x3 + Scroll Horizontal) ===================== */
-  .category-scroll-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 10px;
-    max-width: 420px;
-    margin: 0 auto;
-    padding: 6px 0 10px;
-  }
-
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: auto;
-    gap: 6px;
-    flex: 0 0 auto;
-    width: 360px;
-  }
-
   /* ===================== TOMBOL RETRO ===================== */
-  .category-btn, .tab-btn {
+  .category-btn {
     flex: 1;
     padding: 10px 8px;
     border-radius: 8px;
@@ -346,11 +325,11 @@ select.btn {
     color: #3a2f2f;
   }
 
-  .category-btn:hover, .tab-btn:hover {
+  .category-btn:hover {
     background: linear-gradient(#D8C8A8, #B8A888);
   }
 
-  .category-btn.active, .tab-btn.active {
+  .category-btn.active {
     color: #3a2f2f;
     background: linear-gradient(#B8A888, #D8C8A8);
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
@@ -397,6 +376,7 @@ select.btn {
   .category-scroll-wrapper::-webkit-scrollbar-track {
     background: #E0D8B8;
   }
+
 
 /* Footer */
 footer {
