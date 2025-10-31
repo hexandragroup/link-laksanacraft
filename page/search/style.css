@@ -49,6 +49,7 @@ button[type="submit"]:hover {
 }
 
 /* --- Select dengan simbol panah custom --- */
+
 /* Hapus panah default (untuk IE lawas) */
 .select-wrapper select::-ms-expand {
   display: none;
@@ -68,7 +69,6 @@ button[type="submit"]:hover {
   -moz-appearance: none;
   width: 100%;
   padding: 12px;
-  padding-right: 36px; /* ruang untuk panah */
   border: 1px solid #bbb;
   border-radius: 8px;
   box-sizing: border-box;
