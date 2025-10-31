@@ -314,6 +314,7 @@ select.btn {
 
 /* 🔘 Tombol Kategori */
 .category-btn {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -364,6 +365,19 @@ select.btn {
   outline: none;
   background: #B8A888;
 }
+/* scroll */
+  .category-scroll-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .category-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #B8A888;
+    border-radius: 3px;
+  }
+
+  .category-scroll-wrapper::-webkit-scrollbar-track {
+    background: #E0D8B8;
+  }
 
 /* Footer */
 footer {
