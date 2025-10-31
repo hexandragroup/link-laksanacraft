@@ -1,36 +1,394 @@
-/* --- Select dengan simbol panah custom --- */
-.select-wrapper {
-  position: relative;
-  display: block;
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
+/* ======================================================
+   RETRO3D.CSS – Tema Retro 3D (sesuai Base.css)
+   ====================================================== */
+
+/* 🌤️ Tampilan dasar */
+html, body {
+  font-size: 1rem;
+  height: 100% !important;
+  background: linear-gradient(to bottom, #F0EAD6, #E8E0C8) !important;
+  background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
 }
 
-.select-wrapper select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 100%;
-  padding: 12px;
-  padding-right: 36px; /* ruang untuk panah */
-  border: 1px solid #bbb;
-  border-radius: 8px;
+body {
+  font-family: sans-serif;
+  padding: 30px;
+  margin: 0;
+  color: #3a2f2f;
+  top: 0 !important;
+}
+
+body.loaded { opacity: 1; }
+body, button, input, textarea, select, label {
+  font-size: inherit;
+}
+
+/* Tambah ruang ekstra di bawah halaman */
+body::after {
+  content: "";
+  display: block;
+  height: 30px;
+}
+
+/* Container utama - efek pressed statis */
+.container {
+  max-width: 500px;
+  margin: auto;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+  background: linear-gradient(#E8E0C8, #D8C8A8);
+  border: 1px solid #B8A888;
   box-sizing: border-box;
-  background-color: #fff;
-  font-size: 15px;
-  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: all 0.25s ease;
+  transform: translateY(0);
+  animation: retroPop 0.8s ease-out;
+}
+/* Opsional: hover memberi kesan lebih “mengambang” */
+.container:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.25),
+    0 1px 0 rgba(255,255,255,0.6);
+  filter: brightness(1.03);
+}
+.container:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.3),
+    0 1px 3px rgba(0,0,0,0.2);
+  filter: brightness(0.97);
+}
+
+/* POP animasi hanya saat load */
+@keyframes retroPop {
+  0% {
+    transform: scale(0.85) translateY(20px);
+    opacity: 0;
+    filter: brightness(0.8);
+  }
+  60% {
+    transform: scale(1.05) translateY(-6px);
+    opacity: 1;
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: none; /* supaya hover tetap bisa override transform */
+    filter: brightness(1);
+  }
+}
+
+/* Logo - efek masuk statis */
+img.logo {
+  width: 100px;
+  margin: 15px 0;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3))
+          drop-shadow(0 1px 0 #fff);
+  transform: translateY(1px);
+  transition: all 0.1s ease;
+}
+
+h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
+  text-align: center;
+  color: #3a2f2f;
+}
+
+/* Paragraf */
+p {
+  color: #555;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
   text-align: center;
 }
 
-/* Panahnya */
-.select-wrapper::after {
+/* 🔍 Kotak pencarian */
+form.search-box {
+  margin: 20px 0;
+  position: relative;
+}
+form.search-box input,
+form.search-box button, input,  {
+  width: 100%;
+  max-width: 420px;
+  padding: 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+form.search-box input, input, textarea{ 
+  background: linear-gradient(#F8F0D8, #E8E0C8);
+  border: 1px solid #C8B998;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  color: #3a2f2f;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+}
+form.search-box input:focus, input:focus, textarea:focus { 
+  background: linear-gradient(#EFE6C8, #E8E0C8);
+  border-color: #B8A888;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  outline: none;
+}
+form.search-box button, button[type="submit"] {
+  margin-top: 10px;
+  background: linear-gradient(#E0D8B8, #C8B998);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
+  font-weight: 600;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 3px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+form.search-box button:hover, button[type="submit"]:hover { background: linear-gradient(#D8C8A8, #B8A888); }
+
+form.search-box button:active, button[type="submit"]:active {
+  background: linear-gradient(#B8A888, #D8C8A8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  border-color: #888;
+  transform: translateY(1px);
+}
+
+#suggestions, #tokoh-suggestions, .suggestions ul, table.variant-table th {
+  background: linear-gradient(#F8F0D8, #E8E0C8);
+}
+
+#suggestions div, #tokoh-suggestions div, .suggestions li {
+  border-bottom: 1px solid #D8C8A8;
+}
+
+.result {
+  background: linear-gradient(#EFE6C8, #E8E0C8);
+  border-color: #B8A888;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  outline: none;
+}
+
+/* 🔘 Tombol umum (Base ukuran & layout) dengan efek Retro 3D */
+.btn, .dropdown-btn, select.btn {
+  display: block;
+  margin: 8px auto;
+  padding: 12px 20px;
+  background: linear-gradient(#E0D8B8, #C8B998);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.btn:hover, .dropdown-btn:hover, select.btn:hover {
+  background: linear-gradient(#D8C8A8, #B8A888);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  scale: 1.03;
+}
+
+.btn:active {
+  transform: translateY(1px);
+  background: linear-gradient(#B8A888, #D8C8A8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.btn.active {
+  background: linear-gradient(#B8A888, #D8C8A8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  color: #000;
+}
+
+/* Dropdown bergaya Retro */
+select {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(#F0EAD6, #E0D8B8);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+  appearance: none;
+}
+
+select:hover {
+  background: linear-gradient(#D8C8A8, #B8A888);
+}
+
+select:focus {
+  outline: none;
+  background: linear-gradient(#EFE6C8, #E8E0C8);
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+  border-color: #B8A888;
+}
+
+select.selected {
+  background: linear-gradient(#bcbcbc, #a0a0a0);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  color: #000;
+}
+select.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+  position: relative;
+  font-family: inherit;
+}
+
+/* Panah custom dropdown */
+.select-dropdown-container, .translate-box, .dropdown-btn, select-wrapper {
+  position: relative;
+  width: 100%;
+}
+.select-dropdown-container::after, .translate-box::after, .dropdown-btn::after, select-wrapper::after {
   content: "▾";
   position: absolute;
-  right: 14px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  pointer-events: none; /* biar klik tetap ke select */
-  font-size: 16px;
-  color: #555;
+  font-size: 0.9em;
+  color: #333;
+  pointer-events: none;
 }
+
+/* 🧩 Tabs */
+.tabs { 
+  margin-top: 20px; 
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 420px;
+  text-align: center; }
+.tab-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+.tab-buttons button, .tab-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: 0.3s;
+  background: linear-gradient(#E0D8B8, #C8B998);
+  border: 1px solid #B8A888;
+  color: #3a2f2f;
+  border-radius: 8px;
+}
+.tab-buttons button:hover {
+  background: linear-gradient(#D8C8A8, #B8A888);
+}
+.tab-buttons button.active, .tab-btn.active  { 
+  color: #3a2f2f;
+  background: linear-gradient(#B8A888, #D8C8A8);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  transform: translateY(1px); 
+}
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.3s;
+
+  /* ===================== TOMBOL RETRO ===================== */
+  .category-btn {
+    flex: 1;
+    padding: 10px 8px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.3s;
+    background: linear-gradient(#E0D8B8, #C8B998);
+    border: 1px solid #B8A888;
+    color: #3a2f2f;
+  }
+
+  .category-btn:hover {
+    background: linear-gradient(#D8C8A8, #B8A888);
+  }
+
+  .category-btn.active {
+    color: #3a2f2f;
+    background: linear-gradient(#B8A888, #D8C8A8);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+    transform: translateY(1px);
+  }
+
+  /* ===================== DROPDOWN RETRO ===================== */
+  .select-dropdown {
+    width: 100%;
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    color: #3a2f2f;
+    background: linear-gradient(#E0D8B8, #C8B998);
+    border: 1px solid #B8A888;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-align: center;
+  }
+
+  .select-dropdown:hover {
+    background: linear-gradient(#D8C8A8, #B8A888);
+  }
+
+  .select-dropdown:focus {
+    outline: none;
+    background: linear-gradient(#B8A888, #D8C8A8);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+  }
+
+/* scroll */
+  .category-scroll-wrapper::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .category-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #B8A888;
+    border-radius: 3px;
+  }
+
+  .category-scroll-wrapper::-webkit-scrollbar-track {
+    background: #E0D8B8;
+  }
+
+
+/* Footer */
+footer {
+  margin-top: 30px;
+  font-size: 0.75rem;
+  color: #666;
+  text-align: center;
+}
+
+/* Google Translate fix */
+.goog-te-banner-frame.skiptranslate { display: none !important; }
+.goog-te-gadget-icon { display: none !important; }
+
+/* Cegah browser kecilkan teks otomatis */
+html { -webkit-text-size-adjust: 100%; }
