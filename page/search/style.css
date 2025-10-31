@@ -28,7 +28,7 @@ select,
 button {
   width: 100%;
   max-width: 420px;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
   border: 1px solid #bbb;
   margin: 6px auto;
@@ -62,7 +62,7 @@ button[type="submit"]:hover {
   -webkit-appearance: none;
   -moz-appearance: none;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   padding-right: 36px; /* ruang untuk panah */
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -70,6 +70,7 @@ button[type="submit"]:hover {
   background-color: #fff;
   font-size: 15px;
   cursor: pointer;
+  text-align: center;
 }
 
 /* Panahnya */
