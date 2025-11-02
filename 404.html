@@ -11,57 +11,24 @@
   <meta property="og:description" content="Kerajinan Wayang Kulit Sewon - Halaman ini tidak tersedia." />
   <meta property="og:url" content="https://link.laksanacraft.my.id/" />
 
-  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp" />
-  <link rel="stylesheet" href="assets/style/style.css" />
-  <link rel="stylesheet" href="assets/style/main.css" />
-
-  <style>
-    .error-container {
-      text-align: center;
-      padding: 60px 20px;
-      font-family: "Poppins", sans-serif;
-    }
-    .error-container img {
-      width: 120px;
-      margin-bottom: 20px;
-    }
-    .error-container h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-    .error-container p {
-      color: #666;
-      margin-bottom: 30px;
-    }
-    .error-container a {
-      display: inline-block;
-      padding: 10px 20px;
-      background: var(--accent, #503ceb);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: 0.2s ease;
-    }
-    .error-container a:hover {
-      background: #3729a7;
-    }
-  </style>
+  <link rel="icon" type="image/png" href="https://url.laksanacraft.my.id/assets/favicon.webp">
+  <link rel="stylesheet" href="assets/style/style.css">
+  <link rel="stylesheet" href="assets/style/main.css">
 </head>
 
 <body>
-  <div class="error-container">
-    <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo Laksana Handicraft" />
+  <div class="container">
+    <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="Logo" class="logo" />
     <h1>❌ Halaman Tidak Ditemukan</h1>
     <p>Maaf, halaman yang kamu cari tidak tersedia atau sudah dipindahkan.</p>
-    <a href="https://link.laksanacraft.my.id/">⬅️ Kembali ke Beranda</a>
+    <a href="https://link.laksanacraft.my.id/" class="btn">⬅️ Kembali ke Beranda</a>
+
+    <footer>
+      &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I. Yogyakarta, Indonesia
+    </footer>
   </div>
 
-  <footer style="text-align:center; margin-top:40px; font-size:0.9em; color:#777;">
-    &copy; <span id="year"></span> Laksana Handicraft · Bantul, D.I. Yogyakarta
-  </footer>
-
   <script>
-    // Tahun otomatis di footer
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
