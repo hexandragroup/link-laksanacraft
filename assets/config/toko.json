@@ -3,7 +3,10 @@
   { "text": "🛒 Shopee", "url": "https://url.laksanacraft.my.id/shopee" },
   { "text": "🛒 Tokopedia", "url": "https://url.laksanacraft.my.id/tokopedia" },
   { "text": "🛒 TikTok Shop", "url": "https://url.laksanacraft.my.id/tiktok" },
+  { "text": "🛒 Blibli", "url": "https://url.laksanacraft.my.id/blibli" },
+  { "text": "🛒 Lazada", "url": "https://url.laksanacraft.my.id/lazada" },
   { "text": "🛒 Toco", "url": "https://url.laksanacraft.my.id/toco" },
-  { "text": "📱 Pesan via WhatsApp", "url": "https://url.laksanacraft.my.id/wa/order" },
-  { "text": "📧 Pesan via Email", "url": "https://url.laksanacraft.my.id/email/order" }
+  { "text": "🛒 Padi UKMM", "url": "https://url.laksanacraft.my.id/padi" },
+  { "text": "📱 Pesan via WhatsApp", "url": "https://url.laksanacraft.my.id/wa-order" },
+  { "text": "📧 Pesan via Email", "url": "https://url.laksanacraft.my.id/email-order" }
 ]
