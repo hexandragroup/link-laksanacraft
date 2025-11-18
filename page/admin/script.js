@@ -7,7 +7,7 @@
 // Validasi login
 // ============================
 if (localStorage.getItem("adminLogin") !== "true") {
-    window.location.href = "login.html";
+    window.location.href = "login/index.html";
 }
 
 // ============================
