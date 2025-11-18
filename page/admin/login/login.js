@@ -10,7 +10,7 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
     if (user === ADMIN_USER && pass === ADMIN_PASS) {
         localStorage.setItem("adminLogin", "true");
-        window.location.href = "/admin/"; // Redirect ke admin dashboard
+        window.location.href = "/page/admin/"; // Redirect ke admin dashboard
     } else {
         alert("Login gagal! Username atau password salah.");
     }
