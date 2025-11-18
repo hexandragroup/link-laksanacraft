@@ -1,0 +1,141 @@
+/* ======================================================
+   FORM.CSS — Khusus halaman admin (CRUD)
+   Mengikuti tema BASE.CSS
+   ====================================================== */
+
+/* Container khusus admin */
+.admin-container {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  max-width: 620px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+/* Judul halaman admin */
+.admin-container h2 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+}
+
+/* Dropdown pilih file JSON */
+.select-file {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+}
+
+/* Form CRUD */
+.admin-form label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  display: block;
+  color: #333;
+}
+
+.admin-form input,
+.admin-form textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.admin-form textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+/* Tombol besar */
+.btn-admin {
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  transition: 0.3s ease;
+}
+
+.btn-admin:hover {
+  background: #555;
+}
+
+/* Tombol kecil */
+.btn-small {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-edit { background: #1a73e8; color: white; }
+.btn-delete { background: #e84545; color: white; }
+
+.btn-edit:hover { background: #105bc2; }
+.btn-delete:hover { background: #c73636; }
+
+/* Daftar item */
+.data-list {
+  margin-top: 20px;
+}
+
+.data-item {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ececec;
+  margin-bottom: 12px;
+}
+
+.data-item strong {
+  font-size: 1rem;
+  color: #222;
+}
+
+/* Flex tombol edit/delete */
+.action-buttons {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Info message */
+.status-box {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eee;
+  font-size: 0.9rem;
+}
+
+/* Login box */
+.login-box {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 25px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
