@@ -3,37 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin</title>
+    <title>Panel Admin</title>
 
-    <!-- BASE.CSS global -->
     <link rel="stylesheet" href="/assets/style/style.css">
-
-    <!-- FORM.CSS khusus admin -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="login-box">
-        <h2>Login Admin</h2>
 
-        <form id="loginForm">
-            <label for="loginUser">Username</label>
-            <input type="text" id="loginUser" autocomplete="off" required>
+<div class="admin-container">
+    <h2>Panel Admin</h2>
 
-            <label for="loginPass">Password</label>
-            <div class="password-wrapper">
-                <input type="password" id="loginPass" required>
-                <span class="toggle-pass" onclick="togglePassword()">👁️</span>
-            </div>
+    <button class="btn-admin" onclick="addProduct()">+ Tambah Produk</button>
+    <button class="btn-admin" onclick="logoutAdmin()">Logout</button>
 
-            <button type="submit" class="btn-admin">Masuk</button>
-        </form>
+    <div id="productList" class="data-list"></div>
+</div>
 
-        <p style="margin-top:15px; text-align:center;">
-            <em>Hanya untuk akses administrator</em>
-        </p>
-    </div>
+<!-- FORM EDIT / TAMBAH -->
+<div id="adminForm" class="form-box">
+    <h3 id="formTitle">Tambah Produk</h3>
 
-    <script src="login.js"></script>
+    <form onsubmit="saveProducts(event)">
+        <input type="hidden" id="formIndex">
+
+        <label>Tokoh</label>
+        <input type="text" id="formTokoh" placeholder="Pisahkan dengan koma">
+
+        <label>Ukuran</label>
+        <input type="text" id="formUkuran" placeholder="Pisahkan dengan koma">
+
+        <label>Kualitas</label>
+        <input type="text" id="formKualitas">
+
+        <label>Link Produk</label>
+        <input type="text" id="formLink">
+
+        <label>Varian (JSON)</label>
+        <textarea id="formVarian"></textarea>
+
+        <button type="submit" class="btn-admin">Simpan</button>
+        <button type="button" class="btn-admin" onclick="closeForm()">Batal</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
