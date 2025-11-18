@@ -7,7 +7,7 @@
 // Validasi login
 // ============================
 if (localStorage.getItem("adminLogin") !== "true") {
-    window.location.href = "login/index.html";
+    window.location.href = "login";
 }
 
 // ============================
@@ -38,7 +38,7 @@ loadProducts();
 // ============================
 function logoutAdmin() {
     localStorage.removeItem("adminLogin");
-    window.location.href = "login/index.html";
+    window.location.href = "login";
 }
 
 // ============================
