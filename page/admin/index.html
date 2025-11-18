@@ -5,38 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin</title>
 
-    <!-- CSS Global -->
+    <!-- BASE.CSS global -->
     <link rel="stylesheet" href="/assets/style/style.css">
 
-    <!-- CSS Admin -->
+    <!-- FORM.CSS khusus admin -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container login-box">
-
+    <div class="login-box">
         <h2>Login Admin</h2>
 
         <form id="loginForm">
+            <label for="loginUser">Username</label>
+            <input type="text" id="loginUser" autocomplete="off" required>
 
-            <label for="username">Username</label>
-            <input type="text" id="username" autocomplete="off" required>
-
-            <label for="password">Password</label>
-
+            <label for="loginPass">Password</label>
             <div class="password-wrapper">
-                <input type="password" id="password" required>
-                <span class="toggle-pass" id="togglePass">👁️</span>
+                <input type="password" id="loginPass" required>
+                <span class="toggle-pass" onclick="togglePassword()">👁️</span>
             </div>
 
             <button type="submit" class="btn-admin">Masuk</button>
         </form>
 
         <p style="margin-top:15px; text-align:center;">
-            <em>Hanya untuk administrator</em>
+            <em>Hanya untuk akses administrator</em>
         </p>
     </div>
 
-    <script src="script.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
