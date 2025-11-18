@@ -38,7 +38,7 @@ loadProducts();
 // ============================
 function logoutAdmin() {
     localStorage.removeItem("adminLogin");
-    window.location.href = "login.html";
+    window.location.href = "login/index.html";
 }
 
 // ============================
