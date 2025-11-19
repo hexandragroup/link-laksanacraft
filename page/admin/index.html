@@ -1,52 +1,144 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Laksana Handicraft</title>
 
-    <link rel="stylesheet" href="/assets/style/style.css">
-    <link rel="stylesheet" href="style.css">
+  <!-- global base css (sudah ada di site) -->
+  <link rel="stylesheet" href="/assets/style/style.css">
+
+  <!-- admin specific -->
+  <link rel="stylesheet" href="admin.css">
+
 </head>
-
 <body>
+  <div class="admin-shell">
 
-<div class="admin-container">
-    <h2>Panel Admin</h2>
+    <!-- SIDEBAR LEFT -->
+    <aside class="admin-sidebar">
+      <div class="brand">
+        <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="logo" class="mini-logo">
+        <h3>Laksana Admin</h3>
+      </div>
 
-    <button class="btn-admin" onclick="addProduct()">+ Tambah Produk</button>
-    <button class="btn-admin" onclick="logoutAdmin()">Logout</button>
+      <nav>
+        <button class="nav-btn active" data-tab="products">Produk</button>
+        <button class="nav-btn" data-tab="links">Links</button>
+      </nav>
 
-    <div id="productList" class="data-list"></div>
-</div>
+      <div class="spacer"></div>
 
-<!-- FORM EDIT / TAMBAH -->
-<div id="adminForm" class="form-box">
-    <h3 id="formTitle">Tambah Produk</h3>
+      <div class="login-summary" id="loginSummary">
+        <div>Login sebagai: <strong id="adminUserLabel">admin</strong></div>
+        <button class="small-btn" id="btnLogout">Logout</button>
+      </div>
+    </aside>
 
-    <form onsubmit="saveProducts(event)">
-        <input type="hidden" id="formIndex">
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <!-- TOP: file selector (dynamic) -->
+      <div class="top-row">
+        <div class="file-select-group" id="productsFileGroup">
+          <label>File Produk</label>
+          <select id="productsFileSelect"></select>
+          <button class="small-btn" id="btnRefreshProducts">Refresh</button>
+        </div>
 
-        <label>Tokoh</label>
-        <input type="text" id="formTokoh" placeholder="Pisahkan dengan koma">
+        <div class="file-select-group" id="linksFileGroup" style="display:none;">
+          <label>File Links</label>
+          <select id="linksFileSelect"></select>
+          <button class="small-btn" id="btnRefreshLinks">Refresh</button>
+        </div>
 
-        <label>Ukuran</label>
-        <input type="text" id="formUkuran" placeholder="Pisahkan dengan koma">
+        <div class="actions-right">
+          <button class="primary-btn" id="btnAdd">+ Tambah</button>
+        </div>
+      </div>
 
-        <label>Kualitas</label>
-        <input type="text" id="formKualitas">
+      <!-- CONTENT PANELS -->
+      <section id="panelProducts" class="panel active">
+        <h2>Produk</h2>
+        <div id="productsList" class="list"></div>
+      </section>
 
-        <label>Link Produk</label>
-        <input type="text" id="formLink">
+      <section id="panelLinks" class="panel" style="display:none;">
+        <h2>Links</h2>
+        <div id="linksList" class="list"></div>
+      </section>
+    </main>
+  </div>
 
-        <label>Varian (JSON)</label>
-        <textarea id="formVarian"></textarea>
+  <!-- FORM MODAL (dipakai untuk produk & links) -->
+  <div id="modal" class="modal" style="display:none;">
+    <div class="modal-inner">
+      <h3 id="modalTitle">Tambah</h3>
 
-        <button type="submit" class="btn-admin">Simpan</button>
-        <button type="button" class="btn-admin" onclick="closeForm()">Batal</button>
-    </form>
-</div>
+      <form id="modalForm">
+        <input type="hidden" id="modalType"> <!-- 'product' or 'link' -->
+        <input type="hidden" id="modalFile"> <!-- file name -->
+        <input type="hidden" id="modalIndex"> <!-- index in array (for edit) -->
 
-<script src="script.js"></script>
+        <!-- PRODUCT FIELDS -->
+        <div id="productFields">
+          <label>Tokoh (pisah koma)</label>
+          <input id="f_tokoh" placeholder="Semar, Gareng" />
+
+          <label>Ukuran (pisah koma)</label>
+          <input id="f_ukuran" placeholder="20cm, 25cm" />
+
+          <label>Kualitas</label>
+          <input id="f_kualitas" placeholder="alusan" />
+
+          <label>Link Produk</label>
+          <input id="f_link" placeholder="https://..." />
+
+          <label>Varian (JSON array)</label>
+          <textarea id="f_varian" placeholder='[{"size":"20cm","harga":"Rp..."}]'></textarea>
+        </div>
+
+        <!-- LINK FIELDS -->
+        <div id="linkFields" style="display:none;">
+          <label>Category (string atau array)</label>
+          <input id="l_category" placeholder='🌐 Umum & Informasi  OR  ["A","B"]' />
+
+          <label>Title</label>
+          <input id="l_title" placeholder="Judul link" />
+
+          <label>URL</label>
+          <input id="l_url" placeholder="https://..." />
+
+          <label>Icon (emoji atau teks)</label>
+          <input id="l_icon" placeholder="📰" />
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="primary-btn">Simpan</button>
+          <button type="button" class="small-btn" id="btnCancel">Batal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOGIN OVERLAY -->
+  <div id="loginOverlay" class="overlay" style="display:none;">
+    <div class="overlay-inner">
+      <h3>Login Admin</h3>
+      <form id="loginForm">
+        <label>Username</label>
+        <input id="loginUser" autocomplete="off" required />
+        <label>Password</label>
+        <div class="password-row">
+          <input id="loginPass" type="password" required />
+          <button type="button" class="small-btn" id="togglePass">👁️</button>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="primary-btn" type="submit">Masuk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
 </body>
 </html>
