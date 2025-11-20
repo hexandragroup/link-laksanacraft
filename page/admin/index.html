@@ -42,64 +42,59 @@ const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
 let currentTab="products";
 let currentFile="";
 let currentData=[];
+const files = {
+  products: ["products1.json","products2.json"],
+  links: ["data1.json","data2.json","data3.json","data4.json","data5.json"]
+};
 
 // redirect jika belum login
 window.onload = async()=>{
   if(!localStorage.getItem("isLoggedIn")) location.href="../login/index.html";
-  await initFiles();
+  setupFiles();
 }
 
-// setup default files untuk dropdown
-async function initFiles(){
-  currentFile = currentTab==="products" ? "products1.json" : "data1.json";
+function setupFiles(){
   const fileSelect = document.getElementById("fileSelect");
-  fileSelect.innerHTML = `<option value="${currentFile}">${currentFile}</option>`;
-  await loadFile();
+  currentFile = files[currentTab][0];
+  fileSelect.innerHTML = files[currentTab].map(f=>`<option value="${f}">${f}</option>`).join("");
+  loadFile();
 }
 
-// load file JSON dari Worker
 async function loadFile(){
   const fileSelect = document.getElementById("fileSelect");
   currentFile = fileSelect.value;
   try {
     const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
     const j = await res.json();
-    if(j.error){
-      alert(`Error loading ${currentFile}: ${j.error}`);
-      currentData = [];
-    } else currentData = j;
-  } catch(e){
-    alert(`Fetch error: ${e.message}`);
-    currentData = [];
-  }
+    if(j.error){ alert(`Error loading ${currentFile}: ${j.error}`); currentData = []; }
+    else currentData = Array.isArray(j) ? j : [j];
+  } catch(e){ alert(`Fetch error: ${e.message}`); currentData = []; }
   renderTable();
 }
 
-// render tabel
 function renderTable(){
   const thead = document.getElementById("tableHead");
   const tbody = document.getElementById("tableBody");
-  if(!Array.isArray(currentData) || currentData.length===0){
-    thead.innerHTML=""; tbody.innerHTML=""; return;
-  }
+  if(!currentData.length){ thead.innerHTML=""; tbody.innerHTML=""; return; }
 
   const cols = Object.keys(currentData[0]);
   thead.innerHTML = "<tr>" + cols.map(c=>`<th>${c}</th>`).join("") + "</tr>";
   tbody.innerHTML = currentData.map(row=>{
-    return "<tr>" + cols.map(c=>`<td>${row[c]}</td>`).join("") + "</tr>";
+    return "<tr>" + cols.map(c=>{
+      let val = row[c];
+      if(Array.isArray(val)) val = JSON.stringify(val);
+      return `<td>${val}</td>`;
+    }).join("") + "</tr>";
   }).join("");
 }
 
-// switch tab
 function switchTab(tab, e){
   currentTab = tab;
   document.querySelectorAll(".nav-link").forEach(l=>l.classList.remove("active"));
   e.target.classList.add("active");
 
-  currentFile = tab==="products" ? "products1.json" : "data1.json";
   const fileSelect = document.getElementById("fileSelect");
-  fileSelect.innerHTML = `<option value="${currentFile}">${currentFile}</option>`;
-  
+  fileSelect.innerHTML = files[tab].map(f=>`<option value="${f}">${f}</option>`).join("");
   loadFile();
 }
 </script>
