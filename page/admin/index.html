@@ -1,80 +1,103 @@
 <!doctype html>
-<html>
+<html lang="id">
 <head>
   <meta charset="utf-8">
-  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body class="p-4 bg-light">
+<body class="bg-light">
 
-<div class="d-flex justify-content-between">
-  <h3>LaksanaCraft Admin</h3>
-  <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+<div class="container py-4">
+
+  <h3 class="mb-4">Admin Panel</h3>
+
+  <!-- TAB -->
+  <ul class="nav nav-tabs mb-3" id="tabs">
+    <li class="nav-item">
+      <button class="nav-link active" onclick="setTab('products')">Products</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" onclick="setTab('links')">Links</button>
+    </li>
+  </ul>
+
+  <!-- Dropdown file -->
+  <select class="form-select mb-3" id="fileSelect" onchange="loadFile()">
+  </select>
+
+  <!-- Table -->
+  <table class="table table-bordered bg-white">
+    <thead id="thead"></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+
 </div>
-
-<hr>
-
-<!-- Tabs -->
-<ul class="nav nav-tabs mb-3">
-  <li class="nav-item">
-    <a class="nav-link active" href="#" onclick="switchTab('products')">Products</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#" onclick="switchTab('links')">Links</a>
-  </li>
-</ul>
-
-<!-- File Dropdown -->
-<label>Pilih file JSON:</label>
-<select id="fileSelect" class="form-select w-auto"></select>
-
-<!-- Data -->
-<pre id="output" class="bg-white p-3 mt-3 border rounded" style="min-height:200px"></pre>
 
 <script>
 const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+
 let currentTab = "products";
 
-window.onload = () => {
-  if (!localStorage.getItem("logged")) {
-    location.href = "./login/index.html";
-  }
-  loadList();
+const files = {
+  products: ["products1.json","products2.json","products3.json"],
+  links: ["data1.json","data2.json","data3.json"]
 };
 
-async function loadList(){
-  const res = await fetch(`${API}/list?type=${currentTab}`);
-  const files = await res.json();
+function setTab(tab){
+  currentTab = tab;
+  renderFileList();
+  loadFile();
+}
 
-  fileSelect.innerHTML = files.map(f => `<option>${f}</option>`).join("");
-
-  if (files.length > 0) loadFile();
+function renderFileList(){
+  fileSelect.innerHTML = "";
+  files[currentTab].forEach(f=>{
+    fileSelect.innerHTML += `<option>${f}</option>`;
+  });
 }
 
 async function loadFile(){
-  const file = fileSelect.value;
+  let file = fileSelect.value;
+  let res = await fetch(`${API}/${currentTab}?file=${file}`);
+  let out = await res.json();
 
-  const res = await fetch(`${API}/${currentTab}?file=${file}`);
-  const data = await res.json();
-
-  output.textContent = JSON.stringify(data, null, 2);
+  renderTable(out);
 }
 
-fileSelect.onchange = loadFile;
+function renderTable(arr){
+  if(!Array.isArray(arr)) return;
 
-function switchTab(tab){
-  currentTab = tab;
-  document.querySelectorAll(".nav-link").forEach(n => n.classList.remove("active"));
-  event.target.classList.add("active");
-  loadList();
+  if(currentTab === "products"){
+    thead.innerHTML = `<tr><th>ID</th><th>Tokoh</th><th>Ukuran</th><th>Kualitas</th></tr>`;
+    tbody.innerHTML = arr.map(x=>`
+      <tr>
+        <td>${x.id}</td>
+        <td>${x.tokoh}</td>
+        <td>${x.ukuran}</td>
+        <td>${x.kualitas}</td>
+      </tr>
+    `).join("");
+  }
+
+  if(currentTab === "links"){
+    thead.innerHTML = `<tr><th>ID</th><th>Nama</th><th>URL</th></tr>`;
+    tbody.innerHTML = arr.map(x=>`
+      <tr>
+        <td>${x.id}</td>
+        <td>${x.name}</td>
+        <td>${x.url}</td>
+      </tr>
+    `).join("");
+  }
 }
 
-function logout(){
-  localStorage.removeItem("logged");
-  location.href = "./login/index.html";
-}
+// INIT
+if(localStorage.getItem("logged") !== "yes") location.href="login/";
+renderFileList();
+loadFile();
 </script>
+
 </body>
 </html>
