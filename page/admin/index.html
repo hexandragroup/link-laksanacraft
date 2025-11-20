@@ -51,23 +51,27 @@ window.onload = async()=>{
 
 // setup default files untuk dropdown
 async function initFiles(){
-  if(currentTab==="products") currentFile="products1.json";
-  if(currentTab==="links") currentFile="data1.json";
-
+  currentFile = currentTab==="products" ? "products1.json" : "data1.json";
   const fileSelect = document.getElementById("fileSelect");
   fileSelect.innerHTML = `<option value="${currentFile}">${currentFile}</option>`;
-  
   await loadFile();
 }
 
 // load file JSON dari Worker
 async function loadFile(){
-  const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
-  const j = await res.json();
-  if(j.error){
-    alert(`Error loading ${currentFile}: ${j.error}`);
-    currentData=[];
-  } else currentData = j;
+  const fileSelect = document.getElementById("fileSelect");
+  currentFile = fileSelect.value;
+  try {
+    const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
+    const j = await res.json();
+    if(j.error){
+      alert(`Error loading ${currentFile}: ${j.error}`);
+      currentData = [];
+    } else currentData = j;
+  } catch(e){
+    alert(`Fetch error: ${e.message}`);
+    currentData = [];
+  }
   renderTable();
 }
 
@@ -92,9 +96,7 @@ function switchTab(tab, e){
   document.querySelectorAll(".nav-link").forEach(l=>l.classList.remove("active"));
   e.target.classList.add("active");
 
-  if(tab==="products") currentFile="products1.json";
-  if(tab==="links") currentFile="data1.json";
-
+  currentFile = tab==="products" ? "products1.json" : "data1.json";
   const fileSelect = document.getElementById("fileSelect");
   fileSelect.innerHTML = `<option value="${currentFile}">${currentFile}</option>`;
   
