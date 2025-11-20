@@ -8,19 +8,21 @@
 </head>
 <body class="p-4" style="background:#f4f6fb;">
 <div class="container">
-  <h3>Admin Demo — Produk</h3>
+  <h3>Admin Demo — Produk / Links</h3>
 
   <div class="mb-3">
-    <label>Pilih file JSON:</label>
+    <label>Pilih file:</label>
     <select id="fileSelect" class="form-select w-auto">
-      <option value="products1.json" selected>products1.json</option>
+      <option value="products1.json">products1.json</option>
       <option value="products2.json">products2.json</option>
+      <option value="data1.json">data1.json</option>
+      <option value="data2.json">data2.json</option>
     </select>
     <button id="btnLoad" class="btn btn-primary btn-sm ms-2">Load</button>
   </div>
 
   <div class="table-responsive mt-3">
-    <table class="table table-bordered table-striped" id="productTable">
+    <table class="table table-bordered table-striped" id="dataTable">
       <thead><tr></tr></thead>
       <tbody></tbody>
     </table>
@@ -33,7 +35,14 @@ const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
 async function loadFile(file){
   try{
     const res = await fetch(`${API_BASE}/products?file=${file}`);
-    const data = await res.json();
+    let data;
+    if(!res.ok){
+      // coba /links
+      const res2 = await fetch(`${API_BASE}/links?file=${file}`);
+      data = await res2.json();
+    } else {
+      data = await res.json();
+    }
     renderTable(data);
   }catch(e){
     alert("Failed to load JSON: "+e.message);
@@ -41,13 +50,13 @@ async function loadFile(file){
 }
 
 function renderTable(data){
-  const table = document.getElementById("productTable");
+  const table = document.getElementById("dataTable");
   const thead = table.querySelector("thead tr");
   const tbody = table.querySelector("tbody");
 
   if(!Array.isArray(data) || data.length===0){
     thead.innerHTML = "";
-    tbody.innerHTML = "<tr><td colspan='5'>Tidak ada data</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='10'>Tidak ada data</td></tr>";
     return;
   }
 
