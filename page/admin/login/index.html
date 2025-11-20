@@ -1,36 +1,78 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Login Demo — LaksanaCraft</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Login — LaksanaCraft</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="d-flex justify-content-center align-items-center" style="height:100vh;background:#f4f6fb;">
-<div class="card p-4 shadow" style="width:360px;">
-<h4 class="mb-3 text-center">Admin Login</h4>
-<input id="user" class="form-control mb-2" placeholder="Username">
-<input id="pass" type="password" class="form-control mb-3" placeholder="Password">
-<button class="btn btn-primary w-100" onclick="login()">Login</button>
-<p id="msg" class="text-danger mt-2 text-center"></p>
-</div>
+  <div class="card p-4 shadow" style="width:380px;">
+    <h4 class="mb-3 text-center">Admin Login</h4>
+
+    <!-- Simple login -->
+    <div class="mb-2">
+      <label class="form-label">Username</label>
+      <input id="user" class="form-control" placeholder="admin user">
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Password</label>
+      <input id="pass" type="password" class="form-control" placeholder="admin pass">
+    </div>
+    <button id="btnSimple" class="btn btn-primary w-100 mb-3">Login (Simple)</button>
+
+    <hr>
+
+    <!-- GitHub Token login -->
+    <div class="mb-2">
+      <label class="form-label">Login dengan GitHub Token</label>
+      <input id="gh_token" class="form-control" placeholder="Masukkan token GitHub">
+    </div>
+    <button id="btnGH" class="btn btn-dark w-100">Login dengan GitHub Token</button>
+
+    <p id="msg" class="text-danger mt-2 text-center"></p>
+  </div>
 
 <script>
 const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
 
-async function login(){
-  msg.textContent='';
+document.getElementById('btnSimple').onclick = async () => {
+  msg.textContent = '';
   const u = user.value.trim();
   const p = pass.value.trim();
-  if(!u||!p){ msg.textContent='Masukkan username & password'; return; }
-  const res = await fetch(`${API_BASE}/auth`,{ headers:{ "x-user":u,"x-pass":p }});
-  const j = await res.json();
-  if(j.status==="OK"){
-    localStorage.setItem("isLoggedIn","1");
-    localStorage.setItem("LaksanaCraft_API_KEY",j.api_key);
-    location.href="../index.html";
-  } else msg.textContent = j.message || 'Login gagal';
-}
+  if(!u || !p) return msg.textContent = 'Masukkan username & password';
+  // Simple login: cek environment login (Worker tidak diubah)
+  if(u==="admin" && p==="12345"){  // ganti sesuai ADMIN_USER/ADMIN_PASS
+    localStorage.setItem('LaksanaCraft_API_KEY','simple-login-ok');
+    localStorage.setItem('isLoggedIn','1');
+    location.href='../index.html';
+  } else {
+    msg.textContent = 'Login gagal';
+  }
+};
+
+// GitHub token login
+document.getElementById('btnGH').onclick = async () => {
+  msg.textContent = '';
+  const t = gh_token.value.trim();
+  if(!t) return msg.textContent = 'Masukkan token GitHub';
+
+  // Tes token dengan fetch Worker (ambil file pertama produk)
+  try {
+    const testFile = "products1.json";
+    const res = await fetch(`${API_BASE}/products?file=${testFile}`, {
+      headers: { "Authorization": `token ${t}` }
+    });
+    if(res.status===200){
+      localStorage.setItem('GH_TOKEN', t);
+      localStorage.setItem('isLoggedIn','1');
+      localStorage.setItem('LaksanaCraft_API_KEY','github-token');
+      location.href='../index.html';
+    } else {
+      msg.textContent = 'Token tidak valid atau Worker error';
+    }
+  } catch(e){ msg.textContent = 'Fetch error: '+e.message; }
+};
 </script>
 </body>
 </html>
