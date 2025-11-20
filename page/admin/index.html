@@ -1,162 +1,98 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin Panel — LaksanaCraft</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background:#f4f6fb; }
-    .nav-tabs .nav-link.active { background:#fff; }
-    td[contenteditable="true"] { min-width:120px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Panel — LaksanaCraft</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+.nav-tabs .nav-link.active { background-color:#fff !important; border-bottom:2px solid #0d6efd; }
+.table td, .table th { vertical-align: middle; }
+</style>
 </head>
 <body>
 <div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>LaksanaCraft Admin</h3>
-    <div>
-      <button class="btn btn-secondary me-2" onclick="logout()">Logout</button>
-      <button class="btn btn-outline-primary" onclick="reloadFile()">Reload</button>
-    </div>
-  </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>LaksanaCraft Admin</h3>
+  <button class="btn btn-outline-danger btn-sm" onclick="logout()">Logout</button>
+</div>
 
-  <ul class="nav nav-tabs mb-3">
-    <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('products', event)">Produk</a></li>
-    <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('links', event)">Links</a></li>
-  </ul>
+<ul class="nav nav-tabs">
+  <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('products')">Produk</a></li>
+  <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('links')">Links</a></li>
+</ul>
 
-  <div class="mb-3">
-    <label>Pilih file JSON:</label>
-    <select id="fileSelect" class="form-select w-auto d-inline-block" onchange="loadFile()"></select>
-    <button class="btn btn-sm btn-success ms-2" onclick="addItem()">Tambah Item</button>
-    <button class="btn btn-sm btn-primary ms-2" onclick="saveToServer()">Simpan Perubahan</button>
-  </div>
+<div class="mt-3">
+  <label>Pilih file JSON:</label>
+  <select id="fileSelect" class="form-select w-auto d-inline-block" onchange="loadFile()"></select>
+</div>
 
-  <div id="tableWrap">
-    <table class="table table-bordered bg-white">
-      <thead><tr id="tableHead"></tr></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
+<div class="mt-3" id="dataContainer">
+  <table class="table table-bordered bg-white">
+    <thead><tr id="tableHead"></tr></thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <button class="btn btn-primary" onclick="addItem()">Tambah Item</button>
+</div>
 </div>
 
 <script>
 const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
-let currentType = 'products';
-let filesCache = [];
-let data = [];
-let currentFile = '';
-let apiKey = localStorage.getItem('LaksanaCraft_API_KEY');
+let currentTab="products",currentFile="",currentData=[];
 
-window.onload = async () => {
-  if(!localStorage.getItem('isLoggedIn') || !apiKey) return location.href='login/index.html';
+window.onload = async()=>{
+  if(!localStorage.getItem("isLoggedIn")) location.href="../login/index.html";
   await loadList();
-};
+}
 
 async function loadList(){
-  const res = await fetch(`${API_BASE}/list?type=${currentType}`);
-  if (!res.ok) { alert('Gagal load list'); return; }
-  const arr = await res.json();
-  filesCache = arr;
-  fileSelect.innerHTML = arr.map(f=>`<option value="${f}">${f}</option>`).join('');
-  if(arr.length>0){
-    currentFile = arr[0];
-    fileSelect.value = currentFile;
-    await loadFile();
-  } else {
-    fileSelect.innerHTML = '';
-    tableHead.innerHTML = '';
-    tableBody.innerHTML = '';
-  }
+  const res = await fetch(`${API_BASE}/list?type=${currentTab}`);
+  const files = await res.json();
+  fileSelect.innerHTML = files.map(f=>`<option value="${f}">${f}</option>`).join('');
+  if(files.length>0){ currentFile = files[0]; await loadFile(); }
 }
 
 async function loadFile(){
   currentFile = fileSelect.value;
-  if(!currentFile) return;
-  const res = await fetch(`${API_BASE}/${currentType}?file=${encodeURIComponent(currentFile)}`);
-  if(!res.ok){ alert('Gagal load file'); return; }
-  data = await res.json();
+  const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
+  currentData = await res.json();
   renderTable();
 }
 
 function renderTable(){
-  const cols = Object.keys(data[0] || {});
-  tableHead.innerHTML = cols.map(c=>`<th>${c}</th>`).join('') + '<th>Aksi</th>';
-  tableBody.innerHTML = data.map((row,i)=>`<tr>${
-    cols.map(c=>`<td contenteditable="true" data-key="${c}" data-index="${i}">${escapeHtml(row[c])}</td>`).join('')
-  }<td><button class="btn btn-danger btn-sm" onclick="deleteItem(${i})">Hapus</button></td></tr>`).join('');
+  let cols = Object.keys(currentData[0]||{});
+  tableHead.innerHTML = cols.map(c=>`<th>${c}</th>`).join('') + "<th>Aksi</th>";
+  tableBody.innerHTML = currentData.map((row,i)=>`<tr>${
+    cols.map(c=>`<td contenteditable data-key="${c}" data-index="${i}">${row[c]}</td>`).join('')
+  }<td><button class='btn btn-sm btn-danger' onclick='deleteItem(${i})'>Hapus</button></td></tr>`).join('');
 }
 
-function escapeHtml(txt){ if(txt === undefined || txt === null) return ''; return String(txt).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-
 function addItem(){
-  if(data.length === 0){
-    // create a default object with id field
-    data.push({ id: Date.now(), title: '', url: '', tokoh: '', ukuran: '', kualitas: '' });
-  } else {
-    const example = JSON.parse(JSON.stringify(data[0]));
-    Object.keys(example).forEach(k => example[k] = '');
-    example.id = Date.now();
-    data.push(example);
-  }
+  if(currentData.length===0){alert('Tidak ada data untuk ditiru'); return;}
+  let newRow = {...currentData[0]};
+  Object.keys(newRow).forEach(k=>newRow[k]='');
+  currentData.push(newRow);
   renderTable();
 }
 
 function deleteItem(i){
-  if(confirm('Hapus item ini?')) {
-    data.splice(i,1);
+  if(confirm('Yakin hapus item ini?')){
+    currentData.splice(i,1);
     renderTable();
   }
 }
 
-function collectTableToData(){
-  const cols = Array.from(tableHead.querySelectorAll('th')).map(th => th.textContent).filter(t => t !== 'Aksi');
-  const rows = Array.from(tableBody.querySelectorAll('tr'));
-  const newData = rows.map((tr, i) => {
-    const obj = {};
-    const tds = tr.querySelectorAll('td[data-key]');
-    tds.forEach(td => {
-      const key = td.getAttribute('data-key');
-      obj[key] = td.textContent.trim();
-    });
-    return obj;
-  });
-  data = newData;
-}
-
-async function saveToServer(){
-  collectTableToData();
-  if(!currentFile) return alert('Pilih file terlebih dahulu');
-  const url = `${API_BASE}/${currentType}?file=${encodeURIComponent(currentFile)}`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { "Content-Type": "application/json", "x-api-key": apiKey },
-    body: JSON.stringify(data, null, 2)
-  });
-  if(res.ok) {
-    alert('Tersimpan');
-    await loadFile();
-  } else {
-    const e = await res.json().catch(()=>null);
-    alert('Gagal menyimpan: ' + (e?.error || res.status));
-  }
-}
-
-function switchTab(t, ev){
-  ev.preventDefault();
-  currentType = t;
-  document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
-  ev.target.classList.add('active');
+function switchTab(tab){
+  currentTab = tab;
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  event.target.classList.add('active');
   loadList();
 }
-
-function reloadFile(){ loadFile(); }
 
 function logout(){
   localStorage.removeItem('isLoggedIn');
   localStorage.removeItem('LaksanaCraft_API_KEY');
-  location.href='login/index.html';
+  location.href="../login/index.html";
 }
 </script>
 </body>
