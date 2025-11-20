@@ -1,144 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin — Laksana Handicraft</title>
-
-  <!-- global base css (sudah ada di site) -->
-  <link rel="stylesheet" href="/assets/style/style.css">
-
-  <!-- admin specific -->
-  <link rel="stylesheet" href="admin.css">
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Panel — LaksanaCraft (Final)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background:#eef1f6; }
+    .modal input { margin-bottom:10px; }
+  </style>
 </head>
-<body>
-  <div class="admin-shell">
+<body class="py-4 bg-light">
+<div class="container">  <!-- HEADER -->  <div class="card mb-4"><div class="card-body d-flex justify-content-between">
+    <h4 class="mb-0">Admin Panel</h4>
+    <button class="btn btn-danger" onclick="logout()">Logout</button>
+  </div></div>  <!-- TABS -->  <div class="card mb-4"><div class="card-body"><ul class="nav nav-tabs mb-3">
+  <li class="nav-item"><button class="nav-link active" data-tab="produk">Produk</button></li>
+  <li class="nav-item"><button class="nav-link" data-tab="links">Links</button></li>
+</ul>
 
-    <!-- SIDEBAR LEFT -->
-    <aside class="admin-sidebar">
-      <div class="brand">
-        <img src="https://url.laksanacraft.my.id/assets/logo.png" alt="logo" class="mini-logo">
-        <h3>Laksana Admin</h3>
+<div class="mb-3">
+  <label class="form-label fw-bold">Pilih File JSON</label>
+  <select id="fileSelect" class="form-select"></select>
+</div>
+
+<div class="d-flex justify-content-between mb-2">
+  <h6 class="fw-bold">Daftar Item</h6>
+  <button class="btn btn-success" id="btnAdd">Tambah Item</button>
+</div>
+
+<table class="table table-striped" id="dataTable">
+  <thead><tr id="theadRow"></tr></thead>
+  <tbody id="tbodyData"></tbody>
+</table>
+
+  </div></div></div><!-- MODAL FORM --><div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Edit Item</h5></div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+        <button class="btn btn-primary" id="saveBtn">Simpan</button>
       </div>
-
-      <nav>
-        <button class="nav-btn active" data-tab="products">Produk</button>
-        <button class="nav-btn" data-tab="links">Links</button>
-      </nav>
-
-      <div class="spacer"></div>
-
-      <div class="login-summary" id="loginSummary">
-        <div>Login sebagai: <strong id="adminUserLabel">admin</strong></div>
-        <button class="small-btn" id="btnLogout">Logout</button>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="admin-main">
-      <!-- TOP: file selector (dynamic) -->
-      <div class="top-row">
-        <div class="file-select-group" id="productsFileGroup">
-          <label>File Produk</label>
-          <select id="productsFileSelect"></select>
-          <button class="small-btn" id="btnRefreshProducts">Refresh</button>
-        </div>
-
-        <div class="file-select-group" id="linksFileGroup" style="display:none;">
-          <label>File Links</label>
-          <select id="linksFileSelect"></select>
-          <button class="small-btn" id="btnRefreshLinks">Refresh</button>
-        </div>
-
-        <div class="actions-right">
-          <button class="primary-btn" id="btnAdd">+ Tambah</button>
-        </div>
-      </div>
-
-      <!-- CONTENT PANELS -->
-      <section id="panelProducts" class="panel active">
-        <h2>Produk</h2>
-        <div id="productsList" class="list"></div>
-      </section>
-
-      <section id="panelLinks" class="panel" style="display:none;">
-        <h2>Links</h2>
-        <div id="linksList" class="list"></div>
-      </section>
-    </main>
-  </div>
-
-  <!-- FORM MODAL (dipakai untuk produk & links) -->
-  <div id="modal" class="modal" style="display:none;">
-    <div class="modal-inner">
-      <h3 id="modalTitle">Tambah</h3>
-
-      <form id="modalForm">
-        <input type="hidden" id="modalType"> <!-- 'product' or 'link' -->
-        <input type="hidden" id="modalFile"> <!-- file name -->
-        <input type="hidden" id="modalIndex"> <!-- index in array (for edit) -->
-
-        <!-- PRODUCT FIELDS -->
-        <div id="productFields">
-          <label>Tokoh (pisah koma)</label>
-          <input id="f_tokoh" placeholder="Semar, Gareng" />
-
-          <label>Ukuran (pisah koma)</label>
-          <input id="f_ukuran" placeholder="20cm, 25cm" />
-
-          <label>Kualitas</label>
-          <input id="f_kualitas" placeholder="alusan" />
-
-          <label>Link Produk</label>
-          <input id="f_link" placeholder="https://..." />
-
-          <label>Varian (JSON array)</label>
-          <textarea id="f_varian" placeholder='[{"size":"20cm","harga":"Rp..."}]'></textarea>
-        </div>
-
-        <!-- LINK FIELDS -->
-        <div id="linkFields" style="display:none;">
-          <label>Category (string atau array)</label>
-          <input id="l_category" placeholder='🌐 Umum & Informasi  OR  ["A","B"]' />
-
-          <label>Title</label>
-          <input id="l_title" placeholder="Judul link" />
-
-          <label>URL</label>
-          <input id="l_url" placeholder="https://..." />
-
-          <label>Icon (emoji atau teks)</label>
-          <input id="l_icon" placeholder="📰" />
-        </div>
-
-        <div class="modal-actions">
-          <button type="submit" class="primary-btn">Simpan</button>
-          <button type="button" class="small-btn" id="btnCancel">Batal</button>
-        </div>
-      </form>
     </div>
   </div>
+</div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script><script>
+let currentTab = 'produk';
+let data = [];
+let editingIndex = null;
 
-  <!-- LOGIN OVERLAY -->
-  <div id="loginOverlay" class="overlay" style="display:none;">
-    <div class="overlay-inner">
-      <h3>Login Admin</h3>
-      <form id="loginForm">
-        <label>Username</label>
-        <input id="loginUser" autocomplete="off" required />
-        <label>Password</label>
-        <div class="password-row">
-          <input id="loginPass" type="password" required />
-          <button type="button" class="small-btn" id="togglePass">👁️</button>
-        </div>
-        <div style="margin-top:12px;">
-          <button class="primary-btn" type="submit">Masuk</button>
-        </div>
-      </form>
-    </div>
-  </div>
+let structure = {
+  produk: ['id','tokoh','ukuran','kualitas'],
+  links: ['id','title','url']
+};
 
-  <script src="admin.js"></script>
-</body>
+let files = {
+  produk: ['products1.json','products2.json','products3.json'],
+  links: ['data1.json','data2.json','data3.json']
+};
+
+// TAB SWITCH
+for (let btn of document.querySelectorAll('[data-tab]')){
+  btn.onclick = ()=>{
+    document.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentTab = btn.dataset.tab;
+    loadFileList();
+  };
+}
+
+function loadFileList(){
+  fileSelect.innerHTML = '';
+  files[currentTab].forEach(f=>{
+    const o = document.createElement('option'); o.value=f; o.textContent=f;
+    fileSelect.appendChild(o);
+  });
+  loadFile();
+}
+
+function loadFile(){
+  // DEMO DATA — nanti sebenarnya fetched dari Worker
+  data = currentTab==='produk'
+    ? [{id:1,tokoh:'Arjuna',ukuran:'30cm',kualitas:'Alusan'}]
+    : [{id:1,title:'Tokopedia',url:'https://tokopedia.com'}];
+  renderTable();
+}
+
+function renderTable(){
+  const head = structure[currentTab];
+  theadRow.innerHTML = head.map(h=>`<th>${h}</th>`).join('')+`<th>Aksi</th>`;
+  tbodyData.innerHTML = '';
+
+  data.forEach((row,i)=>{
+    const tr = document.createElement('tr');
+    head.forEach(h=>{ tr.innerHTML += `<td>${row[h]}</td>` });
+    tr.innerHTML += `
+      <td>
+        <button class='btn btn-warning btn-sm me-1' onclick='openEdit(${i})'>Edit</button>
+        <button class='btn btn-danger btn-sm' onclick='deleteItem(${i})'>Hapus</button>
+      </td>`;
+    tbodyData.appendChild(tr);
+  });
+}
+
+btnAdd.onclick = ()=>{
+  editingIndex = null;
+  openModal(createEmptyItem());
+};
+
+function openEdit(i){
+  editingIndex = i;
+  openModal({...data[i]});
+}
+
+function deleteItem(i){
+  if(confirm('Hapus item ini?')){
+    data.splice(i,1);
+    renderTable();
+  }
+}
+
+function createEmptyItem(){
+  let obj = {}; structure[currentTab].forEach(k=>obj[k]='');
+  return obj;
+}
+
+function openModal(obj){
+  modalBody.innerHTML = '';
+  for(const k of structure[currentTab]){
+    modalBody.innerHTML += `
+      <label class='form-label'>${k}</label>
+      <input class='form-control' id='fld_${k}' value='${obj[k] ?? ''}'>
+    `;
+  }
+  const m = new bootstrap.Modal(editModal); m.show();
+}
+
+saveBtn.onclick = ()=>{
+  let obj={};
+  structure[currentTab].forEach(k=>{
+    obj[k] = document.getElementById('fld_'+k).value;
+  });
+
+  if(editingIndex===null) data.push(obj);
+  else data[editingIndex] = obj;
+
+  renderTable();
+  bootstrap.Modal.getInstance(editModal).hide();
+};
+
+function logout(){ location.href='login.html'; }
+
+loadFileList();
+</script></body>
 </html>
