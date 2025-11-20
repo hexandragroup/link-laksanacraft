@@ -37,21 +37,20 @@ window.onload = async()=>{
 }
 
 async function loadList(){
-  const res = await fetch(`${API_BASE}/list?type=${currentTab}`);
-  const files = await res.json();
-  if(!Array.isArray(files)) return;
-  fileSelect.innerHTML = files.map(f=>`<option value="${f}">${f}</option>`).join('');
-  if(files.length>0){ currentFile = files[0]; await loadFile(); }
+  // Untuk demo, langsung set file default
+  if(currentTab==="products") currentFile="products1.json";
+  if(currentTab==="links") currentFile="data1.json";
+  await loadFile();
 }
 
 async function loadFile(){
-  if(!currentFile) currentFile = fileSelect.value;
   const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
   currentData = await res.json();
   renderTable();
 }
 
 function renderTable(){
+  if(!Array.isArray(currentData)) currentData=[];
   if(currentData.length===0){ tableHead.innerHTML=''; tableBody.innerHTML=''; return; }
   const cols = Object.keys(currentData[0]);
   tableHead.innerHTML = '<tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
