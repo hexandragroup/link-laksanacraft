@@ -9,6 +9,16 @@
 <body class="p-4" style="background:#f4f6fb;">
 <div class="container">
   <h3>Admin Demo — Produk</h3>
+
+  <div class="mb-3">
+    <label>Pilih file JSON:</label>
+    <select id="fileSelect" class="form-select w-auto">
+      <option value="products1.json" selected>products1.json</option>
+      <option value="products2.json">products2.json</option>
+    </select>
+    <button id="btnLoad" class="btn btn-primary btn-sm ms-2">Load</button>
+  </div>
+
   <div class="table-responsive mt-3">
     <table class="table table-bordered table-striped" id="productTable">
       <thead><tr></tr></thead>
@@ -19,37 +29,46 @@
 
 <script>
 const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const FILE = "products1.json";
 
-async function loadProducts() {
-  try {
-    const res = await fetch(`${API_BASE}/products?file=${FILE}`);
+async function loadFile(file){
+  try{
+    const res = await fetch(`${API_BASE}/products?file=${file}`);
     const data = await res.json();
     renderTable(data);
-  } catch (e) {
-    alert("Failed to load JSON: " + e.message);
+  }catch(e){
+    alert("Failed to load JSON: "+e.message);
   }
 }
 
-function renderTable(data) {
+function renderTable(data){
   const table = document.getElementById("productTable");
   const thead = table.querySelector("thead tr");
   const tbody = table.querySelector("tbody");
 
-  if (!data.length) return;
+  if(!Array.isArray(data) || data.length===0){
+    thead.innerHTML = "";
+    tbody.innerHTML = "<tr><td colspan='5'>Tidak ada data</td></tr>";
+    return;
+  }
 
   const cols = Object.keys(data[0]);
-  thead.innerHTML = cols.map(c => `<th>${c}</th>`).join("");
-  tbody.innerHTML = data.map(row => {
-    return "<tr>" + cols.map(c => {
-      let val = row[c];
-      if(Array.isArray(val)) val = JSON.stringify(val);
+  thead.innerHTML = cols.map(c=>`<th>${c}</th>`).join("");
+  tbody.innerHTML = data.map(row=>{
+    return "<tr>"+cols.map(c=>{
+      let val=row[c];
+      if(Array.isArray(val)) val=JSON.stringify(val);
       return `<td>${val}</td>`;
-    }).join("") + "</tr>";
+    }).join("")+"</tr>";
   }).join("");
 }
 
-loadProducts();
+document.getElementById("btnLoad").onclick = ()=>{
+  const file = document.getElementById("fileSelect").value;
+  loadFile(file);
+}
+
+// Load default
+loadFile("products1.json");
 </script>
 </body>
 </html>
