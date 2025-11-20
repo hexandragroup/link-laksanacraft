@@ -1,106 +1,79 @@
 <!doctype html>
-<html lang="id">
+<html>
 <head>
   <meta charset="utf-8">
+  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin Panel — LaksanaCraft</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { background:#f4f6fb; }
-    .nav-tabs .nav-link.active { background-color:#fff !important; border-bottom:2px solid #0d6efd; }
-    .table td, .table th { vertical-align: middle; }
-  </style>
 </head>
-<body>
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>LaksanaCraft Admin</h3>
-    <button class="btn btn-outline-danger btn-sm" onclick="logout()">Logout</button>
-  </div>
 
-  <!-- Tabs -->
-  <ul class="nav nav-tabs" id="tabMenu">
-    <li class="nav-item"><a class="nav-link active" href="#" onclick="switchTab('products')">Produk</a></li>
-    <li class="nav-item"><a class="nav-link" href="#" onclick="switchTab('links')">Links</a></li>
-  </ul>
+<body class="p-4 bg-light">
 
-  <!-- File Dropdown -->
-  <div class="mt-3">
-    <label>Pilih file JSON:</label>
-    <select id="fileSelect" class="form-select w-auto d-inline-block" onchange="loadFile()"></select>
-  </div>
-
-  <!-- Data Table -->
-  <div class="mt-3" id="dataContainer">
-    <table class="table table-bordered bg-white">
-      <thead><tr id="tableHead"></tr></thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-    <button class="btn btn-primary" onclick="addItem()">Tambah Item</button>
-  </div>
+<div class="d-flex justify-content-between">
+  <h3>LaksanaCraft Admin</h3>
+  <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
 </div>
 
-<script>
-const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
-let currentTab = "products";
-let currentData = [];
-let currentFile = "";
+<hr>
 
-window.onload = async () => {
-  if(!localStorage.getItem("isLoggedIn")) return location.href="../login/index.html";
-  await loadList();
+<!-- Tabs -->
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" onclick="switchTab('products')">Products</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#" onclick="switchTab('links')">Links</a>
+  </li>
+</ul>
+
+<!-- File Dropdown -->
+<label>Pilih file JSON:</label>
+<select id="fileSelect" class="form-select w-auto"></select>
+
+<!-- Data -->
+<pre id="output" class="bg-white p-3 mt-3 border rounded" style="min-height:200px"></pre>
+
+<script>
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+let currentTab = "products";
+
+window.onload = () => {
+  if (!localStorage.getItem("logged")) {
+    location.href = "./login/index.html";
+  }
+  loadList();
 };
 
 async function loadList(){
-  const res = await fetch(`${API_BASE}/list?type=${currentTab}`);
+  const res = await fetch(`${API}/list?type=${currentTab}`);
   const files = await res.json();
-  fileSelect.innerHTML = files.map(f=>`<option value=\"${f}\">${f}</option>`).join('');
-  if(files.length>0){
-    currentFile = files[0];
-    await loadFile();
-  }
+
+  fileSelect.innerHTML = files.map(f => `<option>${f}</option>`).join("");
+
+  if (files.length > 0) loadFile();
 }
 
 async function loadFile(){
-  currentFile = fileSelect.value;
-  const res = await fetch(`${API_BASE}/${currentTab}?file=${currentFile}`);
-  currentData = await res.json();
-  renderTable();
+  const file = fileSelect.value;
+
+  const res = await fetch(`${API}/${currentTab}?file=${file}`);
+  const data = await res.json();
+
+  output.textContent = JSON.stringify(data, null, 2);
 }
 
-function renderTable(){
-  let cols = Object.keys(currentData[0] || {});
-  tableHead.innerHTML = cols.map(c=>`<th>${c}</th>`).join('') + "<th>Aksi</th>";
-  tableBody.innerHTML = currentData.map((row,i)=>`<tr>${
-    cols.map(c=>`<td contenteditable='true' data-key='${c}' data-index='${i}'>${row[c]}</td>`).join('')
-  }<td><button class='btn btn-sm btn-danger' onclick='deleteItem(${i})'>Hapus</button></td></tr>`).join('');
-}
-
-function addItem(){
-  if(currentData.length===0){alert('Tidak ada data untuk ditiru.');return;}
-  let newRow = {...currentData[0]};
-  Object.keys(newRow).forEach(k=>newRow[k]='');
-  currentData.push(newRow);
-  renderTable();
-}
-
-function deleteItem(i){
-  if(confirm('Yakin hapus item ini?')){
-    currentData.splice(i,1);
-    renderTable();
-  }
-}
+fileSelect.onchange = loadFile;
 
 function switchTab(tab){
   currentTab = tab;
-  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-  event.target.classList.add('active');
+  document.querySelectorAll(".nav-link").forEach(n => n.classList.remove("active"));
+  event.target.classList.add("active");
   loadList();
 }
 
 function logout(){
-  localStorage.removeItem('isLoggedIn');
-  location.href="../login/index.html";
+  localStorage.removeItem("logged");
+  location.href = "./login/index.html";
 }
 </script>
 </body>
