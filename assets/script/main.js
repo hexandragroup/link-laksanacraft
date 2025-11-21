@@ -181,45 +181,50 @@ if (queryInput && suggestionsBox) {
   });
 }
 
-// ======================================================
-// Theme Switcher LIVE + localStorage
-// ======================================================
+// Theme switcher
 const themeSelector = document.getElementById("themeSelector");
 const themeLink = document.createElement("link");
 themeLink.id = "theme-style";
 themeLink.rel = "stylesheet";
 document.head.appendChild(themeLink);
 
+// Opsi placeholder awal
 const defaultText = "🎨 Pilih Tema";
 const defaultValue = "base";
 
+// Muat tema tersimpan
 let savedTheme = localStorage.getItem("theme") || defaultValue;
-setTheme(savedTheme);
+themeLink.href = savedTheme === defaultValue 
+    ? "assets/style/style.css" 
+    : `assets/style/themes/${savedTheme}.css`;
 
-// Set dropdown value dan placeholder
+// Set teks dan value dropdown
 themeSelector.value = savedTheme;
 updatePlaceholderText(savedTheme);
-
-// Fungsi ubah tema
-function setTheme(val) {
-  const timestamp = new Date().getTime(); // untuk bypass cache
-  themeLink.href = val === defaultValue
-      ? `assets/style/style.css?ts=${timestamp}`
-      : `assets/style/themes/${val}.css?ts=${timestamp}`;
-  localStorage.setItem("theme", val);
-}
 
 // Fungsi update placeholder
 function updatePlaceholderText(val) {
   const firstOption = themeSelector.querySelector('option[value="base"]');
-  if (val === defaultValue) firstOption.textContent = defaultText;
-  else firstOption.textContent = "🎨 Default";
+  if(val === defaultValue) {
+    firstOption.textContent = defaultText; // Pilih Tema
+  } else {
+    firstOption.textContent = "🎨 Default"; // Setelah ganti tema
+  }
 }
 
-// Event listener dropdown
+// Ganti tema saat dipilih
 themeSelector.addEventListener("change", () => {
   const val = themeSelector.value;
   if (!val) return;
-  setTheme(val);
+
+  // Ganti stylesheet
+  themeLink.href = val === defaultValue
+      ? "assets/style/style.css"
+      : `assets/style/themes/${val}.css`;
+
+  // Simpan di localStorage
+  localStorage.setItem("theme", val);
+
+  // Update teks placeholder
   updatePlaceholderText(val);
 });
