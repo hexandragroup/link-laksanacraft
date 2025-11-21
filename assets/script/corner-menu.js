@@ -10,7 +10,7 @@
     .corner-tab:hover { background:#555; transform: scale(1.05); }  
 
     .corner-menu {  
-      position:fixed; top:0; right:-200px; width:200px; height:100%;  
+      position:fixed; top:0; right:-180px; width:180px; height:100%;  
       background: rgba(255,255,255,0.97);  
       box-shadow: -3px 0 12px rgba(0,0,0,0.2);  
       display:flex; flex-direction:column;  
@@ -46,7 +46,7 @@
 
     /* Dropdown tema */  
     .theme-switcher {  
-      width: 170px;  
+      width: 150px;  
       margin: 15px 15px 30px 15px;  
       padding: 8px;  
       border: 1px solid #bbb;  
