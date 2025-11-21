@@ -15,7 +15,7 @@ function goSearch(e) {
   e.preventDefault();
   const q = document.getElementById("query")?.value.trim();
   if (q) {
-    window.location.href = `https://link.laksanacraft.my.id/page/search?q=${encodeURIComponent(q)}`;
+    window.location.href = `page/search?q=${encodeURIComponent(q)}`;
   } else {
     alert("Masukkan kata kunci pencarian!");
   }
@@ -90,7 +90,7 @@ async function loadAllProducts() {
   let i = 1;
 
   while (true) {
-    const file = `https://link.laksanacraft.my.id/page/search/data/products${i}.json`;
+    const file = `page/search/data/products${i}.json`;
     try {
       const res = await fetch(file);
       if (!res.ok) break;
