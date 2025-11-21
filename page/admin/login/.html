@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>Login Admin — LaksanaCraft</title>
+
+  <!-- CSS utama -->
+  <link rel="stylesheet" href="/assets/style/style.css">
+
+  <!-- CSS khusus login -->
+  <link rel="stylesheet" href="assets/login.css">
+</head>
+
+<body>
+<script src="/assets/script/corner-menu.js"></script>
+
+<div class="container login-box">
+    <img src="https://url.laksanacraft.my.id/assets/logo.png" class="logo" alt="logo">
+
+    <h1>Login Admin</h1>
+    <p><em>Masukkan username/password atau GitHub Token</em></p>
+
+    <!-- Username -->
+    <input id="user" class="input" placeholder="Username">
+
+    <!-- Password -->
+    <input id="pass" type="password" class="input" placeholder="Password">
+
+    <button id="btnSimple" class="btn">Login (Simple)</button>
+
+    <hr>
+
+    <!-- TOKEN -->
+    <input id="gh_token" class="input" placeholder="GitHub Token">
+
+    <button id="btnGH" class="btn dark">Login dengan GitHub Token</button>
+
+    <p id="msg" class="msg"></p>
+
+    <footer>
+        &copy; <span id="year"></span> Laksana Handicraft — Bantul, Indonesia
+    </footer>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+
+// ---------- SIMPLE LOGIN ----------
+btnSimple.onclick = () => {
+    msg.textContent = "";
+    const u = user.value.trim();
+    const p = pass.value.trim();
+
+    if (u === "admin" && p === "12345") {
+        localStorage.setItem("isLoggedIn", "1");
+        localStorage.setItem("LaksanaCraft_API_KEY", "simple");
+        location.href = "/admin/";
+    } else {
+        msg.textContent = "Username atau password salah";
+    }
+};
+
+// ---------- LOGIN TOKEN ----------
+btnGH.onclick = async () => {
+    msg.textContent = "";
+    const token = gh_token.value.trim();
+    if (!token) return msg.textContent = "Masukkan token GitHub";
+
+    try {
+        const res = await fetch(`${API}/products?file=products1.json`, {
+            headers: { "Authorization": `token ${token}` }
+        });
+
+        if (res.ok) {
+            localStorage.setItem("GH_TOKEN", token);
+            localStorage.setItem("LaksanaCraft_API_KEY", "github");
+            localStorage.setItem("isLoggedIn", "1");
+            location.href = "/admin/";
+        } else {
+            msg.textContent = "Token salah atau akses ditolak";
+        }
+    } catch (e) {
+        msg.textContent = "Kesalahan koneksi";
+    }
+};
+</script>
+</body>
+</html>
