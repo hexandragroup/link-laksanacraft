@@ -27,6 +27,7 @@ const tabFiles = {
   toko: "assets/config/toko.json",
   sosial: "assets/config/sosial.json"
 };
+
 const linkCache = {};
 
 function loadLinks(tab) {
@@ -87,7 +88,6 @@ let loadingProducts = true;
 async function loadAllProducts() {
   const files = [];
   let i = 1;
-
   while (true) {
     const file = `page/search/data/products${i}.json`;
     try {
@@ -100,7 +100,6 @@ async function loadAllProducts() {
       break;
     }
   }
-
   products = files.flat();
   loadingProducts = false;
 }
@@ -121,7 +120,7 @@ function highlightText(text, keyword) {
   return text.replace(regex, `<b style="background-color:#ffebc2;color:#b33;">$1</b>`);
 }
 
-/* --- Event Input: Auto-saran dengan prioritas huruf depan --- */
+/* --- Event Input: Auto-saran --- */
 if (queryInput && suggestionsBox) {
   queryInput.addEventListener("input", function () {
     const val = this.value.trim().toLowerCase();
@@ -149,12 +148,12 @@ if (queryInput && suggestionsBox) {
       ...Array.from(kualitasSet).map(k => `kualitas:${k}`)
     ];
 
-    // 🔹 Prioritas huruf depan
+    // 🔹 Prioritas: startsWith dulu baru includes
     const startsWithMatches = allList.filter(item => item.split(":")[1].toLowerCase().startsWith(val));
-    const includesMatches = allList.filter(item =>
-      !item.split(":")[1].toLowerCase().startsWith(val) &&
-      item.split(":")[1].toLowerCase().includes(val)
-    );
+    const includesMatches = allList.filter(item => {
+      const value = item.split(":")[1].toLowerCase();
+      return !value.startsWith(val) && value.includes(val);
+    });
     const matches = [...startsWithMatches, ...includesMatches];
 
     if (!matches.length) {
@@ -183,7 +182,7 @@ if (queryInput && suggestionsBox) {
 }
 
 // ======================================================
-// THEME SWITCHER
+// Theme Switcher LIVE + localStorage
 // ======================================================
 const themeSelector = document.getElementById("themeSelector");
 const themeLink = document.createElement("link");
@@ -195,25 +194,32 @@ const defaultText = "🎨 Pilih Tema";
 const defaultValue = "base";
 
 let savedTheme = localStorage.getItem("theme") || defaultValue;
-themeLink.href = savedTheme === defaultValue
-    ? "/assets/style/style.css"
-    : `/assets/style/themes/${savedTheme}.css`;
+setTheme(savedTheme);
 
+// Set dropdown value dan placeholder
 themeSelector.value = savedTheme;
 updatePlaceholderText(savedTheme);
 
+// Fungsi ubah tema
+function setTheme(val) {
+  const timestamp = new Date().getTime(); // untuk bypass cache
+  themeLink.href = val === defaultValue
+      ? `/assets/style/style.css?ts=${timestamp}`
+      : `/assets/style/themes/${val}.css?ts=${timestamp}`;
+  localStorage.setItem("theme", val);
+}
+
+// Fungsi update placeholder
 function updatePlaceholderText(val) {
   const firstOption = themeSelector.querySelector('option[value="base"]');
-  if(val === defaultValue) firstOption.textContent = defaultText;
+  if (val === defaultValue) firstOption.textContent = defaultText;
   else firstOption.textContent = "🎨 Default";
 }
 
+// Event listener dropdown
 themeSelector.addEventListener("change", () => {
   const val = themeSelector.value;
   if (!val) return;
-  themeLink.href = val === defaultValue
-      ? "/assets/style/style.css"
-      : `/assets/style/themes/${val}.css`;
-  localStorage.setItem("theme", val);
+  setTheme(val);
   updatePlaceholderText(val);
 });
