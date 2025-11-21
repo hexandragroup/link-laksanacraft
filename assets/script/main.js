@@ -226,51 +226,26 @@ queryInput.addEventListener("input", function () {
   });
 });
 
-// Theme switcher
+/* ===================== THEME SWITCHER ===================== */
 const themeSelector = document.getElementById("themeSelector");
-
-// Link default (style + main)
-const defaultLinks = ["assets/style/style.css", "assets/style/main.css"].map(href => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    document.head.appendChild(link);
-    return link;
-});
-
-// Link tema
 const themeLink = document.createElement("link");
-themeLink.rel = "stylesheet";
 themeLink.id = "theme-style";
+themeLink.rel = "stylesheet";
 document.head.appendChild(themeLink);
 
-const defaultValue = "base";
-const defaultText = "🎨 Pilih Tema";
-
-// Load tema tersimpan
-let savedTheme = localStorage.getItem("theme") || defaultValue;
-applyTheme(savedTheme);
+// Muat tema tersimpan
+const savedTheme = localStorage.getItem("theme") || "base";
+themeLink.href = savedTheme === "base" 
+    ? "../assets/style/style.css" 
+    : `../assets/style/themes/${savedTheme}.css`;
 themeSelector.value = savedTheme;
 
-// Event ganti tema
+// Ganti tema saat dipilih
 themeSelector.addEventListener("change", () => {
-    const val = themeSelector.value;
-    applyTheme(val);
-    localStorage.setItem("theme", val);
+  const val = themeSelector.value;
+  if (!val) return;
+  themeLink.href = val === "base" 
+      ? "../assets/style/style.css" 
+      : `../assets/style/themes/${val}.css`;
+  localStorage.setItem("theme", val);
 });
-
-// Fungsi ganti tema
-function applyTheme(val) {
-    if(val === defaultValue) {
-        themeLink.href = ""; // Tidak ada tema tambahan
-    } else {
-        themeLink.href = `assets/style/themes/${val}.css`;
-    }
-    updatePlaceholder(val);
-}
-
-// Update placeholder
-function updatePlaceholder(val) {
-    const firstOption = themeSelector.querySelector('option[value="base"]');
-    firstOption.textContent = val === defaultValue ? defaultText : "🎨 Default";
-}
