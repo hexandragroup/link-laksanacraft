@@ -183,47 +183,48 @@ if (queryInput && suggestionsBox) {
 
 // Theme switcher
 const themeSelector = document.getElementById("themeSelector");
-// Link default (style + main)
-const defaultLinks = ["assets/style/style.css", "assets/style/main.css"].map(href => {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    document.head.appendChild(link);
-    return link;
-});
-// Link tema
 const themeLink = document.createElement("link");
-themeLink.rel = "stylesheet";
 themeLink.id = "theme-style";
+themeLink.rel = "stylesheet";
 document.head.appendChild(themeLink);
 
-const defaultValue = "base";
+// Opsi placeholder awal
 const defaultText = "🎨 Pilih Tema";
+const defaultValue = "base";
 
-// Load tema tersimpan
+// Muat tema tersimpan
 let savedTheme = localStorage.getItem("theme") || defaultValue;
-applyTheme(savedTheme);
+themeLink.href = savedTheme === defaultValue 
+    ? "https://link.laksanacraft.my.id/assets/style/style.css" 
+    : `https://link.laksanacraft.my.id/assets/style/themes/${savedTheme}.css`;
+
+// Set teks dan value dropdown
 themeSelector.value = savedTheme;
+updatePlaceholderText(savedTheme);
 
-// Event ganti tema
+// Fungsi update placeholder
+function updatePlaceholderText(val) {
+  const firstOption = themeSelector.querySelector('option[value="base"]');
+  if(val === defaultValue) {
+    firstOption.textContent = defaultText; // Pilih Tema
+  } else {
+    firstOption.textContent = "🎨 Default"; // Setelah ganti tema
+  }
+}
+
+// Ganti tema saat dipilih
 themeSelector.addEventListener("change", () => {
-    const val = themeSelector.value;
-    applyTheme(val);
-    localStorage.setItem("theme", val);
+  const val = themeSelector.value;
+  if (!val) return;
+
+  // Ganti stylesheet
+  themeLink.href = val === defaultValue
+      ? "https://link.laksanacraft.my.id/assets/style/style.css"
+      : `https://link.laksanacraft.my.id/assets/style/themes/${val}.css`;
+
+  // Simpan di localStorage
+  localStorage.setItem("theme", val);
+
+  // Update teks placeholder
+  updatePlaceholderText(val);
 });
-
-// Fungsi ganti tema
-function applyTheme(val) {
-    if(val === defaultValue) {
-        themeLink.href = ""; // Tidak ada tema tambahan
-    } else {
-        themeLink.href = `assets/style/themes/${val}.css`;
-    }
-    updatePlaceholder(val);
-}
-
-// Update placeholder
-function updatePlaceholder(val) {
-    const firstOption = themeSelector.querySelector('option[value="base"]');
-    firstOption.textContent = val === defaultValue ? defaultText : "🎨 Default";
-}
