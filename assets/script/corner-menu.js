@@ -1,5 +1,7 @@
 // corner-menu.js
 (function() {
+  // === Ambil elemen container menu jika mau custom CSS tetap berlaku ===
+  
   // === Buat Corner Tab ===
   const cornerTab = document.createElement('div');
   cornerTab.id = 'cornerTab';
@@ -16,7 +18,6 @@
   cornerMenu.id = 'cornerMenu';
   cornerMenu.className = 'corner-menu';
   cornerMenu.innerHTML = `
-    <div class="admin-btn-menu" id="adminBtn">⚙️</div>
     <a href="https://link.laksanacraft.my.id/">🏠 Beranda</a>
     <a href="https://url.laksanacraft.my.id/profil">👤 Tentang</a>
     <a href="https://linktr.ee/hexandra" target="_blank">💼 Bisnis</a>
@@ -30,9 +31,14 @@
   `;
   document.body.appendChild(cornerMenu);
 
-  const adminBtn = document.getElementById('adminBtn');
+  // === Buat tombol admin dan append terakhir agar tidak merusak layout ===
+  const adminBtn = document.createElement('div');
+  adminBtn.id = 'adminBtn';
+  adminBtn.className = 'admin-btn-menu';
+  adminBtn.textContent = '⚙️';
+  cornerMenu.appendChild(adminBtn);
 
-  // === Animasi buka/tutup menu ===
+  // === Animasi buka menu ===
   cornerTab.addEventListener('click', e => {
     e.stopPropagation();
     cornerMenu.classList.add('show');
@@ -40,6 +46,7 @@
     cornerTab.style.pointerEvents = 'none';
   });
 
+  // Klik di luar menu untuk menutup
   document.addEventListener('click', e => {
     if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
       cornerMenu.classList.remove('show');
@@ -48,7 +55,7 @@
     }
   });
 
-  // === Swipe close untuk mobile ===
+  // Swipe close mobile
   let touchStartX = 0;
   document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
   document.addEventListener('touchend', e => {
@@ -60,7 +67,7 @@
     }
   });
 
-  // === Tombol Admin ===
+  // Tombol admin klik
   adminBtn.addEventListener('click', e => {
     e.stopPropagation();
     window.location.href = 'https://link.laksanacraft.my.id/page/admin/login';
