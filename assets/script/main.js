@@ -76,36 +76,6 @@ function showTab(id) {
 
 loadLinks("utama");
 
-/* --- Tombol pojok & menu swipe (mobile) --- */
-const cornerTab = document.getElementById("cornerTab");
-const cornerMenu = document.getElementById("cornerMenu");
-
-cornerTab.addEventListener("click", e => {
-  e.stopPropagation();
-  cornerMenu.classList.add("show");
-  cornerTab.style.opacity = "0";
-  cornerTab.style.pointerEvents = "none";
-});
-
-document.addEventListener("click", e => {
-  if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
-    cornerMenu.classList.remove("show");
-    cornerTab.style.opacity = "1";
-    cornerTab.style.pointerEvents = "auto";
-  }
-});
-
-let touchStartX = 0;
-document.addEventListener("touchstart", e => (touchStartX = e.touches[0].clientX));
-document.addEventListener("touchend", e => {
-  const touchEndX = e.changedTouches[0].clientX;
-  if (cornerMenu.classList.contains("show") && touchEndX < touchStartX - 50) {
-    cornerMenu.classList.remove("show");
-    cornerTab.style.opacity = "1";
-    cornerTab.style.pointerEvents = "auto";
-  }
-});
-
 /* --- Load Produk (stabil) --- */
 let products = [];
 let loading = true;
