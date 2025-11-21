@@ -186,13 +186,13 @@ if (themeSelectorEl) {
   document.head.appendChild(themeLink);
 
   const savedTheme = localStorage.getItem("theme") || "base";
-  themeLink.href = savedTheme === "base" ? "../assets/style/style.css" : `../assets/style/themes/${savedTheme}.css`;
+  themeLink.href = savedTheme === "base" ? "/assets/style/style.css" : `/assets/style/themes/${savedTheme}.css`;
   themeSelectorEl.value = savedTheme;
 
   themeSelectorEl.addEventListener("change", () => {
     const val = themeSelectorEl.value;
     if (!val) return;
-    themeLink.href = val === "base" ? "../assets/style/style.css" : `../assets/style/themes/${val}.css`;
+    themeLink.href = val === "base" ? "/assets/style/style.css" : `/assets/style/themes/${val}.css`;
     localStorage.setItem("theme", val);
   });
 }
