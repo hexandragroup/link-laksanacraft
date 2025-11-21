@@ -3,66 +3,154 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin LaksanaCraft API</title>
+<title>Admin Products — LaksanaCraft</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 <div class="container py-4">
-  <h2>Admin LaksanaCraft</h2>
+  <h2 class="mb-4">Admin — Products</h2>
 
-  <ul class="nav nav-tabs mb-3" id="tabMenu">
-    <li class="nav-item"><a class="nav-link active" data-type="products" href="#">Products</a></li>
-    <li class="nav-item"><a class="nav-link" data-type="links" href="#">Links</a></li>
-  </ul>
+  <!-- Pilih file JSON -->
+  <div class="mb-3 row">
+    <label class="col-sm-2 col-form-label">Pilih file JSON:</label>
+    <div class="col-sm-4">
+      <select id="fileSelect" class="form-select">
+        <option value="products1.json">products1.json</option>
+        <option value="products2.json">products2.json</option>
+      </select>
+    </div>
+    <div class="col-sm-2">
+      <button id="btnLoad" class="btn btn-primary">Load</button>
+    </div>
+  </div>
 
-  <div id="tableContainer"></div>
+  <!-- Tabel produk -->
+  <div class="card p-3">
+    <table class="table table-striped" id="productsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tokoh</th>
+          <th>Ukuran</th>
+          <th>Kualitas</th>
+          <th>Link</th>
+          <th>Varian</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="btnAdd" class="btn btn-success">Tambah Produk</button>
+  </div>
 </div>
 
 <script>
 const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const tableContainer = document.getElementById("tableContainer");
-const tabs = document.querySelectorAll("#tabMenu .nav-link");
+const API_KEY = localStorage.getItem('LaksanaCraft_API_KEY'); // login sebelumnya
 
-async function loadData(type) {
-  tableContainer.innerHTML = "Loading...";
-  try {
-    const res = await fetch(`${API_BASE}${type==='products'?'/products':'/links'}`);
-    const data = await res.json();
-    if (!Array.isArray(data)) { tableContainer.innerHTML = "Data invalid"; return; }
+let currentFile = fileSelect.value;
+let productsData = [];
 
-    let html = `<table class="table table-striped"><thead><tr>`;
-    if(type==='products') html += "<th>ID</th><th>Tokoh</th><th>Ukuran</th><th>Kualitas</th><th>Link</th>";
-    else html += "<th>Category</th><th>Title</th><th>URL</th><th>Icon</th>";
-    html += "</tr></thead><tbody>";
-
-    data.forEach(item=>{
-      html+="<tr>";
-      if(type==='products'){
-        html+=`<td>${item.id}</td><td>${item.tokoh.join(", ")}</td><td>${item.ukuran.join(", ")}</td><td>${item.kualitas}</td><td><a href="${item.link}" target="_blank">Link</a></td>`;
-      } else {
-        html+=`<td>${Array.isArray(item.category)?item.category.join(", "):item.category}</td><td>${item.title}</td><td><a href="${item.url}" target="_blank">${item.url}</a></td><td>${item.icon}</td>`;
-      }
-      html+="</tr>";
-    });
-
-    html += "</tbody></table>";
-    tableContainer.innerHTML = html;
-  } catch(err){
-    tableContainer.innerHTML = "Error: "+err.message;
+// Load data
+async function loadData() {
+  const res = await fetch(`${API_BASE}/products?file=${currentFile}`);
+  const j = await res.json();
+  if(j.status === "OK") {
+    productsData = j.content;
+    renderTable();
+  } else {
+    alert(`Failed: ${j.error || JSON.stringify(j)}`);
   }
 }
 
-tabs.forEach(tab=>{
-  tab.addEventListener("click",e=>{
-    e.preventDefault();
-    tabs.forEach(t=>t.classList.remove("active"));
-    tab.classList.add("active");
-    loadData(tab.dataset.type);
+function renderTable() {
+  const tbody = document.querySelector("#productsTable tbody");
+  tbody.innerHTML = "";
+  productsData.forEach((p, idx) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${p.id}</td>
+      <td>${p.tokoh.join(", ")}</td>
+      <td>${p.ukuran.join(", ")}</td>
+      <td>${p.kualitas}</td>
+      <td><a href="${p.link}" target="_blank">Link</a></td>
+      <td>${p.varian.map(v => `${v.size}=${v.harga}`).join(", ")}</td>
+      <td>
+        <button class="btn btn-sm btn-warning" onclick="editItem(${idx})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteItem(${idx})">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(row);
   });
-});
+}
 
-// default load
-loadData("products");
+// Tambah item
+function addItem() {
+  const tokoh = prompt("Tokoh (pisahkan koma)");
+  const ukuran = prompt("Ukuran (pisahkan koma)");
+  const kualitas = prompt("Kualitas");
+  const link = prompt("Link");
+  if(!tokoh || !ukuran || !kualitas || !link) return;
+  const varianStr = prompt("Varian format size=harga, pisahkan koma");
+  const varian = varianStr.split(",").map(v => {
+    const [size,harga] = v.split("=");
+    return { size: size.trim(), harga: harga.trim() };
+  });
+  const newId = productsData.length ? Math.max(...productsData.map(x=>x.id))+1 : 1;
+  productsData.push({ id: newId, tokoh: tokoh.split(","), ukuran: ukuran.split(","), kualitas, link, varian });
+  saveData();
+}
+
+// Edit item
+function editItem(idx) {
+  const p = productsData[idx];
+  const tokoh = prompt("Tokoh", p.tokoh.join(","));
+  const ukuran = prompt("Ukuran", p.ukuran.join(","));
+  const kualitas = prompt("Kualitas", p.kualitas);
+  const link = prompt("Link", p.link);
+  const varianStr = prompt("Varian format size=harga", p.varian.map(v => `${v.size}=${v.harga}`).join(","));
+  if(!tokoh || !ukuran || !kualitas || !link) return;
+  const varian = varianStr.split(",").map(v => {
+    const [size,harga] = v.split("=");
+    return { size: size.trim(), harga: harga.trim() };
+  });
+  productsData[idx] = { ...p, tokoh: tokoh.split(","), ukuran: ukuran.split(","), kualitas, link, varian };
+  saveData();
+}
+
+// Delete item
+function deleteItem(idx) {
+  if(confirm("Hapus produk ini?")) {
+    productsData.splice(idx,1);
+    saveData();
+  }
+}
+
+// Save data to worker
+async function saveData() {
+  const res = await fetch(`${API_BASE}/products?file=${currentFile}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+    body: JSON.stringify(productsData)
+  });
+  const j = await res.json();
+  if(j.content) {
+    alert("Data berhasil disimpan!");
+    loadData();
+  } else {
+    alert(`Gagal: ${j.message || JSON.stringify(j)}`);
+  }
+}
+
+// Events
+btnLoad.onclick = () => {
+  currentFile = fileSelect.value;
+  loadData();
+};
+btnAdd.onclick = addItem;
+
+// Initial load
+loadData();
 </script>
 </body>
 </html>
