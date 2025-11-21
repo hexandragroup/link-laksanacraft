@@ -1,29 +1,56 @@
-/* =============================
-   LOGIN.CSS — Tambahan khusus
-   ============================= */
-
+/* Box khusus login */
 .login-box {
   max-width: 420px;
-  padding: 25px;
 }
 
+/* Input */
 .input {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
+  padding: 12px 14px;
+  border: 1px solid #bbb;
   border-radius: 8px;
-  border: 1px solid #aaa;
-  font-size: 15px;
+  margin: 8px 0;
+  font-size: 16px;
   box-sizing: border-box;
 }
 
-.btn.dark {
-  background: #222;
-  color: #fff;
+/* Password wrapper */
+.password-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.show-hide {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: .7;
+}
+
+/* Tombol login warna baru */
+.btn-login {
+  background: #1a73e8 !important;
+  color: white !important;
+  border-color: #185abc !important;
+}
+
+.btn-login:hover {
+  background: #185abc !important;
+}
+
+.btn-token {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+.btn-token:hover {
+  background: #000 !important;
 }
 
 .msg {
-  margin-top: 12px;
-  color: #d00;
-  font-size: 14px;
+  color: red;
+  margin-top: 10px;
 }
