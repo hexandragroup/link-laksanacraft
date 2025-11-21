@@ -1,0 +1,29 @@
+/* =============================
+   LOGIN.CSS — Tambahan khusus
+   ============================= */
+
+.login-box {
+  max-width: 420px;
+  padding: 25px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #aaa;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.btn.dark {
+  background: #222;
+  color: #fff;
+}
+
+.msg {
+  margin-top: 12px;
+  color: #d00;
+  font-size: 14px;
+}
