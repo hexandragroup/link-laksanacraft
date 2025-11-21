@@ -204,8 +204,8 @@ updatePlaceholderText(savedTheme);
 function setTheme(val) {
   const timestamp = new Date().getTime(); // untuk bypass cache
   themeLink.href = val === defaultValue
-      ? `/assets/style/style.css?ts=${timestamp}`
-      : `/assets/style/themes/${val}.css?ts=${timestamp}`;
+      ? `assets/style/style.css?ts=${timestamp}`
+      : `assets/style/themes/${val}.css?ts=${timestamp}`;
   localStorage.setItem("theme", val);
 }
 
