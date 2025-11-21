@@ -1,5 +1,6 @@
+// corner-menu.js
 (function() {
-  // === Tambahkan elemen corner menu baru ===
+  // === Buat Corner Tab ===
   const cornerTab = document.createElement('div');
   cornerTab.id = 'cornerTab';
   cornerTab.className = 'corner-tab';
@@ -10,19 +11,16 @@
   `;
   document.body.appendChild(cornerTab);
 
+  // === Buat Corner Menu ===
   const cornerMenu = document.createElement('div');
   cornerMenu.id = 'cornerMenu';
   cornerMenu.className = 'corner-menu';
-  
-  // Masukkan menu lama ke dalam cornerMenu
   cornerMenu.innerHTML = `
     <div class="admin-btn-menu" id="adminBtn">⚙️</div>
-
     <a href="https://link.laksanacraft.my.id/">🏠 Beranda</a>
     <a href="https://url.laksanacraft.my.id/profil">👤 Tentang</a>
     <a href="https://linktr.ee/hexandra" target="_blank">💼 Bisnis</a>
     <a href="https://url.laksanacraft.my.id/link">🔗 Tautan</a>
-
     <select id="themeSelector" class="theme-switcher">
       <option value="base">🎨 Pilih Tema</option>
       <option value="neon">🌙 Neon 3D</option>
@@ -34,7 +32,7 @@
 
   const adminBtn = document.getElementById('adminBtn');
 
-  // === Animasi buka menu ===
+  // === Animasi buka/tutup menu ===
   cornerTab.addEventListener('click', e => {
     e.stopPropagation();
     cornerMenu.classList.add('show');
@@ -42,7 +40,6 @@
     cornerTab.style.pointerEvents = 'none';
   });
 
-  // Klik di luar menu untuk menutup
   document.addEventListener('click', e => {
     if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
       cornerMenu.classList.remove('show');
@@ -51,7 +48,7 @@
     }
   });
 
-  // Swipe close untuk mobile
+  // === Swipe close untuk mobile ===
   let touchStartX = 0;
   document.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
   document.addEventListener('touchend', e => {
@@ -63,10 +60,10 @@
     }
   });
 
-  // Tombol admin
+  // === Tombol Admin ===
   adminBtn.addEventListener('click', e => {
     e.stopPropagation();
-    window.location.href = "https://link.laksanacraft.my.id/page/admin/login";
+    window.location.href = 'https://link.laksanacraft.my.id/page/admin/login';
   });
 
 })();
