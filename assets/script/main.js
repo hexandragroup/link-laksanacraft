@@ -195,8 +195,8 @@ const defaultValue = "base";
 // Muat tema tersimpan
 let savedTheme = localStorage.getItem("theme") || defaultValue;
 themeLink.href = savedTheme === defaultValue 
-    ? "https://link.laksanacraft.my.id/assets/style/style.css" 
-    : `https://link.laksanacraft.my.id/assets/style/themes/${savedTheme}.css`;
+    ? "assets/style/style.css" 
+    : `assets/style/themes/${savedTheme}.css`;
 
 // Set teks dan value dropdown
 themeSelector.value = savedTheme;
@@ -219,8 +219,8 @@ themeSelector.addEventListener("change", () => {
 
   // Ganti stylesheet
   themeLink.href = val === defaultValue
-      ? "https://link.laksanacraft.my.id/assets/style/style.css"
-      : `https://link.laksanacraft.my.id/assets/style/themes/${val}.css`;
+      ? "assets/style/style.css"
+      : `assets/style/themes/${val}.css`;
 
   // Simpan di localStorage
   localStorage.setItem("theme", val);
