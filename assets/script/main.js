@@ -181,50 +181,55 @@ if (queryInput && suggestionsBox) {
   });
 }
 
++34
+-33
+Lines changed: 34 additions & 33 deletions
+Original file line number	Original file line	Diff line number	Diff line change
+@@ -228,48 +228,49 @@ queryInput.addEventListener("input", function () {
+
 // Theme switcher
 const themeSelector = document.getElementById("themeSelector");
+// Link default (style + main)
+const defaultLinks = ["assets/style/style.css", "assets/style/main.css"].map(href => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+    return link;
+});
+// Link tema
 const themeLink = document.createElement("link");
-themeLink.id = "theme-style";
 themeLink.rel = "stylesheet";
+themeLink.id = "theme-style";
 document.head.appendChild(themeLink);
 
-// Opsi placeholder awal
-const defaultText = "🎨 Pilih Tema";
 const defaultValue = "base";
+const defaultText = "🎨 Pilih Tema";
 
-// Muat tema tersimpan
+// Load tema tersimpan
 let savedTheme = localStorage.getItem("theme") || defaultValue;
-themeLink.href = savedTheme === defaultValue 
-    ? "assets/style/style.css" 
-    : `assets/style/themes/${savedTheme}.css`;
-
-// Set teks dan value dropdown
+applyTheme(savedTheme);
 themeSelector.value = savedTheme;
-updatePlaceholderText(savedTheme);
 
-// Fungsi update placeholder
-function updatePlaceholderText(val) {
-  const firstOption = themeSelector.querySelector('option[value="base"]');
-  if(val === defaultValue) {
-    firstOption.textContent = defaultText; // Pilih Tema
-  } else {
-    firstOption.textContent = "🎨 Default"; // Setelah ganti tema
-  }
+// Event ganti tema
+themeSelector.addEventListener("change", () => {
+    const val = themeSelector.value;
+    applyTheme(val);
+    localStorage.setItem("theme", val);
+});
+
+// Fungsi ganti tema
+function applyTheme(val) {
+    if(val === defaultValue) {
+        themeLink.href = ""; // Tidak ada tema tambahan
+    } else {
+        themeLink.href = `assets/style/themes/${val}.css`;
+    }
+    updatePlaceholder(val);
 }
 
-// Ganti tema saat dipilih
-themeSelector.addEventListener("change", () => {
-  const val = themeSelector.value;
-  if (!val) return;
-
-  // Ganti stylesheet
-  themeLink.href = val === defaultValue
-      ? "assets/style/style.css"
-      : `assets/style/themes/${val}.css`;
-
-  // Simpan di localStorage
-  localStorage.setItem("theme", val);
-
-  // Update teks placeholder
-  updatePlaceholderText(val);
-});
+// Update placeholder
+function updatePlaceholder(val) {
+    const firstOption = themeSelector.querySelector('option[value="base"]');
+    firstOption.textContent = val === defaultValue ? defaultText : "🎨 Default";
+}
