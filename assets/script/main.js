@@ -27,7 +27,6 @@ const tabFiles = {
   toko: "assets/config/toko.json",
   sosial: "assets/config/sosial.json"
 };
-
 const linkCache = {};
 
 function loadLinks(tab) {
@@ -122,7 +121,7 @@ function highlightText(text, keyword) {
   return text.replace(regex, `<b style="background-color:#ffebc2;color:#b33;">$1</b>`);
 }
 
-/* --- Event Input: Auto-saran --- */
+/* --- Event Input: Auto-saran dengan prioritas huruf depan --- */
 if (queryInput && suggestionsBox) {
   queryInput.addEventListener("input", function () {
     const val = this.value.trim().toLowerCase();
@@ -150,7 +149,13 @@ if (queryInput && suggestionsBox) {
       ...Array.from(kualitasSet).map(k => `kualitas:${k}`)
     ];
 
-    const matches = allList.filter(item => item.split(":")[1].toLowerCase().includes(val));
+    // 🔹 Prioritas huruf depan
+    const startsWithMatches = allList.filter(item => item.split(":")[1].toLowerCase().startsWith(val));
+    const includesMatches = allList.filter(item =>
+      !item.split(":")[1].toLowerCase().startsWith(val) &&
+      item.split(":")[1].toLowerCase().includes(val)
+    );
+    const matches = [...startsWithMatches, ...includesMatches];
 
     if (!matches.length) {
       suggestionsBox.innerHTML = "<div style='padding:10px;color:#777;'>❌ Tidak ditemukan hasil cocok.</div>";
@@ -177,50 +182,38 @@ if (queryInput && suggestionsBox) {
   });
 }
 
-// Theme switcher
+// ======================================================
+// THEME SWITCHER
+// ======================================================
 const themeSelector = document.getElementById("themeSelector");
 const themeLink = document.createElement("link");
 themeLink.id = "theme-style";
 themeLink.rel = "stylesheet";
 document.head.appendChild(themeLink);
 
-// Opsi placeholder awal
 const defaultText = "🎨 Pilih Tema";
 const defaultValue = "base";
 
-// Muat tema tersimpan
 let savedTheme = localStorage.getItem("theme") || defaultValue;
-themeLink.href = savedTheme === defaultValue 
-    ? "/assets/style/style.css" 
+themeLink.href = savedTheme === defaultValue
+    ? "/assets/style/style.css"
     : `/assets/style/themes/${savedTheme}.css`;
 
-// Set teks dan value dropdown
 themeSelector.value = savedTheme;
 updatePlaceholderText(savedTheme);
 
-// Fungsi update placeholder
 function updatePlaceholderText(val) {
   const firstOption = themeSelector.querySelector('option[value="base"]');
-  if(val === defaultValue) {
-    firstOption.textContent = defaultText; // Pilih Tema
-  } else {
-    firstOption.textContent = "🎨 Default"; // Setelah ganti tema
-  }
+  if(val === defaultValue) firstOption.textContent = defaultText;
+  else firstOption.textContent = "🎨 Default";
 }
 
-// Ganti tema saat dipilih
 themeSelector.addEventListener("change", () => {
   const val = themeSelector.value;
   if (!val) return;
-
-  // Ganti stylesheet
   themeLink.href = val === defaultValue
       ? "/assets/style/style.css"
       : `/assets/style/themes/${val}.css`;
-
-  // Simpan di localStorage
   localStorage.setItem("theme", val);
-
-  // Update teks placeholder
   updatePlaceholderText(val);
 });
