@@ -34,13 +34,14 @@ const API_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
 
 async function loadFile(file){
   try{
-    const res = await fetch(`${API_BASE}/products?file=${file}`);
     let data;
-    if(!res.ok){
-      // coba /links
-      const res2 = await fetch(`${API_BASE}/links?file=${file}`);
-      data = await res2.json();
+    // Coba /products dulu
+    let res = await fetch(`${API_BASE}/products?file=${file}`);
+    if(res.ok){
+      data = await res.json();
     } else {
+      // kalau gagal, coba /links
+      res = await fetch(`${API_BASE}/links?file=${file}`);
       data = await res.json();
     }
     renderTable(data);
