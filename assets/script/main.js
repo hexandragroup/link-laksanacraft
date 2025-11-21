@@ -181,12 +181,6 @@ if (queryInput && suggestionsBox) {
   });
 }
 
-+34
--33
-Lines changed: 34 additions & 33 deletions
-Original file line number	Original file line	Diff line number	Diff line change
-@@ -228,48 +228,49 @@ queryInput.addEventListener("input", function () {
-
 // Theme switcher
 const themeSelector = document.getElementById("themeSelector");
 // Link default (style + main)
