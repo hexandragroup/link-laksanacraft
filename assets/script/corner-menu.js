@@ -1,6 +1,8 @@
 (function(){
+  // === Tambahkan style ===
   const style = document.createElement('style');
   style.textContent = `
+    /* Corner tab */
     .corner-tab {
       position: fixed; top:30px; right:-10px; width:55px; height:55px;
       background:#333; color:#fff; font-size:28px; border-radius:30px 0 0 30px;
@@ -9,6 +11,7 @@
     }
     .corner-tab:hover { background:#555; transform: scale(1.05); }
 
+    /* Corner menu */
     .corner-menu {
       position:fixed; top:0; right:-200px; width:200px; height:100%;
       background: rgba(255,255,255,0.97);
@@ -17,20 +20,44 @@
       padding-top:60px;
       transition:right 0.3s ease;
       z-index:9999;
+      overflow: hidden;
+      position: relative;
     }
     .corner-menu.show { right:0; }
 
+    /* Menu links */
     .corner-menu a {
       padding:12px 20px;
       border-bottom:1px solid rgba(0,0,0,0.1);
       text-decoration:none; color:#222;
+      position: relative;
     }
     .corner-menu a:hover { background: rgba(0,0,0,0.05); }
+
+    /* Tombol admin di pojok kanan atas menu */
+    .admin-btn-menu {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 26px;
+      height: 26px;
+      background: #888; /* abu-abu */
+      color: #fff;
+      font-size: 14px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .admin-btn-menu:hover { background: #666; transform: scale(1.1); }
 
     /* Dropdown tema */
     .theme-switcher {
       width: 170px;
-      margin: 15px 15px 30px 15px;
+      margin: 15px;
       padding: 8px;
       border: 1px solid #bbb;
       border-radius: 6px;
@@ -41,10 +68,10 @@
       box-sizing: border-box;
     }
     .theme-switcher:hover { background: #eee; }
-
   `;
   document.head.appendChild(style);
 
+  // === HTML corner menu ===
   const html = `
     <div class="corner-tab" id="cornerTab">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -54,26 +81,28 @@
     </div>
 
     <div class="corner-menu" id="cornerMenu">
+      <div class="admin-btn-menu" id="adminBtn">⚙️</div>
+
       <a href="https://link.laksanacraft.my.id/">🏠 Beranda</a>
       <a href="https://url.laksanacraft.my.id/profil">👤 Tentang</a>
       <a href="https://linktr.ee/hexandra" target="_blank">💼 Bisnis</a>
       <a href="https://url.laksanacraft.my.id/link">🔗 Tautan</a>
 
-<select id="themeSelector" class="theme-switcher">
-  <option value="base">🎨 Pilih Tema</option>
-  <option value="neon">🌙 Neon 3D</option>
-  <option value="paper">📄 Card Paper</option>
-  <option value="retro">🎛️ Retro 3D</option>
-</select>
-
+      <select id="themeSelector" class="theme-switcher">
+        <option value="base">🎨 Pilih Tema</option>
+        <option value="neon">🌙 Neon 3D</option>
+        <option value="paper">📄 Card Paper</option>
+        <option value="retro">🎛️ Retro 3D</option>
+      </select>
+    </div>
   `;
   document.body.insertAdjacentHTML('beforeend', html);
 
   const cornerTab = document.getElementById("cornerTab");
   const cornerMenu = document.getElementById("cornerMenu");
-  const themeSelector = document.getElementById("themeSelector");
+  const adminBtn = document.getElementById("adminBtn");
 
-  // === Animasi menu ===
+  // === Animasi buka menu ===
   cornerTab.addEventListener("click", e => {
     e.stopPropagation();
     cornerMenu.classList.add("show");
@@ -81,6 +110,7 @@
     cornerTab.style.pointerEvents = "none";
   });
 
+  // Klik di luar menu untuk menutup
   document.addEventListener("click", e => {
     if (!cornerMenu.contains(e.target) && !cornerTab.contains(e.target)) {
       cornerMenu.classList.remove("show");
@@ -89,7 +119,7 @@
     }
   });
 
-  // === Swipe close (mobile) ===
+  // Swipe close untuk mobile
   let touchStartX = 0;
   document.addEventListener("touchstart", e => touchStartX = e.touches[0].clientX);
   document.addEventListener("touchend", e => {
@@ -101,4 +131,9 @@
     }
   });
 
+  // Tombol admin klik
+  adminBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    window.location.href = "https://link.laksanacraft.my.id/page/admin/login";
+  });
 })();
