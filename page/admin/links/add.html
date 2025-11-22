@@ -4,48 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Tambah Link — LaksanaCraft</title>
+<title>Tambah Link — Admin</title>
 
 <link rel="stylesheet" href="/assets/style/style.css">
 
 <style>
 .container-box {
-    max-width: 500px;
+    max-width: 720px;
     margin: 30px auto;
     background: #fff;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,.06);
 }
-
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.input {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 15px;
-}
-
-.btn-save {
-    width: 100%;
-    padding: 12px;
-    margin-top: 12px;
-    background: #3f51b5;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.btn-save:hover { background: #5c6bc0; }
-
-.msg { color: #b30000; font-weight: bold; margin-top: 10px; }
+h1 { margin-top:0; text-align:center; margin-bottom:20px; }
+label { display:block; font-weight:600; margin-bottom:6px; }
+.input { width:100%; padding:10px; border:1px solid #dcdcdc; border-radius:8px; font-size:14px; box-sizing:border-box; margin-bottom:12px; }
+.actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:14px; }
+.btn { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-size:14px; }
+.btn-primary { background:linear-gradient(135deg,#3f51b5,#303f9f); color:#fff; }
+.btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333; }
+.btn-danger { background:#d32f2f; color:#fff; }
+.note { font-size:13px; color:#666; margin-top:8px; }
+a.link-back { color:#3f51b5; text-decoration:none; }
 </style>
 </head>
 <body>
@@ -53,61 +34,101 @@ h1 {
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container-box">
+  <h1>Tambah Link</h1>
 
-    <h1>Tambah Link</h1>
+  <div id="message" style="color:#b30000; margin-bottom:12px"></div>
 
-    <input id="category" class="input" placeholder="Kategori (contoh: 🌐 Umum & Informasi)">
-    <input id="title" class="input" placeholder="Judul Link">
-    <input id="url" class="input" placeholder="URL">
-    <input id="icon" class="input" placeholder="Icon (contoh: 📰)">
+  <label>Kategori</label>
+  <input id="category" class="input" placeholder="Contoh: Sosial Media">
 
-    <button id="btnSave" class="btn-save">Simpan</button>
+  <label>Judul</label>
+  <input id="title" class="input" placeholder="Contoh: Instagram LaksanaCraft">
 
-    <p id="msg" class="msg"></p>
+  <label>URL</label>
+  <input id="url" class="input" placeholder="https://...">
 
+  <label>Icon (emoji atau URL icon)</label>
+  <input id="icon" class="input" placeholder="Contoh: 🔗 atau https://...">
+
+  <div class="actions">
+    <a href="/page/admin/links/index.html" class="link-back">← Kembali ke daftar</a>
+    <div>
+      <button id="btnCancel" class="btn btn-ghost">Batal</button>
+      <button id="btnSave" class="btn btn-primary">Simpan Link</button>
+    </div>
+  </div>
 </div>
 
 <script>
 const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const TOKEN = localStorage.getItem("GH_TOKEN");
+const FILE = "data1.json"; // default file
+const MSG = document.getElementById('message');
+
 const isLoggedIn = localStorage.getItem("isLoggedIn");
+if(!isLoggedIn) location.href="/page/login.html";
 
-if (!isLoggedIn) location.href = "/page/login.html";
+const GH_TOKEN = localStorage.getItem("GH_TOKEN") || "";
+const API_KEY = localStorage.getItem("LaksanaCraft_API_KEY") || "";
 
-// -----------------------------------
-// TAMBAH LINK
-// -----------------------------------
-btnSave.onclick = async () => {
-    msg.textContent = "";
+// Cancel
+document.getElementById('btnCancel').onclick = (e) => {
+    e.preventDefault();
+    location.href = "/page/admin/links/index.html";
+};
 
-    const category = category.value.trim();
-    const title = title.value.trim();
-    const urlValue = url.value.trim();
-    const iconValue = icon.value.trim();
+// Save
+document.getElementById('btnSave').onclick = async (e) => {
+    e.preventDefault();
+    MSG.textContent = '';
 
-    if (!category || !title || !urlValue) {
-        msg.textContent = "Kategori, judul, dan URL wajib diisi";
+    const category = document.getElementById('category').value.trim();
+    const title = document.getElementById('title').value.trim();
+    const url = document.getElementById('url').value.trim();
+    const icon = document.getElementById('icon').value.trim();
+
+    if(!category || !title || !url){
+        MSG.textContent = 'Lengkapi kategori, judul, dan URL.';
         return;
     }
 
-    try {
-        const res = await fetch(`${API}/links?file=links1.json`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `token ${TOKEN}`
-            },
-            body: JSON.stringify({ category, title, url: urlValue, icon: iconValue })
-        });
-
-        if (res.ok) {
-            alert("Link berhasil ditambahkan");
-            location.href = "index.html";
-        } else {
-            msg.textContent = "Gagal menambahkan link";
+    // Ambil data file sekarang
+    let current = [];
+    try{
+        const res = await fetch(`${API}/links?file=${FILE}`);
+        if(!res.ok) throw new Error('Gagal mengambil file link');
+        current = await res.json();
+        if(!Array.isArray(current)){
+            if(current.content && Array.isArray(current.content)) current = current.content;
+            else throw new Error('Format data link tidak sesuai.');
         }
-    } catch(e) {
-        msg.textContent = "Kesalahan koneksi";
+    }catch(err){
+        MSG.textContent = 'Gagal memuat data link: ' + err.message;
+        return;
+    }
+
+    const newId = current.length ? Math.max(...current.map(x=>x.id||0))+1 : 1;
+
+    const newItem = { id:newId, category, title, url, icon };
+    current.push(newItem);
+
+    try{
+        const res = await fetch(`${API}/links?file=${FILE}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': GH_TOKEN ? `token ${GH_TOKEN}` : '',
+                'x-api-key': API_KEY
+            },
+            body: JSON.stringify(current,null,2)
+        });
+        const j = await res.json();
+        if(res.ok && (j.status==='OK' || j.success || !j.error)){
+            location.href = "/page/admin/links/index.html";
+        }else{
+            MSG.textContent = 'Gagal menyimpan: ' + (j.error || j.message || JSON.stringify(j));
+        }
+    }catch(err){
+        MSG.textContent = 'Gagal menyimpan: ' + err.message;
     }
 };
 </script>
