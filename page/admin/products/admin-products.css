@@ -1,0 +1,57 @@
+.admin-box {
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+#productList .item-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 12px;
+    background: #fafafa;
+}
+
+.result p {
+    margin: 4px 0;
+}
+
+.action {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn-edit {
+    flex: 1;
+    padding: 10px;
+    background: #039be5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-delete {
+    flex: 1;
+    padding: 10px;
+    background: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-add {
+    width: 100%;
+    padding: 12px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
