@@ -1,3 +1,19 @@
+/* BOX UTAMA */
+.login-box {
+    max-width: 380px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.logo {
+    width: 90px;
+    margin-bottom: 12px;
+}
+
 /* INPUT */
 .input {
     width: 100%;
