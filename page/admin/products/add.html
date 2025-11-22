@@ -122,15 +122,12 @@ const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
 const FILE = "products1.json";
 const MSG = document.getElementById('message');
 
-// redirect jika belum login
 const isLoggedIn = localStorage.getItem("isLoggedIn");
-if (!isLoggedIn) {
-  location.href = "/page/login.html";
-}
+if (!isLoggedIn) location.href = "/page/login.html";
 
 const GH_TOKEN = localStorage.getItem("GH_TOKEN") || "";
 
-// helper membuat input variant row
+// Helper buat input varian
 function createVariantRow(size='', harga=''){
   const wrap = document.createElement('div');
   wrap.className = 'variant-row';
@@ -161,19 +158,19 @@ function createVariantRow(size='', harga=''){
 const variantsBox = document.getElementById('variants');
 document.getElementById('addVariant').onclick = (e) => {
   e.preventDefault();
-  variantsBox.appendChild(createVariantRow('',''));
+  variantsBox.appendChild(createVariantRow());
 };
 
-// default 1 variant
-variantsBox.appendChild(createVariantRow('10cm','Rp11.000'));
+// Tambahkan 1 variant kosong default agar placeholder muncul
+variantsBox.appendChild(createVariantRow());
 
-// tombol cancel
+// Tombol cancel
 document.getElementById('btnCancel').onclick = (e) => {
   e.preventDefault();
   location.href = "/page/admin/products/index.html";
 };
 
-// simpan produk
+// Simpan produk
 document.getElementById('btnSave').onclick = async (e) => {
   e.preventDefault();
   MSG.textContent = '';
