@@ -4,18 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kelola Link — LaksanaCraft</title>
-
 <link rel="stylesheet" href="/assets/style/style.css">
-
 <style>
-.container-box {
-    max-width: 900px;
-    margin: 30px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
+.container-box { max-width:900px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
 h1 { text-align:center; margin-bottom:20px; }
 .link-item { border:1px solid #ddd; border-radius:12px; padding:15px; margin-bottom:12px; background:#fafafa; }
 .link-controls { margin-top:12px; display:flex; gap:10px; }
@@ -23,7 +14,7 @@ h1 { text-align:center; margin-bottom:20px; }
 .btn-edit { background:#0288d1; } .btn-edit:hover { background:#039be5; }
 .btn-delete { background:#d32f2f; } .btn-delete:hover { background:#e53935; }
 .btn-add { display:block; width:100%; padding:12px; margin-bottom:20px; background:#3f51b5; color:#fff; border-radius:10px; border:none; font-size:16px; cursor:pointer; }
-#fileSelect { display:block; margin: 0 auto 20px; padding:6px 12px; font-size:16px; border-radius:8px; }
+#fileSelect { display:block; margin:0 auto 20px; padding:6px 12px; font-size:16px; border-radius:8px; }
 </style>
 </head>
 <body>
@@ -40,58 +31,32 @@ h1 { text-align:center; margin-bottom:20px; }
 <script>
 const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
 const TOKEN = localStorage.getItem("GH_TOKEN");
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-if(!isLoggedIn) location.href="/page/login.html";
+if(!localStorage.getItem("isLoggedIn")) location.href="/page/login.html";
 
 let currentFile = "";
 
-// Load daftar file JSON dari Worker
-async function loadFileList() {
-    try {
-        const res = await fetch(`${API}/links/list`);
-        const files = await res.json();
+// --- daftar file JSON manual
+const fileList = ["data1.json","data2.json","data3.json","data4.json","data5.json"];
+const select = document.getElementById("fileSelect");
+fileList.forEach(f=>{
+    const opt = document.createElement("option");
+    opt.value = f; opt.textContent = f;
+    select.appendChild(opt);
+});
+currentFile = fileList[0];
+select.value = currentFile;
 
-        const select = document.getElementById("fileSelect");
-        select.innerHTML = "";
-        files.forEach(f => {
-            const opt = document.createElement("option");
-            opt.value = f;
-            opt.textContent = f;
-            select.appendChild(opt);
-        });
-
-        if(files.length) {
-            currentFile = files[0];
-            select.value = currentFile;
-            loadLinks(currentFile);
-        }
-
-        select.addEventListener("change", () => {
-            currentFile = select.value;
-            loadLinks(currentFile);
-        });
-
-    } catch(e) {
-        document.getElementById("list").innerHTML = "Gagal memuat daftar file.";
-    }
-}
-
-// Load data link dari file JSON
-async function loadLinks(file) {
+// --- load data
+async function loadLinks(file){
     const el = document.getElementById("list");
     el.innerHTML = "Memuat data...";
-
     try {
         const r = await fetch(`${API}/links?file=${file}`);
         const data = await r.json();
-
         el.innerHTML = "";
-
-        data.forEach((l,i) => {
+        data.forEach((l,i)=>{
             const div = document.createElement("div");
             div.className = "link-item";
-
             div.innerHTML = `
                 <p><strong>Kategori:</strong> ${l.category}</p>
                 <p><strong>Judul:</strong> ${l.title}</p>
@@ -102,33 +67,28 @@ async function loadLinks(file) {
                     <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
                 </div>
             `;
-
             el.appendChild(div);
         });
-
-    } catch(e) {
-        el.innerHTML = "Gagal memuat data.";
-    }
+    } catch(e){ el.innerHTML = "Gagal memuat data."; }
 }
 
-function edit(i) { 
-    location.href=`edit.html?id=${i}&file=${currentFile}`; 
-}
+// --- event dropdown
+select.addEventListener("change",()=>{ currentFile=select.value; loadLinks(currentFile); });
 
-async function hapus(i) {
+// --- edit & delete
+function edit(i){ location.href=`edit.html?id=${i}&file=${currentFile}`; }
+async function hapus(i){
     if(!confirm("Yakin ingin menghapus link ini?")) return;
-    const r = await fetch(`${API}/links?file=${currentFile}&id=${i}`, {
+    const r = await fetch(`${API}/links?file=${currentFile}&id=${i}`,{
         method:"DELETE",
         headers: {"Authorization":`token ${TOKEN}`}
     });
-    if(r.ok){ 
-        alert("Link dihapus."); 
-        loadLinks(currentFile); 
-    }
+    if(r.ok){ alert("Link dihapus."); loadLinks(currentFile); }
     else alert("Gagal menghapus.");
 }
 
-loadFileList();
+// load default
+loadLinks(currentFile);
 </script>
 
 </body>
