@@ -1,105 +1,124 @@
-/* admin.js - Admin Dashboard single page (scan 1..50) */
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-// ----- CONFIG -----
-const WORKER_BASE = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const API_KEY = "laksanacraft-admin";
-const SCAN_MAX = 50; // pilihan Anda: scan 1..50
+  <title>Kelola Produk — LaksanaCraft</title>
 
-// DOM
-const navBtns = document.querySelectorAll(".nav-btn");
-const panelProducts = document.getElementById("panelProducts");
-const panelLinks = document.getElementById("panelLinks");
-const productsFileSelect = document.getElementById("productsFileSelect");
-const linksFileSelect = document.getElementById("linksFileSelect");
-const productsList = document.getElementById("productsList");
-const linksList = document.getElementById("linksList");
-const btnAdd = document.getElementById("btnAdd");
-const btnLogout = document.getElementById("btnLogout");
-const btnRefreshProducts = document.getElementById("btnRefreshProducts");
-const btnRefreshLinks = document.getElementById("btnRefreshLinks");
+  <!-- CSS utama -->
+  <link rel="stylesheet" href="/assets/style/style.css">
 
-// modal + login
-const modal = document.getElementById("modal");
-const modalTitle = document.getElementById("modalTitle");
-const modalForm = document.getElementById("modalForm");
-const loginOverlay = document.getElementById("loginOverlay");
-const loginForm = document.getElementById("loginForm");
+  <!-- CSS khusus admin -->
+  <link rel="stylesheet" href="admin-products.css">
+</head>
+<body>
 
-// product fields
-const productFields = document.getElementById("productFields");
-const f_tokoh = document.getElementById("f_tokoh");
-const f_ukuran = document.getElementById("f_ukuran");
-const f_kualitas = document.getElementById("f_kualitas");
-const f_link = document.getElementById("f_link");
-const f_varian = document.getElementById("f_varian");
+<script src="/assets/script/corner-menu.js"></script>
 
-// link fields
-const linkFields = document.getElementById("linkFields");
-const l_category = document.getElementById("l_category");
-const l_title = document.getElementById("l_title");
-const l_url = document.getElementById("l_url");
-const l_icon = document.getElementById("l_icon");
+<div class="container admin-box">
+    <h1>Kelola Produk</h1>
+    <p><em>Menampilkan data produk dari API</em></p>
 
-// hidden modal inputs
-const modalType = document.getElementById("modalType");
-const modalFile = document.getElementById("modalFile");
-const modalIndex = document.getElementById("modalIndex");
+    <button id="btnAdd" class="btn-add">+ Tambah Produk</button>
 
-// state
-let productsFiles = [];
-let linksFiles = [];
-let productsData = []; // current loaded array
-let linksData = [];
-let currentTab = "products";
+    <div id="productList"></div>
 
-// admin credentials (temporary simple)
-const ADMIN_USER = "admin@laksanacraft";
-const ADMIN_PASS = "laksanacraft-admin";
+</div>
 
-// ---- Utilities ----
-function el(tag, cls, html){ const e = document.createElement(tag); if(cls) e.className = cls; if(html!==undefined) e.innerHTML = html; return e; }
+<script>
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const token = localStorage.getItem("GH_TOKEN");
 
-// ------- LOGIN FLOW -------
-function showLogin() {
-  loginOverlay.style.display = "flex";
+// Cek login
+if (!localStorage.getItem("isLoggedIn")) {
+    location.href = "/page/login/";
 }
-function hideLogin() {
-  loginOverlay.style.display = "none";
-}
-loginForm.addEventListener("submit", e => {
-  e.preventDefault();
-  const u = document.getElementById("loginUser").value.trim();
-  const p = document.getElementById("loginPass").value.trim();
-  if (u === ADMIN_USER && p === ADMIN_PASS) {
-    localStorage.setItem("adminLogin", "true");
-    hideLogin();
-    initAfterAuth();
-  } else {
-    alert("Login gagal. Username/password salah.");
-  }
-});
-document.getElementById("togglePass").addEventListener("click", () => {
-  const ip = document.getElementById("loginPass");
-  ip.type = ip.type === "password" ? "text" : "password";
-});
-btnLogout.addEventListener("click", () => {
-  localStorage.removeItem("adminLogin");
-  location.reload();
-});
 
-// ------- NAVIGATION -------
-navBtns.forEach(b => b.addEventListener("click", () => {
-  navBtns.forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  currentTab = b.dataset.tab;
-  if (currentTab === "products") {
-    panelProducts.style.display = ""; panelLinks.style.display = "none";
-    document.getElementById("productsFileGroup").style.display = "";
-    document.getElementById("linksFileGroup").style.display = "none";
-  } else {
-    panelProducts.style.display = "none"; panelLinks.style.display = "";
-    document.getElementById("productsFileGroup").style.display = "none";
-    document.getElementById("linksFileGroup").style.display = "";
+// ESCAPE (hindari XSS)
+function escapeHtml(txt) {
+    return txt.replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;',
+        '"': '&quot;', "'": '&#039;'
+    }[m]));
+}
+
+// LOAD DATA PRODUK
+async function loadProducts() {
+    const res = await fetch(`${API}/products?file=products1.json`, {
+        headers: { "Authorization": `token ${token}` }
+    });
+
+    const data = await res.json();
+    const wrap = document.getElementById("productList");
+    wrap.innerHTML = "";
+
+    data.forEach((p, i) => {
+
+        let tokoh = Array.isArray(p.tokoh) ? p.tokoh.join(", ") : p.tokoh;
+        let ukuran = p.ukuran || "-";
+        let kualitas = p.kualitas || "-";
+        let link = escapeHtml(p.link || "#");
+
+        wrap.innerHTML += `
+        <div class="item-box">
+
+            <div class="result">
+                <p><strong>Tokoh:</strong> ${escapeHtml(tokoh)}</p>
+                <p><strong>Kualitas:</strong> ${escapeHtml(kualitas)}</p>
+                <p><strong>Ukuran:</strong> ${escapeHtml(ukuran)}</p>
+                <p><a href="${link}" target="_blank">🔗 Detail Produk</a></p>
+            </div>
+
+            <div class="action">
+                <button class="btn-edit" onclick="editItem(${i})">Edit</button>
+                <button class="btn-delete" onclick="deleteItem(${i})">Hapus</button>
+            </div>
+
+        </div>`;
+    });
+}
+
+loadProducts();
+
+
+// -------------------------
+// HAPUS ITEM
+// -------------------------
+async function deleteItem(index) {
+    if (!confirm("Yakin ingin menghapus item ini?")) return;
+
+    const res = await fetch(`${API}/products?file=products1.json`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `token ${token}`,
+            "X-Item-Index": index
+        }
+    });
+
+    if (res.ok) {
+        alert("Berhasil dihapus");
+        loadProducts();
+    } else {
+        alert("Gagal menghapus");
+    }
+}
+
+// -------------------------
+// EDIT ITEM (Akan buka popup form)
+// -------------------------
+function editItem(i) {
+    location.href = `edit.html?id=${i}`;
+}
+
+// TAMBAH ITEM
+document.getElementById("btnAdd").onclick = () => {
+    location.href = "add.html";
+};
+</script>
+
+</body>
+</html    document.getElementById("linksFileGroup").style.display = "";
   }
 });
 
