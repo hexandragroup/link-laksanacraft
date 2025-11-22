@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Edit Link — LaksanaCraft</title>
+
+<link rel="stylesheet" href="/assets/style/style.css">
+
+<style>
+.container-box {
+    max-width: 500px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: #0288d1;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.btn-save:hover { background: #039be5; }
+
+.msg { color: #b30000; font-weight: bold; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<script src="/assets/script/corner-menu.js"></script>
+
+<div class="container-box">
+
+    <h1>Edit Link</h1>
+
+    <input id="category" class="input" placeholder="Kategori">
+    <input id="title" class="input" placeholder="Judul Link">
+    <input id="url" class="input" placeholder="URL">
+    <input id="icon" class="input" placeholder="Icon">
+
+    <button id="btnSave" class="btn-save">Simpan Perubahan</button>
+
+    <p id="msg" class="msg"></p>
+
+</div>
+
+<script>
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const TOKEN = localStorage.getItem("GH_TOKEN");
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if (!isLoggedIn) location.href = "/page/login.html";
+
+// Ambil parameter ?id= dari URL
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+if (!id) {
+    alert("ID link tidak ditemukan");
+    location.href = "index.html";
+}
+
+// -----------------------------------
+// LOAD DATA LINK
+// -----------------------------------
+async function loadLink() {
+    try {
+        const res = await fetch(`${API}/links?file=links1.json`);
+        const data = await res.json();
+        const link = data[id];
+
+        if (!link) throw new Error("Link tidak ditemukan");
+
+        category.value = link.category || "";
+        title.value = link.title || "";
+        url.value = link.url || "";
+        icon.value = link.icon || "";
+    } catch(e) {
+        alert("Gagal memuat data link");
+        location.href = "index.html";
+    }
+}
+
+loadLink();
+
+// -----------------------------------
+// SIMPAN PERUBAHAN
+// -----------------------------------
+btnSave.onclick = async () => {
+    msg.textContent = "";
+
+    const categoryValue = category.value.trim();
+    const titleValue = title.value.trim();
+    const urlValue = url.value.trim();
+    const iconValue = icon.value.trim();
+
+    if (!categoryValue || !titleValue || !urlValue) {
+        msg.textContent = "Kategori, judul, dan URL wajib diisi";
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API}/links?file=links1.json&id=${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `token ${TOKEN}`
+            },
+            body: JSON.stringify({
+                category: categoryValue,
+                title: titleValue,
+                url: urlValue,
+                icon: iconValue
+            })
+        });
+
+        if (res.ok) {
+            alert("Link berhasil diperbarui");
+            location.href = "index.html";
+        } else {
+            msg.textContent = "Gagal memperbarui link";
+        }
+    } catch(e) {
+        msg.textContent = "Kesalahan koneksi";
+    }
+};
+</script>
+
+</body>
+</html>
