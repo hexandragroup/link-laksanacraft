@@ -50,7 +50,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 
 // CEK LOGIN
 if (localStorage.getItem("isLoggedIn") !== "1") {
-    location.href = "/admin/login.html";
+    location.href = "/page/admin/login.html";
 }
 
 // LOGOUT
@@ -58,7 +58,7 @@ document.getElementById("logout").onclick = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("GH_TOKEN");
     localStorage.removeItem("LaksanaCraft_API_KEY");
-    location.href = "/admin/login.html";
+    location.href = "/page/admin/login.html";
 };
 </script>
 
