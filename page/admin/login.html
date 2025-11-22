@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container login-box">
@@ -26,22 +27,23 @@
     <!-- Username -->
     <input id="user" class="input" placeholder="Username">
 
-    <!-- Password (icon di dalam input) -->
+    <!-- Password + Show/Hide -->
     <div class="password-wrap">
-        <input id="pass" type="password" class="input password-input" placeholder="Password">
-
+        <input id="pass" type="password" class="input" placeholder="Password">
         <span id="togglePass" class="show-hide">
-            <svg id="iconEye" width="20" viewBox="0 0 24 24" fill="none">
+            <svg id="iconEye" width="22" viewBox="0 0 24 24" fill="none">
               <path d="M3 3L21 21" stroke="#555" stroke-width="2" stroke-linecap="round"/>
               <path d="M10.58 10.58C10.21 11 10 11.48 10 12C10 13.1 10.9 14 12 14C12.52 14 13 13.79 13.42 13.42M17.94 17.94C16.29 18.96 14.24 19.5 12 19.5C6 19.5 2 12 2 12C3.11 10.07 4.48 8.39 6.06 7.06M12 4.5C18 4.5 22 12 22 12C21.55 12.74 21.03 13.45 20.47 14.12" stroke="#555" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </span>
     </div>
 
+    <!-- Tombol Simple Login -->
     <button id="btnSimple" class="btn btn-login">Login (Simple)</button>
 
     <hr>
 
+    <!-- TOKEN -->
     <input id="gh_token" class="input" placeholder="GitHub Token">
 
     <button id="btnGH" class="btn btn-token">Login dengan GitHub Token</button>
@@ -55,11 +57,12 @@
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
+
 const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
 
-// ----------------------
-//  SHOW / HIDE PASSWORD
-// ----------------------
+// ----------------------------------
+//   SHOW / HIDE PASSWORD
+// ----------------------------------
 const passInput = document.getElementById("pass");
 const togglePass = document.getElementById("togglePass");
 const iconEye = document.getElementById("iconEye");
@@ -74,7 +77,9 @@ togglePass.onclick = () => {
     }
 };
 
-// ---------- SIMPLE LOGIN ----------
+// ----------------------------------
+//          SIMPLE LOGIN
+// ----------------------------------
 btnSimple.onclick = () => {
     msg.textContent = "";
     const u = user.value.trim();
@@ -89,7 +94,9 @@ btnSimple.onclick = () => {
     }
 };
 
-// ---------- LOGIN TOKEN ----------
+// ----------------------------------
+//      LOGIN MENGGUNAKAN TOKEN
+// ----------------------------------
 btnGH.onclick = async () => {
     msg.textContent = "";
     const token = gh_token.value.trim();
