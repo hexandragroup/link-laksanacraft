@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "tokoh": ["Custom"],
     "ukuran": ["miniatur"],
     "kualitas": "alusan",
@@ -11,7 +10,6 @@
     ]
   },
   {
-    "id": 2,
     "tokoh": ["Custom"],
     "ukuran": ["20cm"],
     "kualitas": "alusan",
@@ -21,7 +19,6 @@
     ]
   },
   {
-    "id": 3,
     "tokoh": ["Custom"],
     "ukuran": ["25cm"],
     "kualitas": "alusan",
@@ -31,7 +28,6 @@
     ]
   },
   {
-    "id": 4,
     "tokoh": ["Custom"],
     "ukuran": ["30cm"],
     "kualitas": "alusan",
@@ -41,7 +37,6 @@
     ]
   },
   {
-    "id": 5,
     "tokoh": ["Custom"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
@@ -55,7 +50,6 @@
     ]
   },
   {
-    "id": 6,
     "tokoh": ["Semar", "Gareng", "Petruk", "Bagong"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
@@ -67,7 +61,6 @@
     ]
   },
   {
-    "id": 7,
     "tokoh": ["Arjuna", "Puntadewa", "Nakula", "Bima", "Sadewa"],
     "ukuran": ["20cm", "25cm", "30cm"],
     "kualitas": "alusan",
@@ -79,7 +72,6 @@
     ]
   },
   {
-    "id": 8,
     "tokoh": ["Semar"],
     "ukuran": ["miniatur"],
     "kualitas": "alusan",
@@ -90,7 +82,6 @@
     ]
   },
   {
-    "id": 9,
     "tokoh": ["Custom"],
     "ukuran": ["30cm"],
     "kualitas": "murah",
@@ -100,7 +91,6 @@
     ]
   },
   {
-    "id": 10,
     "tokoh": ["Arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "murah",
@@ -110,7 +100,6 @@
     ]
   },
   {
-    "id": 11,
     "tokoh": ["Arjuna"],
     "ukuran": ["Standar Pedalangan"],
     "kualitas": "alusan",
