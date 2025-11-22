@@ -1,75 +1,56 @@
-/* BOX UTAMA */
+/* Box khusus login */
 .login-box {
-    max-width: 380px;
-    margin: 40px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    text-align: center;
+  max-width: 420px;
 }
 
-.logo {
-    width: 90px;
-    margin-bottom: 12px;
-}
-
-/* INPUT */
+/* Input */
 .input {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 15px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  margin: 8px 0;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
-/* PASSWORD WRAP */
+/* Password wrapper */
 .password-wrap {
-    position: relative;
+  position: relative;
+  width: 100%;
 }
 
 .show-hide {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    opacity: 0.9;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: .7;
 }
 
-/* TOMBOL */
-.btn {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-}
-
-/* WARNA BARU */
+/* Tombol login warna baru */
 .btn-login {
-    background: linear-gradient(135deg, #009688, #00695c);
+  background: #1a73e8 !important;
+  color: white !important;
+  border-color: #185abc !important;
 }
 
 .btn-login:hover {
-    background: linear-gradient(135deg, #00a899, #00796b);
+  background: #185abc !important;
 }
 
 .btn-token {
-    background: linear-gradient(135deg, #3f51b5, #283593);
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #000 !important;
 }
 
 .btn-token:hover {
-    background: linear-gradient(135deg, #5c6bc0, #303f9f);
+  background: #000 !important;
 }
 
-/* PESAN */
 .msg {
-    color: #b30000;
-    font-weight: bold;
-    margin-top: 10px;
+  color: red;
+  margin-top: 10px;
 }
