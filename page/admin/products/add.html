@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tambah Produk — Admin</title>
+
+<!-- CSS utama -->
+<link rel="stylesheet" href="/assets/style/style.css">
+<!-- style singkat khusus form -->
+<style>
+  .container-box { max-width:720px; margin:30px auto; background:#fff; padding:22px; border-radius:12px; box-shadow:0 8px 22px rgba(0,0,0,.06);}
+  h1{margin-top:0;text-align:center}
+  .form-row{display:flex;gap:10px;margin-bottom:10px}
+  .form-row .col{flex:1}
+  label{display:block;font-weight:600;margin-bottom:6px}
+  input.input, textarea.input { width:100%; padding:10px;border:1px solid #dcdcdc;border-radius:8px; font-size:14px; box-sizing:border-box }
+  textarea.input { min-height:80px; resize:vertical }
+  .variants { margin:8px 0 16px; }
+  .variant-row { display:flex; gap:8px; margin-bottom:8px; align-items:center }
+  .variant-row input { flex:1 }
+  .btn { display:inline-block; padding:10px 14px; border-radius:8px; border:none; cursor:pointer }
+  .btn-primary { background:linear-gradient(135deg,#009688,#00695c); color:#fff }
+  .btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333 }
+  .btn-danger { background:#d32f2f; color:#fff }
+  .actions { display:flex; gap:8px; margin-top:14px; justify-content:space-between; align-items:center }
+  .note { font-size:13px;color:#666;margin-top:8px }
+  a.link-back { color:#00695c; text-decoration:none }
+</style>
+</head>
+<body>
+<script src="/assets/script/corner-menu.js"></script>
+
+<div class="container-box">
+  <h1>Tambah Produk</h1>
+
+  <div id="message" style="color:#b30000;margin-bottom:12px"></div>
+
+  <!-- Form -->
+  <div>
+    <label>Tokoh (pisah koma)</label>
+    <input id="tokoh" class="input" placeholder="Contoh: Custom, Arjuna">
+
+    <div class="form-row">
+      <div class="col">
+        <label>Ukuran (pisah koma)</label>
+        <input id="ukuran" class="input" placeholder="Contoh: miniatur, 20cm">
+      </div>
+      <div class="col">
+        <label>Kualitas</label>
+        <input id="kualitas" class="input" placeholder="Contoh: alusan">
+      </div>
+    </div>
+
+    <label>Link Produk (URL)</label>
+    <input id="link" class="input" placeholder="https://...">
+
+    <hr style="margin:16px 0">
+
+    <label>Varian (size dan harga)</label>
+    <div class="variants" id="variants">
+      <!-- variant rows inserted here -->
+    </div>
+    <button id="addVariant" class="btn btn-ghost">+ Tambah Varian</button>
+
+    <div class="note">Isikan varian dalam format size dan harga. Anda bisa menambah beberapa varian.</div>
+
+    <div class="actions">
+      <a href="/page/admin/products/index.html" class="link-back">← Kembali ke daftar</a>
+      <div>
+        <button id="btnCancel" class="btn btn-ghost">Batal</button>
+        <button id="btnSave" class="btn btn-primary">Simpan Produk</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const FILE = "products1.json";
+const MSG = document.getElementById('message');
+
+// redirect jika belum login
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+if (!isLoggedIn) {
+  location.href = "/page/login.html";
+}
+
+const GH_TOKEN = localStorage.getItem("GH_TOKEN") || "";
+
+// helper untuk membuat input variant row
+function createVariantRow(size='', harga=''){
+  const wrap = document.createElement('div');
+  wrap.className = 'variant-row';
+
+  const inSize = document.createElement('input');
+  inSize.className = 'input';
+  inSize.placeholder = 'Size (contoh: 10cm)';
+  inSize.value = size;
+
+  const inHarga = document.createElement('input');
+  inHarga.className = 'input';
+  inHarga.placeholder = 'Harga (contoh: Rp11.000)';
+  inHarga.value = harga;
+
+  const btnDel = document.createElement('button');
+  btnDel.type = 'button';
+  btnDel.className = 'btn btn-danger';
+  btnDel.textContent = 'Hapus';
+  btnDel.onclick = () => wrap.remove();
+
+  wrap.appendChild(inSize);
+  wrap.appendChild(inHarga);
+  wrap.appendChild(btnDel);
+
+  return wrap;
+}
+
+const variantsBox = document.getElementById('variants');
+document.getElementById('addVariant').onclick = (e) => {
+  e.preventDefault();
+  variantsBox.appendChild(createVariantRow('',''));
+};
+
+// tambahkan 1 baris varian default
+variantsBox.appendChild(createVariantRow('10cm','Rp11.000'));
+
+// tombol cancel
+document.getElementById('btnCancel').onclick = (e) => {
+  e.preventDefault();
+  location.href = "/page/admin/products/index.html";
+};
+
+// simpan produk
+document.getElementById('btnSave').onclick = async (e) => {
+  e.preventDefault();
+  MSG.textContent = '';
+
+  // kumpulkan nilai
+  const tokoh = document.getElementById('tokoh').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const ukuran = document.getElementById('ukuran').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const kualitas = document.getElementById('kualitas').value.trim();
+  const link = document.getElementById('link').value.trim();
+
+  // varian
+  const varianRows = Array.from(variantsBox.querySelectorAll('.variant-row'));
+  const varian = varianRows.map(r=>{
+    const inputs = r.querySelectorAll('input');
+    return { size: inputs[0].value.trim(), harga: inputs[1].value.trim() };
+  }).filter(v => v.size && v.harga);
+
+  if (!tokoh.length || !ukuran.length || !kualitas || !link) {
+    MSG.textContent = 'Lengkapi tokoh, ukuran, kualitas, dan link.';
+    return;
+  }
+
+  // Ambil data file sekarang (GET)
+  let current = [];
+  try {
+    const res = await fetch(`${API}/products?file=${FILE}`);
+    if (!res.ok) throw new Error('Gagal mengambil file produk');
+    current = await res.json();
+    if (!Array.isArray(current)) {
+      // worker mungkin membungkus: { status: 'OK', file, content: [...] }
+      if (current.content && Array.isArray(current.content)) current = current.content;
+      else throw new Error('Format data produk tidak sesuai (bukan array).');
+    }
+  } catch (err) {
+    MSG.textContent = 'Gagal memuat data produk: ' + err.message;
+    return;
+  }
+
+  // buat id baru unik
+  const newId = current.length ? Math.max(...current.map(x=>x.id||0))+1 : 1;
+
+  const newItem = {
+    id: newId,
+    tokoh,
+    ukuran,
+    kualitas,
+    link,
+    varian
+  };
+
+  current.push(newItem);
+
+  // kirim POST (ganti seluruh file)
+  try {
+    const res = await fetch(`${API}/products?file=${FILE}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // worker write auth di sistem Anda kadang pakai Authorization token atau x-api-key.
+        // Kita kirim kedua header kalau worker menerima salah satunya.
+        'Authorization': GH_TOKEN ? `token ${GH_TOKEN}` : '',
+        'x-api-key': localStorage.getItem('LaksanaCraft_API_KEY') || ''
+      },
+      body: JSON.stringify(current, null, 2)
+    });
+
+    const j = await res.json();
+    if (res.ok && (j.status === 'OK' || j.status === 200 || j.success || !j.error)) {
+      // sukses -> kembali ke daftar
+      location.href = "/page/admin/products/index.html";
+    } else {
+      MSG.textContent = 'Gagal menyimpan: ' + (j.error || j.message || JSON.stringify(j));
+    }
+  } catch (err) {
+    MSG.textContent = 'Gagal menyimpan: ' + err.message;
+  }
+};
+</script>
+</body>
+</html>
