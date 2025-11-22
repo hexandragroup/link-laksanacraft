@@ -6,11 +6,11 @@
 <title>Kelola Produk — LaksanaCraft</title>
 <link rel="stylesheet" href="/assets/style/style.css">
 <style>
-.container-box { max-width:900px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+.container-box { max-width:900px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08);}
 h1 { text-align:center; margin-bottom:20px; }
-.product-item { border:1px solid #ddd; border-radius:12px; padding:15px; margin-bottom:12px; background:#fafafa; }
+.product-item { border:1px solid #ddd; border-radius:12px; padding:15px; margin-bottom:12px; background:#fafafa;}
 .product-controls { margin-top:12px; display:flex; gap:10px; }
-.btn-small { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; color:#fff; }
+.btn-small { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; color:#fff;}
 .btn-edit { background:#0288d1; } .btn-edit:hover { background:#039be5; }
 .btn-delete { background:#d32f2f; } .btn-delete:hover { background:#e53935; }
 .btn-add { display:block; width:100%; padding:12px; margin-bottom:20px; background:#009688; color:#fff; border-radius:10px; border:none; font-size:16px; cursor:pointer; }
@@ -24,7 +24,9 @@ h1 { text-align:center; margin-bottom:20px; }
 <div class="container-box">
     <h1>Kelola Produk</h1>
     <button class="btn-add" onclick="location.href='add.html'">+ Tambah Produk</button>
-    <select id="fileSelect"></select>
+    <select id="fileSelect">
+      <option value="products1.json">products1.json</option>
+    </select>
     <div id="list"></div>
 </div>
 
@@ -33,64 +35,56 @@ const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
 const TOKEN = localStorage.getItem("GH_TOKEN");
 if(!localStorage.getItem("isLoggedIn")) location.href="/page/login.html";
 
-let currentFile = "";
+let currentFile = "products1.json";
 
-// --- daftar file JSON manual
-const fileList = ["products1.json","products2.json","products3.json"];
-const select = document.getElementById("fileSelect");
-fileList.forEach(f=>{
-    const opt = document.createElement("option");
-    opt.value = f; opt.textContent = f;
-    select.appendChild(opt);
+document.getElementById("fileSelect").addEventListener("change", e=>{
+  currentFile = e.target.value;
+  loadProducts();
 });
-currentFile = fileList[0];
-select.value = currentFile;
 
-// --- load data
-async function loadProducts(file){
-    const el = document.getElementById("list");
-    el.innerHTML = "Memuat data...";
-    try {
-        const r = await fetch(`${API}/products?file=${file}`);
-        const data = await r.json();
-        el.innerHTML = "";
-        data.forEach((p,i)=>{
-            const div = document.createElement("div");
-            div.className = "product-item";
-            div.innerHTML = `
-                <p><strong>Tokoh:</strong> ${p.tokoh?.join(", ")}</p>
-                <p><strong>Kualitas:</strong> ${p.kualitas}</p>
-                <p><strong>Ukuran:</strong> ${p.ukuran}</p>
-                <p><a href="${p.link}" target="_blank">🔗 Lihat Produk</a></p>
-                <div class="product-controls">
-                    <button class="btn-small btn-edit" onclick="edit(${i})">Edit</button>
-                    <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
-                </div>
-            `;
-            el.appendChild(div);
-        });
-    } catch(e){
-        el.innerHTML = "Gagal memuat data.";
-    }
-}
+async function loadProducts() {
+  const el = document.getElementById("list");
+  el.innerHTML = "Memuat data...";
 
-// --- event dropdown
-select.addEventListener("change",()=>{ currentFile=select.value; loadProducts(currentFile); });
+  try {
+    const r = await fetch(`${API}/products?file=${currentFile}`);
+    const data = await r.json();
+    el.innerHTML = "";
 
-// --- edit & delete
-function edit(i){ location.href=`edit.html?id=${i}&file=${currentFile}`; }
-async function hapus(i){
-    if(!confirm("Yakin ingin menghapus produk ini?")) return;
-    const r = await fetch(`${API}/products?file=${currentFile}&id=${i}`,{
-        method:"DELETE",
-        headers: {"Authorization":`token ${TOKEN}`}
+    data.forEach((p,i)=>{
+      const div = document.createElement("div");
+      div.className = "product-item";
+      div.innerHTML = `
+        <p><strong>Tokoh:</strong> ${p.tokoh?.join(", ")}</p>
+        <p><strong>Kualitas:</strong> ${p.kualitas}</p>
+        <p><strong>Ukuran:</strong> ${p.ukuran}</p>
+        <p><a href="${p.link}" target="_blank">🔗 Lihat Produk</a></p>
+        <div class="product-controls">
+          <button class="btn-small btn-edit" onclick="edit(${i})">Edit</button>
+          <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
+        </div>
+      `;
+      el.appendChild(div);
     });
-    if(r.ok){ alert("Produk dihapus."); loadProducts(currentFile); }
-    else alert("Gagal menghapus.");
+
+  } catch(e) {
+    el.innerHTML = "Gagal memuat data.";
+  }
 }
 
-// load default
-loadProducts(currentFile);
+function edit(i){ location.href=`edit.html?id=${i}&file=${currentFile}`; }
+
+async function hapus(i){
+  if(!confirm("Yakin ingin menghapus produk ini?")) return;
+  const r = await fetch(`${API}/products?file=${currentFile}&id=${i}`, {
+    method:"DELETE",
+    headers: {"Authorization":`token ${TOKEN}`}
+  });
+  if(r.ok){ alert("Produk dihapus."); loadProducts(); }
+  else alert("Gagal menghapus.");
+}
+
+loadProducts();
 </script>
 
 </body>
