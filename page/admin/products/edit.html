@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Edit Produk — LaksanaCraft</title>
+
+<link rel="stylesheet" href="/assets/style/style.css">
+
+<style>
+.container-box {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+.btn-save {
+    width: 100%;
+    padding: 12px;
+    background: #0288d1;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background: #039be5;
+}
+
+.back {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.back a {
+    color: #333;
+}
+</style>
+</head>
+
+<body>
+
+<script src="/assets/script/corner-menu.js"></script>
+
+<div class="container-box">
+
+    <h1>Edit Produk</h1>
+
+    <label>Tokoh (pisahkan dengan koma)</label>
+    <input id="tokoh" class="input">
+
+    <label>Kualitas</label>
+    <input id="kualitas" class="input">
+
+    <label>Ukuran</label>
+    <input id="ukuran" class="input">
+
+    <label>Link Produk</label>
+    <input id="link" class="input">
+
+    <button class="btn-save" id="btnSave">Simpan Perubahan</button>
+
+    <div class="back">
+        <a href="index.html">← Kembali</a>
+    </div>
+
+</div>
+
+<script>
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const TOKEN = localStorage.getItem("GH_TOKEN");
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if (!isLoggedIn) location.href = "/page/login.html";
+
+// Ambil parameter id dari URL
+const url = new URL(location.href);
+const id = url.searchParams.get("id");
+
+// ------------------------------
+// Load data lama
+// ------------------------------
+async function loadOld() {
+    try {
+        const r = await fetch(`${API}/products?file=products1.json`);
+        const data = await r.json();
+        const item = data[id];
+
+        if (!item) {
+            alert("Produk tidak ditemukan");
+            location.href = "index.html";
+            return;
+        }
+
+        tokoh.value = item.tokoh?.join(", ") || "";
+        kualitas.value = item.kualitas || "";
+        ukuran.value = item.ukuran || "";
+        link.value = item.link || "";
+
+    } catch(e) {
+        alert("Gagal memuat data");
+    }
+}
+
+loadOld();
+
+// ------------------------------
+// Simpan Perubahan
+// ------------------------------
+btnSave.onclick = async () => {
+
+    const body = {
+        tokoh: tokoh.value.split(",").map(s=>s.trim()).filter(Boolean),
+        kualitas: kualitas.value.trim(),
+        ukuran: ukuran.value.trim(),
+        link: link.value.trim()
+    };
+
+    const r = await fetch(`${API}/products?file=products1.json&id=${id}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `token ${TOKEN}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+
+    if (r.ok) {
+        alert("Perubahan disimpan.");
+        location.href = "index.html";
+    } else {
+        alert("Gagal menyimpan.");
+    }
+};
+</script>
+
+</body>
+</html>
