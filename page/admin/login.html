@@ -83,7 +83,7 @@ btnSimple.onclick = () => {
     if (u === "admin" && p === "12345") {
         localStorage.setItem("isLoggedIn", "1");
         localStorage.setItem("LaksanaCraft_API_KEY", "simple");
-        location.href = "/admin/";
+        location.href = "/page/admin/";
     } else {
         msg.textContent = "Username atau password salah";
     }
@@ -104,7 +104,7 @@ btnGH.onclick = async () => {
             localStorage.setItem("GH_TOKEN", token);
             localStorage.setItem("LaksanaCraft_API_KEY", "github");
             localStorage.setItem("isLoggedIn", "1");
-            location.href = "/admin/";
+            location.href = "/page/admin/";
         } else {
             msg.textContent = "Token salah atau akses ditolak";
         }
