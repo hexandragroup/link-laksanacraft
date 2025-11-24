@@ -5,12 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Tambah Produk — Admin</title>
 
-<!-- CSS utama -->
 <link rel="stylesheet" href="/assets/style/style.css">
 
-<!-- Style khusus form admin -->
 <style>
-/* Container utama */
 .container-box { 
   max-width:720px; 
   margin:30px auto; 
@@ -18,55 +15,32 @@
   padding:28px; 
   border-radius:12px; 
   box-shadow:0 8px 22px rgba(0,0,0,.06);
-  box-sizing:border-box;
 }
+h1 { text-align:center; }
 
-/* Judul */
-h1 { margin-top:0; text-align:center; font-size:24px; }
+.form-row { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+.form-row .col { flex:1; min-width:120px; }
 
-/* Form row */
-.form-row {
-  display:flex;
-  gap:12px;
-  margin-bottom:12px;
-  flex-wrap:wrap; /* responsive */
-}
-.form-row .col {
-  flex:1;
-  min-width:120px;
-}
-
-/* Label & input */
-label {
-  display:block;
-  font-weight:600;
-  margin-bottom:6px;
-}
+label { display:block; font-weight:600; margin-bottom:6px; }
 input.input, textarea.input {
-  width:100%;
-  padding:10px;
-  border:1px solid #dcdcdc;
-  border-radius:8px;
-  font-size:14px;
-  box-sizing:border-box;
+  width:100%; padding:10px; border:1px solid #dcdcdc;
+  border-radius:8px; font-size:14px;
 }
-textarea.input { min-height:80px; resize:vertical; }
+textarea.input { min-height:80px; }
 
-/* Variants */
 .variants { margin:10px 0 18px; }
-.variant-row { display:flex; gap:8px; margin-bottom:8px; align-items:center; flex-wrap:wrap; }
-.variant-row input { flex:1; min-width:0; }
+.variant-row { display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+.variant-row input { flex:1; }
 
-/* Tombol */
-.btn { display:inline-block; padding:10px 16px; border-radius:8px; border:none; cursor:pointer; box-sizing:border-box; font-size:14px; }
-.btn-primary { background:linear-gradient(135deg,#009688,#00695c); color:#fff; }
-.btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333; }
-.btn-danger { background:#d32f2f; color:#fff; }
+.btn { padding:10px 16px; border-radius:8px; cursor:pointer; border:none; font-size:14px; }
+.btn-primary { background:#009688; color:#fff; }
+.btn-ghost { background:#fafafa; border:1px solid #e6e6e6; }
+.btn-danger { background:#d9534f; color:#fff; }
 
-/* Actions */
-.actions { display:flex; gap:8px; margin-top:16px; justify-content:space-between; flex-wrap:wrap; align-items:center; }
+.actions { display:flex; justify-content:space-between; margin-top:16px; flex-wrap:wrap; }
+.link-back { text-decoration:none; color:#009688; }
+
 .note { font-size:13px;color:#666;margin-top:8px; }
-a.link-back { color:#00695c; text-decoration:none; font-weight:500; }
 </style>
 </head>
 <body>
@@ -100,12 +74,10 @@ a.link-back { color:#00695c; text-decoration:none; font-weight:500; }
     <hr style="margin:18px 0">
 
     <label>Varian (size dan harga)</label>
-    <div class="variants" id="variants">
-      <!-- variant rows inserted here -->
-    </div>
+    <div id="variants" class="variants"></div>
     <button id="addVariant" class="btn btn-ghost">+ Tambah Varian</button>
 
-    <div class="note">Isikan varian dalam format size dan harga. Anda bisa menambah beberapa varian.</div>
+    <div class="note">Isikan beberapa varian bila perlu. Minimal 1 varian.</div>
 
     <div class="actions">
       <a href="/page/admin/products/index.html" class="link-back">← Kembali ke daftar</a>
@@ -118,117 +90,108 @@ a.link-back { color:#00695c; text-decoration:none; font-weight:500; }
 </div>
 
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const FILE = "products1.json";
-const MSG = document.getElementById('message');
+// === API KV BARU ===
+const API = "https://api.laksanacraft.my.id";
+const MSG = document.getElementById("message");
 
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-if (!isLoggedIn) location.href = "/page/login.html";
-
-const GH_TOKEN = localStorage.getItem("GH_TOKEN") || "";
-
-// Helper buat input varian
-function createVariantRow(size='', harga=''){
-  const wrap = document.createElement('div');
-  wrap.className = 'variant-row';
-
-  const inSize = document.createElement('input');
-  inSize.className = 'input';
-  inSize.placeholder = 'Size (contoh: 10cm)';
-  inSize.value = size;
-
-  const inHarga = document.createElement('input');
-  inHarga.className = 'input';
-  inHarga.placeholder = 'Harga (contoh: Rp11.000)';
-  inHarga.value = harga;
-
-  const btnDel = document.createElement('button');
-  btnDel.type = 'button';
-  btnDel.className = 'btn btn-danger';
-  btnDel.textContent = 'Hapus';
-  btnDel.onclick = () => wrap.remove();
-
-  wrap.appendChild(inSize);
-  wrap.appendChild(inHarga);
-  wrap.appendChild(btnDel);
-
-  return wrap;
+// Cek login
+if (!localStorage.getItem("isLoggedIn")) {
+  location.href = "/page/login.html";
 }
 
-const variantsBox = document.getElementById('variants');
-document.getElementById('addVariant').onclick = (e) => {
+// --- Buat baris variant ---
+function createVariantRow(size="", harga=""){
+  const row = document.createElement("div");
+  row.className = "variant-row";
+
+  const i1 = document.createElement("input");
+  i1.className = "input";
+  i1.placeholder = "Size (contoh: 20cm)";
+  i1.value = size;
+
+  const i2 = document.createElement("input");
+  i2.className = "input";
+  i2.placeholder = "Harga (contoh: Rp25.000)";
+  i2.value = harga;
+
+  const del = document.createElement("button");
+  del.className = "btn btn-danger";
+  del.textContent = "Hapus";
+  del.onclick = () => row.remove();
+
+  row.appendChild(i1);
+  row.appendChild(i2);
+  row.appendChild(del);
+
+  return row;
+}
+
+const variantsBox = document.getElementById("variants");
+variantsBox.appendChild(createVariantRow()); // default kosong
+
+document.getElementById("addVariant").onclick = e => {
   e.preventDefault();
   variantsBox.appendChild(createVariantRow());
 };
 
-// Tambahkan 1 variant kosong default agar placeholder muncul
-variantsBox.appendChild(createVariantRow());
-
-// Tombol cancel
-document.getElementById('btnCancel').onclick = (e) => {
+// Cancel
+document.getElementById("btnCancel").onclick = e => {
   e.preventDefault();
   location.href = "/page/admin/products/index.html";
 };
 
-// Simpan produk
-document.getElementById('btnSave').onclick = async (e) => {
+// === SIMPAN DATA ===
+document.getElementById("btnSave").onclick = async (e) => {
   e.preventDefault();
-  MSG.textContent = '';
+  MSG.textContent = "";
 
-  const tokoh = document.getElementById('tokoh').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const ukuran = document.getElementById('ukuran').value.split(',').map(s=>s.trim()).filter(Boolean);
-  const kualitas = document.getElementById('kualitas').value.trim();
-  const link = document.getElementById('link').value.trim();
+  const tokoh = document.getElementById("tokoh").value.split(",").map(s=>s.trim()).filter(Boolean);
+  const ukuran = document.getElementById("ukuran").value.split(",").map(s=>s.trim()).filter(Boolean);
+  const kualitas = document.getElementById("kualitas").value.trim();
+  const link = document.getElementById("link").value.trim();
 
-  const varianRows = Array.from(variantsBox.querySelectorAll('.variant-row'));
-  const varian = varianRows.map(r=>{
-    const inputs = r.querySelectorAll('input');
-    return { size: inputs[0].value.trim(), harga: inputs[1].value.trim() };
-  }).filter(v => v.size && v.harga);
+  const varian = Array.from(variantsBox.children)
+    .map(row => {
+      const i = row.querySelectorAll("input");
+      return { size: i[0].value.trim(), harga: i[1].value.trim() };
+    })
+    .filter(v => v.size && v.harga);
 
   if (!tokoh.length || !ukuran.length || !kualitas || !link) {
-    MSG.textContent = 'Lengkapi tokoh, ukuran, kualitas, dan link.';
+    MSG.textContent = "Lengkapi semua field terlebih dahulu.";
     return;
   }
 
   let current = [];
+
   try {
-    const res = await fetch(`${API}/products?file=${FILE}`);
-    if (!res.ok) throw new Error('Gagal mengambil file produk');
-    current = await res.json();
-    if (!Array.isArray(current)) {
-      if (current.content && Array.isArray(current.content)) current = current.content;
-      else throw new Error('Format data produk tidak sesuai.');
-    }
-  } catch (err) {
-    MSG.textContent = 'Gagal memuat data produk: ' + err.message;
+    const r = await fetch(`${API}/products`);
+    current = await r.json();
+    if (!Array.isArray(current)) current = [];
+  } catch {
+    MSG.textContent = "Gagal mengambil data dari server.";
     return;
   }
 
-  const newId = current.length ? Math.max(...current.map(x=>x.id||0))+1 : 1;
+  const newId = current.length ? Math.max(...current.map(p => p.id || 0)) + 1 : 1;
 
   const newItem = { id: newId, tokoh, ukuran, kualitas, link, varian };
   current.push(newItem);
 
   try {
-    const res = await fetch(`${API}/products?file=${FILE}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': GH_TOKEN ? `token ${GH_TOKEN}` : '',
-        'x-api-key': localStorage.getItem('LaksanaCraft_API_KEY') || ''
-      },
+    const save = await fetch(`${API}/products`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(current, null, 2)
     });
 
-    const j = await res.json();
-    if (res.ok && (j.status === 'OK' || j.status === 200 || j.success || !j.error)) {
+    if (save.ok) {
       location.href = "/page/admin/products/index.html";
     } else {
-      MSG.textContent = 'Gagal menyimpan: ' + (j.error || j.message || JSON.stringify(j));
+      MSG.textContent = "Gagal menyimpan ke server.";
     }
-  } catch (err) {
-    MSG.textContent = 'Gagal menyimpan: ' + err.message;
+  } catch {
+    MSG.textContent = "Terjadi error saat menyimpan.";
   }
 };
 </script>
