@@ -3,99 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Tambah Link — Admin</title>
-
+<title>Kelola Link — LaksanaCraft</title>
 <link rel="stylesheet" href="/assets/style/style.css">
 
 <style>
 .container-box {
-    max-width: 720px;
+    max-width: 900px;
     margin: 30px auto;
     background: #fff;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 8px 22px rgba(0,0,0,.06);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
-h1 { margin-top:0; text-align:center; margin-bottom:20px; }
-label { display:block; font-weight:600; margin-bottom:6px; }
-.input { width:100%; padding:10px; border:1px solid #dcdcdc; border-radius:8px; font-size:14px; margin-bottom:12px; }
-.actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:14px; }
-.btn { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-size:14px; }
-.btn-primary { background:#0288d1; color:#fff; }
-.btn-primary:hover { background:#039be5; }
-.btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333; }
-.msg { color:#b30000; margin-top:10px; font-weight:bold; }
+h1 { text-align:center; margin-bottom:20px; }
+
+.btn-add {
+    display:block;
+    width:100%;
+    padding:12px;
+    background:#3f51b5;
+    color:#fff;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+.btn-add:hover { background:#303f9f; }
+
+.link-item {
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:12px;
+    background:#fafafa;
+}
+.link-controls {
+    margin-top:12px;
+    display:flex;
+    gap:10px;
+}
+.btn-small {
+    padding:8px 12px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    color:#fff;
+    font-size:14px;
+}
+.btn-edit { background:#0288d1; }
+.btn-edit:hover { background:#039be5; }
+.btn-delete { background:#d32f2f; }
+.btn-delete:hover { background:#e53935; }
+
+#fileSelect {
+    display:block;
+    margin:0 auto 20px;
+    padding:6px 12px;
+    font-size:16px;
+    border-radius:8px;
+}
 </style>
 </head>
+
 <body>
 
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container-box">
-  <h1>Tambah Link</h1>
+    <h1>Kelola Link</h1>
 
-  <div id="msg" class="msg"></div>
+    <button class="btn-add" onclick="location.href='add.html'">+ Tambah Link</button>
 
-  <label>Kategori</label>
-  <input id="category" class="input">
+    <select id="fileSelect"></select>
 
-  <label>Judul</label>
-  <input id="title" class="input">
-
-  <label>URL</label>
-  <input id="url" class="input">
-
-  <label>Icon</label>
-  <input id="icon" class="input">
-
-  <div class="actions">
-    <a href="index.html" class="btn-ghost">← Kembali</a>
-    <button id="btnSave" class="btn btn-primary">Simpan</button>
-  </div>
+    <div id="list"></div>
 </div>
 
+
 <script>
-const API = "https://api.laksanacraft.my.id";
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-if (!isLoggedIn) location.href = "/page/login.html";
+const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const TOKEN = localStorage.getItem("GH_TOKEN");
 
-const msg = document.getElementById("msg");
+if (!localStorage.getItem("isLoggedIn"))
+    location.href = "/page/login.html";
 
-document.getElementById("btnSave").onclick = async () => {
-    msg.textContent = "";
+let currentFile = "";
 
-    const category = document.getElementById("category").value.trim();
-    const title    = document.getElementById("title").value.trim();
-    const url      = document.getElementById("url").value.trim();
-    const icon     = document.getElementById("icon").value.trim();
+// -------------------------------
+//   FILE LIST MANUAL 1 s/d 5
+// -------------------------------
+const fileList = ["links1.json","links2.json","links3.json","links4.json","links5.json"];
+const select = document.getElementById("fileSelect");
 
-    if (!category || !title || !url) {
-        msg.textContent = "Kategori, Judul, dan URL wajib diisi.";
-        return;
-    }
+fileList.forEach(f => {
+    const opt = document.createElement("option");
+    opt.value = f;
+    opt.textContent = f;
+    select.appendChild(opt);
+});
 
-    const item = { category, title, url, icon };
+currentFile = fileList[0];
+select.value = currentFile;
+
+
+// -----------------------------------
+//   LOAD DATA LINK
+// -----------------------------------
+async function loadLinks(file) {
+    const el = document.getElementById("list");
+    el.innerHTML = "Memuat data...";
 
     try {
-        const res = await fetch(`${API}/links`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(item)
+        const r = await fetch(`${API}/links?file=${file}`);
+        const data = await r.json();
+
+        el.innerHTML = "";
+
+        data.forEach((l, i) => {
+            const div = document.createElement("div");
+            div.className = "link-item";
+
+            div.innerHTML = `
+                <p><strong>Kategori:</strong> ${l.category}</p>
+                <p><strong>Judul:</strong> ${l.title}</p>
+                <p><strong>URL:</strong> <a href="${l.url}" target="_blank">${l.url}</a></p>
+                <p><strong>Icon:</strong> ${l.icon}</p>
+
+                <div class="link-controls">
+                    <button class="btn-small btn-edit" onclick="edit(${i})">Edit</button>
+                    <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
+                </div>
+            `;
+
+            el.appendChild(div);
         });
 
-        if (!res.ok) {
-            msg.textContent = "Gagal menyimpan link.";
-            return;
-        }
-
-        alert("Link baru berhasil ditambahkan.");
-        location.href = "index.html";
-
     } catch (e) {
-        msg.textContent = "Kesalahan koneksi.";
+        el.innerHTML = "Gagal memuat data.";
     }
-};
+}
+
+
+// -----------------------------------
+//   EVENT DROPDOWN FILE
+// -----------------------------------
+select.addEventListener("change", () => {
+    currentFile = select.value;
+    loadLinks(currentFile);
+});
+
+
+// -----------------------------------
+//   EDIT
+// -----------------------------------
+function edit(i) {
+    location.href = `edit.html?id=${i}&file=${currentFile}`;
+}
+
+
+// -----------------------------------
+//   DELETE
+// -----------------------------------
+async function hapus(i) {
+    if (!confirm("Yakin ingin menghapus link ini?")) return;
+
+    const r = await fetch(`${API}/links?file=${currentFile}&id=${i}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `token ${TOKEN}`
+        }
+    });
+
+    if (r.ok) {
+        alert("Link dihapus.");
+        loadLinks(currentFile);
+    } else {
+        alert("Gagal menghapus link.");
+    }
+}
+
+
+// load awal
+loadLinks(currentFile);
 </script>
 
 </body>
