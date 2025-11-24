@@ -3,18 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kelola Link — LaksanaCraft</title>
+
+<title>Tambah Link — Admin</title>
+
 <link rel="stylesheet" href="/assets/style/style.css">
+
 <style>
-.container-box { max-width:900px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
-h1 { text-align:center; margin-bottom:20px; }
-.link-item { border:1px solid #ddd; border-radius:12px; padding:15px; margin-bottom:12px; background:#fafafa; }
-.link-controls { margin-top:12px; display:flex; gap:10px; }
-.btn-small { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; color:#fff; }
-.btn-edit { background:#0288d1; } .btn-edit:hover { background:#039be5; }
-.btn-delete { background:#d32f2f; } .btn-delete:hover { background:#e53935; }
-.btn-add { display:block; width:100%; padding:12px; margin-bottom:20px; background:#3f51b5; color:#fff; border-radius:10px; border:none; font-size:16px; cursor:pointer; }
-#fileSelect { display:block; margin:0 auto 20px; padding:6px 12px; font-size:16px; border-radius:8px; }
+.container-box {
+    max-width: 720px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,.06);
+}
+h1 { margin-top:0; text-align:center; margin-bottom:20px; }
+label { display:block; font-weight:600; margin-bottom:6px; }
+.input { width:100%; padding:10px; border:1px solid #dcdcdc; border-radius:8px; font-size:14px; margin-bottom:12px; }
+.actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:14px; }
+.btn { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-size:14px; }
+.btn-primary { background:#0288d1; color:#fff; }
+.btn-primary:hover { background:#039be5; }
+.btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333; }
+.msg { color:#b30000; margin-top:10px; font-weight:bold; }
 </style>
 </head>
 <body>
@@ -22,73 +33,69 @@ h1 { text-align:center; margin-bottom:20px; }
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container-box">
-    <h1>Kelola Link</h1>
-    <button class="btn-add" onclick="location.href='add.html'">+ Tambah Link</button>
-    <select id="fileSelect"></select>
-    <div id="list"></div>
+  <h1>Tambah Link</h1>
+
+  <div id="msg" class="msg"></div>
+
+  <label>Kategori</label>
+  <input id="category" class="input">
+
+  <label>Judul</label>
+  <input id="title" class="input">
+
+  <label>URL</label>
+  <input id="url" class="input">
+
+  <label>Icon</label>
+  <input id="icon" class="input">
+
+  <div class="actions">
+    <a href="index.html" class="btn-ghost">← Kembali</a>
+    <button id="btnSave" class="btn btn-primary">Simpan</button>
+  </div>
 </div>
 
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const TOKEN = localStorage.getItem("GH_TOKEN");
-if(!localStorage.getItem("isLoggedIn")) location.href="/page/login.html";
+const API = "https://api.laksanacraft.my.id";
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+if (!isLoggedIn) location.href = "/page/login.html";
 
-let currentFile = "";
+const msg = document.getElementById("msg");
 
-// --- daftar file JSON manual
-const fileList = ["data1.json","data2.json","data3.json","data4.json","data5.json"];
-const select = document.getElementById("fileSelect");
-fileList.forEach(f=>{
-    const opt = document.createElement("option");
-    opt.value = f; opt.textContent = f;
-    select.appendChild(opt);
-});
-currentFile = fileList[0];
-select.value = currentFile;
+document.getElementById("btnSave").onclick = async () => {
+    msg.textContent = "";
 
-// --- load data
-async function loadLinks(file){
-    const el = document.getElementById("list");
-    el.innerHTML = "Memuat data...";
+    const category = document.getElementById("category").value.trim();
+    const title    = document.getElementById("title").value.trim();
+    const url      = document.getElementById("url").value.trim();
+    const icon     = document.getElementById("icon").value.trim();
+
+    if (!category || !title || !url) {
+        msg.textContent = "Kategori, Judul, dan URL wajib diisi.";
+        return;
+    }
+
+    const item = { category, title, url, icon };
+
     try {
-        const r = await fetch(`${API}/links?file=${file}`);
-        const data = await r.json();
-        el.innerHTML = "";
-        data.forEach((l,i)=>{
-            const div = document.createElement("div");
-            div.className = "link-item";
-            div.innerHTML = `
-                <p><strong>Kategori:</strong> ${l.category}</p>
-                <p><strong>Judul:</strong> ${l.title}</p>
-                <p><strong>URL:</strong> <a href="${l.url}" target="_blank">${l.url}</a></p>
-                <p><strong>Icon:</strong> ${l.icon}</p>
-                <div class="link-controls">
-                    <button class="btn-small btn-edit" onclick="edit(${i})">Edit</button>
-                    <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
-                </div>
-            `;
-            el.appendChild(div);
+        const res = await fetch(`${API}/links`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(item)
         });
-    } catch(e){ el.innerHTML = "Gagal memuat data."; }
-}
 
-// --- event dropdown
-select.addEventListener("change",()=>{ currentFile=select.value; loadLinks(currentFile); });
+        if (!res.ok) {
+            msg.textContent = "Gagal menyimpan link.";
+            return;
+        }
 
-// --- edit & delete
-function edit(i){ location.href=`edit.html?id=${i}&file=${currentFile}`; }
-async function hapus(i){
-    if(!confirm("Yakin ingin menghapus link ini?")) return;
-    const r = await fetch(`${API}/links?file=${currentFile}&id=${i}`,{
-        method:"DELETE",
-        headers: {"Authorization":`token ${TOKEN}`}
-    });
-    if(r.ok){ alert("Link dihapus."); loadLinks(currentFile); }
-    else alert("Gagal menghapus.");
-}
+        alert("Link baru berhasil ditambahkan.");
+        location.href = "index.html";
 
-// load default
-loadLinks(currentFile);
+    } catch (e) {
+        msg.textContent = "Kesalahan koneksi.";
+    }
+};
 </script>
 
 </body>
