@@ -18,10 +18,7 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+h1 { text-align: center; margin-bottom: 20px; }
 
 .input {
     width: 100%;
@@ -59,7 +56,7 @@ h1 {
     <input id="category" class="input" placeholder="Kategori">
     <input id="title" class="input" placeholder="Judul Link">
     <input id="url" class="input" placeholder="URL">
-    <input id="icon" class="input" placeholder="Icon">
+    <input id="icon" class="input" placeholder="Icon (opsional)">
 
     <button id="btnSave" class="btn-save">Simpan Perubahan</button>
 
@@ -68,13 +65,13 @@ h1 {
 </div>
 
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const API = "https://api.laksanacraft.my.id"; // sudah custom domain
 const TOKEN = localStorage.getItem("GH_TOKEN");
 const isLoggedIn = localStorage.getItem("isLoggedIn");
 
 if (!isLoggedIn) location.href = "/page/login.html";
 
-// Ambil parameter ?id= dari URL
+// ambil ?id=
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -88,16 +85,17 @@ if (!id) {
 // -----------------------------------
 async function loadLink() {
     try {
-        const res = await fetch(`${API}/links?file=links1.json`);
+        const res = await fetch(`${API}/links`);
         const data = await res.json();
-        const link = data[id];
+        const item = data[id];
 
-        if (!link) throw new Error("Link tidak ditemukan");
+        if (!item) throw new Error("Link tidak ditemukan");
 
-        category.value = link.category || "";
-        title.value = link.title || "";
-        url.value = link.url || "";
-        icon.value = link.icon || "";
+        category.value = item.category || "";
+        title.value = item.title || "";
+        url.value = item.url || "";
+        icon.value = item.icon || "";
+
     } catch(e) {
         alert("Gagal memuat data link");
         location.href = "index.html";
@@ -112,37 +110,33 @@ loadLink();
 btnSave.onclick = async () => {
     msg.textContent = "";
 
-    const categoryValue = category.value.trim();
-    const titleValue = title.value.trim();
-    const urlValue = url.value.trim();
-    const iconValue = icon.value.trim();
+    const body = {
+        category: category.value.trim(),
+        title: title.value.trim(),
+        url: url.value.trim(),
+        icon: icon.value.trim()
+    };
 
-    if (!categoryValue || !titleValue || !urlValue) {
+    if (!body.category || !body.title || !body.url) {
         msg.textContent = "Kategori, judul, dan URL wajib diisi";
         return;
     }
 
     try {
-        const res = await fetch(`${API}/links?file=links1.json&id=${id}`, {
+        const res = await fetch(`${API}/links?id=${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `token ${TOKEN}`
             },
-            body: JSON.stringify({
-                category: categoryValue,
-                title: titleValue,
-                url: urlValue,
-                icon: iconValue
-            })
+            body: JSON.stringify(body)
         });
 
-        if (res.ok) {
-            alert("Link berhasil diperbarui");
-            location.href = "index.html";
-        } else {
-            msg.textContent = "Gagal memperbarui link";
-        }
+        if (!res.ok) return msg.textContent = "Gagal memperbarui link";
+
+        alert("Link berhasil diperbarui");
+        location.href = "index.html";
+
     } catch(e) {
         msg.textContent = "Kesalahan koneksi";
     }
