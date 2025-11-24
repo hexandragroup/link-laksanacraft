@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Edit Link — LaksanaCraft</title>
-
 <link rel="stylesheet" href="/assets/style/style.css">
-
 <style>
 .container-box {
     max-width: 500px;
@@ -17,31 +14,10 @@
     border-radius: 14px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
-
 h1 { text-align: center; margin-bottom: 20px; }
-
-.input {
-    width: 100%;
-    padding: 12px 14px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 15px;
-}
-
-.btn-save {
-    width: 100%;
-    padding: 12px;
-    margin-top: 12px;
-    background: #0288d1;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-}
+.input { width: 100%; padding: 12px 14px; margin: 8px 0; border: 1px solid #ccc; border-radius: 10px; font-size: 15px; }
+.btn-save { width: 100%; padding: 12px; margin-top: 12px; background: #0288d1; color: #fff; border: none; border-radius: 10px; font-size: 16px; cursor: pointer; }
 .btn-save:hover { background: #039be5; }
-
 .msg { color: #b30000; font-weight: bold; margin-top: 10px; }
 </style>
 </head>
@@ -50,92 +26,81 @@ h1 { text-align: center; margin-bottom: 20px; }
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container-box">
-
     <h1>Edit Link</h1>
-
     <input id="category" class="input" placeholder="Kategori">
     <input id="title" class="input" placeholder="Judul Link">
     <input id="url" class="input" placeholder="URL">
     <input id="icon" class="input" placeholder="Icon (opsional)">
-
     <button id="btnSave" class="btn-save">Simpan Perubahan</button>
-
     <p id="msg" class="msg"></p>
-
 </div>
 
 <script>
-const API = "https://api.laksanacraft.my.id"; // sudah custom domain
-const TOKEN = localStorage.getItem("GH_TOKEN");
-const isLoggedIn = localStorage.getItem("isLoggedIn");
+const API = "https://api.laksanacraft.my.id";
+if (!localStorage.getItem("isLoggedIn")) location.href = "/page/login.html";
 
-if (!isLoggedIn) location.href = "/page/login.html";
-
-// ambil ?id=
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
+if (!id) { alert("ID link tidak ditemukan"); location.href="index.html"; }
 
-if (!id) {
-    alert("ID link tidak ditemukan");
-    location.href = "index.html";
-}
+const msg = document.getElementById("msg");
+const category = document.getElementById("category");
+const title = document.getElementById("title");
+const url = document.getElementById("url");
+const icon = document.getElementById("icon");
+const btnSave = document.getElementById("btnSave");
 
-// -----------------------------------
-// LOAD DATA LINK
-// -----------------------------------
+// Load data link
 async function loadLink() {
     try {
         const res = await fetch(`${API}/links`);
-        const data = await res.json();
-        const item = data[id];
-
+        const arr = await res.json();
+        const item = arr[id];
         if (!item) throw new Error("Link tidak ditemukan");
 
         category.value = item.category || "";
         title.value = item.title || "";
         url.value = item.url || "";
         icon.value = item.icon || "";
-
     } catch(e) {
         alert("Gagal memuat data link");
-        location.href = "index.html";
+        location.href="index.html";
     }
 }
-
 loadLink();
 
-// -----------------------------------
-// SIMPAN PERUBAHAN
-// -----------------------------------
+// Simpan perubahan
 btnSave.onclick = async () => {
     msg.textContent = "";
 
-    const body = {
+    const newData = {
         category: category.value.trim(),
         title: title.value.trim(),
         url: url.value.trim(),
         icon: icon.value.trim()
     };
 
-    if (!body.category || !body.title || !body.url) {
+    if (!newData.category || !newData.title || !newData.url) {
         msg.textContent = "Kategori, judul, dan URL wajib diisi";
         return;
     }
 
     try {
-        const res = await fetch(`${API}/links?id=${id}`, {
+        const res = await fetch(`${API}/links`);
+        const arr = await res.json();
+
+        arr[id] = newData; // update link
+
+        const r = await fetch(`${API}/links`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `token ${TOKEN}`
-            },
-            body: JSON.stringify(body)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(arr)
         });
 
-        if (!res.ok) return msg.textContent = "Gagal memperbarui link";
+        if (!r.ok) { msg.textContent = "Gagal memperbarui link"; return; }
 
         alert("Link berhasil diperbarui");
-        location.href = "index.html";
+        location.href="index.html";
 
     } catch(e) {
         msg.textContent = "Kesalahan koneksi";
