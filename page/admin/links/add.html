@@ -19,14 +19,13 @@
 }
 h1 { margin-top:0; text-align:center; margin-bottom:20px; }
 label { display:block; font-weight:600; margin-bottom:6px; }
-.input { width:100%; padding:10px; border:1px solid #dcdcdc; border-radius:8px; font-size:14px; box-sizing:border-box; margin-bottom:12px; }
+.input { width:100%; padding:10px; border:1px solid #dcdcdc; border-radius:8px; font-size:14px; margin-bottom:12px; }
 .actions { display:flex; gap:8px; justify-content:space-between; align-items:center; margin-top:14px; }
 .btn { padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-size:14px; }
-.btn-primary { background:linear-gradient(135deg,#3f51b5,#303f9f); color:#fff; }
+.btn-primary { background:#0288d1; color:#fff; }
+.btn-primary:hover { background:#039be5; }
 .btn-ghost { background:#fafafa; border:1px solid #e6e6e6; color:#333; }
-.btn-danger { background:#d32f2f; color:#fff; }
-.note { font-size:13px; color:#666; margin-top:8px; }
-a.link-back { color:#3f51b5; text-decoration:none; }
+.msg { color:#b30000; margin-top:10px; font-weight:bold; }
 </style>
 </head>
 <body>
@@ -36,99 +35,65 @@ a.link-back { color:#3f51b5; text-decoration:none; }
 <div class="container-box">
   <h1>Tambah Link</h1>
 
-  <div id="message" style="color:#b30000; margin-bottom:12px"></div>
+  <div id="msg" class="msg"></div>
 
   <label>Kategori</label>
-  <input id="category" class="input" placeholder="Contoh: Sosial Media">
+  <input id="category" class="input">
 
   <label>Judul</label>
-  <input id="title" class="input" placeholder="Contoh: Instagram LaksanaCraft">
+  <input id="title" class="input">
 
   <label>URL</label>
-  <input id="url" class="input" placeholder="https://...">
+  <input id="url" class="input">
 
-  <label>Icon (emoji atau URL icon)</label>
-  <input id="icon" class="input" placeholder="Contoh: 🔗 atau https://...">
+  <label>Icon</label>
+  <input id="icon" class="input">
 
   <div class="actions">
-    <a href="/page/admin/links/index.html" class="link-back">← Kembali ke daftar</a>
-    <div>
-      <button id="btnCancel" class="btn btn-ghost">Batal</button>
-      <button id="btnSave" class="btn btn-primary">Simpan Link</button>
-    </div>
+    <a href="index.html" class="btn-ghost">← Kembali</a>
+    <button id="btnSave" class="btn btn-primary">Simpan</button>
   </div>
 </div>
 
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const FILE = "data1.json"; // default file
-const MSG = document.getElementById('message');
-
+const API = "https://api.laksanacraft.my.id";
 const isLoggedIn = localStorage.getItem("isLoggedIn");
-if(!isLoggedIn) location.href="/page/login.html";
+if (!isLoggedIn) location.href = "/page/login.html";
 
-const GH_TOKEN = localStorage.getItem("GH_TOKEN") || "";
-const API_KEY = localStorage.getItem("LaksanaCraft_API_KEY") || "";
+const msg = document.getElementById("msg");
 
-// Cancel
-document.getElementById('btnCancel').onclick = (e) => {
-    e.preventDefault();
-    location.href = "/page/admin/links/index.html";
-};
+document.getElementById("btnSave").onclick = async () => {
+    msg.textContent = "";
 
-// Save
-document.getElementById('btnSave').onclick = async (e) => {
-    e.preventDefault();
-    MSG.textContent = '';
+    const category = document.getElementById("category").value.trim();
+    const title    = document.getElementById("title").value.trim();
+    const url      = document.getElementById("url").value.trim();
+    const icon     = document.getElementById("icon").value.trim();
 
-    const category = document.getElementById('category').value.trim();
-    const title = document.getElementById('title').value.trim();
-    const url = document.getElementById('url').value.trim();
-    const icon = document.getElementById('icon').value.trim();
-
-    if(!category || !title || !url){
-        MSG.textContent = 'Lengkapi kategori, judul, dan URL.';
+    if (!category || !title || !url) {
+        msg.textContent = "Kategori, Judul, dan URL wajib diisi.";
         return;
     }
 
-    // Ambil data file sekarang
-    let current = [];
-    try{
-        const res = await fetch(`${API}/links?file=${FILE}`);
-        if(!res.ok) throw new Error('Gagal mengambil file link');
-        current = await res.json();
-        if(!Array.isArray(current)){
-            if(current.content && Array.isArray(current.content)) current = current.content;
-            else throw new Error('Format data link tidak sesuai.');
-        }
-    }catch(err){
-        MSG.textContent = 'Gagal memuat data link: ' + err.message;
-        return;
-    }
+    const item = { category, title, url, icon };
 
-    const newId = current.length ? Math.max(...current.map(x=>x.id||0))+1 : 1;
-
-    const newItem = { id:newId, category, title, url, icon };
-    current.push(newItem);
-
-    try{
-        const res = await fetch(`${API}/links?file=${FILE}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': GH_TOKEN ? `token ${GH_TOKEN}` : '',
-                'x-api-key': API_KEY
-            },
-            body: JSON.stringify(current,null,2)
+    try {
+        const res = await fetch(`${API}/links`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(item)
         });
-        const j = await res.json();
-        if(res.ok && (j.status==='OK' || j.success || !j.error)){
-            location.href = "/page/admin/links/index.html";
-        }else{
-            MSG.textContent = 'Gagal menyimpan: ' + (j.error || j.message || JSON.stringify(j));
+
+        if (!res.ok) {
+            msg.textContent = "Gagal menyimpan link.";
+            return;
         }
-    }catch(err){
-        MSG.textContent = 'Gagal menyimpan: ' + err.message;
+
+        alert("Link baru berhasil ditambahkan.");
+        location.href = "index.html";
+
+    } catch (e) {
+        msg.textContent = "Kesalahan koneksi.";
     }
 };
 </script>
