@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Tambah Link — Admin</title>
-
 <link rel="stylesheet" href="/assets/style/style.css">
-
 <style>
 .container-box {
     max-width: 720px;
@@ -34,7 +31,6 @@ label { display:block; font-weight:600; margin-bottom:6px; }
 
 <div class="container-box">
   <h1>Tambah Link</h1>
-
   <div id="msg" class="msg"></div>
 
   <label>Kategori</label>
@@ -57,8 +53,7 @@ label { display:block; font-weight:600; margin-bottom:6px; }
 
 <script>
 const API = "https://api.laksanacraft.my.id";
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-if (!isLoggedIn) location.href = "/page/login.html";
+if (!localStorage.getItem("isLoggedIn")) location.href = "/page/login.html";
 
 const msg = document.getElementById("msg");
 
@@ -78,13 +73,20 @@ document.getElementById("btnSave").onclick = async () => {
     const item = { category, title, url, icon };
 
     try {
-        const res = await fetch(`${API}/links`, {
-            method: "POST",
+        // Ambil array lama
+        const res = await fetch(`${API}/links`);
+        const arr = await res.json();
+
+        arr.push(item); // tambahkan link baru
+
+        // PUT array kembali ke KV
+        const r = await fetch(`${API}/links`, {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(item)
+            body: JSON.stringify(arr)
         });
 
-        if (!res.ok) {
+        if (!r.ok) {
             msg.textContent = "Gagal menyimpan link.";
             return;
         }
