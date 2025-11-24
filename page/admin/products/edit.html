@@ -87,25 +87,25 @@ h1 {
 </div>
 
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
-const TOKEN = localStorage.getItem("GH_TOKEN");
-const isLoggedIn = localStorage.getItem("isLoggedIn");
 
+const API = "https://api.laksanacraft.my.id";
+const isLoggedIn = localStorage.getItem("isLoggedIn");
 if (!isLoggedIn) location.href = "/page/login.html";
 
-// Ambil parameter id dari URL
 const url = new URL(location.href);
-const id = url.searchParams.get("id");
+const id = parseInt(url.searchParams.get("id"), 10);
+
+let allProducts = [];
 
 // ------------------------------
 // Load data lama
 // ------------------------------
 async function loadOld() {
     try {
-        const r = await fetch(`${API}/products?file=products1.json`);
-        const data = await r.json();
-        const item = data[id];
+        const r = await fetch(`${API}/products`);
+        allProducts = await r.json();
 
+        const item = allProducts[id];
         if (!item) {
             alert("Produk tidak ditemukan");
             location.href = "index.html";
@@ -117,7 +117,7 @@ async function loadOld() {
         ukuran.value = item.ukuran || "";
         link.value = item.link || "";
 
-    } catch(e) {
+    } catch (e) {
         alert("Gagal memuat data");
     }
 }
@@ -129,20 +129,17 @@ loadOld();
 // ------------------------------
 btnSave.onclick = async () => {
 
-    const body = {
-        tokoh: tokoh.value.split(",").map(s=>s.trim()).filter(Boolean),
+    allProducts[id] = {
+        tokoh: tokoh.value.split(",").map(s => s.trim()).filter(Boolean),
         kualitas: kualitas.value.trim(),
         ukuran: ukuran.value.trim(),
         link: link.value.trim()
     };
 
-    const r = await fetch(`${API}/products?file=products1.json&id=${id}`, {
+    const r = await fetch(`${API}/products`, {
         method: "PUT",
-        headers: {
-            "Authorization": `token ${TOKEN}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(allProducts)
     });
 
     if (r.ok) {
@@ -152,6 +149,7 @@ btnSave.onclick = async () => {
         alert("Gagal menyimpan.");
     }
 };
+
 </script>
 
 </body>
