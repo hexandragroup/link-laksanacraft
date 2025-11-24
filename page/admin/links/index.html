@@ -5,187 +5,98 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Kelola Link — LaksanaCraft</title>
 <link rel="stylesheet" href="/assets/style/style.css">
-
 <style>
-.container-box {
-    max-width: 900px;
-    margin: 30px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-}
+.container-box { max-width:900px; margin:30px auto; background:#fff; padding:25px; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
 h1 { text-align:center; margin-bottom:20px; }
-
-.btn-add {
-    display:block;
-    width:100%;
-    padding:12px;
-    background:#3f51b5;
-    color:#fff;
-    border-radius:10px;
-    border:none;
-    font-size:16px;
-    cursor:pointer;
-    margin-bottom:20px;
-}
-.btn-add:hover { background:#303f9f; }
-
-.link-item {
-    border:1px solid #ddd;
-    border-radius:12px;
-    padding:15px;
-    margin-bottom:12px;
-    background:#fafafa;
-}
-.link-controls {
-    margin-top:12px;
-    display:flex;
-    gap:10px;
-}
-.btn-small {
-    padding:8px 12px;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-    color:#fff;
-    font-size:14px;
-}
-.btn-edit { background:#0288d1; }
-.btn-edit:hover { background:#039be5; }
-.btn-delete { background:#d32f2f; }
-.btn-delete:hover { background:#e53935; }
-
-#fileSelect {
-    display:block;
-    margin:0 auto 20px;
-    padding:6px 12px;
-    font-size:16px;
-    border-radius:8px;
-}
+.link-item { border:1px solid #ddd; border-radius:12px; padding:15px; margin-bottom:12px; background:#fafafa; }
+.link-controls { margin-top:12px; display:flex; gap:10px; }
+.btn-small { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; color:#fff; }
+.btn-edit { background:#0288d1; } .btn-edit:hover { background:#039be5; }
+.btn-delete { background:#d32f2f; } .btn-delete:hover { background:#e53935; }
+.btn-add { display:block; width:100%; padding:12px; margin-bottom:20px; background:#3f51b5; color:#fff; border-radius:10px; border:none; font-size:16px; cursor:pointer; }
 </style>
 </head>
-
 <body>
 
 <script src="/assets/script/corner-menu.js"></script>
 
 <div class="container-box">
     <h1>Kelola Link</h1>
-
     <button class="btn-add" onclick="location.href='add.html'">+ Tambah Link</button>
-
-    <select id="fileSelect"></select>
-
     <div id="list"></div>
 </div>
 
-
 <script>
-const API = "https://ancient-king-d447.hendraslaksono.workers.dev";
+const API = "https://api.laksanacraft.my.id"; 
 const TOKEN = localStorage.getItem("GH_TOKEN");
+if(!localStorage.getItem("isLoggedIn")) location.href="/page/login.html";
 
-if (!localStorage.getItem("isLoggedIn"))
-    location.href = "/page/login.html";
+const FILE = "links.json";
 
-let currentFile = "";
-
-// -------------------------------
-//   FILE LIST MANUAL 1 s/d 5
-// -------------------------------
-const fileList = ["links1.json","links2.json","links3.json","links4.json","links5.json"];
-const select = document.getElementById("fileSelect");
-
-fileList.forEach(f => {
-    const opt = document.createElement("option");
-    opt.value = f;
-    opt.textContent = f;
-    select.appendChild(opt);
-});
-
-currentFile = fileList[0];
-select.value = currentFile;
-
-
-// -----------------------------------
-//   LOAD DATA LINK
-// -----------------------------------
-async function loadLinks(file) {
+// ----------------------
+// LOAD LINK
+// ----------------------
+async function loadLinks(){
     const el = document.getElementById("list");
     el.innerHTML = "Memuat data...";
 
     try {
-        const r = await fetch(`${API}/links?file=${file}`);
+        const r = await fetch(`${API}/links?file=${FILE}`);
         const data = await r.json();
+
+        // Pastikan data selalu array
+        const arr = Array.isArray(data) ? data : [];
 
         el.innerHTML = "";
 
-        data.forEach((l, i) => {
+        arr.forEach((item,i)=>{
             const div = document.createElement("div");
             div.className = "link-item";
-
             div.innerHTML = `
-                <p><strong>Kategori:</strong> ${l.category}</p>
-                <p><strong>Judul:</strong> ${l.title}</p>
-                <p><strong>URL:</strong> <a href="${l.url}" target="_blank">${l.url}</a></p>
-                <p><strong>Icon:</strong> ${l.icon}</p>
-
+                <p><strong>Kategori:</strong> ${item.category}</p>
+                <p><strong>Judul:</strong> ${item.title}</p>
+                <p><strong>URL:</strong> <a href="${item.url}" target="_blank">${item.url}</a></p>
+                <p><strong>Icon:</strong> ${item.icon}</p>
                 <div class="link-controls">
                     <button class="btn-small btn-edit" onclick="edit(${i})">Edit</button>
                     <button class="btn-small btn-delete" onclick="hapus(${i})">Hapus</button>
                 </div>
             `;
-
             el.appendChild(div);
         });
-
-    } catch (e) {
-        el.innerHTML = "Gagal memuat data.";
+    } catch(e){ 
+        el.innerHTML = "Gagal memuat data."; 
     }
 }
 
-
-// -----------------------------------
-//   EVENT DROPDOWN FILE
-// -----------------------------------
-select.addEventListener("change", () => {
-    currentFile = select.value;
-    loadLinks(currentFile);
-});
-
-
-// -----------------------------------
-//   EDIT
-// -----------------------------------
-function edit(i) {
-    location.href = `edit.html?id=${i}&file=${currentFile}`;
+// ----------------------
+// EDIT
+// ----------------------
+function edit(i){
+    location.href = `edit.html?id=${i}`;
 }
 
+// ----------------------
+// DELETE
+// ----------------------
+async function hapus(i){
+    if(!confirm("Yakin ingin menghapus link ini?")) return;
 
-// -----------------------------------
-//   DELETE
-// -----------------------------------
-async function hapus(i) {
-    if (!confirm("Yakin ingin menghapus link ini?")) return;
-
-    const r = await fetch(`${API}/links?file=${currentFile}&id=${i}`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `token ${TOKEN}`
-        }
+    const r = await fetch(`${API}/links?file=${FILE}&id=${i}`, {
+        method:"DELETE",
+        headers: { "Authorization": `token ${TOKEN}` }
     });
 
-    if (r.ok) {
+    if(r.ok){
         alert("Link dihapus.");
-        loadLinks(currentFile);
+        loadLinks();
     } else {
-        alert("Gagal menghapus link.");
+        alert("Gagal menghapus.");
     }
 }
 
-
-// load awal
-loadLinks(currentFile);
+// Init
+loadLinks();
 </script>
 
 </body>
